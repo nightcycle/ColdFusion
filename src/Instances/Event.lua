@@ -13,7 +13,7 @@ local function getProperty_unsafe(instance: Instance, property: string)
 	return (instance :: any)[property]
 end
 
-local function OnEvent(eventName: string): PubTypes.SpecialKey
+local function Event(eventName: string): PubTypes.SpecialKey
 	local eventKey = {}
 	eventKey.type = "SpecialKey"
 	eventKey.kind = "OnEvent"
@@ -34,4 +34,4 @@ local function OnEvent(eventName: string): PubTypes.SpecialKey
 	return eventKey
 end
 
-return OnEvent
+return Event

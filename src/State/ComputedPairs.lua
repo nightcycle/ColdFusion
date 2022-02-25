@@ -27,7 +27,7 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 	Returns the current value of this ComputedPairs object.
 	The object will be registered as a dependency unless `asDependency` is false.
 ]]
-function class:get(asDependency: boolean?): any
+function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
@@ -60,7 +60,7 @@ function class:update(): boolean
 	local newOutput = self._outputTable
 
 	if inputIsState then
-		newInput = newInput:get(false)
+		newInput = newInput:Get(false)
 	end
 
 	local didChange = false
@@ -101,7 +101,7 @@ function class:update(): boolean
 			-- check if dependencies have changed
 			for dependency, oldValue in pairs(keyData.dependencyValues) do
 				-- if the dependency changed value, then this needs recalculating
-				if oldValue ~= dependency:get(false) then
+				if oldValue ~= dependency:Get(false) then
 					shouldRecalculate = true
 					break
 				end
@@ -146,7 +146,7 @@ function class:update(): boolean
 
 		-- save dependency values and add to main dependency set
 		for dependency in pairs(keyData.dependencySet) do
-			keyData.dependencyValues[dependency] = dependency:get(false)
+			keyData.dependencyValues[dependency] = dependency:Get(false)
 
 			self.dependencySet[dependency] = true
 			dependency.dependentSet[self] = true

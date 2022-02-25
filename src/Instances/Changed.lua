@@ -9,10 +9,10 @@ local Package = script.Parent.Parent
 local PubTypes = require(Package.PubTypes)
 local logError = require(Package.Logging.logError)
 
-local function OnChange(propertyName: string): PubTypes.SpecialKey
+local function Changed(propertyName: string): PubTypes.SpecialKey
 	local changeKey = {}
 	changeKey.type = "SpecialKey"
-	changeKey.kind = "OnChange"
+	changeKey.kind = "Changed"
 	changeKey.stage = "observer"
 
 	function changeKey:apply(callback: any, applyToRef: PubTypes.SemiWeakRef, cleanupTasks: {PubTypes.Task})
@@ -34,4 +34,4 @@ local function OnChange(propertyName: string): PubTypes.SpecialKey
 	return changeKey
 end
 
-return OnChange
+return Changed

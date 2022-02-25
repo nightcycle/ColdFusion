@@ -22,7 +22,7 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 	The computed object will be registered as a dependency unless `asDependency`
 	is false.
 ]]
-function class:get(asDependency: boolean?): any
+function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
@@ -75,7 +75,10 @@ function class:update(): boolean
 	end
 end
 
-local function Computed<T>(callback: () -> T): Types.Computed<T>
+local function Computed<T>(...: () -> T): Types.Computed<T>
+	local params = {...}
+	local callback = params[#params]
+
 	local self = setmetatable({
 		type = "State",
 		kind = "Computed",
@@ -84,7 +87,13 @@ local function Computed<T>(callback: () -> T): Types.Computed<T>
 		-- able to get garbage collected when they fall out of scope
 		dependentSet = setmetatable({}, WEAK_KEYS_METATABLE),
 		_oldDependencySet = {},
-		_callback = callback,
+		_callback = function()
+			local vals = {}
+			for i=1, math.max(#params - 1, 1) do
+				table.insert(vals, params[i]:Get())
+			end
+			callback(unpack(vals))
+		end,
 		_value = nil,
 	}, CLASS_METATABLE)
 

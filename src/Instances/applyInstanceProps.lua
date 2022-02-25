@@ -54,13 +54,13 @@ local function bindProperty(instanceRef: PubTypes.SemiWeakRef, property: string,
 				willUpdate = true
 				task.defer(function()
 					willUpdate = false
-					setProperty(instanceRef.instance :: Instance, property, value:get(false))
+					setProperty(instanceRef.instance :: Instance, property, value:Get(false))
 				end)
 			end
 		end
 
-		setProperty(instanceRef.instance :: Instance, property, value:get(false))
-		table.insert(cleanupTasks, Observer(value :: any):onChange(updateLater))
+		setProperty(instanceRef.instance :: Instance, property, value:Get(false))
+		table.insert(cleanupTasks, Observer(value :: any):Connect(updateLater))
 	else
 		-- value is a constant - assign once only
 		setProperty(instanceRef.instance :: Instance, property, value)

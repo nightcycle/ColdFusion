@@ -19,9 +19,9 @@ function Ref:apply(refState: any, applyToRef: PubTypes.SemiWeakRef, cleanupTasks
 	if xtypeof(refState) ~= "State" or refState.kind ~= "Value" then
 		logError("invalidRefType")
 	else
-		refState:set(applyToRef.instance)
+		refState:Set(applyToRef.instance)
 		table.insert(cleanupTasks, function()
-			refState:set(nil)
+			refState:Set(nil)
 		end)
 	end
 end

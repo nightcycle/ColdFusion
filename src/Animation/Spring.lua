@@ -27,7 +27,7 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 	Returns the current value of this Spring object.
 	The object will be registered as a dependency unless `asDependency` is false.
 ]]
-function class:get(asDependency: boolean?): any
+function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
@@ -95,7 +95,7 @@ end
 	changed.
 ]]
 function class:update(): boolean
-	local goalValue = self._goalState:get(false)
+	local goalValue = self._goalState:Get(false)
 
 	-- figure out if this was a goal change or a speed/damping change
 	if goalValue == self._goalValue then

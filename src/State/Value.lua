@@ -21,11 +21,15 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 	The state object will be registered as a dependency unless `asDependency` is
 	false.
 ]]
-function class:get(asDependency: boolean?): any
+function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	return self._value
+	if self.type == "State" then
+		return self._value:Get()
+	else
+		return self._value
+	end
 end
 
 --[[
@@ -35,7 +39,7 @@ end
 	state object and any dependents - use this with care as this can lead to
 	unnecessary updates.
 ]]
-function class:set(newValue: any, force: boolean?)
+function class:Set(newValue: any, force: boolean?)
 	-- if the value hasn't changed, no need to perform extra work here
 	if self._value == newValue and not force then
 		return

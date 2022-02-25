@@ -68,7 +68,7 @@ function Children:apply(propValue: any, applyToRef: PubTypes.SemiWeakRef, cleanu
 			elseif kind == "State" then
 				-- case 2; state object
 
-				local value = child:get(false)
+				local value = child:Get(false)
 				-- allow nil to represent the absence of a child
 				if value ~= nil then
 					processChild(value, autoName)
@@ -77,7 +77,7 @@ function Children:apply(propValue: any, applyToRef: PubTypes.SemiWeakRef, cleanu
 				local disconnect = oldDisconnects[child]
 				if disconnect == nil then
 					-- wasn't previously present
-					disconnect = Observer(child):onChange(queueUpdate)
+					disconnect = Observer(child):Connect(queueUpdate)
 				else
 					-- previously here; we want to reuse, so remove from old
 					-- set so we don't encounter it during unparenting

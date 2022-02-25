@@ -23,7 +23,7 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 	Returns the current value of this Tween object.
 	The object will be registered as a dependency unless `asDependency` is false.
 ]]
-function class:get(asDependency: boolean?): any
+function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
@@ -35,7 +35,7 @@ end
 	Returns false as the current value doesn't change right away.
 ]]
 function class:update(): boolean
-	local goalValue = self._goalState:get(false)
+	local goalValue = self._goalState:Get(false)
 
 	-- if the goal hasn't changed, then this is a TweenInfo change.
 	-- in that case, if we're not currently animating, we can skip everything
@@ -45,7 +45,7 @@ function class:update(): boolean
 
 	local tweenInfo = self._tweenInfo
 	if self._tweenInfoIsState then
-		tweenInfo = tweenInfo:get()
+		tweenInfo = tweenInfo:Get()
 	end
 
 	-- if we receive a bad TweenInfo, then error and stop the update
@@ -77,7 +77,7 @@ local function Tween(
 	goalState: PubTypes.StateObject<PubTypes.Animatable>,
 	tweenInfo: PubTypes.CanBeState<TweenInfo>?
 )
-	local currentValue = goalState:get(false)
+	local currentValue = goalState:Get(false)
 
 	-- apply defaults for tween info
 	if tweenInfo == nil then

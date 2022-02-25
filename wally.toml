@@ -1,9 +1,9 @@
 [package]
-name = "elttob/fusion"
-description = "A modern reactive UI library, built specifically for Roblox and Luau"
+name = "nightcycle/cold-fusion"
+description = "A barely modded version of Fusion: the modern reactive UI library, built specifically for Roblox and Luau by Elttob"
 license = "MIT"
-authors = ["Elttob"]
-version = "0.1.1-beta"
+authors = ["Elttob", "Nightcycle"]
+version = "0.1.0"
 
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"

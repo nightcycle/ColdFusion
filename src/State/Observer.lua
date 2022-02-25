@@ -38,7 +38,7 @@ end
 	As long as there is at least one active change listener, this Observer
 	will be held in memory, preventing GC, so disconnecting is important.
 ]]
-function class:onChange(callback: () -> ()): () -> ()
+function class:Connect(callback: () -> ()): () -> ()
 	local uniqueIdentifier = {}
 
 	self._numChangeListeners += 1
