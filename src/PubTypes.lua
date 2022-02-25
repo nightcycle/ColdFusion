@@ -112,9 +112,9 @@ export type Spring<T> = StateObject<T> & Dependent & {
 }
 
 -- An object which can listen for updates on another state object.
-export type Observer = Dependent & {
-	-- kind: "Observer" (add this when Luau supports singleton types)
-  	Connect: (Observer, callback: () -> ()) -> (() -> ())
+export type Observe = Dependent & {
+	-- kind: "Observe" (add this when Luau supports singleton types)
+  	Connect: (Observe, callback: () -> ()) -> (() -> ())
 }
 
 --[[

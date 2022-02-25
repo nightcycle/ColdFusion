@@ -1,15 +1,16 @@
 {
-    "name": "@elttob/fusion",
+    "name": "@nightcycle/cold-fusion",
     "version": "0.1.0",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/elttob/Fusion.git"
+        "url": "https://github.com/nightcycle/ColdFusion.git"
     },
     "contributors": [
-        "elttob"
+        "elttob",
+        "Nightcycle"
     ],
     "bugs": {
-        "url": "https://github.com/elttob/Fusion/issues"
+        "url": "https://github.com/nightcycle/ColdFusion/issues"
     }
 }

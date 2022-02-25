@@ -25,11 +25,15 @@ function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	if self.type == "State" then
+	if type(self._value) == "table" and self._value.Get ~= nil then
 		return self._value:Get()
 	else
 		return self._value
 	end
+end
+
+function class:get(...)
+	return class:Get(...)
 end
 
 --[[
@@ -50,6 +54,11 @@ function class:Set(newValue: any, force: boolean?)
 	-- update any derived state objects if necessary
 	updateAll(self)
 end
+
+function class:set(...)
+	return class:Set(...)
+end
+
 
 local function Value<T>(initialValue: T): Types.State<T>
 	local self = setmetatable({

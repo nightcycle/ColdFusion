@@ -17,8 +17,8 @@ type Set<T> = {[T]: any}
 local class = {}
 local CLASS_METATABLE = {__index = class}
 
--- Table used to hold Observer objects in memory.
-local strongRefs: Set<Types.Observer> = {}
+-- Table used to hold Observe objects in memory.
+local strongRefs: Set<Types.Observe> = {}
 
 --[[
 	Called when the watched state changes value.
@@ -35,7 +35,7 @@ end
 	will be fired.
 
 	Returns a function which, when called, will disconnect the change listener.
-	As long as there is at least one active change listener, this Observer
+	As long as there is at least one active change listener, this Observe
 	will be held in memory, preventing GC, so disconnecting is important.
 ]]
 function class:Connect(callback: () -> ()): () -> ()
@@ -63,10 +63,10 @@ function class:Connect(callback: () -> ()): () -> ()
 	end
 end
 
-local function Observer(watchedState: PubTypes.Value<any>): Types.Observer
+local function Observe(watchedState: PubTypes.Value<any>): Types.Observe
 	local self = setmetatable({
 		type = "State",
-		kind = "Observer",
+		kind = "Observe",
 		dependencySet = {[watchedState] = true},
 		dependentSet = {},
 		_changeListeners = {},
@@ -80,4 +80,4 @@ local function Observer(watchedState: PubTypes.Value<any>): Types.Observer
 	return self
 end
 
-return Observer
+return Observe

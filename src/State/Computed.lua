@@ -28,6 +28,9 @@ function class:Get(asDependency: boolean?): any
 	end
 	return self._value
 end
+function class:get(...)
+	return class:Get(...)
+end
 
 --[[
 	Recalculates this Computed's cached value and dependencies.
@@ -89,10 +92,10 @@ local function Computed<T>(...: () -> T): Types.Computed<T>
 		_oldDependencySet = {},
 		_callback = function()
 			local vals = {}
-			for i=1, math.max(#params - 1, 1) do
+			for i=1, math.max(#params - 1, 0) do
 				table.insert(vals, params[i]:Get())
 			end
-			callback(unpack(vals))
+			return callback(unpack(vals))
 		end,
 		_value = nil,
 	}, CLASS_METATABLE)

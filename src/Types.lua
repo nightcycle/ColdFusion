@@ -94,7 +94,7 @@ export type Spring<T> = PubTypes.Spring<T> & {
 }
 
 -- An object which can listen for updates on another state object.
-export type Observer = PubTypes.Observer & {
+export type Observe = PubTypes.Observe & {
 	_changeListeners: Set<() -> ()>,
 	_numChangeListeners: number
 }
