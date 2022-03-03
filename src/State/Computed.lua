@@ -93,7 +93,7 @@ local function Computed<T>(...: () -> T): Types.Computed<T>
 		_callback = function()
 			local vals = {}
 			for i=1, math.max(#params - 1, 0) do
-				table.insert(vals, params[i]:Get())
+				vals[i] = params[i]:Get()
 			end
 			return callback(unpack(vals))
 		end,
