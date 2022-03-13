@@ -3,9 +3,11 @@ name = "nightcycle/cold-fusion"
 description = "A barely modded version of Fusion: the modern reactive UI library, built specifically for Roblox and Luau by Elttob"
 license = "MIT"
 authors = ["Elttob", "Nightcycle"]
-version = "0.1.9"
+version = "0.2.0"
 
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
 [dependencies]
+signal = "quenty/signal@2.0.0-canary"
+maid = "quenty/maid@2.0.1-canary"

@@ -30,6 +30,10 @@ function class:Get(asDependency: boolean?): any
 	return self._currentValue
 end
 
+function class:get(asDependency: boolean?): any
+	return self:Get(asDependency)
+end
+
 --[[
 	Called when the goal state changes value; this will initiate a new tween.
 	Returns false as the current value doesn't change right away.
