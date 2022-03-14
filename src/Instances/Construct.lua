@@ -2,9 +2,10 @@
 local src = script.Parent.Parent
 local packages = src.Parent
 local maidConstructor = require(packages:WaitForChild("maid"))
-local Computed = src.State.Computed
-local Value = src.State.Value
-local Observe = src.State.Observe
+local signalConstructor = require(packages:WaitForChild("signal"))
+local Computed = require(src.State.Computed)
+local Value = require(src.State.Value)
+local Observe = require(src.State.Observe)
 
 local attributeTypes = {
 	string = true,
@@ -139,6 +140,14 @@ return function(object)
 			end, function(v)
 				valObj.Value = v
 			end
+		else
+			local sig = signalConstructor.new()
+			self._maid["v_"..key] = sig
+			return sig, function()
+				
+			end, function()
+				
+			end
 		end
 	end
 
@@ -149,20 +158,20 @@ return function(object)
 			self._maid["v_"..key] = nil
 			return
 		end
-		if value.Kind == "Observe" then
+		if value.kind == "Observe" then
 			setEvent(inst, key, value)
 		else
-			local sig, getFunc, setFunc = setValue(inst, key, value)
-			if value.Kind == "Value"
-			or value.Kind == "Computed"
-			or value.Kind == "Receiver"
-			or value.Kind == "Signal" then
+			local sig, getFunc, setFunc = setValue(inst, key, value:Get())
+			if value.kind == "Value"
+			or value.kind == "Computed"
+			or value.kind == "Receiver"
+			or value.kind == "Signal" then
 				self._maid["s_"..key] = Observe(value):Connect(function()
 					local v = value:Get()
 					setFunc(v)
 				end)
 			end
-			if value.Kind == "Value" then
+			if value.kind == "Value" then
 				self._maid["se_"..key] = sig:Connect(function()
 					value:Set(getFunc())
 				end)
@@ -174,11 +183,15 @@ return function(object)
 		if string.sub(key, 1, 1) ~= "_" then
 			Computed(_Instance, function(inst)
 				if typeof(value) == "function" then
-					setFunction(inst, key, value)
+					if key ~= "new" then
+						setFunction(inst, key, value)
+					end
 				elseif typeof(value) == "RBXScriptSignal" or (type(value) == "table" and value.ClassName == "Signal") then
 					setEvent(inst, key, value)
 				elseif typeof(value) == "table" and value.type == "State" then
-					setProperty(inst, key, value)
+					if key ~= "Instance" then
+						setProperty(inst, key, value)
+					end
 				end
 			end)
 		end

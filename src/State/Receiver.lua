@@ -118,7 +118,7 @@ function class:Ping()
 	if runService:IsClient() then
 		event:FireServer()
 	else
-		self:FireClient(self._player)
+		event:FireClient(self._player)
 	end
 end
 
