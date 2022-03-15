@@ -87,7 +87,7 @@ function class:Get(asDependency: boolean?): any
 end
 
 function class:get(...)
-	return class:Get(...)
+	return self:Get(...)
 end
 
 --[[
@@ -110,7 +110,7 @@ function class:Set(newValue: any, force: boolean?)
 end
 
 function class:set(...)
-	return class:Set(...)
+	return self:Set(...)
 end
 
 function class:Ping()

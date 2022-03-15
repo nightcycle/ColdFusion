@@ -17,6 +17,7 @@ local useDependency = require(fusion.Dependencies.useDependency)
 local initDependency = require(fusion.Dependencies.initDependency)
 local updateAll = require(fusion.Dependencies.updateAll)
 local observe = require(fusion.State.Observe)
+local Value = require(fusion.State.Value)
 
 local class = {}
 
@@ -45,20 +46,20 @@ end
 
 function class:Destroy()
 	self._maid:Destroy()
-	for k, v in pairs(self) do
-		self[k] = nil
-	end
 end
 
-local function Signal(eventOrEventState, initialValue)
+local function Property(instOrState, propName: string, refreshRate: number | nil)
+
+	local instValue = if type(instOrState) == "table" then instOrState else Value(instOrState)
+	-- print("Property init", instOrState, propName, refreshRate)
 	local self = setmetatable({
 		type = "State",
-		kind = "Signal",
+		kind = "Property",
 		_maid = maidConstructor.new(),
 		-- if we held strong references to the dependents, then they wouldn't be
 		-- able to get garbage collected when they fall out of scope
 		dependentSet = setmetatable({}, WEAK_KEYS_METATABLE),
-		_value = initialValue,
+		_value = if instValue:Get() then instValue:Get()[propName] else nil,
 	}, CLASS_METATABLE)
 
 	local function set(newValue: any)
@@ -72,28 +73,35 @@ local function Signal(eventOrEventState, initialValue)
 		-- update any derived state objects if necessary
 		updateAll(self)
 	end
-	
-	if typeof(eventOrEventState) == "RBXScriptSignal" then --is event
-		local event = eventOrEventState
-		self._maid:GiveTask(event:Connect(function(val)
-			set(val)
-		end))
-	else
-		self._maid:GiveTask(observe(eventOrEventState):Connect(function()
-			local event = eventOrEventState:Get()
-			if event then
-				self._maid._event = event:Connect(function(val)
-					set(val)
-				end)
-			else
-				self._maid._event = nil
-			end
-		end))
-	end
 
+	local function init()
+		local inst = instValue:Get()
+		if not inst then self._maid.Event = nil return end
+		local type = typeof(inst[propName])
+		if refreshRate then
+			-- print("Feelin fresh", inst:GetFullName())
+			local lastBeat = tick()
+			self._maid.Event = runService.Heartbeat:Connect(function(dt)
+				if 1/refreshRate < tick() - lastBeat then
+					lastBeat = tick()
+					-- print("Update", propName)
+					set(inst[propName])
+				end
+			end)
+		else
+			-- print("What refresh rate", inst:GetFullName(), propName)
+			self._maid.Event = inst:GetPropertyChangedSignal(propName):Connect(function()
+				set(inst[propName])
+			end)
+		end
+	end
+	
+	self._maid:GiveTask(observe(instValue):Connect(init))
+	init()
+	
 	initDependency(self)
 
 	return self
 end
 
-return Signal
+return Property

@@ -34,6 +34,10 @@ function class:Get(asDependency: boolean?): any
 	return self._outputTable
 end
 
+function class:get(...)
+	return self:Get(...)
+end
+
 --[[
 	Called when the original table is changed.
 

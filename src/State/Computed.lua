@@ -29,7 +29,7 @@ function class:Get(asDependency: boolean?): any
 	return self._value
 end
 function class:get(...)
-	return class:Get(...)
+	return self:Get(...)
 end
 
 --[[

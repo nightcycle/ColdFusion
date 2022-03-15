@@ -33,6 +33,7 @@ local valueTypes = {
 	Ray = "RayValue",
 	string = "StringValue",
 	Vector3 = "Vector3Value",
+	["nil"] = "ObjectValue",
 }
 
 local metaTags = {
@@ -123,72 +124,132 @@ return function(object)
 		end)
 	end
 
-	local function setValue(inst, key, value)
-		if attributeTypes[typeof(value)] then
-			inst:SetAttribute(key, value)
-			return inst:GetAttributeChangedSignal(key), function()
-				return inst:GetAttribute(key)
-			end, function(v)
-				inst:SetAttribute(key, v)
-			end
-		elseif valueTypes[typeof(value)] then
-			local valObj = Instance.new(valueTypes[typeof(value)], inst)
-			valObj.Name = key
-			self._maid["v_"..key] = valObj
-			return valObj.Changed, function()
-				return valObj.Value
-			end, function(v)
-				valObj.Value = v
-			end
-		else
-			local sig = signalConstructor.new()
-			self._maid["v_"..key] = sig
-			return sig, function()
-				
-			end, function()
-				
-			end
-		end
+	local function valueContainer(inst, key, value)
+		local valMaid = maidConstructor.new()
+		local signal = signalConstructor.new()
+		
+		local readFromStateEnabled = value.kind == "Value"
+		or value.kind == "Computed"
+		or value.kind == "Receiver"
+		or value.kind == "Attribute"
+		or value.kind == "Property"
+		or value.kind == "Signal"
+
+		local writeToStateEnabled = value.kind == "Value"
+		-- print("Containing value", inst:GetFullName(), key, value)
+		return {
+			_maid = valMaid,
+			signal = signal,
+			Destroy = function(s)
+				valMaid:Destroy()
+			end,
+			Build = Computed(value, function(val)
+				-- print("Val changed", key, val)
+				if not readFromStateEnabled then return end
+				-- print("1", key, val)
+				local typ = typeof(val)
+				local isAttribute = attributeTypes[typ]
+				local isObject = valueTypes[typ]
+				-- print("Is", key, val, isAttribute, isObject)
+				if isAttribute then
+					-- print("1A", key, val)
+					valMaid.ObjectChanged = nil
+					valMaid.Object = nil
+					inst:SetAttribute(key, val)
+					if writeToStateEnabled then
+						valMaid.AttributeChanged = inst:GetAttributeChangedSignal(key):Connect(function()
+							signal:Fire(inst:GetAttribute(key))
+						end)
+					end
+				elseif isObject then
+					-- print("1B", key, val)
+					valMaid.AttributeChanged = nil
+					inst:SetAttribute(key, nil)
+					if not valMaid.Object or valMaid.Object.ClassName ~= isObject then
+						valMaid.Object = Instance.new(isObject, inst)
+						valMaid.Object.Name = key
+					end
+					valMaid.Object.Value = val
+					if writeToStateEnabled then
+						valMaid.ObjectChanged = valMaid.Object:GetPropertyChangedSignal("Value"):Connect(function()
+							signal:Fire(valMaid.Object.Value)
+						end)
+					end
+				else
+					-- print("1C", key, val)
+					valMaid.ObjectChanged = nil
+					valMaid.AttributeChanged = nil
+					valMaid.Object = nil
+				end
+
+				if writeToStateEnabled then
+					-- print("Write", key, val)
+					valMaid.Signal = signal:Connect(function(v)
+						-- print("Sig", key, v)
+						value:Set(v)
+					end)
+				end
+			end),
+		}
+
 	end
 
 	local function setProperty(inst, key, value)
+		-- print("Setting property", inst:GetFullName(), key, value)
 		if not inst then
+			-- print("Not inst")
 			self._maid["se_"..key] = nil
 			self._maid["s_"..key] = nil
 			self._maid["v_"..key] = nil
 			return
 		end
 		if value.kind == "Observe" then
+			-- print("Is observer")
 			setEvent(inst, key, value)
 		else
-			local sig, getFunc, setFunc = setValue(inst, key, value:Get())
-			if value.kind == "Value"
-			or value.kind == "Computed"
-			or value.kind == "Receiver"
-			or value.kind == "Signal" then
-				self._maid["s_"..key] = Observe(value):Connect(function()
-					local v = value:Get()
-					setFunc(v)
-				end)
-			end
-			if value.kind == "Value" then
-				self._maid["se_"..key] = sig:Connect(function()
-					value:Set(getFunc())
-				end)
-			end
+			local val = valueContainer(inst, key, value)
+			self._maid["vc_"..key] = val
+			self._maid["s_"..key] = Observe(value):Connect(function()
+				if val and val.Build then
+					val.Build:Get()
+				end
+			end)
+			-- local sig, getFunc, setFunc = setValue(inst, key, value)
+			-- if value.kind == "Value"
+			-- or value.kind == "Computed"
+			-- or value.kind == "Receiver"
+			-- or value.kind == "Attribute"
+			-- or value.kind == "Property"
+			-- or value.kind == "Signal" then
+			-- 	self._maid["s_"..key] = Observe(value):Connect(function()
+			-- 		local v = value:Get()
+			-- 		setFunc(v)
+			-- 	end)
+			-- end
+			-- if value.kind == "Value" then
+			-- 	self._maid["se_"..key] = sig:Connect(function()
+			-- 		value:Set(getFunc())
+			-- 	end)
+			-- end
 		end
 	end
 
+	-- print("Constructing", self)
 	for key, value in pairs(self) do
+		-- print("Key", key, "Value", value)
 		if string.sub(key, 1, 1) ~= "_" then
 			Computed(_Instance, function(inst)
+				-- print("Computing ", key)
 				if typeof(value) == "function" then
+					-- print("Function", key)
 					if key ~= "new" then
 						setFunction(inst, key, value)
 					end
 				elseif typeof(value) == "RBXScriptSignal" or (type(value) == "table" and value.ClassName == "Signal") then
+					-- print("Event", key)
 					setEvent(inst, key, value)
 				elseif typeof(value) == "table" and value.type == "State" then
+					-- print("Property", key)
 					if key ~= "Instance" then
 						setProperty(inst, key, value)
 					end

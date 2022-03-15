@@ -41,6 +41,8 @@ type Fusion = {
 return restrictRead("Fusion", {
 	version = {major = 0, minor = 2, isRelease = false},
 
+	Fuse = require(script.Utility.Fuse),
+
 	--additions
 	Mount = require(script.Instances.Mount), --applies fusion to existing object
 	mount = require(script.Instances.Mount),
@@ -62,13 +64,19 @@ return restrictRead("Fusion", {
 	Out = require(script.Instances.Out), --abstract class?
 	Cleanup = require(script.Instances.Cleanup), --abstract class?
 	Children = require(script.Instances.Children),
-	Event = require(script.Instances.Event),
-	Changed = require(script.Instances.OnChanged),
 	
+	Event = require(script.Instances.Event),
+	OnEvent = require(script.Instances.Event),
+	
+	Changed = require(script.Instances.OnChanged),
+	OnChanged = require(script.Instances.OnChanged),
+
 	Computed = require(script.State.Computed),
 	ComputedPairs = require(script.State.ComputedPairs),
 	Value = require(script.State.Value),
 	Observe = require(script.State.Observe),
+	Property = require(script.State.Property),
+	Attribute = require(script.State.Attribute),
 	
 	Tween = require(script.Animation.Tween),
 	Spring = require(script.Animation.Spring),

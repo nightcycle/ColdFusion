@@ -67,7 +67,7 @@ function class:onChange(...)
 	return self:Connect(...)
 end
 
-local function Observe(watchedState: PubTypes.Value<any>): Types.Observe
+local function Observe(watchedState): Types.Observe
 	local self = setmetatable({
 		type = "State",
 		kind = "Observe",
