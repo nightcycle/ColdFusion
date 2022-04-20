@@ -12,6 +12,7 @@ local runService = game:GetService("RunService")
 local src = script.Parent.Parent
 local packages = src.Parent
 local maidConstructor = require(packages:WaitForChild("maid"))
+local Observe = require(src.State.Observe)
 
 local remotes = game.ReplicatedStorage:FindFirstChild("FusionRemotes")
 if not remotes then
@@ -22,42 +23,19 @@ if not remotes then
 		remotes.Name = "FusionRemotes"
 	end
 end
-function findFirstChildOfClass(inst, name, className)
-	for i, child in ipairs(inst:GetChildren()) do
-		if child.Name == name and inst.ClassName == className then
-			return inst
-		end
-	end
-end
-function waitForChildOfClass(inst, name, className, duration)
-	local result = findFirstChildOfClass(inst, name, className)
-	if not result then
-		local startTick = tick()
-		local function waitForChild()
-			inst.ChildAdded:wait()
-			result = findFirstChildOfClass(inst, name, className)
-			if result == nil and duration ~= nil and tick() - startTick < duration then 
-				return waitForChild()
-			end
-		end
-		waitForChild()
-	end
-	return result
-end
-function getInst(className, parent, key, clientWaitDuration)
-	if runService:IsClient() then
-		return waitForChildOfClass(parent, key, className, clientWaitDuration)
-	else
-		local inst = findFirstChildOfClass(parent, key, className)
-		if not inst then
-			inst = Instance.new(className, parent)
-			inst.Name = key
-		end
-		return inst
-	end
-end
+
 function getRemoteEvent(key, clientWaitDuration)
-	return getInst("RemoteEvent", remotes, key, clientWaitDuration)
+	if runService:IsClient() then
+		return remotes:WaitForChild(key, clientWaitDuration)
+	else
+		if remotes:FindFirstChild(key) then
+			return remotes:FindFirstChild(key)
+		else
+			local newRemote = Instance.new("RemoteEvent", remotes)
+			newRemote.Name = key
+			return newRemote
+		end
+	end
 end
 
 local fusion = script.Parent.Parent
@@ -79,12 +57,13 @@ local strongRefs: Set<Types.Observe> = {}
 
 function class:Fire()
 	local t = tick()
-	if t - self._lastFire < 1/self.rate then
+	if t - self._lastFire < 1/self._rate then
 		return
 	end
 	self._lastFire = t
 	local event = getRemoteEvent(self._key)
 	local value = self._state:get()
+
 	if runService:IsServer() then
 		if self._player then
 			event:FireClient(self._player, value)
@@ -100,12 +79,23 @@ function class:fire()
 	return self:Fire()
 end
 
-function class:Destroy()
-	self._maid:Destroy()
+function class:Destroy(destroyValue: boolean)
+	if destroyValue then
+		if self._value ~= nil and (type(self._value) == "table" or typeof(self._value) == "Instance") then
+			if self._value.Destroy then
+				self._value:Destroy()
+			end
+		end
+	end
+	if self._Maid then
+		self._Maid:Destroy()
+	end
 	for k, v in pairs(self) do
 		self[k] = nil
 	end
+	setmetatable(self, nil)
 end
+
 
 function class:update(): boolean
 	self:fire()
@@ -113,6 +103,7 @@ function class:update(): boolean
 end
 
 local function Transmit(watchedState, key: string, lockedPlayer: Player | nil, rate: number | nil)
+	-- print("I")
 	if runService:IsClient() then
 		lockedPlayer = game.Players.LocalPlayer
 	end
@@ -122,31 +113,36 @@ local function Transmit(watchedState, key: string, lockedPlayer: Player | nil, r
 		dependencySet = {[watchedState] = true},
 		dependentSet = {},
 		_lastFire = 0,
-		_maid = maidConstructor.new(),
+		_Maid = maidConstructor.new(),
 		_state = watchedState,
 		_player = lockedPlayer,
 		_key = key,
 		_rate = rate or 40,
 		_changeListeners = {},
 		_numChangeListeners = 0,
+		_cleanUp = false, --whether it  cleans up old value when changing it
 	}, CLASS_METATABLE)
 
-	
-	local event = getRemoteEvent(self.__key)
+	-- print("II")
+	local event = getRemoteEvent(self._key)
+	-- print("III")
 	if runService:IsClient() then
-		self._maid:GiveTask(event.OnClientEvent:Connect(function(newVal)
+		self._Maid:GiveTask(event.OnClientEvent:Connect(function(newVal)
 			self:Fire()
 		end))
 	else
-		self._maid:GiveTask(event.OnServerEvent:Connect(function(plr, newVal)
+		self._Maid:GiveTask(event.OnServerEvent:Connect(function(plr, newVal)
 			if self._player == nil or self._player == plr then
 				self:Fire()
 			end
 		end))
 	end
-
+	self._Maid:GiveTask(Observe(watchedState):Connect(function()
+		self:Fire()
+	end))
+	-- print("IV")
 	initDependency(self)
-
+	-- print("V")
 	return self
 end
 

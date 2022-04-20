@@ -20,7 +20,6 @@ local cleanup = require(Package.Utility.cleanup)
 local xtypeof = require(Package.Utility.xtypeof)
 local logError = require(Package.Logging.logError)
 local logWarn = require(Package.Logging.logWarn)
-local Observe = require(Package.State.Observe)
 
 local function setProperty_unsafe(instance: Instance, property: string, value: any)
 	(instance :: any)[property] = value
@@ -60,7 +59,7 @@ local function bindProperty(instanceRef: PubTypes.SemiWeakRef, property: string,
 		end
 
 		setProperty(instanceRef.instance :: Instance, property, value:Get(false))
-		table.insert(cleanupTasks, Observe(value :: any):Connect(updateLater))
+		table.insert(cleanupTasks, value:Connect(updateLater))
 	else
 		-- value is a constant - assign once only
 		setProperty(instanceRef.instance :: Instance, property, value)

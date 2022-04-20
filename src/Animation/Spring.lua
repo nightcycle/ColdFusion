@@ -31,7 +31,7 @@ function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	return self._currentValue
+	return self._value
 end
 
 --[[
@@ -48,7 +48,7 @@ function class:setPosition(newValue: PubTypes.Animatable)
 	end
 
 	self._springPositions = unpackType(newValue, newType)
-	self._currentValue = newValue
+	self:_SetValue(newValue)
 	SpringScheduler.add(self)
 	updateAll(self)
 end
@@ -134,7 +134,7 @@ function class:update(): boolean
 		if newType ~= oldType then
 			-- if the type changed, snap to the new value and rebuild the
 			-- position and velocity tables
-			self._currentValue = self._goalValue
+			self:_SetValue(self._goalValue)
 
 			local springPositions = table.create(numSprings, 0)
 			local springVelocities = table.create(numSprings, 0)
@@ -151,7 +151,7 @@ function class:update(): boolean
 			-- otherwise, the type hasn't changed, just the goal...
 		elseif numSprings == 0 then
 			-- if the type isn't animatable, snap to the new value
-			self._currentValue = self._goalValue
+			self:_SetValue(self._goalValue)
 			return true
 
 		else
@@ -197,7 +197,7 @@ local function Spring<T>(
 		_goalValue = nil,
 
 		_currentType = nil,
-		_currentValue = nil,
+		_value = nil,
 		_currentSpeed = unwrap(speed),
 		_currentDamping = unwrap(damping),
 

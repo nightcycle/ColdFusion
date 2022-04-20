@@ -38,6 +38,25 @@ function class:get(...)
 	return self:Get(...)
 end
 
+
+function class:Destroy(destroyValue: boolean)
+	if destroyValue then
+		if self._value ~= nil and (type(self._value) == "table" or typeof(self._value) == "Instance") then
+			if self._value.Destroy then
+				self._value:Destroy()
+			end
+		end
+	end
+	if self._Maid then
+		self._Maid:Destroy()
+	end
+	for k, v in pairs(self) do
+		self[k] = nil
+	end
+	setmetatable(self, nil)
+end
+
+
 --[[
 	Called when the original table is changed.
 
@@ -214,7 +233,8 @@ local function ComputedPairs<K, VI, VO>(
 		_oldInputTable = {},
 		_outputTable = {},
 		_oldOutputTable = {},
-		_keyData = {}
+		_keyData = {},
+		_cleanUp = false, --whether it  cleans up old value when changing it
 	}, CLASS_METATABLE)
 
 	initDependency(self)

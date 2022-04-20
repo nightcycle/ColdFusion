@@ -16,13 +16,26 @@ local Types = require(fusion.Types)
 local useDependency = require(fusion.Dependencies.useDependency)
 local initDependency = require(fusion.Dependencies.initDependency)
 local updateAll = require(fusion.Dependencies.updateAll)
-local observe = require(fusion.State.Observe)
 local Value = require(fusion.State.Value)
 
+local Abstract = require(script.Parent:WaitForChild("Abstract"))
 local class = {}
+class.__index = class
+setmetatable(class, Abstract)
 
-local CLASS_METATABLE = {__index = class}
 local WEAK_KEYS_METATABLE = {__mode = "k"}
+
+--[[
+	@startuml
+	!theme crt-amber
+	!include Abstract.lua
+	class AttributeState {
+		+ new(inst: Instance | State, attributeName: string): AttributeState
+	}
+	State <|-- AttributeState
+	@enduml
+]]--
+
 
 --[[
 	Returns the value currently stored in this State object.
@@ -30,61 +43,45 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 	false.
 ]]
 function class:Get(asDependency: boolean?): any
+	-- print("Getting attribute", self)
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	if type(self._value) == "table" and self._value.Get ~= nil then
-		return self._value:Get()
-	else
-		return self._value
-	end
+	return self._value
 end
 
-function class:get(...)
-	return self:Get(...)
-end
-
-function class:Destroy()
-	self._maid:Destroy()
-end
-
-local function Property(instOrState, attrName: string)
-
+local function Attribute(instOrState, attrName: string)
 	local instValue = if type(instOrState) == "table" then instOrState else Value(instOrState)
-
-	local self = setmetatable({
-		type = "State",
-		kind = "Property",
-		_maid = maidConstructor.new(),
-		-- if we held strong references to the dependents, then they wouldn't be
-		-- able to get garbage collected when they fall out of scope
-		dependentSet = setmetatable({}, WEAK_KEYS_METATABLE),
-		_value = if instValue:Get() then instValue:Get():GetAttribute(attrName) else nil,
-	}, CLASS_METATABLE)
-
+	local self = Abstract.new("Attribute", if instValue:Get() then instValue:Get():GetAttribute(attrName) else nil)
+	setmetatable(self, class)
 	local function set(newValue: any)
 		-- if the value hasn't changed, no need to perform extra work here
 		if self._value == newValue then
 			return
 		end
 	
-		self._value = newValue
-	
+		self:_SetValue(newValue)
 		-- update any derived state objects if necessary
 		updateAll(self)
 	end
-	
-	self._maid:GiveTask(observe(instValue):Connect(function()
+
+	local function init()
+
 		local inst = instValue:Get()
-		if not inst then self._maid.Event = nil return end
-		self._maid.Event = inst:GetAttributeChangedSignal(attrName):Connect(function()
+		if inst then
+			self._Maid.Event = inst:GetAttributeChangedSignal(attrName):Connect(function()
+				set(inst:GetAttribute(attrName))
+			end)
 			set(inst:GetAttribute(attrName))
-		end)
-	end))
+		end
+	end
+	
+	self._Maid:GiveTask(instValue:Connect(init))
+	init()
 
 	initDependency(self)
 
 	return self
 end
 
-return Property
+return Attribute

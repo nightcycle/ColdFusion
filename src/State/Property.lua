@@ -12,17 +12,29 @@ local packages = src.Parent
 local maidConstructor = require(packages:WaitForChild("maid"))
 
 local fusion = script.Parent.Parent
-local Types = require(fusion.Types)
 local useDependency = require(fusion.Dependencies.useDependency)
 local initDependency = require(fusion.Dependencies.initDependency)
 local updateAll = require(fusion.Dependencies.updateAll)
-local observe = require(fusion.State.Observe)
 local Value = require(fusion.State.Value)
 
+local Abstract = require(script.Parent:WaitForChild("Abstract"))
 local class = {}
+class.__index = class
+setmetatable(class, Abstract)
 
-local CLASS_METATABLE = {__index = class}
-local WEAK_KEYS_METATABLE = {__mode = "k"}
+--[[
+	@startuml
+	!theme crt-amber
+	!include Abstract.lua
+	class PropertyState {
+		+ new(inst: Instance | State, propertyName: string): PropertyState
+	}
+	State <|-- PropertyState
+	@enduml
+]]--
+
+local Abstract = require(script.Parent:WaitForChild("Abstract"))
+setmetatable(class, Abstract)
 
 --[[
 	Returns the value currently stored in this State object.
@@ -40,48 +52,32 @@ function class:Get(asDependency: boolean?): any
 	end
 end
 
-function class:get(...)
-	return self:Get(...)
-end
-
-function class:Destroy()
-	self._maid:Destroy()
-end
-
 local function Property(instOrState, propName: string, refreshRate: number | nil)
 
 	local instValue = if type(instOrState) == "table" then instOrState else Value(instOrState)
-	-- print("Property init", instOrState, propName, refreshRate)
-	local self = setmetatable({
-		type = "State",
-		kind = "Property",
-		_maid = maidConstructor.new(),
-		-- if we held strong references to the dependents, then they wouldn't be
-		-- able to get garbage collected when they fall out of scope
-		dependentSet = setmetatable({}, WEAK_KEYS_METATABLE),
-		_value = if instValue:Get() then instValue:Get()[propName] else nil,
-	}, CLASS_METATABLE)
+
+	local self = Abstract.new("Property", if instValue:Get() then instValue:Get()[propName] else nil)
+	setmetatable(self, class)
 
 	local function set(newValue: any)
 		-- if the value hasn't changed, no need to perform extra work here
 		if self._value == newValue then
 			return
 		end
-	
-		self._value = newValue
-	
+
+		self:_SetValue(newValue)
 		-- update any derived state objects if necessary
 		updateAll(self)
 	end
 
 	local function init()
 		local inst = instValue:Get()
-		if not inst then self._maid.Event = nil return end
+		if not inst then self._Maid.Event = nil return end
 		local type = typeof(inst[propName])
 		if refreshRate then
 			-- print("Feelin fresh", inst:GetFullName())
 			local lastBeat = tick()
-			self._maid.Event = runService.Heartbeat:Connect(function(dt)
+			self._Maid.Event = runService.Heartbeat:Connect(function(dt)
 				if 1/refreshRate < tick() - lastBeat then
 					lastBeat = tick()
 					-- print("Update", propName)
@@ -90,13 +86,14 @@ local function Property(instOrState, propName: string, refreshRate: number | nil
 			end)
 		else
 			-- print("What refresh rate", inst:GetFullName(), propName)
-			self._maid.Event = inst:GetPropertyChangedSignal(propName):Connect(function()
+			self._Maid.Event = inst:GetPropertyChangedSignal(propName):Connect(function()
 				set(inst[propName])
 			end)
+			set(inst[propName])
 		end
 	end
 	
-	self._maid:GiveTask(observe(instValue):Connect(init))
+	self._Maid:GiveTask(instValue:Connect(init))
 	init()
 	
 	initDependency(self)

@@ -107,7 +107,7 @@ return function(object)
 		bindableFunction.Name = key
 		self._maid["f_"..key] = bindableFunction
 		bindableFunction.OnInvoke = function(...)
-			value(...)
+			return value(self, ...)
 		end
 	end
 
@@ -129,6 +129,8 @@ return function(object)
 		local signal = signalConstructor.new()
 		
 		local readFromStateEnabled = value.kind == "Value"
+		or value.Kind == "Tween"
+		or value.Kind == "Spring"
 		or value.kind == "Computed"
 		or value.kind == "Receiver"
 		or value.kind == "Attribute"
@@ -168,6 +170,13 @@ return function(object)
 					if not valMaid.Object or valMaid.Object.ClassName ~= isObject then
 						valMaid.Object = Instance.new(isObject, inst)
 						valMaid.Object.Name = key
+
+					end
+					if typeof(val) == "CFrame" then
+						valMaid.Object:SetAttribute("Position", val.Position)
+						valMaid.Object:SetAttribute("XVector", val.XVector)
+						valMaid.Object:SetAttribute("YVector", val.YVector)
+						valMaid.Object:SetAttribute("ZVector", val.ZVector)
 					end
 					valMaid.Object.Value = val
 					if writeToStateEnabled then
@@ -214,23 +223,6 @@ return function(object)
 					val.Build:Get()
 				end
 			end)
-			-- local sig, getFunc, setFunc = setValue(inst, key, value)
-			-- if value.kind == "Value"
-			-- or value.kind == "Computed"
-			-- or value.kind == "Receiver"
-			-- or value.kind == "Attribute"
-			-- or value.kind == "Property"
-			-- or value.kind == "Signal" then
-			-- 	self._maid["s_"..key] = Observe(value):Connect(function()
-			-- 		local v = value:Get()
-			-- 		setFunc(v)
-			-- 	end)
-			-- end
-			-- if value.kind == "Value" then
-			-- 	self._maid["se_"..key] = sig:Connect(function()
-			-- 		value:Set(getFunc())
-			-- 	end)
-			-- end
 		end
 	end
 

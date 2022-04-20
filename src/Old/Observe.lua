@@ -8,14 +8,14 @@
 ]]
 
 local Package = script.Parent.Parent
-local PubTypes = require(Package.PubTypes)
 local Types = require(Package.Types)
 local initDependency = require(Package.Dependencies.initDependency)
 
 type Set<T> = {[T]: any}
 
 local class = {}
-local CLASS_METATABLE = {__index = class}
+local Abstract = require(script.Parent:WaitForChild("Abstract"))
+local CLASS_METATABLE = setmetatable({__index = class}, Abstract)
 
 -- Table used to hold Observe objects in memory.
 local strongRefs: Set<Types.Observe> = {}
@@ -68,6 +68,7 @@ function class:onChange(...)
 end
 
 local function Observe(watchedState): Types.Observe
+	local self = Abstract.new("Observe", nil)
 	local self = setmetatable({
 		type = "State",
 		kind = "Observe",
@@ -75,6 +76,7 @@ local function Observe(watchedState): Types.Observe
 		dependentSet = {},
 		_changeListeners = {},
 		_numChangeListeners = 0,
+		_cleanUp = false, --whether it  cleans up old value when changing it
 	}, CLASS_METATABLE)
 
 	initDependency(self)

@@ -1,87 +1,95 @@
---!strict
+local Value = require(script:WaitForChild("State"):WaitForChild("Value"))
+local Computed = require(script:WaitForChild("State"):WaitForChild("Computed"))
+local Property = require(script:WaitForChild("State"):WaitForChild("Property"))
+local Attribute = require(script:WaitForChild("State"):WaitForChild("Attribute"))
+local Signal = require(script:WaitForChild("State"):WaitForChild("Signal"))
+local Table = require(script:WaitForChild("State"):WaitForChild("Table"))
+local OnChanged = require(script:WaitForChild("Instances"):WaitForChild("OnChanged"))
+local Children = require(script:WaitForChild("Instances"):WaitForChild("Children"))
+local Event = require(script:WaitForChild("Instances"):WaitForChild("Event"))
+local New = require(script:WaitForChild("Instances"):WaitForChild("New"))
+local Mount = require(script:WaitForChild("Instances"):WaitForChild("Mount"))
+local Construct = require(script:WaitForChild("Instances"):WaitForChild("Construct"))
 
 --[[
-	The entry point for the Fusion library.
-]]
+	@startuml
+	!theme crt-amber
+	!include State/Value.lua
+	!include State/Table.lua
+	!include State/Signal.lua
+	!include State/Property.lua
+	!include State/Computed.lua
+	!include State/Attribute.lua
+	!include State/Abstract.lua
+	interface ColdFusion {
+		mount(inst: Instance): Constructor
+		new(className: string): Constructor
+		construct(obj: Object): self
+		Value: ValueState
+		Attribute: AttributeState
+		Signal: SignalState
+		Computed: ComputedState
+		Property: PropertyState
+		Table: Table
+		State(...): ValueState | AttributeState | SignalState | ComputedState | PropertyState | TableState
+	}
+	@enduml
+]]--
 
-local PubTypes = require(script.PubTypes)
-local restrictRead = require(script.Utility.restrictRead)
+return {
+	mount = Mount,
+	new = New,
+	construct = Construct,
+	Value = Value,
+	Attribute = Attribute,
+	Signal = Signal,
+	Property = Property,
+	Computed = Computed,
+	Table = Table,
+	Children = Children,
+	Event = Event,
+	OnChanged = OnChanged,
+	State = function (...)
+		local params = {...}
+		local first = params[1]
+		local second = params[2]
+		local final = params[#params]
 
-export type StateObject<T> = PubTypes.StateObject<T>
-export type CanBeState<T> = PubTypes.CanBeState<T>
-export type Symbol = PubTypes.Symbol
-export type Value<T> = PubTypes.Value<T>
-export type Computed<T> = PubTypes.Computed<T>
-export type ComputedPairs<K, V> = PubTypes.ComputedPairs<K, V>
-export type Observe = PubTypes.Observe
-export type Tween<T> = PubTypes.Tween<T>
-export type Spring<T> = PubTypes.Spring<T>
+		if typeof(first) == "RBXScriptSignal"
+		or (type(first) == "table" and
+			(first.ClassName == "Signal"
+				or (first._value ~= nil
+				and typeof(first._value) == "RBXScriptSignal")
+			)
+		) then
+			return Signal(...)
+		elseif typeof(first) == "table" and #params == 1 then
+			return Table(...)
+		end
 
-type Fusion = {
-	version: PubTypes.Version,
+		if typeof(final) == "function" then
+			return Computed(...)
+		end
+		
+		if type(first) == "table" then
+			return Table(...)
+		elseif #params <= 1 then
+			return Value(...)
+		end
 
-	Mount: (inst: Instance) -> ((propertyTable: PubTypes.PropertyTable) -> Instance),
-
-	New: (className: string) -> ((propertyTable: PubTypes.PropertyTable) -> Instance),
-	Ref: PubTypes.SpecialKey,
-	Cleanup: PubTypes.SpecialKey,
-	Children: PubTypes.SpecialKey,
-	Event: (eventName: string) -> PubTypes.SpecialKey,
-	Changed: (propertyName: string) -> PubTypes.SpecialKey,
-	
-	Computed: <T>(callback: () -> T) -> Computed<T>,
-	ComputedPairs: <K, VI, VO>(inputTable: CanBeState<{[K]: VI}>, processor: (K, VI) -> VO, destructor: (VO) -> ()?) -> ComputedPairs<K, VO>,
-	Value: <T>(initialValue: T) -> Value<T>,
-	Observe: (watchedState: StateObject<any>) -> Observe,
-
-	Tween: <T>(goalState: StateObject<T>, tweenInfo: TweenInfo?) -> Tween<T>,
-	Spring: <T>(goalState: StateObject<T>, speed: number?, damping: number?) -> Spring<T>
+		if typeof(first) == "Instance" then
+			if typeof(second) == "table" and second.type ~= "State" then
+				return Mount(...)
+			else
+				local propSuccess = pcall(function()
+					local v = first[second]
+				end)
+				if propSuccess then
+					return Property(...)
+				else
+					return Attribute(...)
+				end
+			end
+		end
+	end,
 }
-
-return restrictRead("Fusion", {
-	version = {major = 0, minor = 2, isRelease = false},
-
-	Fuse = require(script.Utility.Fuse),
-
-	--additions
-	Mount = require(script.Instances.Mount), --applies fusion to existing object
-	mount = require(script.Instances.Mount),
-	Construct = require(script.Instances.Construct), --creates a pseudo class instance
-	construct = require(script.Instances.Construct),
-	Network = require(script.State.Network), --returns state based on code running from client or server
-	network = require(script.State.Network),
-	Receiver = require(script.State.Receiver), --listens for transmissions
-	receiver = require(script.State.Receiver),
-	Transmit = require(script.State.Receiver), --fires out state to receivers
-	transmit = require(script.State.Receiver),
-	Signal = require(script.State.Signal), --converts signal into state
-	signal = require(script.State.Signal),
-
-	--Vanilla fusion
-	New = require(script.Instances.New),
-	new = require(script.Instances.New), --I like my constructors lowercase
-	Ref = require(script.Instances.Ref), --abstract class?
-	Out = require(script.Instances.Out), --abstract class?
-	Cleanup = require(script.Instances.Cleanup), --abstract class?
-	Children = require(script.Instances.Children),
-	
-	Event = require(script.Instances.Event),
-	OnEvent = require(script.Instances.Event),
-	
-	Changed = require(script.Instances.OnChanged),
-	OnChanged = require(script.Instances.OnChanged),
-
-	Computed = require(script.State.Computed),
-	ComputedPairs = require(script.State.ComputedPairs),
-	Value = require(script.State.Value),
-	Observe = require(script.State.Observe),
-	Property = require(script.State.Property),
-	Attribute = require(script.State.Attribute),
-	
-	Tween = require(script.Animation.Tween),
-	Spring = require(script.Animation.Spring),
-
-	--deprecated stuff to work with legacy code
-	State = require(script.State.Value),
-	Compat = require(script.State.Observe),
-}) :: Fusion

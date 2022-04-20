@@ -8,7 +8,7 @@
 local Package = script.Parent.Parent
 local PubTypes = require(Package.PubTypes)
 local logWarn = require(Package.Logging.logWarn)
-local Observe = require(Package.State.Observe)
+-- local Observe = require(Package.State.Observe)
 local xtypeof = require(Package.Utility.xtypeof)
 
 type Set<T> = {[T]: boolean}
@@ -77,7 +77,7 @@ function Children:apply(propValue: any, applyToRef: PubTypes.SemiWeakRef, cleanu
 				local disconnect = oldDisconnects[child]
 				if disconnect == nil then
 					-- wasn't previously present
-					disconnect = Observe(child):Connect(queueUpdate)
+					disconnect =child:Connect(queueUpdate)
 				else
 					-- previously here; we want to reuse, so remove from old
 					-- set so we don't encounter it during unparenting

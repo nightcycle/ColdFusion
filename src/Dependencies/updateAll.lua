@@ -82,38 +82,45 @@ local function updateAll(ancestor: PubTypes.Dependency)
 		local processingDone = true
 
 		for _, member in ipairs(processNow) do
-			-- mark this member as no longer needing an update
-			needsUpdateSet[member] = nil
+			if member._destroyed == false then
+				-- mark this member as no longer needing an update
+				needsUpdateSet[member] = nil
 
-			--FUTURE: should this guard against errors?
-			local didChange = member:update()
+				--FUTURE: should this guard against errors?
+				local didChange = member:update()
 
-			-- add the dependents of the member for processing
-			-- optimisation: if nothing changed, then we don't need to add these
-			-- dependents, because they don't need processing.
-			-- FIXME: Typed Luau doesn't understand this type narrowing yet
-			if didChange and (member :: any).dependentSet ~= nil then
-				local member = member :: PubTypes.Dependent & PubTypes.Dependency
-				for dependent in pairs(member.dependentSet) do
-					-- don't add dependents that have un-updated dependencies
-					local allDependenciesUpdated = true
-					for dependentDependency in pairs(dependent.dependencySet) do
-						-- HACK: keys of needsUpdateSet must be Dependents, so
-						-- since we want to ignore non-Dependents, we just type
-						-- cast here regardless of safety
-						if needsUpdateSet[dependentDependency :: any] then
-							allDependenciesUpdated = false
-							break
+				-- add the dependents of the member for processing
+				-- optimisation: if nothing changed, then we don't need to add these
+				-- dependents, because they don't need processing.
+				-- FIXME: Typed Luau doesn't understand this type narrowing yet
+				if didChange and (member :: any).dependentSet ~= nil then
+					local member = member :: PubTypes.Dependent & PubTypes.Dependency
+					for dependent in pairs(member.dependentSet) do
+						-- don't add dependents that have un-updated dependencies
+						if dependent then
+							if dependent.dependentSet == nil then
+								member.dependentSet[dependent] = nil
+							end
+							local allDependenciesUpdated = true
+							for dependentDependency in pairs(dependent.dependencySet or {}) do
+								-- HACK: keys of needsUpdateSet must be Dependents, so
+								-- since we want to ignore non-Dependents, we just type
+								-- cast here regardless of safety
+								if needsUpdateSet[dependentDependency :: any] then
+									allDependenciesUpdated = false
+									break
+								end
+							end
+
+							if allDependenciesUpdated then
+								processNextSize += 1
+								processNext[processNextSize] = dependent
+								processingDone = false
+							end
 						end
 					end
-
-					if allDependenciesUpdated then
-						processNextSize += 1
-						processNext[processNextSize] = dependent
-						processingDone = false
-					end
 				end
-			end
+			end	
 		end
 
 		if not processingDone then

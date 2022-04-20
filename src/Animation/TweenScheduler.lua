@@ -48,9 +48,9 @@ local function updateAllTweens()
 
 		if currentTime > tween._currentTweenDuration then
 			if tween._currentTweenInfo.Reverses then
-				tween._currentValue = tween._prevValue
+				tween:_SetValue(tween._prevValue)
 			else
-				tween._currentValue = tween._nextValue
+				tween:_SetValue(tween._nextValue)
 			end
 			tween._currentlyAnimating = false
 			updateAll(tween)
@@ -58,7 +58,7 @@ local function updateAllTweens()
 		else
 			local ratio = getTweenRatio(tween._currentTweenInfo, currentTime)
 			local currentValue = lerpType(tween._prevValue, tween._nextValue, ratio)
-			tween._currentValue = currentValue
+			tween:_SetValue(currentValue)
 			tween._currentlyAnimating = true
 			updateAll(tween)
 		end

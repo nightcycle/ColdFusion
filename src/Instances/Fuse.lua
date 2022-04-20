@@ -5,13 +5,11 @@ local src = script.Parent.Parent
 local packages = src.Parent
 local maidConstructor = require(packages:WaitForChild("maid"))
 
-
-
 local Fuse = {}
 Fuse.__index = Fuse
 
 function Fuse:Destroy()
-	self._maid:Destroy()
+	self._Maid:Destroy()
 end
 
 function Fuse:_new(key)
@@ -24,7 +22,7 @@ function Fuse:_new(key)
 		__call = function(s, ...)
 			local newThing = const(...)
 			if newThing.Destroy then
-				self._maid:GiveTask(newThing)
+				self._Maid:GiveTask(newThing)
 			end
 			return newThing
 		end
@@ -39,12 +37,12 @@ function Fuse:Connect(key, ...)
 		table.insert(params, args[i])
 	end
 	local obj = self:_new(key)(unpack(args))
-	self._maid:GiveTask(obj:Connect(args[#args]))
+	self._Maid:GiveTask(obj:Connect(args[#args]))
 end
 
 return function(maid)
 	local self = setmetatable({}, Fuse)
-	self._maid = maid or maidConstructor.new()
+	self._Maid = maid or maidConstructor.new()
 	for k, const in pairs(require(script.Parent.Parent)) do
 		self[k] = self:_new(k)
 	end

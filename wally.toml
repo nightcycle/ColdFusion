@@ -3,7 +3,7 @@ name = "nightcycle/cold-fusion"
 description = "A modded version of Elttob's Fusion focused on general OOP usage across server and client"
 license = "MIT"
 authors = ["Elttob", "Nightcycle"]
-version = "0.4.9"
+version = "1.0.0"
 
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"

@@ -74,7 +74,7 @@ local function updateAllSprings()
 	end
 
 	for spring in pairs(activeSprings) do
-		spring._currentValue = packType(spring._springPositions, spring._currentType)
+		spring:_SetValue(packType(spring._springPositions, spring._currentType))
 		updateAll(spring)
 	end
 

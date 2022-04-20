@@ -5,17 +5,33 @@
 	state.
 ]]
 
+local src = script.Parent.Parent
+local packages = src.Parent
+local maidConstructor = require(packages:WaitForChild("maid"))
+
 local Package = script.Parent.Parent
 local Types = require(Package.Types)
 local captureDependencies = require(Package.Dependencies.captureDependencies)
 local initDependency = require(Package.Dependencies.initDependency)
 local useDependency = require(Package.Dependencies.useDependency)
 local logErrorNonFatal = require(Package.Logging.logErrorNonFatal)
+local updateAll = require(Package.Dependencies.updateAll)
 
+local Abstract = require(script.Parent:WaitForChild("Abstract"))
 local class = {}
+class.__index = class
+setmetatable(class, Abstract)
 
-local CLASS_METATABLE = {__index = class}
-local WEAK_KEYS_METATABLE = {__mode = "k"}
+--[[
+	@startuml
+	!theme crt-amber
+	!include Abstract.lua
+	class ComputedState {
+		+ new(state1, state2 | nil, state3 | nil, ..., function): ComputedState
+	}
+	State <|-- ComputedState
+	@enduml
+]]--
 
 --[[
 	Returns the last cached value calculated by this Computed object.
@@ -27,9 +43,6 @@ function class:Get(asDependency: boolean?): any
 		useDependency(self)
 	end
 	return self._value
-end
-function class:get(...)
-	return self:Get(...)
 end
 
 --[[
@@ -53,13 +66,14 @@ function class:update(): boolean
 
 	if ok then
 		local oldValue = self._value
-		self._value = newValue
-
+		self:_SetValue(newValue)
 		-- add this object to the dependencies' dependent sets
 		for dependency in pairs(self.dependencySet) do
 			dependency.dependentSet[self] = true
 		end
-
+		if oldValue ~= newValue then
+			updateAll(self)
+		end
 		return oldValue ~= newValue
 	else
 		-- this needs to be non-fatal, because otherwise it'd disrupt the
@@ -73,32 +87,40 @@ function class:update(): boolean
 		for dependency in pairs(self.dependencySet) do
 			dependency.dependentSet[self] = true
 		end
-
+		self:_Fire()
 		return false
 	end
 end
 
-local function Computed<T>(...: () -> T): Types.Computed<T>
+local function Computed<T>(...: () -> T)
 	local params = {...}
 	local callback = params[#params]
 
-	local self = setmetatable({
-		type = "State",
-		kind = "Computed",
-		dependencySet = {},
-		-- if we held strong references to the dependents, then they wouldn't be
-		-- able to get garbage collected when they fall out of scope
-		dependentSet = setmetatable({}, WEAK_KEYS_METATABLE),
-		_oldDependencySet = {},
-		_callback = function()
-			local vals = {}
-			for i=1, math.max(#params - 1, 0) do
+	local self = Abstract.new("Computed", nil)
+	setmetatable(self, class)
+	self.dependencySet = {}
+	self._oldDependencySet = {}
+	self._callback = function()
+		self._Maid._compMaid = maidConstructor.new()
+		local vals = {}
+		-- print("Params", params)
+		for i=1, math.max(#params - 1, 0) do
+			if params[i].DeepGet and params[i]._isDeep then
+				-- print("Deep")
+				vals[i] = params[i]:DeepGet()
+			else
+				-- print("Get")
 				vals[i] = params[i]:Get()
 			end
-			return callback(unpack(vals))
-		end,
-		_value = nil,
-	}, CLASS_METATABLE)
+		end
+		-- print("Vals", table.unpack(vals))
+		-- print("Vals2", table.unpack(vals))
+
+		vals[#params] = self._Maid._compMaid
+		-- table.insert(vals, self._Maid._compMaid)
+		return callback(table.unpack(vals))
+
+	end
 
 	initDependency(self)
 	self:update()

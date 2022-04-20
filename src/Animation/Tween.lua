@@ -14,9 +14,10 @@ local initDependency = require(Package.Dependencies.initDependency)
 local logError = require(Package.Logging.logError)
 local logErrorNonFatal = require(Package.Logging.logErrorNonFatal)
 
+local Abstract = require(script.Parent.Parent:WaitForChild("State"):WaitForChild("Abstract"))
 local class = {}
-
-local CLASS_METATABLE = {__index = class}
+class.__index = class
+setmetatable(class, Abstract)
 local WEAK_KEYS_METATABLE = {__mode = "k"}
 
 --[[
@@ -27,7 +28,7 @@ function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	return self._currentValue
+	return self._value
 end
 
 function class:get(asDependency: boolean?): any
@@ -58,7 +59,7 @@ function class:update(): boolean
 		return false
 	end
 
-	self._prevValue = self._currentValue
+	self._prevValue = self._value
 	self._nextValue = goalValue
 
 	self._currentTweenStartTime = os.clock()
@@ -98,29 +99,18 @@ local function Tween(
 	if typeof(tweenInfo) ~= "TweenInfo" then
 		logError("mistypedTweenInfo", nil, typeof(tweenInfo))
 	end
-
-	local self = setmetatable({
-		type = "State",
-		kind = "Tween",
-		dependencySet = dependencySet,
-		-- if we held strong references to the dependents, then they wouldn't be
-		-- able to get garbage collected when they fall out of scope
-		dependentSet = setmetatable({}, WEAK_KEYS_METATABLE),
-		_goalState = goalState,
-		_tweenInfo = tweenInfo,
-		_tweenInfoIsState = tweenInfoIsState,
-
-		_prevValue = currentValue,
-		_nextValue = currentValue,
-		_currentValue = currentValue,
-
-		-- store current tween into separately from 'real' tween into, so it
-		-- isn't affected by :setTweenInfo() until next change
-		_currentTweenInfo = tweenInfo,
-		_currentTweenDuration = 0,
-		_currentTweenStartTime = 0,
-		_currentlyAnimating = false
-	}, CLASS_METATABLE)
+	local self = setmetatable(Abstract.new("Tween", currentValue), class)
+	self.dependencySet = dependencySet
+	self._goalState = goalState
+	self._tweenInfo = tweenInfo
+	self._tweenInfoIsState = tweenInfoIsState
+	self._prevValue = currentValue
+	self._nextValue = currentValue
+	self:_SetValue(currentValue)
+	self._currentTweenInfo = tweenInfo
+	self._currentTweenDuration = 0
+	self._currentTweenStartTime = 0
+	self._currentlyAnimating = false
 
 	initDependency(self)
 	-- add this object to the goal state's dependent set
