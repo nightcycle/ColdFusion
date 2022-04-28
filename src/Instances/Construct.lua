@@ -5,7 +5,7 @@ local maidConstructor = require(packages:WaitForChild("maid"))
 local signalConstructor = require(packages:WaitForChild("signal"))
 local Computed = require(src.State.Computed)
 local Value = require(src.State.Value)
-local Observe = require(src.State.Observe)
+local Observe = require(src.Deprecated.Observe)
 
 local attributeTypes = {
 	string = true,

@@ -6,7 +6,6 @@
 
 	FIXME: enabling strict types here causes free types to leak
 ]]
-
 local Package = script.Parent.Parent
 local Types = require(Package.Types)
 local initDependency = require(Package.Dependencies.initDependency)
@@ -14,7 +13,7 @@ local initDependency = require(Package.Dependencies.initDependency)
 type Set<T> = {[T]: any}
 
 local class = {}
-local Abstract = require(script.Parent:WaitForChild("Abstract"))
+local Abstract = require(Package.State:WaitForChild("Abstract"))
 local CLASS_METATABLE = setmetatable({__index = class}, Abstract)
 
 -- Table used to hold Observe objects in memory.
