@@ -10,6 +10,7 @@ local Event = require(script:WaitForChild("Instances"):WaitForChild("Event"))
 local New = require(script:WaitForChild("Instances"):WaitForChild("New"))
 local Mount = require(script:WaitForChild("Instances"):WaitForChild("Mount"))
 local Construct = require(script:WaitForChild("Instances"):WaitForChild("Construct"))
+local Fuse = require(script:WaitForChild("Instances"):WaitForChild("Fuse"))
 
 --[[
 	@startuml
@@ -40,6 +41,7 @@ return {
 	mount = Mount,
 	new = New,
 	construct = Construct,
+	fuse = Fuse,
 	Value = Value,
 	Attribute = Attribute,
 	Signal = Signal,
@@ -49,47 +51,4 @@ return {
 	Children = Children,
 	Event = Event,
 	OnChanged = OnChanged,
-	State = function (...)
-		local params = {...}
-		local first = params[1]
-		local second = params[2]
-		local final = params[#params]
-
-		if typeof(first) == "RBXScriptSignal"
-		or (type(first) == "table" and
-			(first.ClassName == "Signal"
-				or (first._value ~= nil
-				and typeof(first._value) == "RBXScriptSignal")
-			)
-		) then
-			return Signal(...)
-		elseif typeof(first) == "table" and #params == 1 then
-			return Table(...)
-		end
-
-		if typeof(final) == "function" then
-			return Computed(...)
-		end
-		
-		if type(first) == "table" then
-			return Table(...)
-		elseif #params <= 1 then
-			return Value(...)
-		end
-
-		if typeof(first) == "Instance" then
-			if typeof(second) == "table" and second.type ~= "State" then
-				return Mount(...)
-			else
-				local propSuccess = pcall(function()
-					local v = first[second]
-				end)
-				if propSuccess then
-					return Property(...)
-				else
-					return Attribute(...)
-				end
-			end
-		end
-	end,
 }

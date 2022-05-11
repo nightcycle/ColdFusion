@@ -50,9 +50,14 @@ end
 	Returns true if it changed, or false if it's identical.
 ]]
 function class:update(): boolean
+	if self._destroyed ~= false then return end
 	-- remove this object from its dependencies' dependent sets
 	for dependency in pairs(self.dependencySet) do
-		dependency.dependentSet[self] = nil
+		if dependency._destroyed == false then
+			dependency.dependentSet[self] = nil
+		else
+			self.dependencySet[dependency] = nil
+		end	
 	end
 
 	-- we need to create a new, empty dependency set to capture dependencies
@@ -66,15 +71,17 @@ function class:update(): boolean
 
 	if ok then
 		local oldValue = self._value
-		self:_SetValue(newValue)
-		-- add this object to the dependencies' dependent sets
-		for dependency in pairs(self.dependencySet) do
-			dependency.dependentSet[self] = true
+		if self._SetValue then
+			self:_SetValue(newValue)
+			-- add this object to the dependencies' dependent sets
+			for dependency in pairs(self.dependencySet) do
+				dependency.dependentSet[self] = true
+			end
+			if oldValue ~= newValue then
+				updateAll(self)
+			end
+			return oldValue ~= newValue
 		end
-		if oldValue ~= newValue then
-			updateAll(self)
-		end
-		return oldValue ~= newValue
 	else
 		-- this needs to be non-fatal, because otherwise it'd disrupt the
 		-- update process
@@ -87,7 +94,9 @@ function class:update(): boolean
 		for dependency in pairs(self.dependencySet) do
 			dependency.dependentSet[self] = true
 		end
-		self:_Fire()
+		if self._Fire then
+			self:_Fire()
+		end
 		return false
 	end
 end
@@ -105,12 +114,17 @@ local function Computed<T>(...: () -> T)
 		local vals = {}
 		-- print("Params", params)
 		for i=1, math.max(#params - 1, 0) do
-			if params[i].DeepGet and params[i]._isDeep then
-				-- print("Deep")
-				vals[i] = params[i]:DeepGet()
+			if params[i]._destroyed == false then
+				if params[i].DeepGet and params[i]._isDeep then
+					-- print("Deep")
+					vals[i] = params[i]:DeepGet()
+				else
+					-- print("Get")
+					vals[i] = params[i]:Get()
+				end
 			else
-				-- print("Get")
-				vals[i] = params[i]:Get()
+				self:Destroy()
+				return
 			end
 		end
 		-- print("Vals", table.unpack(vals))

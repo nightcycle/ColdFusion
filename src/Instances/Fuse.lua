@@ -21,10 +21,23 @@ function Fuse:_new(key)
 	setmetatable(obj, {
 		__call = function(s, ...)
 			local newThing = const(...)
-			if newThing.Destroy then
-				self._Maid:GiveTask(newThing)
+			if typeof(newThing) == "function" then
+				local secConst = newThing
+				local interceptor = {}
+				local meta = {
+					__call = function(i, ...)
+						local inst = secConst(...)
+						self._Maid:GiveTask(inst)
+						return inst
+					end
+				}
+				setmetatable(interceptor, meta)
+				return interceptor
+			elseif newThing.type == "State" then
+				local state = newThing
+				self._Maid:GiveTask(state)
+				return state
 			end
-			return newThing
 		end
 	})
 	return obj
@@ -46,5 +59,6 @@ return function(maid)
 	for k, const in pairs(require(script.Parent.Parent)) do
 		self[k] = self:_new(k)
 	end
+	self._Maid:GiveTask(self)
 	return self
 end

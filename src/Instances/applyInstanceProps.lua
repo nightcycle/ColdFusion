@@ -53,7 +53,9 @@ local function bindProperty(instanceRef: PubTypes.SemiWeakRef, property: string,
 				willUpdate = true
 				task.defer(function()
 					willUpdate = false
-					setProperty(instanceRef.instance :: Instance, property, value:Get(false))
+					if value._destroyed == false then
+						setProperty(instanceRef.instance :: Instance, property, value:Get(false))
+					end
 				end)
 			end
 		end
