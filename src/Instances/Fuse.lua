@@ -14,6 +14,10 @@ end
 
 function Fuse:_new(key)
 	local fusion = require(script.Parent.Parent)
+	if key == "Event" or key == "Changed" or key == "Children" then
+		return fusion[key]
+	end
+
 	local const = fusion[key]
 	local obj = {
 		Constructor = const

@@ -81,7 +81,7 @@ end
 function Abstract:Destroy()
 	if self._destroyed == true then return end
 	self._destroyed = true
-	if self._cleanUp == false then
+	if self._cleanUp == true then
 		if self._value ~= nil and (type(self._value) == "table" or typeof(self._value) == "Instance") then
 			if self._value.Destroy then
 				self._value:Destroy()
@@ -100,7 +100,7 @@ end
 function Abstract:Get(...) end
 function Abstract:get(...) return self:Get(...) end
 function Abstract:Set(...) end
-function Abstract:set(...) return self:set(...) end
+function Abstract:set(...) return self:Set(...) end
 
 function Abstract:Connect(func)
 	-- local newSignal = signalConstructor.new()

@@ -77,7 +77,7 @@ end
 return function(object)
 	local self = assembleObject(object)
 
-	local maid = self._maid
+	local maid = self._Maid
 	assert(maid ~= nil, "No maid found")
 
 	local _Instance
@@ -86,7 +86,9 @@ return function(object)
 			_Instance = Value(object.Instance)
 			maid:GiveTask(object.Instance.Destroying:Connect(function()
 				_Instance:set(nil)
-				maid:Destroy()
+				pcall(function()
+					maid:Destroy()
+				end)
 			end))
 		else
 			_Instance = object.Instance
@@ -94,18 +96,18 @@ return function(object)
 	else
 		_Instance = Computed(function()
 			local inst = self:Build()
-			self._maid.Instance = inst
+			self._Maid.Instance = inst
 			return inst
 		end)
 	end
 
 	local function setFunction(inst, key, value)
 		if not inst then
-			self._maid["f_"..key] = nil
+			self._Maid["f_"..key] = nil
 		end
 		local bindableFunction = Instance.new("BindableFunction", inst)
 		bindableFunction.Name = key
-		self._maid["f_"..key] = bindableFunction
+		self._Maid["f_"..key] = bindableFunction
 		bindableFunction.OnInvoke = function(...)
 			return value(self, ...)
 		end
@@ -113,13 +115,13 @@ return function(object)
 
 	local function setEvent(inst, key, value)
 		if not inst then
-			self._maid["f_"..key] = nil
-			self._maid["f_event_"..key] = nil
+			self._Maid["f_"..key] = nil
+			self._Maid["f_event_"..key] = nil
 		end
 		local bindableEvent = Instance.new("BindableEvent", inst)
 		bindableEvent.Name = key
-		self._maid["f_"..key] = bindableEvent
-		self._maid["f_event_"..key] = value:Connect(function(...)
+		self._Maid["f_"..key] = bindableEvent
+		self._Maid["f_event_"..key] = value:Connect(function(...)
 			bindableEvent:Fire(...)
 		end)
 	end
@@ -140,7 +142,7 @@ return function(object)
 		local writeToStateEnabled = value.kind == "Value"
 		-- print("Containing value", inst:GetFullName(), key, value)
 		return {
-			_maid = valMaid,
+			_Maid = valMaid,
 			signal = signal,
 			Destroy = function(s)
 				valMaid:Destroy()
@@ -207,9 +209,9 @@ return function(object)
 		-- print("Setting property", inst:GetFullName(), key, value)
 		if not inst then
 			-- print("Not inst")
-			self._maid["se_"..key] = nil
-			self._maid["s_"..key] = nil
-			self._maid["v_"..key] = nil
+			self._Maid["se_"..key] = nil
+			self._Maid["s_"..key] = nil
+			self._Maid["v_"..key] = nil
 			return
 		end
 		if value.kind == "Observe" then
@@ -217,8 +219,8 @@ return function(object)
 			setEvent(inst, key, value)
 		else
 			local val = valueContainer(inst, key, value)
-			self._maid["vc_"..key] = val
-			self._maid["s_"..key] = Observe(value):Connect(function()
+			self._Maid["vc_"..key] = val
+			self._Maid["s_"..key] = Observe(value):Connect(function()
 				if val and val.Build then
 					val.Build:Get()
 				end
@@ -234,7 +236,7 @@ return function(object)
 				-- print("Computing ", key)
 				if typeof(value) == "function" then
 					-- print("Function", key)
-					if key ~= "new" then
+					if key ~= "new" and key ~= "Construct" and key ~= "Destroy" then
 						setFunction(inst, key, value)
 					end
 				elseif typeof(value) == "RBXScriptSignal" or (type(value) == "table" and value.ClassName == "Signal") then
