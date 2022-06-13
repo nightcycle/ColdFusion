@@ -30,10 +30,13 @@ local function testPropertyAssignable(instance: Instance, property: string)
 end
 
 local function setProperty(instance: Instance, property: string, value: any)
+	if instance == nil then return end
 	if not pcall(setProperty_unsafe, instance, property, value) then
 		if not pcall(testPropertyAssignable, instance, property) then
 			-- property is not assignable
-			logError("cannotAssignProperty", nil, instance.ClassName, property)
+			if instance ~= nil then
+				logError("cannotAssignProperty", nil, instance.ClassName, property)
+			end
 		else
 			-- property is assignable, but this specific assignment failed
 			-- this typically implies the wrong type was received
@@ -53,7 +56,7 @@ local function bindProperty(instanceRef: PubTypes.SemiWeakRef, property: string,
 				willUpdate = true
 				task.defer(function()
 					willUpdate = false
-					if value._destroyed == false then
+					if value._destroyed == false and instanceRef.instance then
 						setProperty(instanceRef.instance :: Instance, property, value:Get(false))
 					end
 				end)

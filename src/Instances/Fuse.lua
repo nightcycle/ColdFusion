@@ -41,6 +41,11 @@ function Fuse:_new(key)
 				local state = newThing
 				self._Maid:GiveTask(state)
 				return state
+			elseif key == "fuse" then
+				self._Maid:GiveTask(newThing)
+				return newThing
+			else
+				error("Could not find appropriate returnable for "..tostring(key))
 			end
 		end
 	})

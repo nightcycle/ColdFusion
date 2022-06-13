@@ -25,45 +25,6 @@ local Abstract = {}
 Abstract.__index = Abstract
 local WEAK_KEYS_METATABLE = {__mode = "k"}
 
---[[
-	@startuml
-	!theme crt-amber
-	class State {
-		+ type: string,
-		+ kind: string,
-		+ dependentSet: weakTable,
-		- _Maid: Maid,
-		- _signal: Event,
-		- _value: any | nil,
-		- _valueTypes: [string] | nil,
-		- _connections: weakTable,
-		- _destroyed: boolean,
-		- _cleanUp: boolean, --whether it  cleans up old value when changing it
-		- _event = Event | nil,
-		- _rate = number,
-		- _player = Player | nil,
-		- _id = string,
-		- _lastFire = number,
-		+ getRemoteEvent(remoteName: string): RemoteEvent
-		+ Destroy()
-		+ Get(asDependency: boolean | nil)
-		+ Set(): any | nil
-		+ Connect(): self, Event
-		- _SetValue(val: any | nil)
-		+ CleanUp(): self
-		- _Ping()
-		- _Fire()
-		+ Transmit(remoteName: string, id: string | nil, player: Player, rate: number | nil): self
-		+ Receive(remoteName: string, id: string | nil, player: Player): self
-		+ Tween(tweenDuration: number | nil, easingStyle: EnumItem | nil, easingDirection: EnumItem | nil): TweenState
-		+ Spring(speed: number, damping: number): SpringState
-		+ Update(...): self
-		+ Type(typeName1, typeName2 | nil, typeName3 | nil, ...): self
-		+ new(kind: typeName, value: any): State
-	}
-	@enduml
-]]--
-
 function Abstract.getRemoteEvent(remoteName)
 	if runService:IsClient() then
 		return remotes:WaitForChild(remoteName)
@@ -78,7 +39,18 @@ function Abstract.getRemoteEvent(remoteName)
 	end
 end
 
+function Abstract:Lock() --makes it undestroyable
+	self._locked = true
+	return self
+end
+
+function Abstract:Unlock()
+	self._locked = false
+	return self
+end
+
 function Abstract:Destroy()
+	if self._locked == true then return end
 	if self._destroyed == true then return end
 	self._destroyed = true
 	if self._cleanUp == true then
@@ -136,14 +108,13 @@ function Abstract:CleanUp()
 end
 
 function Abstract:_Ping()
-	local event = self.getRemoteEvent(self._transmitName..tostring(self._transmitId or ""))
+	local event = self._event
 	if runService:IsClient() then
 		event:FireServer()
 	else
 		event:FireClient(self._player)
 	end
 end
-
 
 function Abstract:IsDeep()
 	self._isDeep = true
@@ -157,7 +128,7 @@ function Abstract:_Fire()
 			return
 		end
 		self._lastFire = t
-		local value = self._state:get()
+		local value = self:Get()
 		if runService:IsServer() then
 			if self._player then
 				self._event:FireClient(self._player, self._id, value)
@@ -170,10 +141,10 @@ function Abstract:_Fire()
 	end
 end
 
-function Abstract:Transmit(remoteName: string, id: string | nil, player: Player, rate: number | nil)
+function Abstract:Transmit(remoteName: string, player: Player, id: string | nil, rate: number | nil)
 	self._event = self.getRemoteEvent(remoteName)
-	self._rate = rate
-	self._id = id
+	self._rate = rate or 30
+	self._id = id or ""
 	self._player = player
 
 	if runService:IsClient() then
@@ -193,9 +164,9 @@ function Abstract:Transmit(remoteName: string, id: string | nil, player: Player,
 	return self
 end
 
-function Abstract:Receive(remoteName: string, id: string | nil, player: Player)
+function Abstract:Receive(remoteName: string, player: Player, id: string | nil)
 	self._event = self.getRemoteEvent(remoteName)
-	self._id = id
+	self._id = id or ""
 	self._player = player
 	if runService:IsClient() then
 		self._Maid:GiveTask(self._event.OnClientEvent:Connect(function(stateId, newVal)
@@ -218,14 +189,14 @@ function Abstract:Tween(duration, easingStyle, easingDirection)
 	local tween = require(animation:WaitForChild("Tween"))
 	local tweenParams = TweenInfo.new(duration or 0.3, easingStyle or Enum.EasingStyle.Quad, easingDirection or Enum.EasingDirection.InOut)
 	local tweenState = tween(self, tweenParams)
-	tweenState._Maid:GiveTask(self)
+	self._Maid:GiveTask(tweenState)
 	return tweenState
 end
 
 function Abstract:Spring(speed, damping)
 	local spring = require(animation:WaitForChild("Spring"))
 	local springState = spring(self, speed, damping)
-	springState._Maid:GiveTask(self)
+	self._Maid:GiveTask(springState)
 	return springState
 end
 
@@ -255,6 +226,7 @@ function Abstract.new(kind: string, initalValue: any)
 		_valueTypes = nil,
 		_connections = {},
 		_destroyed = false,
+		_locked = false,
 		_cleanUp = false, --whether it  cleans up old value when changing it
 		_event = nil,
 		_rate = 30,

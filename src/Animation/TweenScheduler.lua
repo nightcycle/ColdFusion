@@ -44,23 +44,27 @@ local function updateAllTweens()
 	local now = os.clock()
 	-- FIXME: Typed Luau doesn't understand this loop yet
 	for tween: Tween in pairs(allTweens :: any) do
-		local currentTime = now - tween._currentTweenStartTime
+		if tween._destroyed == false then
+			local currentTime = now - tween._currentTweenStartTime
 
-		if currentTime > tween._currentTweenDuration then
-			if tween._currentTweenInfo.Reverses then
-				tween:_SetValue(tween._prevValue)
+			if currentTime > tween._currentTweenDuration then
+				if tween._currentTweenInfo.Reverses then
+					tween:_SetValue(tween._prevValue)
+				else
+					tween:_SetValue(tween._nextValue)
+				end
+				tween._currentlyAnimating = false
+				updateAll(tween)
+				TweenScheduler.remove(tween)
 			else
-				tween:_SetValue(tween._nextValue)
+				local ratio = getTweenRatio(tween._currentTweenInfo, currentTime)
+				local currentValue = lerpType(tween._prevValue, tween._nextValue, ratio)
+				tween:_SetValue(currentValue)
+				tween._currentlyAnimating = true
+				updateAll(tween)
 			end
-			tween._currentlyAnimating = false
-			updateAll(tween)
-			TweenScheduler.remove(tween)
 		else
-			local ratio = getTweenRatio(tween._currentTweenInfo, currentTime)
-			local currentValue = lerpType(tween._prevValue, tween._nextValue, ratio)
-			tween:_SetValue(currentValue)
-			tween._currentlyAnimating = true
-			updateAll(tween)
+			TweenScheduler.remove(tween)
 		end
 	end
 end
