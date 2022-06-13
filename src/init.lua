@@ -3,7 +3,6 @@ local Computed = require(script:WaitForChild("State"):WaitForChild("Computed"))
 local Property = require(script:WaitForChild("State"):WaitForChild("Property"))
 local Attribute = require(script:WaitForChild("State"):WaitForChild("Attribute"))
 local Signal = require(script:WaitForChild("State"):WaitForChild("Signal"))
-local Table = require(script:WaitForChild("State"):WaitForChild("Table"))
 local OnChanged = require(script:WaitForChild("Instances"):WaitForChild("OnChanged"))
 local Children = require(script:WaitForChild("Instances"):WaitForChild("Children"))
 local Event = require(script:WaitForChild("Instances"):WaitForChild("Event"))
@@ -16,7 +15,6 @@ local Fuse = require(script:WaitForChild("Instances"):WaitForChild("Fuse"))
 	@startuml
 	!theme crt-amber
 	!include State/Value.lua
-	!include State/Table.lua
 	!include State/Signal.lua
 	!include State/Property.lua
 	!include State/Computed.lua
@@ -31,7 +29,6 @@ local Fuse = require(script:WaitForChild("Instances"):WaitForChild("Fuse"))
 		Signal: SignalState
 		Computed: ComputedState
 		Property: PropertyState
-		Table: Table
 		State(...): ValueState | AttributeState | SignalState | ComputedState | PropertyState | TableState
 	}
 	@enduml
@@ -47,7 +44,6 @@ return {
 	Signal = Signal,
 	Property = Property,
 	Computed = Computed,
-	Table = Table,
 	Children = Children,
 	Event = Event,
 	OnChanged = OnChanged,

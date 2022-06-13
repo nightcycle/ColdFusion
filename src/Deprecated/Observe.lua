@@ -22,7 +22,7 @@ local strongRefs: Set<Types.Observe> = {}
 --[[
 	Called when the watched state changes value.
 ]]
-function class:update(): boolean
+function class:_update(): boolean
 	for _, callback in pairs(self._changeListeners) do
 		task.spawn(callback)
 	end

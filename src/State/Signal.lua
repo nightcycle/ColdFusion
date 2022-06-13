@@ -32,11 +32,22 @@ function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	if type(self._value) == "table" and self._value.Get ~= nil then
-		return self._value:Get()
+
+	if self._value == nil then
+		return self:_GetAlt()
 	else
-		return self._value
+		if type(self._value) == "table" and self._value.type == "State" then
+			local val = self._value:Get()
+			if val == nil then
+				return self:_GetAlt()	
+			else
+				return val
+			end
+		else
+			return self._value
+		end
 	end
+
 end
 
 local function Signal(eventOrEventState, initialValue)

@@ -97,7 +97,7 @@ function class:Destroy(destroyValue: boolean)
 end
 
 
-function class:update(): boolean
+function class:_update(): boolean
 	self:fire()
 	return false
 end

@@ -42,14 +42,18 @@ function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	return self._value
+	if self._value == nil then
+		return self:_GetAlt()
+	else
+		return self._value
+	end
 end
 
 --[[
 	Recalculates this Computed's cached value and dependencies.
 	Returns true if it changed, or false if it's identical.
 ]]
-function class:update(): boolean
+function class:_update(): boolean
 	if self._destroyed ~= false then return end
 	-- remove this object from its dependencies' dependent sets
 	for dependency in pairs(self.dependencySet) do
@@ -57,7 +61,7 @@ function class:update(): boolean
 			dependency.dependentSet[self] = nil
 		else
 			self.dependencySet[dependency] = nil
-		end	
+		end
 	end
 
 	-- we need to create a new, empty dependency set to capture dependencies
@@ -70,17 +74,19 @@ function class:update(): boolean
 	local ok, newValue = captureDependencies(self.dependencySet, self._callback)
 
 	if ok then
-		local oldValue = self._value
+		local oldValue = self._copy
 		if self._SetValue then
+			local isChanged = self:_IsValueChanged(newValue)
+			-- print("IsChanged", isChanged, "With", oldValue, "vs", newValue)
 			self:_SetValue(newValue)
 			-- add this object to the dependencies' dependent sets
 			for dependency in pairs(self.dependencySet) do
 				dependency.dependentSet[self] = true
 			end
-			if oldValue ~= newValue then
+			if isChanged then
 				updateAll(self)
 			end
-			return oldValue ~= newValue
+			return isChanged
 		end
 	else
 		-- this needs to be non-fatal, because otherwise it'd disrupt the
@@ -137,7 +143,7 @@ local function Computed<T>(...: () -> T)
 	end
 
 	initDependency(self)
-	self:update()
+	self:_update()
 
 	return self
 end

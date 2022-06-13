@@ -36,10 +36,6 @@ return function ()
 			local Interface = require(script.Parent)
 			expect(Interface.Computed).never.to.equal(nil)
 		end)
-		it("should return Table", function()
-			local Interface = require(script.Parent)
-			expect(Interface.Table).never.to.equal(nil)
-		end)
 		it("should return State", function()
 			local Interface = require(script.Parent)
 			expect(Interface.State).never.to.equal(nil)
@@ -317,77 +313,5 @@ return function ()
 			stepSignal:Destroy()
 		end)
 	end)
-	describe("Table", function()
-		it("should boot", function()
-			local Table = require(script.Parent.State.Table)
-			expect(Table).to.be.ok()
-		end)
-		it("should build", function()
-			local Table = require(script.Parent.State.Table)
-			local newTab = Table({
-				Potato = 3,
-			})
-			newTab:Destroy()
-		end)
-		it("should be initially indexable", function()
-			local Table = require(script.Parent.State.Table)
-			local newTab = Table({
-				Potato = 3,
-			})
-			expect(newTab.Potato:Get()).to.equal(3)
-			newTab:Destroy()
-		end)
-		it("should be updateable", function()
-			local Table = require(script.Parent.State.Table)
-			local newTab = Table({
-				Potato = 3,
-			})
-			newTab.Potato = 4
-			expect(newTab.Potato:Get()).to.equal(4)
-			newTab:Destroy()
-		end)
-		it("should be initially state indexable", function()
-			local Table = require(script.Parent.State.Table)
-			local Value = require(script.Parent.State.Value)
-			local newTab = Table({
-				Potato = Value(3),
-			})
-			expect(newTab.Potato:Get()).to.equal(3)
-			newTab:Destroy()
-		end)
-		it("should be swappable", function()
-			local Table = require(script.Parent.State.Table)
-			local Value = require(script.Parent.State.Value)
-			local newTab = Table({
-				Potato = Value(3),
-			})
-			local potatoReference = newTab.Potato
-			newTab.Potato = Value(5)
-			expect(potatoReference:Get()).to.equal(5)
-			newTab:Destroy()
-		end)
-		it("should be computable", function()
-			local Table = require(script.Parent.State.Table)
-			local Value = require(script.Parent.State.Value)
-			local Computed = require(script.Parent.State.Computed)
-			local truePotato = Value(3)
-			local newTab = Table({
-				Potato = truePotato,
-			})
-			local Computation1 = Computed(newTab.Potato, function(potato)
-				return potato
-			end)
-			local Computation2 = Computed(Computation1, function(comp1)
-				return comp1 + 2
-			end)
-			truePotato:Set(2)
-			expect(Computation1:Get()).to.equal(2)
-			expect(Computation2:Get()).to.equal(4)
-			Computation1:Destroy()
-			Computation2:Destroy()
-			truePotato:Destroy()
-			newTab:Destroy()
-		end)
-	end)
-
+	
 end

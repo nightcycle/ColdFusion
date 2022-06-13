@@ -47,7 +47,11 @@ function class:Get(asDependency: boolean?): any
 	if asDependency ~= false then
 		useDependency(self)
 	end
-	return self._value
+	if self._value == nil then
+		return self:_GetAlt()
+	else
+		return self._value
+	end
 end
 
 local function Attribute(instOrState, attrName: string)

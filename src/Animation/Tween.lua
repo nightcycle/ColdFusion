@@ -39,7 +39,7 @@ end
 	Called when the goal state changes value; this will initiate a new tween.
 	Returns false as the current value doesn't change right away.
 ]]
-function class:update(): boolean
+function class:_update(): boolean
 	local goalValue = self._goalState:Get(false)
 
 	-- if the goal hasn't changed, then this is a TweenInfo change.

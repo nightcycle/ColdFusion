@@ -87,7 +87,7 @@ local function updateAll(ancestor: PubTypes.Dependency)
 				needsUpdateSet[member] = nil
 
 				--FUTURE: should this guard against errors?
-				local didChange = member:update()
+				local didChange = member:_update()
 
 				-- add the dependents of the member for processing
 				-- optimisation: if nothing changed, then we don't need to add these

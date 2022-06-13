@@ -92,11 +92,6 @@ export type Computed<T> = StateObject<T> & Dependent & {
 	-- kind: "Computed" (add this when Luau supports singleton types)
 }
 
--- A state object whose value is derived from other objects using a callback.
-export type ComputedPairs<K, V> = StateObject<{[K]: V}> & Dependent & {
-	-- kind: "ComputedPairs" (add this when Luau supports singleton types)
-}
-
 -- A state object which follows another state object using tweens.
 export type Tween<T> = StateObject<T> & Dependent & {
 	-- kind: "Tween" (add this when Luau supports singleton types)

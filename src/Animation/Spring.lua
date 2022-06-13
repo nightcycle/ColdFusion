@@ -94,7 +94,7 @@ end
 	Called when the goal state changes value, or when the speed or damping has
 	changed.
 ]]
-function class:update(): boolean
+function class:_update(): boolean
 	local goalValue = self._goalState:Get(false)
 
 	-- figure out if this was a goal change or a speed/damping change
@@ -209,7 +209,7 @@ local function Spring<T>(
 	initDependency(self)
 	-- add this object to the goal state's dependent set
 	goalState.dependentSet[self] = true
-	self:update()
+	self:_update()
 
 	return self
 end

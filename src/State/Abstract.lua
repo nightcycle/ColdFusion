@@ -82,20 +82,115 @@ function Abstract:Connect(func)
 	return self
 end
 
+function Abstract:Else(valOrState)
+	self._alt = valOrState
+	return self
+end
+
+function Abstract:_IsValueChanged(val)
+
+	-- print("\nComparing values", self._copy, val)
+
+	if typeof(self._copy) == "table" then
+		if self._copy.type == "State" then
+			local result = self._copy:_IsValueChanged(val)
+			-- print("A", result)
+			return result
+		else
+			local traveledTables = {}
+			local function deepCompare(t1, t2)
+				traveledTables[t1] = traveledTables[t1] or {}
+				traveledTables[t1][t2] = true
+
+				traveledTables[t2] = traveledTables[t2] or {}
+				traveledTables[t2][t1] = true
+				for k, v1 in pairs(t1) do
+					local v2 = t2[k]
+					local vTab
+					if v2 ~= v1 then
+						return true
+					elseif typeof(v2) == "table" then
+						local isUnsafe = (traveledTables[v2] or {})[v1] or (traveledTables[v1] or {})[v2]
+						if not isUnsafe then
+							if v1.type == "State" and v2.type == v1.type then
+								local isChanged = v1:_IsValueChanged(v2:Get())
+								if isChanged then
+									return true
+								end
+							else
+								local isChanged = deepCompare(v1, v2)
+								if isChanged then
+									return true
+								end
+							end
+						end
+					end
+				end
+				return false
+			end
+			local result = deepCompare(val, self._copy)
+			-- print("B", result)
+			return result
+		end
+	else
+		-- print("D", self._copy ~= val)
+		return self._copy ~= val
+	end
+end
+
+function Abstract:_IsValueEqual(val)
+	return not self:_IsValueChanged(val)
+end
+
+function Abstract:_GetAlt()
+	if typeof(self._alt) == "table" and self._alt.type == "State" then
+		return self._alt:Get()
+	else
+		return self._alt
+	end
+end
+
+function Abstract._deepCopy(tabl)
+	if typeof(tabl) ~= "table" then return tabl end
+	local registry = {}
+	local function deepCopy(ref)
+		if registry[ref] then return registry[ref] end
+		local newTabl = {}
+		for k, v in pairs(ref) do
+			if typeof(v) == "table" then
+				newTabl[k] = deepCopy(v)
+			else
+				newTabl[k] = v
+			end
+		end
+		registry[ref] = newTabl
+		return newTabl
+	end
+	return deepCopy(tabl)
+end
+
+function Abstract:_GetOldValue()
+	local oldVal = self._value
+	if typeof(oldVal) == "table" then
+		if not oldVal.type == "state" then
+			oldVal = self._deepCopy(oldVal)
+		end
+	end
+	return oldVal
+end
+
 function Abstract:_SetValue(val)
 	if self._valueTypes and not self._valueTypes[typeof(val)] then
 		error(self.kind..self.type.." cannot be set to "..tostring(typeof(val)))
 	end
-	local oldVal = self._value
-	-- self:_SetValue(val)
+	local oldValue = self._copy
+	self._copy = self._deepCopy(val)
 	self._value = val
 	for i, connection in ipairs(self._connections) do
-		-- if connection then
-		connection(val, oldVal)
-		-- end
+		connection(val, oldValue)
 	end
 	if self._cleanUp then
-		local oldType = typeof(oldVal)
+		local oldType = typeof(oldValue)
 		if (oldType == "table" and oldType.Destroy) or oldType == "Instance" then
 			oldType:Destroy()
 		end
@@ -213,7 +308,7 @@ function Abstract:Type(...)
 	return self
 end
 
-function Abstract:update(...) return self:Update(...) end
+function Abstract:_update(...) return self:Update(...) end
 
 function Abstract.new(kind: string, initalValue: any)
 	local self = setmetatable({
@@ -224,6 +319,8 @@ function Abstract.new(kind: string, initalValue: any)
 		_signal = signalConstructor.new(),
 		_value = initalValue,
 		_valueTypes = nil,
+		_copy = Abstract._deepCopy(initalValue),
+		_alt = nil,
 		_connections = {},
 		_destroyed = false,
 		_locked = false,
