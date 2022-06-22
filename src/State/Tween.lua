@@ -60,9 +60,9 @@ function Tween.new(goal: State, duration: number | State | nil, easingStyle: str
 						if self:_Set(curGoal) then
 							self:_UpdateDependants()
 						end
-					else
+					elseif prevGoal ~= nil then
 						local a = math.Algebra.ease(alpha, style, dir)
-						local s = math.Algebra.lerp(curVal, prevGoal, a)
+						local s = math.Algebra.lerp(if curVal == nil then prevGoal else curVal, prevGoal, a)
 						local final = math.Algebra.lerp(s, curGoal, a)
 						-- print("S", s, "V", final, "A", a)
 						-- print("Final", final)
