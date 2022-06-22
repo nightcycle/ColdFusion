@@ -30,7 +30,7 @@ function Fuse.wrap(fuse, func)
 		if typeof(result) == "function" then
 			return fuse.wrap(fuse, result)
 		else
-			if result.Destroy then
+			if result and result.Destroy then
 				local maid = rawget(fuse, "_Maid")
 				maid:GiveTask(result)
 			end
@@ -42,15 +42,7 @@ function Fuse.wrap(fuse, func)
 	return wrapper
 end
 
-function Fuse:__index(k)
-	if Fuse[k] then
-		return Fuse[k]
-	else
-		return self.wrap(self, rawget(self, "_Interface")[k])
-	end
-end
-
-return function (maid: Maid | nil)
+function new(maid: Maid | nil)
 	local interface = Interface()
 	interface.fuse = Fuse.new
 	maid = maid or Maid.new()
@@ -63,3 +55,20 @@ return function (maid: Maid | nil)
 
 	return self
 end
+
+function Fuse:__index(k)
+	if Fuse[k] then
+		return Fuse[k]
+	else
+		if k == "Children" then
+			return rawget(self, "_Interface")[k]
+		elseif k == "fuse" then
+			return self.wrap(self, new)
+		else
+			return self.wrap(self, rawget(self, "_Interface")[k])
+		end
+	end
+end
+
+
+return new

@@ -15,6 +15,7 @@ local Event = require(script.Parent:WaitForChild("Event"))
 local Children = require(script.Parent:WaitForChild("Children"))
 
 return function(instOrState, params)
+	-- print("INST", params)
 	local function mount(inst: Instance)
 		if not inst then return end
 		local maid = Maid.new()
@@ -39,42 +40,35 @@ return function(instOrState, params)
 			if typeof(k) == "string" then
 				mountProperty(k, v)
 			elseif typeof(k) == "table" then
-				if k.__type == "Event" then
-					local eventName = k.Value
-					maid:GiveTask(inst[eventName]:Connect(function(...)
-						v(...)
-					end))
-				elseif k.__type == "Children" then
-					local knownTables = {}
-					local function parentTable(tabl)
-						if knownTables[tabl] then return end
-						knownTables[tabl] = true
-						for i, child in ipairs(tabl) do
-							if typeof(child) == "Instance" then
+				if k.IsA then
+					if k:IsA("Event") then
+						local eventName = k.Value
+						maid:GiveTask(inst[eventName]:Connect(function(...)
+							v(...)
+						end))
+					elseif k:IsA("Children") then
+						local function addChildren(list: {Instance})
+							for i, child in pairs(list) do
 								child.Parent = inst
-							elseif typeof(child) == "table" then
-								if child.IsA and child:IsA("State") then
-									child:Connect(function(cur)
-										parentTable(cur)
-									end)
-									parentTable(child:Get())
-								else
-									parentTable(child)
-								end
-							else
-								error("Bad child")
 							end
 						end
+						if v.IsA and v:IsA("State") then
+							maid:GiveTask(v:Connect(function(cur)
+								addChildren(cur or {})
+							end))
+							addChildren(v:Get())
+						else
+							addChildren(v)
+						end
+					elseif k:IsA("Changed") then
+						local propName = k.Value
+						local propState = Property(inst, propName)
+						maid:GiveTask(propState)
+						maid:GiveTask(propState:Connect(function(val)
+							v(val)
+						end))
 					end
-					parentTable(v)
-				elseif k.__type == "Changed" then
-					local propName = k.Value
-					local propState = Property(inst, propName)
-					maid:GiveTask(propState)
-					propState:Connect(function(val)
-						v(val)
-					end)
-				elseif k.__type == nil then
+				else
 					error("Table provided as property name, you may have forgotten to use a Children object.")
 				end
 			end

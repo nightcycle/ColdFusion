@@ -8,7 +8,14 @@ Value.__index = Value
 Value.__type = "Value"
 
 function Value:Set(val: any | State)
-	self:_Set(val)
+	if self:_Set(val) then
+		self:_UpdateDependants()
+	end
+end
+
+function Value:Update(func)
+	assert(typeof(func) == "function", "Bad function")
+	self:Set(func(self:Get()))
 end
 
 function Value.new(...)

@@ -21,15 +21,23 @@ type Maid = {
 local Deprecated = {}
 Deprecated.__index = Deprecated
 
-function Deprecated:Lock(): State --makes it undestroyable
+function Deprecated:Lock(): State
 	return self
 end
 
-function Deprecated:Unlock(): State --makes it destroyable
+function Deprecated:Unlock(): State
 	return self
 end
 
-function Deprecated:IsDeep(): State --tells state that the stored value is a state
+function Deprecated:IsDeep(): State
+	return self
+end
+
+function Deprecated:_Ping(): State
+	return self
+end
+
+function Deprecated:Type(...): State
 	return self
 end
 

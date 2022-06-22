@@ -5,8 +5,7 @@ export type State = State.State
 
 local Computed = {}
 Computed.__index = Computed
-Computed.__type = "Value"
-
+Computed.__type = "Computed"
 
 function Computed.new(...)
 
@@ -28,8 +27,7 @@ function Computed.new(...)
 	local inst = self.Instance
 	local updateEvent = inst:FindFirstChild("Update")
 
-	maid:GiveTask(updateEvent.Event:Connect(function()
-		-- print("Compute event", self.Id)
+	local function solve()
 		local vals = {}
 		for i, state in ipairs(states) do
 			if rawget(state, "Alive") == true then
@@ -37,12 +35,15 @@ function Computed.new(...)
 			end
 		end
 		local val = callback(table.unpack(vals))
-		-- print("Compute result", val, self.Id)
-		self:_Set(val)
+		-- print("Update Val", val)
+		if self:_Set(val) then
+			self:_UpdateDependants()
+		end
 		return val
-	end))
-	updateEvent:Fire()
+	end
 
+	maid:GiveTask(updateEvent.Event:Connect(solve))
+	solve()
 	return self
 end
 setmetatable(Computed, State)

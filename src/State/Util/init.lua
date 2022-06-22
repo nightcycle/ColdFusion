@@ -36,17 +36,91 @@ function getRemoteEvent(remoteName)
 	end
 end
 
-
-function Util:_Ping(): nil --gets value from server
-	if not self.Alive then return end
+function Util:_Fire(remoteName: string, id: string | nil, player: Player | nil): nil --fires event to server / client
+	local remFunction = getRemoteEvent(remoteName)
+	if RunService:IsServer() then
+		if player then
+			remFunction:FireClient(player, id, self:Get())
+		else
+			remFunction:FireAllClients(id, self:Get())
+		end
+	else
+		remFunction:FireServer(id, self:Get())
+	end
 end
 
-function Util:_Fire(): nil --fires event to server / client
+function Util:Else(alt: any | State): State
 	if not self.Alive then return end
+	local Computed = require(script.Parent:WaitForChild("Computed"))
+	local compState = Computed(self, function(v)
+		if v ~= nil then
+			return v
+		else
+			return alt
+		end
+	end)
+	compState:Bind(self)
+	self._Maid:GiveTask(compState)
+	return compState
 end
 
-function Util:Else(val: any | State): State
+function Util:Transmit(remoteName: string, id: string | nil, rate: number | nil, player: Player | nil): State --when value is changed it replicates
 	if not self.Alive then return end
+
+	local reload = if rate then 1/rate else 0
+	local lastFire = 0
+	self:Connect(function(cur, prev)
+		local offset = tick() - lastFire
+		if offset < reload then return end
+		lastFire = tick()
+		self:_Fire(remoteName, id, player)
+	end)
+	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
+	if RunService:IsServer() then
+		self._Maid:GiveTask(pingRemFunction.OnServerEvent:Connect(function(plr: Player, pId)
+			if (plr == player or not player) and pId == id then
+				self:_Fire(remoteName, id, player)
+			end
+		end))
+	else
+		self._Maid:GiveTask(pingRemFunction.OnClientEvent:Connect(function(pId)
+			if pId == id then
+				self:_Fire(remoteName, id, player)
+			end
+		end))
+	end
+	self:_Fire(remoteName, id, player)
+
+	return self
+end
+
+function Util:Receive(remoteName: string, id: string | nil, player: Player | nil): State
+	if not self.Alive then return end
+	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
+	local remFunction = getRemoteEvent(remoteName)
+	if RunService:IsServer() then
+		self._Maid:GiveTask(remFunction.OnServerEvent:Connect(function(plr: Player, pId, val)
+			if (plr == player or not player) and pId == id then
+				if self:_Set(val) then
+					self:_UpdateDependants()
+				end
+			end
+		end))
+		if player then
+			pingRemFunction:FireClient(player, id)
+		else
+			pingRemFunction:FireAllClients(player, id)
+		end
+	else
+		self._Maid:GiveTask(remFunction.OnClientEvent:Connect(function(pId, val)
+			if pId == id then
+				if self:_Set(val) then
+					self:_UpdateDependants()
+				end
+			end
+		end))
+		pingRemFunction:FireServer(id)
+	end
 end
 
 function Util:CleanUp(): State --sets whether to attempt to fire destroy on the instance when state is destroyed
@@ -66,16 +140,8 @@ end
 
 function Util:Delay(val: number | State | nil): State --delays until a later point to avoid updating multiple times per heartbeat
 	if not self.Alive then return end
-	self.DelayAmount = val
+	rawset(self, "DelayAmount", val)
 	return self
-end
-
-function Util:Transmit(remoteName: string, player: Player | nil, id: string | nil, rate: number | nil): State --when value is changed it replicates
-	if not self.Alive then return end
-end
-
-function Util:Receive(remoteName: string, player: Player | nil, id: string | nil): State
-	if not self.Alive then return end
 end
 
 function Util:Tween(duration: number | State | nil, easingStyle: string | EnumItem | State | nil, easingDirection: string | EnumItem | State | nil): State
@@ -86,11 +152,6 @@ function Util:Tween(duration: number | State | nil, easingStyle: string | EnumIt
 	local tween = Tween(self, duration, easingStyle, easingDirection)
 	maid:GiveTask(tween)
 	return tween
-end
-
-function Util:Spring(speed: number, damping: number): State
-	if not self.Alive then return end
-
 end
 
 function Util:SetParent(parent: Instance): State --changes the parent of the instance
@@ -114,13 +175,23 @@ function Util:SetId(key): State --changes the name of the instance
 end
 
 
-function Util:IsA(className: string): boolean --gets if a type is valid
-	if not self.Alive then return false end
-	return true
-end
-
-function Util:Type(...) --assigns a list of valid types
-	if not self.Alive then return end
+function Util:IsA(className: string)
+	if className == "Isotope" then return true end
+	if self.__type == className then return true end
+	local checkList = {}
+	local function getClasses(tabl)
+		local meta = getmetatable(tabl)
+		if meta and checkList[meta] == nil then
+			checkList[meta] = true
+			if meta.__type == className then
+				return true
+			else
+				return getClasses(meta)
+			end
+		end
+		return false
+	end
+	return getClasses(self)
 end
 
 

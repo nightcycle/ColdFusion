@@ -1,9 +1,9 @@
 [package]
 name = "nightcycle/cold-fusion"
-description = "A modded version of Elttob's Fusion focused on general OOP usage across server and client"
+description = "A framework inspired by Elttob's Fusion allowing for chained states and explicit memory management"
 license = "MIT"
 authors = ["Elttob", "Nightcycle"]
-version = "2.0.0"
+version = "2.0.19"
 
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"

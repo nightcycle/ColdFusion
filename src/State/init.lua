@@ -10,9 +10,6 @@ local packages = package.Parent
 local Util = require(script:WaitForChild("Util"))
 local Maid = require(packages:WaitForChild("maid"))
 
-local StateFolder = ReplicatedStorage:FindFirstChild("ColdFusionStates") or Instance.new("Folder", ReplicatedStorage)
-StateFolder.Name = "ColdFusionStates"
-
 local State = {}
 State.__index = State
 State.__type = "State"
@@ -21,26 +18,6 @@ setmetatable(State, Util)
 function State:__newindex(k: any, v: any): any
 	error("You can't set properties of state: "..tostring(k)..","..tostring(v))
 end
-
-
-function isValueDifferent(prev: nil, val: nil | any | State)
-	if typeof(val) == "table" then
-		if val.IsA and val:IsA("State") then
-			return val:Get() ~= prev
-		else
-			local tablCopy = deepCopy(val)
-			local result = deepCompare(tablCopy, prev)
-			return result
-		end
-	else
-		return prev ~= val
-	end
-end
-
-function isValueEqual(prev: nil | any | State, val: nil | any | State)
-	return not isValueDifferent(prev, val)
-end
-
 
 function deepCompare(tabl1: {any}, tabl2: {any})
 	local traveledTables = {}
@@ -74,8 +51,37 @@ function deepCompare(tabl1: {any}, tabl2: {any})
 		end
 		return false
 	end
-	return not compareTable(tabl1, tabl2)
+	return compareTable(tabl1, tabl2)
 end
+
+function isValueDifferent(prev: nil | any | State, val: nil | any | State)
+	if typeof(val) == "table" then
+		local trueVal
+		local truePrev
+		if val.IsA and val:IsA("State") then
+			trueVal = val:Get()
+		else
+			trueVal = deepCopy(val)
+		end
+		if typeof(prev) == "table" then
+			if prev.IsA and prev:IsA("State") then
+				truePrev = prev:Get()
+			elseif getmetatable(val) ~= nil then
+				return prev ~= val
+			else
+				truePrev = deepCopy(prev)
+			end
+		end
+		return deepCompare(trueVal, truePrev)
+	else
+		return prev ~= val
+	end
+end
+
+function isValueEqual(prev: nil | any | State, val: nil | any | State)
+	return not isValueDifferent(prev, val)
+end
+
 
 function deepCopy(tabl)
 	if typeof(tabl) ~= "table" or tabl.type == "State" then return tabl end
@@ -97,16 +103,11 @@ function deepCopy(tabl)
 	return copyTable(tabl)
 end
 
-function State:_Update()
+function State:_UpdateDependants()
 	if not self.Alive then return end
 
 	local dependantsFolder = self.Dependants
 	if not dependantsFolder then return end
-
-	local myUpdate = self.Instance:FindFirstChild("Update")
-	if myUpdate then
-		myUpdate:Fire()
-	end
 
 	for i: number, objValue: ObjectValue in ipairs(dependantsFolder:GetChildren()) do
 		local state: Folder = objValue.Value
@@ -152,14 +153,14 @@ function State:Connect(func)
 	local inst = self.Instance
 	if not inst then return end
 
-	local updateEvent = inst:FindFirstChild("Update")
+	local connectEvent = inst:FindFirstChild("Connect")
 
-	if updateEvent then
+	if connectEvent then
 		local maid = self._Maid
 		if maid then
 			local signalMaid = Maid.new()
 			maid:GiveTask(signalMaid)
-			signalMaid:GiveTask(updateEvent.Event:Connect(function()
+			signalMaid:GiveTask(connectEvent.Event:Connect(function()
 				func(self.Value, self.Prev)
 			end))
 			return signalMaid
@@ -229,16 +230,25 @@ function State:Get(): any | nil --so that inherited states can still access this
 	return val
 end
 
-function State:_Set(val: any | State)
-	local prevVal = self:Get()
+function State:_Set(val: any | State): boolean --returns if a chance was made
+	local prevVal = self.Prev
 	local isDif = isValueDifferent(val, prevVal)
-	-- print("IsDif", isDif)
+	-- print("IsDif", isDif, "V", val, "P", prevVal)
 	if isDif then
-		-- print("Set", val)
-		rawset(self, "Prev", prevVal)
+		local newPrev = self:Get()
+		if typeof(newPrev) == "table" then
+			newPrev = deepCopy(newPrev)
+			rawset(self, "Prev", newPrev)
+		end
+		rawset(self, "Prev", newPrev)
 		rawset(self, "Value", val)
-		self:_Update()
+		local connectEvent = self.Instance:FindFirstChild("Connect")
+		if connectEvent then
+			connectEvent:Fire()
+		end
+		return true
 	end
+	return false
 end
 
 function State.new(value): State
@@ -252,6 +262,10 @@ function State.new(value): State
 	local UpdateEvent = Instance.new("BindableEvent", Inst)
 	UpdateEvent.Name = "Update"
 	maid:GiveTask(UpdateEvent)
+
+	local ConnectEvent = Instance.new("BindableEvent", Inst)
+	ConnectEvent.Name = "Connect"
+	maid:GiveTask(ConnectEvent)
 
 	local Dependencies = Instance.new("Folder", Inst)
 	Dependencies.Name = "Dependencies"
@@ -275,7 +289,9 @@ function State.new(value): State
 
 	if typeof(value) == "table" and value.IsA and value:IsA("State") then
 		maid:GiveTask(value:Connect(function(cur)
-			self:_Set(cur)
+			if self:_Set(cur) then
+				self:_UpdateDependants()
+			end
 		end))
 	end
 
@@ -298,11 +314,14 @@ function State.new(value): State
 			isScheduled = true
 			task.delay(delayAmount, function()
 				isScheduled = false
-				self:_Set(self:Get())
+				if self:_Set(self:Get()) then
+					self:_UpdateDependants()
+				end
 			end)
 		else
-			-- print("B")
-			self:_Set(self:Get())
+			if self:_Set(self:Get()) then
+				self:_UpdateDependants()
+			end
 		end
 	end))
 

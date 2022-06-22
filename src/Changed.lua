@@ -5,6 +5,10 @@ local Changed = {}
 Changed.__index = Changed
 Changed.__type = "Changed"
 
+function Changed:IsA(className: string)
+	return Changed.__type == className
+end
+
 function Changed.new(eventName: string)
 	local self = setmetatable({
 		Value = eventName,

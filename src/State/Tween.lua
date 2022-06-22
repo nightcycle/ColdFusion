@@ -57,14 +57,18 @@ function Tween.new(goal: State, duration: number | State | nil, easingStyle: str
 					if alpha >= 1 then
 						stepSignal:Disconnect()
 						-- print("Set to goal", curGoal)
-						self:_Set(curGoal)
+						if self:_Set(curGoal) then
+							self:_UpdateDependants()
+						end
 					else
 						local a = math.Algebra.ease(alpha, style, dir)
 						local s = math.Algebra.lerp(curVal, prevGoal, a)
 						local final = math.Algebra.lerp(s, curGoal, a)
 						-- print("S", s, "V", final, "A", a)
 						-- print("Final", final)
-						self:_Set(final)
+						if self:_Set(final) then
+							self:_UpdateDependants()
+						end
 					end
 				end
 	
