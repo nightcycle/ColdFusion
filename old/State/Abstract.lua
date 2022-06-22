@@ -151,19 +151,21 @@ function Abstract:_GetAlt()
 end
 
 function Abstract._deepCopy(tabl)
-	if typeof(tabl) ~= "table" then return tabl end
+	if typeof(tabl) ~= "table" or tabl.type == "State" then return tabl end
 	local registry = {}
 	local function deepCopy(ref)
 		if registry[ref] then return registry[ref] end
 		local newTabl = {}
+		registry[ref] = newTabl
 		for k, v in pairs(ref) do
 			if typeof(v) == "table" then
+				-- task.wait(1)
 				newTabl[k] = deepCopy(v)
 			else
 				newTabl[k] = v
 			end
 		end
-		registry[ref] = newTabl
+
 		return newTabl
 	end
 	return deepCopy(tabl)

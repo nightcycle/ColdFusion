@@ -1,91 +1,43 @@
---!nonstrict
 
---[[
-	Constructs and returns objects which can be used to model independent
-	reactive state.
-]]
-local runService = game:GetService("RunService")
+--!strict
+local State = require(script.Parent)
+export type State = State.State
 
--- Used to create a tunnel between client and server
-local src = script.Parent.Parent
-local packages = src.Parent
-local maidConstructor = require(packages:WaitForChild("maid"))
+local Attribute = {}
+Attribute.__index = Attribute
+Attribute.__type = "Attribute"
 
-local fusion = script.Parent.Parent
-local Types = require(fusion.Types)
-local useDependency = require(fusion.Dependencies.useDependency)
-local initDependency = require(fusion.Dependencies.initDependency)
-local updateAll = require(fusion.Dependencies.updateAll)
-local Value = require(fusion.State.Value)
+function Attribute.new(instOrState: Instance | State, attributeName: string)
 
-local Abstract = require(script.Parent:WaitForChild("Abstract"))
-local class = {}
-class.__index = class
-setmetatable(class, Abstract)
+	local self = State.new()
+	setmetatable(self, Attribute)
+	self.Instance.Name = Attribute.__type
 
-local WEAK_KEYS_METATABLE = {__mode = "k"}
-
---[[
-	@startuml
-	!theme crt-amber
-	!include Abstract.lua
-	class AttributeState {
-		+ new(inst: Instance | State, attributeName: string): AttributeState
-	}
-	State <|-- AttributeState
-	@enduml
-]]--
-
-
---[[
-	Returns the value currently stored in this State object.
-	The state object will be registered as a dependency unless `asDependency` is
-	false.
-]]
-function class:Get(asDependency: boolean?): any
-	-- print("Getting attribute", self)
-	if asDependency ~= false then
-		useDependency(self)
+	local maid = self._Maid
+	local function connectAttribute(inst: Instance)
+		maid["_attribute"..attributeName] = nil
+		if not inst then return end
+		maid["_attribute"..attributeName] = inst:GetAttributeChangedSignal(attributeName):Connect(function()
+			self:_Set(inst:GetAttribute(attributeName))
+		end)
 	end
-	if self._value == nil then
-		return self:_GetAlt()
-	else
-		return self._value
-	end
-end
-
-local function Attribute(instOrState, attrName: string)
-	local instValue = if type(instOrState) == "table" then instOrState else Value(instOrState)
-	local self = Abstract.new("Attribute", if instValue:Get() then instValue:Get():GetAttribute(attrName) else nil)
-	setmetatable(self, class)
-	local function set(newValue: any)
-		-- if the value hasn't changed, no need to perform extra work here
-		if self._value == newValue then
-			return
-		end
-	
-		self:_SetValue(newValue)
-		-- update any derived state objects if necessary
-		updateAll(self)
-	end
-
-	local function init()
-
-		local inst = instValue:Get()
-		if inst then
-			self._Maid.Event = inst:GetAttributeChangedSignal(attrName):Connect(function()
-				set(inst:GetAttribute(attrName))
+	if typeof(instOrState) == "Instance" then
+		
+	elseif typeof(instOrState) == "table" then
+		local tabl: table = instOrState
+		if tabl.IsA and tabl:IsA("State") then
+			local state:State = tabl
+			state:Connect(function(cur)
+				connectAttribute(cur)
 			end)
-			set(inst:GetAttribute(attrName))
+			connectAttribute(state:Get())
+		else
+			error("Bad inst state")
 		end
+	else
+		error("Bad inst")
 	end
-	
-	self._Maid:GiveTask(instValue:Connect(init))
-	init()
-
-	initDependency(self)
-
-	return self
 end
+setmetatable(Attribute, State)
 
-return Attribute
+return Attribute.new
