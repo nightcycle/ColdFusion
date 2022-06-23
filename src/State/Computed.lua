@@ -18,7 +18,8 @@ function Computed.new(...)
 	local params = {...}
 	local callback = params[#params]
 	local states = {}
-	for i=1, math.max(#params - 1, 0) do
+	local stateCount = math.max(#params - 1, 0)
+	for i=1, stateCount do
 		local state = params[i]
 		states[i] = state
 		self:Bind(state)
@@ -34,7 +35,7 @@ function Computed.new(...)
 				vals[i] = state:Get()
 			end
 		end
-		local val = callback(table.unpack(vals))
+		local val = callback(table.unpack(vals, 1, stateCount))
 		-- print("Update Val", val)
 		if self:_Set(val) then
 			self:_UpdateDependants()
