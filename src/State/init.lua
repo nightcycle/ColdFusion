@@ -20,6 +20,19 @@ function State:__newindex(k: any, v: any): any
 end
 
 function deepCompare(tabl1: {any}, tabl2: {any})
+	if tabl1 == nil then
+		if tabl2 == nil then
+			return false
+		else
+			return true
+		end
+	elseif tabl2 == nil then
+		if tabl1 == nil then
+			return false
+		else
+			return true
+		end
+	end
 	local traveledTables = {}
 	local function compareTable(t1, t2)
 		traveledTables[t1] = traveledTables[t1] or {}
