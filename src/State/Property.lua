@@ -1,9 +1,10 @@
+--!strict
+
 local RunService = game:GetService("RunService")
 local package = script.Parent.Parent
 local packages = package.Parent
 
---!strict
-local Maid = require(packages:WaitForChild("maid"))
+local Maid = require(packages.Maid)
 local State = require(script.Parent)
 export type State = State.State
 

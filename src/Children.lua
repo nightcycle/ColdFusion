@@ -1,3 +1,5 @@
+--!strict
+
 local Children = {}
 Children.__index = Children
 Children.__type = "Children"

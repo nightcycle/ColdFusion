@@ -1,3 +1,5 @@
+--!strict
+
 local module = script.Parent
 local StateFolder = module:WaitForChild("State")
 local Mount = require(module:WaitForChild("Mount"))

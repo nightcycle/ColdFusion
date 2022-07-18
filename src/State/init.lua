@@ -1,25 +1,23 @@
-
 --!strict
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
-local RunService: RunService = game:GetService("RunService")
+local RunService = game:GetService("RunService")
 
 local package = script.Parent
 local packages = package.Parent
 
-local Util = require(script:WaitForChild("Util"))
-local Maid = require(packages:WaitForChild("maid"))
+local RemoteFolder = script
 
-local State = {}
+local Maid = require(packages.Maid)
+
+local State: {[any]: any} = {}
 State.__index = State
 State.__type = "State"
-setmetatable(State, Util)
 
 function State:__newindex(k: any, v: any): any
 	error("You can't set properties of state: "..tostring(k)..","..tostring(v))
 end
 
-function deepCompare(tabl1: {any}, tabl2: {any})
+function deepCompare(tabl1: {[any]:any}, tabl2: {[any]:any})
 	if tabl1 == nil then
 		if tabl2 == nil then
 			return false
@@ -91,11 +89,6 @@ function isValueDifferent(prev: nil | any | State, val: nil | any | State)
 	end
 end
 
-function isValueEqual(prev: nil | any | State, val: nil | any | State)
-	return not isValueDifferent(prev, val)
-end
-
-
 function deepCopy(tabl)
 	if typeof(tabl) ~= "table" or tabl.type == "State" then return tabl end
 	local registry = {}
@@ -123,10 +116,11 @@ function State:_UpdateDependants()
 	if not dependantsFolder then return end
 
 	for i: number, objValue: ObjectValue in ipairs(dependantsFolder:GetChildren()) do
-		local state: Folder = objValue.Value
+		local state: Instance? = objValue.Value
+		assert(state ~= nil and state:IsA("Folder"))
 		if state then
-			local updateEvent = state:FindFirstChild("Update")
-			if updateEvent then
+			local updateEvent: Instance? = state:FindFirstChild("Update")
+			if updateEvent ~= nil and updateEvent:IsA("BindableEvent") then
 				-- print("Firing update event")
 				updateEvent:Fire()
 			end
@@ -142,13 +136,18 @@ function State:Bind(state: State): nil
 
 	local otherInst = rawget(state, "Instance")
 	if not otherInst then return end
+	assert(otherInst ~= nil and otherInst:IsA("Instance"))
 
 	local dependencies = self.Dependencies
 	if not dependencies then return end
 	
-	local objValue = Instance.new("ObjectValue", dependencies)
-	objValue.Name = rawget(state, "Id")
+	local objName: any? = rawget(state, "Id")
+	assert(objName ~= nil and typeof(objName) == "string")
+
+	local objValue = Instance.new("ObjectValue")
+	objValue.Name = objName
 	objValue.Value = otherInst
+	objValue.Parent = dependencies
 
 	local maid = self._Maid
 	if maid then
@@ -191,24 +190,23 @@ function State:_Dependant(state: State): nil
 	local dependants = self.Dependants
 	if not dependants then return end
 	
-	local objValue = Instance.new("ObjectValue", dependants)
+	local objValue = Instance.new("ObjectValue")
 	objValue.Name = rawget(state, "Id")
 	objValue.Value = otherInst
+	objValue.Parent = dependants
 
 	local maid = self._Maid
 	if maid then
 		maid:GiveTask(objValue)
 	end
+	return nil
 end
 
 function State:Destroy()
 	if not self.Alive then return end
-	-- print("Destroy A")
 	setmetatable(self, nil)
 	self.Alive = false
-
 	if self.Dependencies then
-		-- print("Clear from dependants")
 		for i, objValue in ipairs(self.Dependants:GetChildren()) do
 			local otherState = objValue.Value
 			if otherState then
@@ -223,16 +221,14 @@ function State:Destroy()
 			end
 		end
 	end
-	-- print("Destroying maid")
 	self._Maid:Destroy()
 
-	-- print("Wiping clean")
 	for k, _ in pairs(self) do
 		self[k] = nil
 	end
 end
 
-function State:Get(): any | nil --so that inherited states can still access this functionality
+function State:Get(): any? --so that inherited states can still access this functionality
 	if not self.Alive then return end
 	local val = self.Value
 	if typeof(val) == "table" then
@@ -264,7 +260,180 @@ function State:_Set(val: any | State): boolean --returns if a chance was made
 	return false
 end
 
-function State.new(value): State
+function getRemoteEvent(remoteName): RemoteEvent
+	if RunService:IsClient() then
+		return RemoteFolder:WaitForChild(remoteName)
+	else
+		if RemoteFolder:FindFirstChild(remoteName) then
+			return RemoteFolder:FindFirstChild(remoteName)
+		else
+			local newRemote = Instance.new("RemoteEvent")
+			newRemote.Name = remoteName
+			newRemote.Parent = RemoteFolder
+			return newRemote
+		end
+	end
+end
+
+function State:_Fire(remoteName: string, id: string?, player: Player?): nil --fires event to server / client
+	local remFunction = getRemoteEvent(remoteName)
+	if RunService:IsServer() then
+		if player then
+			remFunction:FireClient(player, id, self:Get())
+		else
+			remFunction:FireAllClients(id, self:Get())
+		end
+	else
+		remFunction:FireServer(id, self:Get())
+	end
+end
+
+function State:Else(alt: any | State): State
+	if not self.Alive then return end
+	local Computed = require(script.Computed)
+	local compState = Computed(self, function(v)
+		if v ~= nil then
+			return v
+		else
+			return alt
+		end
+	end)
+	compState:Bind(self)
+	self._Maid:GiveTask(compState)
+	return compState
+end
+
+function State:Transmit(remoteName: string, id: string?, rate: number?, player: Player?): State --when value is changed it replicates
+	if not self.Alive then return end
+
+	local reload = if rate then 1/rate else 0
+	local lastFire = 0
+	self:Connect(function(cur, prev)
+		local offset = tick() - lastFire
+		if offset < reload then return end
+		lastFire = tick()
+		self:_Fire(remoteName, id, player)
+	end)
+	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
+	if RunService:IsServer() then
+		self._Maid:GiveTask(pingRemFunction.OnServerEvent:Connect(function(plr: Player, pId)
+			if (plr == player or not player) and pId == id then
+				self:_Fire(remoteName, id, player)
+			end
+		end))
+	else
+		self._Maid:GiveTask(pingRemFunction.OnClientEvent:Connect(function(pId)
+			if pId == id then
+				self:_Fire(remoteName, id, player)
+			end
+		end))
+	end
+	self:_Fire(remoteName, id, player)
+
+	return self
+end
+
+function State:Receive(remoteName: string, id: string?, player: Player?): State
+	if not self.Alive then return end
+	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
+	local remFunction = getRemoteEvent(remoteName)
+	if RunService:IsServer() then
+		self._Maid:GiveTask(remFunction.OnServerEvent:Connect(function(plr: Player, pId, val)
+			if (plr == player or not player) and pId == id then
+				if self:_Set(val) then
+					self:_UpdateDependants()
+				end
+			end
+		end))
+		if player then
+			pingRemFunction:FireClient(player, id)
+		else
+			pingRemFunction:FireAllClients(player, id)
+		end
+	else
+		self._Maid:GiveTask(remFunction.OnClientEvent:Connect(function(pId, val)
+			if pId == id then
+				if self:_Set(val) then
+					self:_UpdateDependants()
+				end
+			end
+		end))
+		pingRemFunction:FireServer(id)
+	end
+end
+
+function State:CleanUp(): State --sets whether to attempt to fire destroy on the instance when state is destroyed
+	if not self.Alive then return end
+	local maid = self._Maid
+	if not maid then return end
+
+	maid:GiveTask(self:Connect(function(cur, prev)
+		if prev then
+			pcall(function()
+				prev:Destroy()
+			end)
+		end
+	end))
+	return self
+end
+
+function State:Delay(val: number | State?): State --delays until a later point to avoid updating multiple times per heartbeat
+	if not self.Alive then return end
+	rawset(self, "DelayAmount", val)
+	return self
+end
+
+function State:Tween(duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State
+	if not self.Alive then return end
+	local maid = self._Maid
+	if not maid then return end
+	local Tween = require(script.Tween)
+	local tween = Tween(self, duration, easingStyle, easingDirection)
+	maid:GiveTask(tween)
+	return tween
+end
+
+function State:SetParent(parent: Instance): State --changes the parent of the instance
+	if not self.Alive then return end
+	local inst: Folder? = self.Instance
+	if inst then
+		inst.Parent = parent
+	end
+	return self
+end
+
+function State:SetId(key): State --changes the name of the instance
+	if not self.Alive then return end
+	key = tostring(key)
+	rawset(self, "Id", key)
+	local inst: Folder? = self.Instance
+	if inst then
+		inst.Name = key
+	end
+	return self
+end
+
+
+function State:IsA(className: string)
+	if className == "Isotope" then return true end
+	if self.__type == className then return true end
+	local checkList = {}
+	local function getClasses(tabl)
+		local meta = getmetatable(tabl)
+		if meta and checkList[meta] == nil then
+			checkList[meta] = true
+			if meta.__type == className then
+				return true
+			else
+				return getClasses(meta)
+			end
+		end
+		return false
+	end
+	return getClasses(self)
+end
+
+function State._new(value: any?)
 
 	local maid = Maid.new()
 
@@ -272,23 +441,27 @@ function State.new(value): State
 	Inst.Name = "State"
 	maid:GiveTask(Inst)
 
-	local UpdateEvent = Instance.new("BindableEvent", Inst)
+	local UpdateEvent = Instance.new("BindableEvent")
 	UpdateEvent.Name = "Update"
+	UpdateEvent.Parent = Inst
 	maid:GiveTask(UpdateEvent)
 
-	local ConnectEvent = Instance.new("BindableEvent", Inst)
+	local ConnectEvent = Instance.new("BindableEvent")
 	ConnectEvent.Name = "Connect"
+	ConnectEvent.Parent = Inst
 	maid:GiveTask(ConnectEvent)
 
-	local Dependencies = Instance.new("Folder", Inst)
+	local Dependencies = Instance.new("Folder")
 	Dependencies.Name = "Dependencies"
+	Dependencies.Parent = Inst
 	maid:GiveTask(Dependencies)
 
-	local Dependants = Instance.new("Folder", Inst)
+	local Dependants = Instance.new("Folder")
 	Dependants.Name = "Dependants"
+	Dependants.Parent = Inst
 	maid:GiveTask(Dependants)
 
-	local self = {
+	local self: {[any]: any} = {
 		_Maid = maid,
 		Id = tostring(HttpService:GenerateGUID(false)),
 		Value = value,
@@ -308,10 +481,23 @@ function State.new(value): State
 		end))
 	end
 
+
+
+	setmetatable(self, State)
+
+	return self
+end
+
+
+function State.new(value: any?): State
+	local self: State = State._new(value)
+
+	local UpdateEvent: Instance? = self.Instance:WaitForChild("Update")
+	assert(UpdateEvent ~= nil and UpdateEvent:IsA("BindableEvent"))
+
 	local isScheduled = false
-	maid:GiveTask(UpdateEvent.Event:Connect(function()
-		-- print("Update")
-		-- print("Is Scheduled", isScheduled)
+
+	self._Maid:GiveTask(UpdateEvent.Event:Connect(function()
 		if isScheduled then return end
 
 		local delayAmountOrState = self.DelayAmount
@@ -321,9 +507,7 @@ function State.new(value): State
 		else
 			delayAmount = delayAmountOrState
 		end
-		-- print("Delay amount", delayAmount)
 		if delayAmount then
-			-- print("A")
 			isScheduled = true
 			task.delay(delayAmount, function()
 				isScheduled = false
@@ -338,11 +522,9 @@ function State.new(value): State
 		end
 	end))
 
-	setmetatable(self, State)
-
 	return self
 end
 
-export type State = typeof(State.new())
+export type State = typeof(State._new())
 
 return State

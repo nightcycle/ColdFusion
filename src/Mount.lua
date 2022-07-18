@@ -2,17 +2,13 @@
 local package = script.Parent
 local packages = package.Parent
 
-local Maid = require(packages:WaitForChild("maid"))
+local Maid = require(packages.Maid)
 
-local StateFolder = script.Parent:WaitForChild("State")
+local StateFolder = script.Parent.State
 local State = require(StateFolder)
 type State = State.State
 
-local Property = require(StateFolder:WaitForChild("Property"))
-
-local Changed = require(script.Parent:WaitForChild("Changed"))
-local Event = require(script.Parent:WaitForChild("Event"))
-local Children = require(script.Parent:WaitForChild("Children"))
+local Property = require(StateFolder.Property)
 
 return function(instOrState, params)
 	-- print("INST", params)
@@ -79,12 +75,14 @@ return function(instOrState, params)
 		mount(inst)
 		return inst
 	elseif typeof(instOrState) == "table" and instOrState.IsA and instOrState:IsA("State") then
+
 		local state: State = instOrState
 		state:Connect(function(val)
 			mount(val)
 		end)
 		mount(state:Get())
 		return state
+		
 	else
 		error("Bad instance")
 	end

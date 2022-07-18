@@ -1,4 +1,6 @@
-local State = require(script.Parent:WaitForChild("State"))
+--!strict
+
+local State = require(script.Parent.State)
 type State = State.State
 
 local Event = {}

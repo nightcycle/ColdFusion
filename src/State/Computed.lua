@@ -1,4 +1,3 @@
-
 --!strict
 local State = require(script.Parent)
 export type State = State.State

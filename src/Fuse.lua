@@ -1,12 +1,12 @@
+--!strict
 local package = script.Parent
 local packages = package.Parent
 
-local Interface = require(script.Parent:WaitForChild("Interface"))
-local Maid = require(packages:WaitForChild("maid"))
+local Interface = require(script.Parent.Interface)
+local Maid = require(packages.Maid)
 
 type Maid = {
 	DoCleaning: <T>() -> nil,
-	-- GiveTask: <T>(any) -> nil,
 	Destroy: <T>() -> nil,
 }
 
@@ -42,7 +42,7 @@ function Fuse.wrap(fuse, func)
 	return wrapper
 end
 
-function new(maid: Maid | nil)
+function new(maid: Maid?)
 	local interface = Interface()
 	interface.fuse = Fuse.new
 	maid = maid or Maid.new()

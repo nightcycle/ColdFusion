@@ -8,8 +8,7 @@ local packages = package.Parent
 local math = require(packages:WaitForChild("math"))
 
 local State = require(script.Parent)
-local Value = require(script.Parent:WaitForChild("Value"))
-local Computed = require(script.Parent:WaitForChild("Computed"))
+local Value = require(script.Parent.Value)
 
 export type State = State.State
 
@@ -17,7 +16,7 @@ local Tween = {}
 Tween.__index = Tween
 Tween.__type = "Tween"
 
-function Tween.new(goal: State, duration: number | State | nil, easingStyle: string | EnumItem | State | nil, easingDirection: string | EnumItem | State | nil)
+function Tween.new(goal: State, duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?)
 	-- print("Start val", goal:Get())
 	local self = State.new(goal:Get())
 	setmetatable(self, Tween)
@@ -34,7 +33,7 @@ function Tween.new(goal: State, duration: number | State | nil, easingStyle: str
 	easingDirection = Value(easingDirection)
 	maid:GiveTask(easingDirection)
 
-	local Fuse = require(script.Parent.Parent:WaitForChild("Fuse"))
+	local Fuse = require(script.Parent.Parent.Fuse)
 
 	maid:GiveTask(goal:Connect(function(curGoal, prevGoal)
 		-- print("Tween Connect", curGoal, prevGoal, self:Get())

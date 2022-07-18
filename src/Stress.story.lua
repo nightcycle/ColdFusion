@@ -1,10 +1,6 @@
-local SoundService = game:GetService("SoundService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
+--!nonstrict
 return function (coreGui)
-
 	local package = script.Parent
-	local packages = package.Parent
 	local ColdFusion = require(package)
 
 	local enabled = true
