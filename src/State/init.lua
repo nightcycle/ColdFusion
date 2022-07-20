@@ -40,14 +40,26 @@ function deepCompare(tabl1: {[any]:any}, tabl2: {[any]:any})
 		traveledTables[t2][t1] = true
 		for k, v1 in pairs(t1) do
 			local v2 = t2[k]
-			local vTab
 			if v2 ~= v1 then
 				return true
 			elseif typeof(v2) == "table" then
-				local isUnsafe = (traveledTables[v2] or {})[v1] or (traveledTables[v1] or {})[v2]
+				local tab1: {[any]: any} = traveledTables[v1] or {}
+				local tab2: {[any]: any} = traveledTables[v2] or {}
+
+				local isUnsafe = tab2[v1] or tab1[v2]
 				if not isUnsafe then
 					if v1.type == "State" and v2.type == v1.type then
-						local isChanged = isValueDifferent(v1:Get(), v2:Get())
+						assert(v1.Get ~= nil and typeof(v1.Get) == "function")
+						assert(v2.Get ~= nil and typeof(v2.Get) == "function")
+						
+						local f1: ((any) -> any?)? = v1.Get
+						local f2: ((any) -> any?)? = v2.Get
+						assert(f1 ~= nil and f2 ~= nil)
+
+						local val1: any? = f1(v1)
+						local val2: any? = f2(v2)
+
+						local isChanged = isValueDifferent(val1, val2)
 						if isChanged then
 							return true
 						end
@@ -262,10 +274,13 @@ end
 
 function getRemoteEvent(remoteName): RemoteEvent
 	if RunService:IsClient() then
-		return RemoteFolder:WaitForChild(remoteName)
+		local inst: Instance? = RemoteFolder:WaitForChild(remoteName)
+		assert(inst ~= nil and inst:IsA("RemoteEvent"))
+		return inst
 	else
-		if RemoteFolder:FindFirstChild(remoteName) then
-			return RemoteFolder:FindFirstChild(remoteName)
+		local inst: Instance? = RemoteFolder:FindFirstChild(remoteName)
+		if inst ~= nil and inst:IsA("RemoteEvent") then
+			return inst
 		else
 			local newRemote = Instance.new("RemoteEvent")
 			newRemote.Name = remoteName
@@ -286,22 +301,9 @@ function State:_Fire(remoteName: string, id: string?, player: Player?): nil --fi
 	else
 		remFunction:FireServer(id, self:Get())
 	end
+	return nil
 end
 
-function State:Else(alt: any | State): State
-	if not self.Alive then return end
-	local Computed = require(script.Computed)
-	local compState = Computed(self, function(v)
-		if v ~= nil then
-			return v
-		else
-			return alt
-		end
-	end)
-	compState:Bind(self)
-	self._Maid:GiveTask(compState)
-	return compState
-end
 
 function State:Transmit(remoteName: string, id: string?, rate: number?, player: Player?): State --when value is changed it replicates
 	if not self.Alive then return end
@@ -360,6 +362,7 @@ function State:Receive(remoteName: string, id: string?, player: Player?): State
 		end))
 		pingRemFunction:FireServer(id)
 	end
+	return nil
 end
 
 function State:CleanUp(): State --sets whether to attempt to fire destroy on the instance when state is destroyed
@@ -377,20 +380,19 @@ function State:CleanUp(): State --sets whether to attempt to fire destroy on the
 	return self
 end
 
+function State:Tween(duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State?
+	return nil
+end
+
+function State:Else(alt: any | State): State?
+	return nil	
+end
+
+
 function State:Delay(val: number | State?): State --delays until a later point to avoid updating multiple times per heartbeat
 	if not self.Alive then return end
 	rawset(self, "DelayAmount", val)
 	return self
-end
-
-function State:Tween(duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State
-	if not self.Alive then return end
-	local maid = self._Maid
-	if not maid then return end
-	local Tween = require(script.Tween)
-	local tween = Tween(self, duration, easingStyle, easingDirection)
-	maid:GiveTask(tween)
-	return tween
 end
 
 function State:SetParent(parent: Instance): State --changes the parent of the instance

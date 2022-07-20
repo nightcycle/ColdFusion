@@ -47,4 +47,4 @@ function Computed.new(...)
 	return self
 end
 setmetatable(Computed, State)
-return Computed.new
+return Computed

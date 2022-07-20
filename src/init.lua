@@ -1,5 +1,12 @@
 --!strict
-local Interface = require(script:WaitForChild("Interface"))()
-Interface.fuse = require(script:WaitForChild("Fuse"))
+local Interface = require(script.Interface)
+local Fuse = require(script.Fuse)
 
-return Interface
+export type ValueState = Interface.ValueState
+export type State = Interface.State
+export type Fuse = Fuse.Fuse
+
+local liveInterface = Interface()
+liveInterface.fuse = Fuse
+
+return liveInterface

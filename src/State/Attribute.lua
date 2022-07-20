@@ -1,9 +1,8 @@
 --!strict
-local RunService = game:GetService("RunService")
 local package = script.Parent.Parent
 local packages = package.Parent
 
-local Maid = require(packages:WaitForChild("maid"))
+local Maid = require(packages.Maid)
 local State = require(script.Parent)
 export type State = State.State
 
@@ -38,7 +37,7 @@ function Attribute.new(instOrState: Instance | State, attributeName: string)
 	if typeof(instOrState) == "Instance" then
 		connectAttribute(instOrState)
 	elseif typeof(instOrState) == "table" then
-		local tabl: table = instOrState
+		local tabl = instOrState
 		if tabl.IsA and tabl:IsA("State") then
 			local state:State = tabl
 			state:Connect(function(cur)
@@ -55,4 +54,4 @@ function Attribute.new(instOrState: Instance | State, attributeName: string)
 end
 setmetatable(Attribute, State)
 
-return Attribute.new
+return Attribute

@@ -10,9 +10,9 @@ type State = State.State
 
 local Property = require(StateFolder.Property)
 
-return function(instOrState, params)
+return function(instOrState, params: {[any]: any})
 	-- print("INST", params)
-	local function mount(inst: Instance)
+	local function mount(inst: any)
 		if not inst then return end
 		local maid = Maid.new()
 		maid:GiveTask(inst.Destroying:Connect(function()
@@ -58,7 +58,7 @@ return function(instOrState, params)
 						end
 					elseif k:IsA("Changed") then
 						local propName = k.Value
-						local propState = Property(inst, propName)
+						local propState = Property.new(inst, propName)
 						maid:GiveTask(propState)
 						maid:GiveTask(propState:Connect(function(val)
 							v(val)

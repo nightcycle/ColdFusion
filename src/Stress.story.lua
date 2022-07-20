@@ -8,7 +8,7 @@ return function (coreGui)
 		local reps = 10^7
 		for i=1, reps do
 			if not enabled then break end
-			if i%100 == 0 then task.wait() print(math.round(100000*i/reps)/1000) end
+			if i%100 == 0 then task.wait(); print(math.round(100000*i/reps)/1000) end
 	
 			local Fuse = ColdFusion.fuse()
 	

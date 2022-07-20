@@ -25,5 +25,7 @@ function Value.new(...)
 	return self
 end
 
+export type ValueState = typeof(Value.new())
+
 setmetatable(Value, State)
-return Value.new
+return Value

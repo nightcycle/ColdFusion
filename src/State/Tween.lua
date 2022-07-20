@@ -5,10 +5,11 @@ local RunService = game:GetService("RunService")
 local package = script.Parent.Parent
 local packages = package.Parent
 
-local math = require(packages:WaitForChild("math"))
+local math = require(packages.Math)
 
 local State = require(script.Parent)
 local Value = require(script.Parent.Value)
+local Computed = require(script.Parent.Computed)
 
 export type State = State.State
 
@@ -23,24 +24,21 @@ function Tween.new(goal: State, duration: number | State?, easingStyle: string |
 	self.Instance.Name = Tween.__type
 
 	local maid = self._Maid
-	duration = Value(if duration == nil then 0.2 else duration)
+	duration = Value.new(if duration == nil then 0.2 else duration)
 
 	maid:GiveTask(duration)
 
-	easingStyle = Value(easingStyle)
+	easingStyle = Value.new(easingStyle)
 	maid:GiveTask(easingStyle)
 
-	easingDirection = Value(easingDirection)
+	easingDirection = Value.new(easingDirection)
 	maid:GiveTask(easingDirection)
-
-	local Fuse = require(script.Parent.Parent.Fuse)
 
 	maid:GiveTask(goal:Connect(function(curGoal, prevGoal)
 		-- print("Tween Connect", curGoal, prevGoal, self:Get())
 		prevGoal = prevGoal or curGoal
-		local fuse = Fuse()
-		maid._stepComp = fuse
-		fuse.Computed(duration, easingStyle, easingDirection, function(dur, style, dir)
+
+		maid._stepComp = Computed.new(duration, easingStyle, easingDirection, function(dur, style, dir)
 			-- print("COMPIN TIME", "CurGoal", curGoal, "PrevGoal", prevGoal, "CurVal", self:Get())
 			maid._stepSignal = nil
 			local start = tick()
@@ -86,4 +84,4 @@ function Tween.new(goal: State, duration: number | State?, easingStyle: string |
 	return self
 end
 setmetatable(Tween, State)
-return Tween.new
+return Tween

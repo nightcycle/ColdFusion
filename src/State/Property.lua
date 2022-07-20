@@ -12,15 +12,16 @@ local Property = {}
 Property.__index = Property
 Property.__type = "Property"
 
-function Property.new(instOrState: Instance | State, propertyName: string, rate: number)
+function Property.new(instOrState: Instance | State, propertyName: string, rate: number?)
 
 	local self = State.new()
 	self.Instance.Name = Property.__type
 	setmetatable(self, Property)
 
 	local maid = self._Maid
-	local function connectProperty(inst: Instance)
+	local function connectProperty(inst: any?)
 		if not inst then return end
+		assert(inst ~= nil)
 		local instMaid = Maid.new()
 		maid["_prop"..propertyName] = instMaid
 		instMaid:GiveTask(inst.Destroying:Connect(function()
@@ -47,7 +48,10 @@ function Property.new(instOrState: Instance | State, propertyName: string, rate:
 			
 		else
 			instMaid["_prop"..propertyName] = inst:GetPropertyChangedSignal(propertyName):Connect(function()
-				if self:_Set(inst[propertyName]) then
+
+				local val = inst[propertyName]
+
+				if self:_Set(val) then
 					self:_UpdateDependants()
 				end
 			end)
@@ -59,7 +63,7 @@ function Property.new(instOrState: Instance | State, propertyName: string, rate:
 	if typeof(instOrState) == "Instance" then
 		connectProperty(instOrState)
 	elseif typeof(instOrState) == "table" then
-		local tabl: table = instOrState
+		local tabl: {[any]: any} = instOrState
 		if tabl.IsA and tabl:IsA("State") then
 			local state:State = tabl
 			state:Connect(function(cur)
@@ -76,4 +80,4 @@ function Property.new(instOrState: Instance | State, propertyName: string, rate:
 end
 setmetatable(Property, State)
 
-return Property.new
+return Property
