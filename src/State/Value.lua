@@ -2,6 +2,10 @@
 --!strict
 local State = require(script.Parent)
 export type State = State.State
+export type ValueState = {
+	Set: (self: ValueState, val: any | State) -> nil,
+	Update: (self: ValueState, (self: ValueState) -> nil) -> nil,
+} & State
 
 local Value = {}
 Value.__index = Value

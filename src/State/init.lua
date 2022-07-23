@@ -9,6 +9,21 @@ local RemoteFolder = script
 
 local Maid = require(packages.Maid)
 
+export type State = {
+	new: (any?) -> State,
+	Bind: (self: State) -> nil,
+	Connect: (self: State, (val: any?, prev: any?) -> nil) -> nil,
+	Destroy: (self: State) -> nil,
+	Get: (self: State) -> any?,
+	Transmit: (self: State, remoteName: string, id: string?, rate: number?, player: Player?) -> State,
+	Receive: (self: State, remoteName: string, id: string?, player: Player?) -> State,
+	CleanUp: (self: State) -> State,
+	Tween: (self: State, easingStyle: string | Enum.EasingStyle | State?, easingDirection: string | Enum.EasingDirection | State?) -> State,
+	Else: (self: State, alt: any?) -> State,
+	Delay: (self: State, duration: number | State?) -> State,
+	IsA: (self: State, className: string) -> boolean,
+}
+
 local State: {[any]: any} = {}
 State.__index = State
 State.__type = "State"
@@ -527,6 +542,5 @@ function State.new(value: any?): State
 	return self
 end
 
-export type State = typeof(State._new())
 
 return State
