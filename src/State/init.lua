@@ -162,8 +162,8 @@ function State:_UpdateDependants()
 
 	for i: number, objValue: ObjectValue in ipairs(dependantsFolder:GetChildren()) do
 		local state: Instance? = objValue.Value
-		assert(state ~= nil and state:IsA("Folder"))
-		if state then
+	
+		if state and state:IsA("Folder") then
 			local updateEvent: Instance? = state:FindFirstChild("Update")
 			if updateEvent ~= nil and updateEvent:IsA("BindableEvent") then
 				-- print("Firing update event")

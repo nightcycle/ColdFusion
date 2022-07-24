@@ -5,6 +5,8 @@ type State = State.State
 
 local metas = {}
 
+local adopt
+
 for i, class in ipairs(script.Parent.State:GetChildren()) do
 	if class:IsA("ModuleScript") then
 		assert(class:IsA("ModuleScript"))
@@ -13,22 +15,22 @@ for i, class in ipairs(script.Parent.State:GetChildren()) do
 		Util.__index = Util
 		setmetatable(Util, Class)
 		
-		function Util:Tween(duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State?
-			if not self.Alive then return end
+		function Util:Tween(duration: number | State?, easingStyle: (string | Enum.EasingStyle | State)?, easingDirection: (string | Enum.EasingDirection | State)?): State
+			if not self.Alive then return self end
 			local maid = self._Maid
 			
-			if not maid then return end
+			if not maid then return self end
 			assert(maid ~= nil)
 		
-			local tween = Tween.new(self, duration, easingStyle, easingDirection)
+			local tween = adopt(Tween, self, duration, easingStyle, easingDirection)
 			maid:GiveTask(tween)
 		
 			return tween
 		end
 		
-		function Util:Else(alt: any | State): State?
-			if not self.Alive then return end
-			local compState = Computed.new(self, function(v)
+		function Util:Else(alt: any | State): State
+			if not self.Alive then return self end
+			local compState = adopt(Computed, self, function(v)
 				if v ~= nil then
 					return v
 				else
@@ -44,10 +46,12 @@ for i, class in ipairs(script.Parent.State:GetChildren()) do
 	end
 end
 
-return function(class: {[any]: any}, ...:any): any
+adopt = function(class: {[any]: any}, ...:any): any
 	local state: State = class.new(...)
 	local meta = metas[class]
 	assert(meta ~= nil)
 	setmetatable(state, meta)
 	return state
 end
+
+return adopt

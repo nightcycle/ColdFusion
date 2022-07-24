@@ -17,7 +17,7 @@ local Tween = {}
 Tween.__index = Tween
 Tween.__type = "Tween"
 
-function Tween.new(goal: State, duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State
+function Tween.new(goal: State, duration: number | State?, easingStyle: (string | Enum.EasingStyle | State)?, easingDirection: (string | Enum.EasingDirection | State)?): State
 	-- print("Start val", goal:Get())
 	local self = State.new(goal:Get())
 	setmetatable(self, Tween)
@@ -28,10 +28,10 @@ function Tween.new(goal: State, duration: number | State?, easingStyle: string |
 
 	maid:GiveTask(duration)
 
-	easingStyle = Value.new(easingStyle)
+	easingStyle = Value.new(easingStyle or Enum.EasingStyle.Quad)
 	maid:GiveTask(easingStyle)
 
-	easingDirection = Value.new(easingDirection)
+	easingDirection = Value.new(easingDirection or Enum.EasingDirection.InOut)
 	maid:GiveTask(easingDirection)
 
 	maid:GiveTask(goal:Connect(function(curGoal, prevGoal)
