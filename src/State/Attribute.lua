@@ -10,7 +10,7 @@ local Attribute = {}
 Attribute.__index = Attribute
 Attribute.__type = "Attribute"
 
-function Attribute.new(instOrState: Instance | State, attributeName: string)
+function Attribute.new(instOrState: Instance | State, attributeName: string): State
 
 	local self = State.new()
 	self.Instance.Name = Attribute.__type
@@ -40,8 +40,11 @@ function Attribute.new(instOrState: Instance | State, attributeName: string)
 		local tabl = instOrState
 		if tabl.IsA and tabl:IsA("State") then
 			local state:State = tabl
-			state:Connect(function(cur)
+			state:Connect(function(cur: any?)
+				if cur == nil then return nil end
+				assert(cur ~= nil and cur:IsA("Instance"))
 				connectAttribute(cur)
+				return nil
 			end)
 			connectAttribute(state:Get())
 		else

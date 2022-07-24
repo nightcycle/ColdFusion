@@ -6,7 +6,7 @@ local Computed = {}
 Computed.__index = Computed
 Computed.__type = "Computed"
 
-function Computed.new(...)
+function Computed.new(...): State
 
 	local self = State.new()
 	setmetatable(self, Computed)

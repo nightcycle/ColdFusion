@@ -17,7 +17,7 @@ local Tween = {}
 Tween.__index = Tween
 Tween.__type = "Tween"
 
-function Tween.new(goal: State, duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?)
+function Tween.new(goal: State, duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State
 	-- print("Start val", goal:Get())
 	local self = State.new(goal:Get())
 	setmetatable(self, Tween)
@@ -79,6 +79,7 @@ function Tween.new(goal: State, duration: number | State?, easingStyle: string |
 			-- 	print("These are equal")
 			end
 		end)
+		return nil
 	end))
 
 	return self

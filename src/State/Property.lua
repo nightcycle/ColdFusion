@@ -12,7 +12,7 @@ local Property = {}
 Property.__index = Property
 Property.__type = "Property"
 
-function Property.new(instOrState: Instance | State, propertyName: string, rate: number?)
+function Property.new(instOrState: Instance | State, propertyName: string, rate: number?): State
 
 	local self = State.new()
 	self.Instance.Name = Property.__type
@@ -66,8 +66,11 @@ function Property.new(instOrState: Instance | State, propertyName: string, rate:
 		local tabl: {[any]: any} = instOrState
 		if tabl.IsA and tabl:IsA("State") then
 			local state:State = tabl
-			state:Connect(function(cur)
+			state:Connect(function(cur: any?)
+				if not cur then return nil end
+				assert(cur ~= nil and cur:IsA("Instance"))
 				connectProperty(cur)
+				return nil
 			end)
 			connectProperty(state:Get())
 		else

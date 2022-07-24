@@ -10,7 +10,7 @@ type State = State.State
 
 local Property = require(StateFolder.Property)
 
-return function(instOrState, params: {[any]: any})
+return function(instOrState: (Instance | State), params: {[any]: any})
 	-- print("INST", params)
 	local function mount(inst: any)
 		if not inst then return end
@@ -62,6 +62,7 @@ return function(instOrState, params: {[any]: any})
 						maid:GiveTask(propState)
 						maid:GiveTask(propState:Connect(function(val)
 							v(val)
+							return nil
 						end))
 					end
 				else
@@ -75,10 +76,10 @@ return function(instOrState, params: {[any]: any})
 		mount(inst)
 		return inst
 	elseif typeof(instOrState) == "table" and instOrState.IsA and instOrState:IsA("State") then
-
 		local state: State = instOrState
 		state:Connect(function(val)
 			mount(val)
+			return nil
 		end)
 		mount(state:Get())
 		return state

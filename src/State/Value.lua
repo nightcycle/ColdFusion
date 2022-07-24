@@ -22,14 +22,12 @@ function Value:Update(func)
 	self:Set(func(self:Get()))
 end
 
-function Value.new(...)
+function Value.new(...): ValueState
 	local self = State.new(...)
 	setmetatable(self, Value)
 	self.Instance.Name = Value.__type
 	return self
 end
-
-export type ValueState = typeof(Value.new())
 
 setmetatable(Value, State)
 return Value

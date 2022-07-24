@@ -3,18 +3,27 @@ local HttpService = game:GetService("HttpService")
 local RunService = game:GetService("RunService")
 
 local package = script.Parent
+assert(package ~= nil)
 local packages = package.Parent
 
 local RemoteFolder = script
 
 local Maid = require(packages.Maid)
 
+type Maid = Maid.Maid
+
 export type State = {
+	_Maid: Maid,
+	Alive: boolean?,
+	Dependencies: Folder,
+	Instance: Folder,
+	DelayAmount: number?,
 	new: (any?) -> State,
 	Bind: (self: State) -> nil,
-	Connect: (self: State, (val: any?, prev: any?) -> nil) -> nil,
+	Connect: (self: State, (val: any?, prev: any?) -> nil) -> nil?,
 	Destroy: (self: State) -> nil,
 	Get: (self: State) -> any?,
+	_Set: (self: State, any?) -> nil,
 	Transmit: (self: State, remoteName: string, id: string?, rate: number?, player: Player?) -> State,
 	Receive: (self: State, remoteName: string, id: string?, player: Player?) -> State,
 	CleanUp: (self: State) -> State,
@@ -22,9 +31,11 @@ export type State = {
 	Else: (self: State, alt: any?) -> State,
 	Delay: (self: State, duration: number | State?) -> State,
 	IsA: (self: State, className: string) -> boolean,
+	_UpdateDependants: (self: State) -> nil,
+	_Dependant: (self: State, state: State) -> nil,
 }
 
-local State: {[any]: any} = {}
+local State: any = {}
 State.__index = State
 State.__type = "State"
 
@@ -32,7 +43,7 @@ function State:__newindex(k: any, v: any): any
 	error("You can't set properties of state: "..tostring(k)..","..tostring(v))
 end
 
-function deepCompare(tabl1: {[any]:any}, tabl2: {[any]:any})
+function deepCompare(tabl1: {[any]:any?}, tabl2: {[any]:any?})
 	if tabl1 == nil then
 		if tabl2 == nil then
 			return false
@@ -47,7 +58,7 @@ function deepCompare(tabl1: {[any]:any}, tabl2: {[any]:any})
 		end
 	end
 	local traveledTables = {}
-	local function compareTable(t1, t2)
+	local function compareTable(t1: any, t2: any)
 		traveledTables[t1] = traveledTables[t1] or {}
 		traveledTables[t1][t2] = true
 
@@ -58,8 +69,9 @@ function deepCompare(tabl1: {[any]:any}, tabl2: {[any]:any})
 			if v2 ~= v1 then
 				return true
 			elseif typeof(v2) == "table" then
-				local tab1: {[any]: any} = traveledTables[v1] or {}
-				local tab2: {[any]: any} = traveledTables[v2] or {}
+				v1 = v1 :: any
+				local tab1: any = traveledTables[v1] or {}
+				local tab2: any = traveledTables[v2] or {}
 
 				local isUnsafe = tab2[v1] or tab1[v2]
 				if not isUnsafe then
@@ -99,12 +111,18 @@ function isValueDifferent(prev: nil | any | State, val: nil | any | State)
 		if val.IsA and val:IsA("State") then
 			trueVal = val:Get()
 		else
+
 			trueVal = deepCopy(val)
 		end
 		if typeof(prev) == "table" then
+			assert(typeof(val) == "table")
+			val = val :: (any)
+			assert(val ~= nil)
+			local meta: any = getmetatable(val or {})
+
 			if prev.IsA and prev:IsA("State") then
 				truePrev = prev:Get()
-			elseif getmetatable(val) ~= nil then
+			elseif meta ~= nil then
 				return prev ~= val
 			else
 				truePrev = deepCopy(prev)
@@ -116,7 +134,7 @@ function isValueDifferent(prev: nil | any | State, val: nil | any | State)
 	end
 end
 
-function deepCopy(tabl)
+function deepCopy(tabl: any)
 	if typeof(tabl) ~= "table" or tabl.type == "State" then return tabl end
 	local registry = {}
 	local function copyTable(ref)
@@ -155,18 +173,18 @@ function State:_UpdateDependants()
 	end
 end
 
-function State:Bind(state: State): nil
+function State.Bind(self:State, state: State): State
 	assert(state ~= nil, "State is nil")
 	assert(typeof(state) == "table", "Bad state")
-	if not self.Alive then return end
-	if not state.Alive then return end
+	if not self.Alive then return self end
+	if not state.Alive then return self end
 
 	local otherInst = rawget(state, "Instance")
-	if not otherInst then return end
+	if not otherInst then return self end
 	assert(otherInst ~= nil and otherInst:IsA("Instance"))
 
 	local dependencies = self.Dependencies
-	if not dependencies then return end
+	if not dependencies then return self end
 	
 	local objName: any? = rawget(state, "Id")
 	assert(objName ~= nil and typeof(objName) == "string")
@@ -321,7 +339,7 @@ end
 
 
 function State:Transmit(remoteName: string, id: string?, rate: number?, player: Player?): State --when value is changed it replicates
-	if not self.Alive then return end
+	if not self.Alive then return self end
 
 	local reload = if rate then 1/rate else 0
 	local lastFire = 0
@@ -351,7 +369,7 @@ function State:Transmit(remoteName: string, id: string?, rate: number?, player: 
 end
 
 function State:Receive(remoteName: string, id: string?, player: Player?): State
-	if not self.Alive then return end
+	if not self.Alive then return self end
 	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
 	local remFunction = getRemoteEvent(remoteName)
 	if RunService:IsServer() then
@@ -377,13 +395,13 @@ function State:Receive(remoteName: string, id: string?, player: Player?): State
 		end))
 		pingRemFunction:FireServer(id)
 	end
-	return nil
+	return self
 end
 
 function State:CleanUp(): State --sets whether to attempt to fire destroy on the instance when state is destroyed
-	if not self.Alive then return end
+	if not self.Alive then return self end
 	local maid = self._Maid
-	if not maid then return end
+	if not maid then return self end
 
 	maid:GiveTask(self:Connect(function(cur, prev)
 		if prev then
@@ -405,13 +423,13 @@ end
 
 
 function State:Delay(val: number | State?): State --delays until a later point to avoid updating multiple times per heartbeat
-	if not self.Alive then return end
+	if not self.Alive then return self end
 	rawset(self, "DelayAmount", val)
 	return self
 end
 
 function State:SetParent(parent: Instance): State --changes the parent of the instance
-	if not self.Alive then return end
+	if not self.Alive then return self end
 	local inst: Folder? = self.Instance
 	if inst then
 		inst.Parent = parent
@@ -420,7 +438,7 @@ function State:SetParent(parent: Instance): State --changes the parent of the in
 end
 
 function State:SetId(key): State --changes the name of the instance
-	if not self.Alive then return end
+	if not self.Alive then return self end
 	key = tostring(key)
 	rawset(self, "Id", key)
 	local inst: Folder? = self.Instance
@@ -478,7 +496,7 @@ function State._new(value: any?)
 	Dependants.Parent = Inst
 	maid:GiveTask(Dependants)
 
-	local self: {[any]: any} = {
+	local self: any = {
 		_Maid = maid,
 		Id = tostring(HttpService:GenerateGUID(false)),
 		Value = value,

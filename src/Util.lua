@@ -44,7 +44,7 @@ for i, class in ipairs(script.Parent.State:GetChildren()) do
 	end
 end
 
-return function(class: State, ...:any): State
+return function(class: {[any]: any}, ...:any): any
 	local state: State = class.new(...)
 	local meta = metas[class]
 	assert(meta ~= nil)
