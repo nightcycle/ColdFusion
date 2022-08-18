@@ -8,12 +8,11 @@ local packages = package.Parent
 local math = require(packages.Math)
 
 local StateAbstract = require(script.Parent.StateAbstract)
--- local Value = require(script.Parent.Value)
 local ComputedAbstract = require(script.Parent.ComputedAbstract)
 
 type StateAbstract<T> = StateAbstract.StateAbstract<T>
 export type TweenAbstract<T> = StateAbstract<T>
--- export type ValueState<T> = Value.ValueState<T>
+
 local TweenAbstract = {}
 TweenAbstract.__index = TweenAbstract
 TweenAbstract.__type = "TweenAbstract"
@@ -22,7 +21,7 @@ TweenAbstract.new = function<T>(
 	goal: StateAbstract<T>, 
 	duration: (number | StateAbstract<number>?), 
 	easingStyle: (Enum.EasingStyle | StateAbstract<Enum.EasingStyle>)?, 
-	easingDirection: (string | Enum.EasingDirection | StateAbstract<Enum.EasingDirection>)?
+	easingDirection: (Enum.EasingDirection | StateAbstract<Enum.EasingDirection>)?
 ): StateAbstract<T>
 	-- print("Start val", goal:Get())
 	local self = StateAbstract.new(goal:Get())
@@ -31,14 +30,14 @@ TweenAbstract.new = function<T>(
 
 	local maid = self._Maid
 
-	local durationState = StateAbstract.new(if duration == nil then 0.2 else duration)
-	maid:GiveTask(duration)
+	local _durationState = StateAbstract.new(if duration == nil then 0.2 else duration)
+	maid:GiveTask(_durationState)
 
-	local easingStyleState = StateAbstract.new(easingStyle or Enum.EasingStyle.Quad)
-	maid:GiveTask(easingStyleState)
+	local _easingStyleState = StateAbstract.new(easingStyle or Enum.EasingStyle.Quad)
+	maid:GiveTask(_easingStyleState)
 
-	local easingDirectionState = StateAbstract.new(easingDirection or Enum.EasingDirection.InOut)
-	maid:GiveTask(easingDirectionState)
+	local _easingDirectionState = StateAbstract.new(easingDirection or Enum.EasingDirection.InOut)
+	maid:GiveTask(_easingDirectionState)
 
 	maid:GiveTask(goal:Connect(function(curGoal, prevGoal)
 		prevGoal = prevGoal or curGoal
@@ -76,7 +75,7 @@ TweenAbstract.new = function<T>(
 				maid._stepSignal = stepSignal
 			end
 			return nil
-		end, durationState, easingStyleState, easingDirectionState)
+		end, _durationState, _easingStyleState, _easingDirectionState)
 		return nil
 	end))
 	local output: any = self

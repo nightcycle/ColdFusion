@@ -9,23 +9,23 @@ local Maid = require(packages.Maid)
 type Maid = Maid.Maid
 
 export type StateInstance = {
-	Update: BindableEvent,
-	Connect: BindableEvent,
-	Dependencies: Folder,
-	Dependants: Folder,
-	FindFirstChild: ((self: Instance, name: "Update", recurse: false) -> BindableEvent?)
-	 & ((self: Instance, name: "Connect", recurse: false) -> BindableEvent?)
-	 & ((self: Instance, name: "Dependencies", recurse: false) -> Folder?)
-	 & ((self: Instance, name: "Dependants", recurse: false) -> Folder?),
+	-- Update: BindableEvent,
+	-- Connect: BindableEvent,
+	-- Dependencies: Folder,
+	-- Dependants: Folder,
+	-- FindFirstChild: ((self: Instance, name: "Update", recurse: false) -> BindableEvent?)
+	--  & ((self: Instance, name: "Connect", recurse: false) -> BindableEvent?)
+	--  & ((self: Instance, name: "Dependencies", recurse: false) -> Folder?)
+	--  & ((self: Instance, name: "Dependants", recurse: false) -> Folder?),
 
-	 WaitForChild: ((self: Instance, name: "Update", duration: nil) -> BindableEvent)
-	 & ((self: Instance, name: "Connect", recurse: false, duration: nil) -> BindableEvent)
-	 & ((self: Instance, name: "Dependencies", recurse: false, duration: nil) -> Folder)
-	 & ((self: Instance, name: "Dependants", recurse: false, duration: nil) -> Folder)
-	 & ((self: Instance, name: "Update", duration: number) -> BindableEvent?)
-	 & ((self: Instance, name: "Connect", recurse: false, duration: number) -> BindableEvent?)
-	 & ((self: Instance, name: "Dependencies", recurse: false, duration: number) -> Folder?)
-	 & ((self: Instance, name: "Dependants", recurse: false, duration: number) -> Folder?)
+	--  WaitForChild: ((self: Instance, name: "Update", duration: nil) -> BindableEvent)
+	--  & ((self: Instance, name: "Connect", recurse: false, duration: nil) -> BindableEvent)
+	--  & ((self: Instance, name: "Dependencies", recurse: false, duration: nil) -> Folder)
+	--  & ((self: Instance, name: "Dependants", recurse: false, duration: nil) -> Folder)
+	--  & ((self: Instance, name: "Update", duration: number) -> BindableEvent?)
+	--  & ((self: Instance, name: "Connect", recurse: false, duration: number) -> BindableEvent?)
+	--  & ((self: Instance, name: "Dependencies", recurse: false, duration: number) -> Folder?)
+	--  & ((self: Instance, name: "Dependants", recurse: false, duration: number) -> Folder?)
 } & Folder
 
 type StateConnection = {

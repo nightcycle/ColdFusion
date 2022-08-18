@@ -18,7 +18,7 @@ Tween.new = function<T>(
 	goal: StateAbstract<T>, 
 	duration: (number | StateAbstract<number>?), 
 	easingStyle: (Enum.EasingStyle | StateAbstract<Enum.EasingStyle>)?, 
-	easingDirection: (string | Enum.EasingDirection | StateAbstract<Enum.EasingDirection>)?
+	easingDirection: (Enum.EasingDirection | StateAbstract<Enum.EasingDirection>)?
 ): State<T>
 	-- print("Start val", goal:Get())
 	local self = TweenAbstract.new(goal, duration, easingStyle, easingDirection)

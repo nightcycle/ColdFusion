@@ -1,4 +1,4 @@
---!nonstrict
+--!nocheck
 return function (coreGui)
 	local Computed = require(script.Parent:WaitForChild("State"):WaitForChild("Computed"))
 	local Value = require(script.Parent:WaitForChild("State"):WaitForChild("Value"))

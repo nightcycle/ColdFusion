@@ -1,10 +1,5 @@
--- local State = require(script.Parent.State.State)
 type State<T> = {Get: (self: State<T>) -> T}--State.State<T>
-
--- local Symbol = require(script.Parent.Symbol)
-
 type ParameterEntry<T> = (State<T> | T)?
-
 type Symbol = {any}
 
 type InstanceProperties = {

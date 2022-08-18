@@ -21,7 +21,8 @@ ComputedAbstract.new = function<T, G...>(solver: (G...) -> T, ...: StateAbstract
 	end
 
 	local inst = self.Instance
-	local updateEvent = inst.Update
+	local updateEvent = inst:FindFirstChild("Update")
+	assert(updateEvent ~= nil and updateEvent:IsA("BindableEvent"))
 	local function solve()
 		local vals = {}
 		for i, state in ipairs(states) do
