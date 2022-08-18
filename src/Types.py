@@ -29,6 +29,7 @@ type ParameterEntry<T> = (State<T> | T)?
 """)
 
 safe = {
+	"Instance": "true",
 	"Lighting": "true",
 	"Players": "true",
 	"SoundService": "true",
@@ -168,7 +169,8 @@ for classData in classList:
 				if not valueType == "Hole":
 					file.write("\n\t"+member["Name"]+": ParameterEntry<"+valueType+">?,")
 		if className == "Instance":
-			file.write("\n\t[Symbol]: ((...any) -> any?)?,")
+			file.write("""\n\tChildren: {Instance}?,
+			\n\t[Symbol]: ((...any) -> any?)?,""")
 		file.write("\n}")
 
 

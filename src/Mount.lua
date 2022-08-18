@@ -108,33 +108,25 @@ function applyToStateOrInstance(instOrState: (Instance | State<Instance?>), para
 		error("Bad instance")
 	end
 end
-type ClassConstructor = Types.ClassConstructors
+type ClassNameConstructor = Types.ClassNameConstructor
+type ClassConstructor = Types.ClassConstructor
 
--- local fromInstance: ClassConstructor = function(inst: Instance)
--- 	return function(params: any)
--- 		return applyToStateOrInstance(inst, params)
--- 	end
--- end
-
-local fromClassName: ClassConstructor = function(className: string)
-	-- local inst: any = Instance.new(className)
-	local inst = Instance.new("Part")
-	return function(params: any): any
+local fromInstance: ClassConstructor = function(inst: Instance): any
+	return function(params: any)
 		return applyToStateOrInstance(inst, params)
 	end
 end
 
--- local part = Instance.new("Part")
-
--- local _c = fromInstance(part)
+local fromClassName: ClassNameConstructor = function(className: any): any
+	return function(params: any): any
+		local inst: any = Instance.new(className)
+		return applyToStateOrInstance(inst, params)
+	end
+end
 
 local _part = fromClassName("Part")
-_part({
-	Anchored = true,
-	Potato = false, 
-})
 
--- Mount.fromInstance = fromInstance
+Mount.fromInstance = fromInstance
 Mount.fromClassName = fromClassName
 
 return Mount
