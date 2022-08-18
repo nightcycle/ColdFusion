@@ -1,88 +1,32 @@
 
 --!strict
-local RunService = game:GetService("RunService")
+local StateAbstract = require(script.Parent.StateAbstract)
+type StateAbstract<T> = StateAbstract.StateAbstract<T>
 
-local package = script.Parent.Parent
-local packages = package.Parent
+local State = require(script.Parent.State)
+local TweenAbstract = require(script.Parent.TweenAbstract)
 
-local math = require(packages.Math)
-
-local State = require(script.Parent)
-local Value = require(script.Parent.Value)
-local Computed = require(script.Parent.Computed)
-
-export type State = State.State
+type TweenAbstract<T> = TweenAbstract.TweenAbstract<T>
+type State<T> = State.State<T>
 
 local Tween = {}
 Tween.__index = Tween
 Tween.__type = "Tween"
-
-function Tween.new(goal: State, duration: number | State?, easingStyle: (string | Enum.EasingStyle | State)?, easingDirection: (string | Enum.EasingDirection | State)?): State
-	-- print("Start val", goal:Get())
-	local self = State.new(goal:Get())
-	setmetatable(self, Tween)
-	self.Instance.Name = Tween.__type
-
-	local maid = self._Maid
-	duration = Value.new(if duration == nil then 0.2 else duration)
-
-	maid:GiveTask(duration)
-
-	easingStyle = Value.new(easingStyle or Enum.EasingStyle.Quad)
-	maid:GiveTask(easingStyle)
-
-	easingDirection = Value.new(easingDirection or Enum.EasingDirection.InOut)
-	maid:GiveTask(easingDirection)
-
-	maid:GiveTask(goal:Connect(function(curGoal, prevGoal)
-		-- print("Tween Connect", curGoal, prevGoal, self:Get())
-		prevGoal = prevGoal or curGoal
-
-		maid._stepComp = Computed.new(duration, easingStyle, easingDirection, function(dur, style, dir)
-			-- print("COMPIN TIME", "CurGoal", curGoal, "PrevGoal", prevGoal, "CurVal", self:Get())
-			maid._stepSignal = nil
-			local start = tick()
-			local curVal = self:Get()
-			if not dur then return end
-			if curGoal ~= curVal then
-				-- print("Step time")
-				local stepSignal
-	
-				local function step(dt)
-					local alpha = (tick() - start)/dur
-					-- print("Alpha", alpha)
-					if alpha >= 1 then
-						stepSignal:Disconnect()
-						-- print("Set to goal", curGoal)
-						if self:_Set(curGoal) then
-							self:_UpdateDependants()
-						end
-					elseif prevGoal ~= nil then
-						local a = math.Algebra.ease(alpha, style, dir)
-						local s = math.Algebra.lerp(if curVal == nil then prevGoal else curVal, prevGoal, a)
-						local final = math.Algebra.lerp(s, curGoal, a)
-						-- print("S", s, "V", final, "A", a)
-						-- print("Final", final)
-						if self:_Set(final) then
-							self:_UpdateDependants()
-						end
-					end
-				end
-	
-				if RunService:IsServer() then
-					stepSignal = RunService.Heartbeat:Connect(step)
-				else
-					stepSignal = RunService.RenderStepped:Connect(step)
-				end
-				maid._stepSignal = stepSignal
-			-- else
-			-- 	print("These are equal")
-			end
-		end)
-		return nil
-	end))
-
-	return self
-end
 setmetatable(Tween, State)
+
+Tween.new = function<T>(
+	goal: StateAbstract<T>, 
+	duration: (number | StateAbstract<number>?), 
+	easingStyle: (Enum.EasingStyle | StateAbstract<Enum.EasingStyle>)?, 
+	easingDirection: (string | Enum.EasingDirection | StateAbstract<Enum.EasingDirection>)?
+): State<T>
+	-- print("Start val", goal:Get())
+	local self = TweenAbstract.new(goal, duration, easingStyle, easingDirection)
+	setmetatable(self, Tween)
+	
+	local output: any = self
+
+	return output
+end
+
 return Tween

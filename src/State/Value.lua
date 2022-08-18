@@ -1,17 +1,17 @@
 
 --!strict
-local State = require(script.Parent)
-export type State = State.State
-export type ValueState = {
-	Set: (self: ValueState, val: any | State) -> nil,
-	Update: (self: ValueState, (self: ValueState) -> nil) -> nil,
-} & State
+local State = require(script.Parent.State)
+type State<T> = State.State<T>
+export type ValueState<T> = {
+	Set: (self: ValueState<T>, val: T | State<T>) -> nil,
+	Update: (self: ValueState<T>, (T) -> T) -> nil,
+} & State<T>
 
 local Value = {}
 Value.__index = Value
 Value.__type = "Value"
 
-function Value:Set(val: any | State)
+function Value:Set<T>(val: (any | State<T>))
 	if self:_Set(val) then
 		self:_UpdateDependants()
 	end
@@ -22,11 +22,12 @@ function Value:Update(func)
 	self:Set(func(self:Get()))
 end
 
-function Value.new(...): ValueState
+function Value.new<T>(...): ValueState<T>
 	local self = State.new(...)
 	setmetatable(self, Value)
 	self.Instance.Name = Value.__type
-	return self
+	local output: any = self
+	return output
 end
 
 setmetatable(Value, State)

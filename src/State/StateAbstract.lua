@@ -1,49 +1,62 @@
 --!strict
 local HttpService = game:GetService("HttpService")
-local RunService = game:GetService("RunService")
-
-local package = script.Parent
+local package = script.Parent.Parent
 assert(package ~= nil)
 local packages = package.Parent
-
-local RemoteFolder = script
 
 local Maid = require(packages.Maid)
 
 type Maid = Maid.Maid
 
-export type State = {
+export type StateInstance = {
+	Update: BindableEvent,
+	Connect: BindableEvent,
+	Dependencies: Folder,
+	Dependants: Folder,
+	FindFirstChild: ((self: Instance, name: "Update", recurse: false) -> BindableEvent?)
+	 & ((self: Instance, name: "Connect", recurse: false) -> BindableEvent?)
+	 & ((self: Instance, name: "Dependencies", recurse: false) -> Folder?)
+	 & ((self: Instance, name: "Dependants", recurse: false) -> Folder?),
+
+	 WaitForChild: ((self: Instance, name: "Update", duration: nil) -> BindableEvent)
+	 & ((self: Instance, name: "Connect", recurse: false, duration: nil) -> BindableEvent)
+	 & ((self: Instance, name: "Dependencies", recurse: false, duration: nil) -> Folder)
+	 & ((self: Instance, name: "Dependants", recurse: false, duration: nil) -> Folder)
+	 & ((self: Instance, name: "Update", duration: number) -> BindableEvent?)
+	 & ((self: Instance, name: "Connect", recurse: false, duration: number) -> BindableEvent?)
+	 & ((self: Instance, name: "Dependencies", recurse: false, duration: number) -> Folder?)
+	 & ((self: Instance, name: "Dependants", recurse: false, duration: number) -> Folder?)
+} & Folder
+
+type StateConnection = {
 	_Maid: Maid,
+	DelayAmount: number?,
 	Alive: boolean?,
 	Dependencies: Folder,
-	Instance: Folder,
-	DelayAmount: number?,
-	new: (any?) -> State,
-	Bind: (self: State) -> nil,
-	Connect: (self: State, (val: any?, prev: any?) -> nil) -> nil?,
-	Destroy: (self: State) -> nil,
-	Get: (self: State) -> any?,
-	_Set: (self: State, any?) -> nil,
-	Transmit: (self: State, remoteName: string, id: string?, rate: number?, player: Player?) -> State,
-	Receive: (self: State, remoteName: string, id: string?, player: Player?) -> State,
-	CleanUp: (self: State) -> State,
-	Tween: (self: State, easingStyle: string | Enum.EasingStyle | State?, easingDirection: string | Enum.EasingDirection | State?) -> State,
-	Else: (self: State, alt: any?) -> State,
-	Delay: (self: State, duration: number | State?) -> State,
-	IsA: (self: State, className: string) -> boolean,
-	_UpdateDependants: (self: State) -> nil,
-	_Dependant: (self: State, state: State) -> nil,
+	Instance: StateInstance,
+	_UpdateDependants: (self: StateConnection) -> nil,
+	_Dependant: (self: StateConnection, state: StateConnection) -> nil,
 }
 
-local State: any = {}
-State.__index = State
-State.__type = "State"
+export type StateAbstract<T> = StateConnection & {
+	new: (any?) -> StateAbstract<T>,
+	Bind: (self: StateAbstract<T>, other: StateConnection) -> nil,
+	Connect: (self: StateAbstract<T>, (val: any?, prev: any?) -> nil) -> nil?,
+	Destroy: (self: StateAbstract<T>) -> nil,
+	Get: (self: StateAbstract<T>) -> T,
+	_Set: (self: StateAbstract<T>, T) -> nil,
+	IsA: (self: StateAbstract<T>, className: string) -> boolean,
+}
 
-function State:__newindex(k: any, v: any): any
+local StateAbstract = {}
+StateAbstract.__index = StateAbstract
+StateAbstract.__type = "StateAbstract"
+
+function StateAbstract:__newindex(k: any, v: any): any
 	error("You can't set properties of state: "..tostring(k)..","..tostring(v))
 end
 
-function deepCompare(tabl1: {[any]:any?}, tabl2: {[any]:any?})
+function deepCompare<T>(tabl1: T, tabl2: T)
 	if tabl1 == nil then
 		if tabl2 == nil then
 			return false
@@ -104,7 +117,7 @@ function deepCompare(tabl1: {[any]:any?}, tabl2: {[any]:any?})
 	return compareTable(tabl1, tabl2)
 end
 
-function isValueDifferent(prev: nil | any | State, val: nil | any | State)
+function isValueDifferent<T>(prev: (T | StateAbstract<T>)?, val: (T | StateAbstract<T>)?)
 	if typeof(val) == "table" then
 		local trueVal
 		local truePrev
@@ -117,8 +130,9 @@ function isValueDifferent(prev: nil | any | State, val: nil | any | State)
 		if typeof(prev) == "table" then
 			assert(typeof(val) == "table")
 			val = val :: (any)
+			local fVal: any = val
 			assert(val ~= nil)
-			local meta: any = getmetatable(val or {})
+			local meta: any = getmetatable(fVal or {})
 
 			if prev.IsA and prev:IsA("State") then
 				truePrev = prev:Get()
@@ -154,7 +168,7 @@ function deepCopy(tabl: any)
 	return copyTable(tabl)
 end
 
-function State:_UpdateDependants()
+function StateAbstract:_UpdateDependants()
 	if not self.Alive then return end
 
 	local dependantsFolder = self.Dependants
@@ -173,7 +187,7 @@ function State:_UpdateDependants()
 	end
 end
 
-function State.Bind(self:State, state: State): State
+function StateAbstract:Bind<T>(state: StateAbstract<T>): any
 	assert(state ~= nil, "State is nil")
 	assert(typeof(state) == "table", "Bad state")
 	if not self.Alive then return self end
@@ -204,7 +218,7 @@ function State.Bind(self:State, state: State): State
 	return self
 end
 
-function State:Connect(func)
+function StateAbstract:Connect(func)
 	if not self.Alive then return end
 
 	local inst = self.Instance
@@ -225,7 +239,7 @@ function State:Connect(func)
 	end
 end
 
-function State:_Dependant(state: State): nil
+function StateAbstract:_Dependant<T>(state: StateAbstract<T>): nil
 	if not self.Alive then return end
 	if not rawget(state, "Alive") then return end
 
@@ -247,7 +261,7 @@ function State:_Dependant(state: State): nil
 	return nil
 end
 
-function State:Destroy()
+function StateAbstract:Destroy()
 	if not self.Alive then return end
 	setmetatable(self, nil)
 	self.Alive = false
@@ -268,12 +282,13 @@ function State:Destroy()
 	end
 	self._Maid:Destroy()
 
+	local tabl: any = self
 	for k, _ in pairs(self) do
-		self[k] = nil
+		tabl[k] = nil
 	end
 end
 
-function State:Get(): any? --so that inherited states can still access this functionality
+function StateAbstract:Get(): any? --so that inherited states can still access this functionality
 	if not self.Alive then return end
 	local val = self.Value
 	if typeof(val) == "table" then
@@ -284,7 +299,7 @@ function State:Get(): any? --so that inherited states can still access this func
 	return val
 end
 
-function State:_Set(val: any | State): boolean --returns if a chance was made
+function StateAbstract:_Set<T>(val: any | StateAbstract<T>): boolean --returns if a chance was made
 	local prevVal = self.Prev
 	local isDif = isValueDifferent(val, prevVal)
 	-- print("IsDif", isDif, "V", val, "P", prevVal)
@@ -305,170 +320,7 @@ function State:_Set(val: any | State): boolean --returns if a chance was made
 	return false
 end
 
-function getRemoteEvent(remoteName): RemoteEvent
-	if RunService:IsClient() then
-		local inst: Instance? = RemoteFolder:WaitForChild(remoteName)
-		assert(inst ~= nil and inst:IsA("RemoteEvent"))
-		return inst
-	else
-		local inst: Instance? = RemoteFolder:FindFirstChild(remoteName)
-		if inst ~= nil and inst:IsA("RemoteEvent") then
-			return inst
-		else
-			local newRemote = Instance.new("RemoteEvent")
-			newRemote.Name = remoteName
-			newRemote.Parent = RemoteFolder
-			return newRemote
-		end
-	end
-end
-
-function State:_Fire(remoteName: string, id: string?, player: Player?): nil --fires event to server / client
-	local remFunction = getRemoteEvent(remoteName)
-	if RunService:IsServer() then
-		if player then
-			remFunction:FireClient(player, id, self:Get())
-		else
-			remFunction:FireAllClients(id, self:Get())
-		end
-	else
-		remFunction:FireServer(id, self:Get())
-	end
-	return nil
-end
-
-
-function State:Transmit(remoteName: string, id: string?, rate: number?, player: Player?): State --when value is changed it replicates
-	if not self.Alive then return self end
-
-	local reload = if rate then 1/rate else 0
-	local lastFire = 0
-	self:Connect(function(cur, prev)
-		local offset = tick() - lastFire
-		if offset < reload then return end
-		lastFire = tick()
-		self:_Fire(remoteName, id, player)
-	end)
-	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
-	if RunService:IsServer() then
-		self._Maid:GiveTask(pingRemFunction.OnServerEvent:Connect(function(plr: Player, pId)
-			if (plr == player or not player) and pId == id then
-				self:_Fire(remoteName, id, player)
-			end
-		end))
-	else
-		self._Maid:GiveTask(pingRemFunction.OnClientEvent:Connect(function(pId)
-			if pId == id then
-				self:_Fire(remoteName, id, player)
-			end
-		end))
-	end
-	self:_Fire(remoteName, id, player)
-
-	return self
-end
-
-function State:Receive(remoteName: string, id: string?, player: Player?): State
-	if not self.Alive then return self end
-	local pingRemFunction = getRemoteEvent(remoteName.."Ping")
-	local remFunction = getRemoteEvent(remoteName)
-	if RunService:IsServer() then
-		self._Maid:GiveTask(remFunction.OnServerEvent:Connect(function(plr: Player, pId, val)
-			if (plr == player or not player) and pId == id then
-				if self:_Set(val) then
-					self:_UpdateDependants()
-				end
-			end
-		end))
-		if player then
-			pingRemFunction:FireClient(player, id)
-		else
-			pingRemFunction:FireAllClients(player, id)
-		end
-	else
-		self._Maid:GiveTask(remFunction.OnClientEvent:Connect(function(pId, val)
-			if pId == id then
-				if self:_Set(val) then
-					self:_UpdateDependants()
-				end
-			end
-		end))
-		pingRemFunction:FireServer(id)
-	end
-	return self
-end
-
-function State:CleanUp(): State --sets whether to attempt to fire destroy on the instance when state is destroyed
-	if not self.Alive then return self end
-	local maid = self._Maid
-	if not maid then return self end
-
-	maid:GiveTask(self:Connect(function(cur, prev)
-		if prev then
-			pcall(function()
-				prev:Destroy()
-			end)
-		end
-	end))
-	return self
-end
-
-function State:Tween(duration: number | State?, easingStyle: string | EnumItem | State?, easingDirection: string | EnumItem | State?): State?
-	return nil
-end
-
-function State:Else(alt: any | State): State?
-	return nil	
-end
-
-
-function State:Delay(val: number | State?): State --delays until a later point to avoid updating multiple times per heartbeat
-	if not self.Alive then return self end
-	rawset(self, "DelayAmount", val)
-	return self
-end
-
-function State:SetParent(parent: Instance): State --changes the parent of the instance
-	if not self.Alive then return self end
-	local inst: Folder? = self.Instance
-	if inst then
-		inst.Parent = parent
-	end
-	return self
-end
-
-function State:SetId(key): State --changes the name of the instance
-	if not self.Alive then return self end
-	key = tostring(key)
-	rawset(self, "Id", key)
-	local inst: Folder? = self.Instance
-	if inst then
-		inst.Name = key
-	end
-	return self
-end
-
-
-function State:IsA(className: string)
-	if className == "Isotope" then return true end
-	if self.__type == className then return true end
-	local checkList = {}
-	local function getClasses(tabl)
-		local meta = getmetatable(tabl)
-		if meta and checkList[meta] == nil then
-			checkList[meta] = true
-			if meta.__type == className then
-				return true
-			else
-				return getClasses(meta)
-			end
-		end
-		return false
-	end
-	return getClasses(self)
-end
-
-function State._new(value: any?)
+function StateAbstract._new(value: any?)
 
 	local maid = Maid.new()
 
@@ -518,14 +370,14 @@ function State._new(value: any?)
 
 
 
-	setmetatable(self, State)
+	setmetatable(self, StateAbstract)
 
 	return self
 end
 
 
-function State.new(value: any?): State
-	local self: State = State._new(value)
+function StateAbstract.new<T>(value: any?): StateAbstract<T>
+	local self: StateAbstract<T> = StateAbstract._new(value)
 
 	local UpdateEvent: Instance? = self.Instance:WaitForChild("Update")
 	assert(UpdateEvent ~= nil and UpdateEvent:IsA("BindableEvent"))
@@ -561,4 +413,4 @@ function State.new(value: any?): State
 end
 
 
-return State
+return StateAbstract

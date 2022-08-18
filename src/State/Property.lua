@@ -5,14 +5,14 @@ local package = script.Parent.Parent
 local packages = package.Parent
 
 local Maid = require(packages.Maid)
-local State = require(script.Parent)
-export type State = State.State
+local State = require(script.Parent.State)
+export type State<T> = State.State<T>
 
 local Property = {}
 Property.__index = Property
 Property.__type = "Property"
 
-function Property.new(instOrState: Instance | State, propertyName: string, rate: number?): State
+function Property.new<T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?): State<T>
 
 	local self = State.new()
 	self.Instance.Name = Property.__type
@@ -65,7 +65,7 @@ function Property.new(instOrState: Instance | State, propertyName: string, rate:
 	elseif typeof(instOrState) == "table" then
 		local tabl: {[any]: any} = instOrState
 		if tabl.IsA and tabl:IsA("State") then
-			local state:State = tabl
+			local state:State<T> = tabl
 			state:Connect(function(cur: any?)
 				if not cur then return nil end
 				assert(cur ~= nil and cur:IsA("Instance"))
@@ -79,7 +79,8 @@ function Property.new(instOrState: Instance | State, propertyName: string, rate:
 	else
 		error("Bad inst")
 	end
-	return self
+	local output: any = self
+	return output
 end
 setmetatable(Property, State)
 
