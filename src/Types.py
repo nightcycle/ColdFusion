@@ -4,6 +4,9 @@ import json
 
 API_DUMP_URL = "https://raw.githubusercontent.com/CloneTrooper1019/Roblox-Client-Tracker/roblox/API-Dump.json"
 
+MAX_CONSTRUCTOR_LENGTH = 5
+MAX_CONSTRUCTOR_LENGTH_GROUP = 2
+
 # sending get request and saving the response as response object
 api = requests.get(url = API_DUMP_URL, params = {}).json()
 apiStr = '{"k1": "v1", "k2": "v2"}'#"'"+str(api)+"'"
@@ -18,13 +21,14 @@ for classData in classes:
 	classList.append(classData)
 
 file.write("""
-local StateFolder = script.Parent.State
-local State = require(StateFolder.State)
+--!strict
+-- local StateFolder = script.Parent.State
+-- local State = require(StateFolder.State)
 
 local Symbol = require(script.Parent.Symbol)
 
-type State<T> = State.State<T>
-type ParameterEntry<T> = (State<T> | T)?
+type State<T> = {Get: (self: State<T>) -> T} -- State.State<T>
+type ParameterEntry<T> = (State<T> | T)
 type Symbol = Symbol.Symbol
 """)
 
@@ -124,148 +128,205 @@ safe = {
 	"DoubleConstrainedValue": "false", 
 	"IntConstrainedValue": "false", 
 	"Speaker": "false",
-	"ManualWeld": "false"
-
+	"ManualWeld": "false",
+	"Studio": "false"
 }
 
 finalList = []
 scores = {}
-for classData in classList:
+
+classProperties = {}
+
+def getIfViableProperty(propertyMember):
+	isScriptable = True
+	isDeprecated = False
+	isReadOnly = False
+	if "Tags" in propertyMember:
+		for tag in propertyMember["Tags"]:
+			if tag == "Deprecated":
+				isDeprecated = True
+			elif tag == "NotScriptable":
+				isScriptable = False
+			elif tag == "ReadOnly":
+				isReadOnly = True,
+				
+	if isScriptable and not isDeprecated and not isReadOnly and propertyMember["MemberType"] == "Property" and propertyMember["Security"]["Write"] == "None":
+		return True
+	else:
+		return False
+
+def setClassProperties(classData):
 	className = classData["Name"]
-	superClass = classData["Superclass"]
-	isService = False
-	# if not className in safeServices:
-	propCount = 0
-	isCreatable = True
-	isClassDeprecated = False
-
-	for member in classData["Members"]:
-		isScriptable = True
-		isDeprecated = False
-		
-		if "Tags" in member:
-			for tag in member["Tags"]:
-				if tag == "Deprecated":
-					isDeprecated = True
-				elif tag == "NotScriptable":
-					isScriptable = False
-					
-		if isScriptable and not isDeprecated and member["MemberType"] == "Property" and member["Security"]["Write"] == "None":
-			propCount += 1
-
-	if "Tags" in classData:
-		for tag in classData["Tags"]:
-			if tag == 'Service':
-				isService = True	
-			elif tag == 'NotCreatable':
-				isCreatable = False
-			elif tag == 'Deprecated' and not superClass == "BodyMover":
-				isClassDeprecated = True
-
-	if className in safe and safe[className] == "true":
+	if not className == "Studio":
+		superClass = classData["Superclass"]
 		isService = False
-		finalList.append(classData)
-	if className != "Studio":
+		# if not className in safeServices:
+		propCount = 0
+		isCreatable = True
+		isClassDeprecated = False
+
+		properties = {}
+
+		for member in classData["Members"]:
+			if getIfViableProperty(member) == True:
+				propCount += 1
+
+		if "Tags" in classData:
+			for tag in classData["Tags"]:
+				if tag == 'Service':
+					isService = True	
+				elif tag == 'NotCreatable':
+					isCreatable = False
+				elif tag == 'Deprecated' and not superClass == "BodyMover":
+					isClassDeprecated = True
+
+		if className in safe and safe[className] == "true":
+			isService = False
+			finalList.append(classData)
+
 		if isCreatable == True:
 			if not className in safe or  safe[className] != "false":
 				finalList.append(classData)
-		if className == "Instance":
-			file.write("\n\ntype "+className+"Properties = {")
-		else:
-			file.write("\n\ntype "+className+"Properties = "+ superClass +"Properties & {")
+		# if className == "Instance":
+		# 	file.write("\ntype "+className+"Properties = {")
+		# else:
+		# 	file.write("\ntype "+className+"Properties = "+ superClass +"Properties")
 		# file.write("\n\tClassName: \""+classData["Name"]+"\",")
-		for member in classData["Members"]:
-			isScriptable = True
-			isDeprecated = False
-			
-			if "Tags" in member:
-				for tag in member["Tags"]:
-					if tag == "Deprecated":
-						isDeprecated = True
-					elif tag == "NotScriptable":
-						isScriptable = False
+		if propCount > 0:
+			# if not className == "Instance":
+				# file.write(" & {")
 
-			if isScriptable and not isDeprecated and member["MemberType"] == "Property" and member["Security"]["Write"] == "None":
-				valueType = member["ValueType"]["Name"]
-				if valueType == "bool":
-					valueType = "boolean"
-				elif valueType == "float":
-					valueType = "number"
-				elif valueType == "int" or valueType == "int64" or valueType == "double":
-					valueType = "number"
-				elif valueType == "Content":
-					valueType = "string"
+			for member in classData["Members"]:
+				isScriptable = True
+				isDeprecated = False
+				isReadOnly = False
+				if "Tags" in member:
+					for tag in member["Tags"]:
+						if tag == "Deprecated":
+							isDeprecated = True
+						elif tag == "NotScriptable":
+							isScriptable = False
+						elif tag == "ReadOnly":
+							isReadOnly = True,
 
-				if member["ValueType"]["Category"] == "Enum":
-					valueType = "Enum."+valueType
+				if isScriptable and not isDeprecated and not isReadOnly and member["MemberType"] == "Property" and member["Security"]["Write"] == "None":
+					valueType = member["ValueType"]["Name"]
+					if valueType == "bool":
+						valueType = "boolean"
+					elif valueType == "float":
+						valueType = "number"
+					elif valueType == "int" or valueType == "int64" or valueType == "double":
+						valueType = "number"
+					elif valueType == "Content":
+						valueType = "string"
 
-				if not valueType == "Hole":
-					file.write("\n\t"+member["Name"]+": ParameterEntry<"+valueType+">?,")
-		if className == "Instance":
-			file.write("""
-	Children: {Instance}?,
-	Attributes: {[string]: ParameterEntry<
-		string | 
-		boolean | 
-		number |
-		UDim |
-		UDim2 |
-		BrickColor |
-		Color3 |
-		Vector2 |
-		Vector3 |
-		NumberSequence |
-		ColorSequence |
-		NumberRange |
-		Rect | nil
-	>}?,
-	[Symbol]: ((...any) -> any?),
-			""")
+					if member["ValueType"]["Category"] == "Enum":
+						valueType = "Enum."+valueType
+					if not valueType == "Hole":
+						# file.write("\n\t"+member["Name"]+": ParameterEntry<"+valueType+">?,")
+						properties[member["Name"]] = "ParameterEntry<"+valueType+">"
+
+			if className == "Instance":
+				properties["Children"] = "ParameterEntry<{Instance}>?"
+				properties["Attributes"] = """{[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}?"""
+		classProperties[className] = properties	
+
+hierarchy = {}
+
+for classData in classList:
+	className = classData["Name"]
+	superClass = classData["Superclass"]
+	if not superClass in hierarchy: 
+		hierarchy[superClass] = []
+	hierarchy[superClass].append(className)
+	setClassProperties(classData)
+
+def passProperties(className):
+	if className in hierarchy and className in classProperties:
+		properties = classProperties[className]
+		for childClass in hierarchy[className]:
+			if not childClass in classProperties:
+				classProperties[childClass] = {}
+			childProps = classProperties[childClass]
+			for propName, propType in properties.items():
+				if not propName in childProps:
+					childProps[propName] = propType
+			passProperties(childClass)
+
+passProperties("Instance")
+
+for classData in finalList:
+	className = classData["Name"]
+	if className in classProperties:
+		propList = classProperties[className]
+		file.write("\n\ntype " + className + "Properties = {")
+		for propName, propType in propList.items():
+			file.write("\n\t" + propName + ": " + propType + "?,")
+		file.write("\n\t[any]: (...any) -> any?")
+		file.write("\n} | {")
+		for propName, propType in propList.items():
+			file.write("\n\t" + propName + ": " + propType + "?,")
+		file.write("\n\t[any]: (...any) -> nil")
 		file.write("\n}")
 
+def createAMonster(baseName, firstParamFormatter):
+	typenameList = []
+	index = 1
+	file.write("\n\ntype "+baseName+"0 = (")
+	typenameList.append(baseName+"0")
 
-typenameList = []
-index = 1
-file.write("\n\ntype ClassNameConstructors0 = (")
-typenameList.append("ClassNameConstructors0")
-for classData in finalList:
-	print(index % 10)
-	if index % 10 == 0:
-		file.write(")\n\n")
-		file.write("type ClassNameConstructors"+ str(int(index/10)) + " = (")
-		typenameList.append("ClassNameConstructors"+ str(int(index/10)))
-	className = classData["Name"]
-	file.write("\n\t")
-	if index != 1 and index % 10 != 0:
-		file.write("& ")
-	index += 1
+	for classData in finalList:
+		# print(index % MAX_CONSTRUCTOR_LENGTH)
+		if index % MAX_CONSTRUCTOR_LENGTH == 0:
+			file.write(")\n\n")
+			file.write("type "+ baseName + str(int(index/5)) + " = (")
+			typenameList.append(baseName + str(int(index/5)))
+		className = classData["Name"]
+		file.write("\n\t")
+		if index != 1 and index % MAX_CONSTRUCTOR_LENGTH != 0:
+			file.write("& ")
+		index += 1
+		
+		file.write("(("+firstParamFormatter(className)+") -> ((params: "+className+"Properties) -> "+className+"))")
+	file.write(")")
 
-	file.write("(className: \""+className+"\") -> (("+className+"Properties) -> "+className+")")
-file.write(")")
+	def my_function(list,letters = ""):
+		innerlistA =  []
+		innerlistB =  []
 
-file.write(f"\n\nexport type ClassNameConstructors = {' & '.join(typenameList)}")
+		for i in range(0, len(list)):
+			if i % 2 == 0:
+				innerlistA.append(list[i])
+			else:
+				innerlistB.append(list[i])
+		if len(innerlistA) <= MAX_CONSTRUCTOR_LENGTH_GROUP and len(innerlistA) != 0:
+			file.write("\n\n type "+baseName+"A"+ letters +f" = {' & '.join(innerlistA)}")
+		if len(innerlistB) <= MAX_CONSTRUCTOR_LENGTH_GROUP and len(innerlistB) != 0:
+			file.write("\n\n type "+baseName+"B"+ letters +f" = {' & '.join(innerlistB)}")
+		if len(list) <= MAX_CONSTRUCTOR_LENGTH_GROUP *2:
+			file.write("\n\n type "+baseName+ letters + f" = "+baseName+"A"+ letters + " & "+baseName+"B" + letters) 
+		else:
+			# print(innerlistA)
+			lettersA = letters + "L"
+			my_function(innerlistA,lettersA)
+			# print(innerlistB)
+			lettersB = letters + "R"
+			my_function(innerlistB,lettersB)
+			if letters == "":
+				file.write("\n\n export type "+baseName+ letters + f" = "+baseName+ lettersA + " & "+baseName + lettersB) 
+			else:
+				file.write("\n\n type "+baseName+ letters + f" = "+baseName+ lettersA + " & "+baseName + lettersB) 
+			
 
+	my_function(typenameList)
 
-typenameList2 = []
-index2 = 1
-file.write("\n\ntype ClassConstructors0 = (")
-typenameList2.append("ClassConstructors0")
-for classData in finalList:
-	print(index2 % 10)
-	if index2 % 10 == 0:
-		file.write(")\n\n")
-		file.write("type ClassConstructors"+ str(int(index2/10)) + " = (")
-		typenameList2.append("ClassConstructors"+ str(int(index2/10)))
-	className = classData["Name"]
-	file.write("\n\t")
-	if index2 != 1 and index2 % 10 != 0:
-		file.write("& ")
-	index2 += 1
+def classNameFormat(className):
+	return ("className: \""+className + "\"")
 
-	file.write("("+className+") -> (("+className+"Properties) -> "+className+")")
-file.write(")")
+def classFormat(className):
+	return className
 
-file.write(f"\n\nexport type ClassConstructors = {' & '.join(typenameList2)}")
+createAMonster("ClassNameConstructors", classNameFormat)
+createAMonster("ClassConstructors", classFormat)
 
-
-file.write("\n\nreturn {}")
+file.write("\n\nreturn {}") 

@@ -1,3 +1,4 @@
+--!strict
 local package = script
 local packages = package.Parent
 
@@ -25,6 +26,8 @@ export type ValueState<T> = Value.ValueState<T>
 export type Symbol = Symbol.Symbol
 
 export type Fuse = {
+	_IsAlive: boolean,
+	_Maid: Maid,
 	Destroy: (Fuse) -> nil,
 	fuse: (Maid?) -> Fuse,
 	Event: Event.Constructor,
@@ -53,13 +56,13 @@ function Fuse:Destroy()
 	return nil
 end
 
-function Fuse.new(maid: Maid?)
+function Fuse.fuse(maid: Maid?): Fuse
 	local self = {}
 	self._IsAlive = true
 	self._Maid = maid or Maid.new() :: Maid
 
 	--Symbol
-	self.fuse = Fuse.new(self._Maid)
+	self.fuse = Fuse.fuse(self._Maid)
 
 	self.Event = function(...)
 		local symbol = Event.new(...)
@@ -102,14 +105,20 @@ function Fuse.new(maid: Maid?)
 		self._Maid:GiveTask(state)
 		return state
 	end :: Value.Constructor
-
+	self.new = function(...)
+		local constFunc = Mount.fromInstance(...)
+		return function(...)
+			local inst = constFunc(...)
+			self._Maid:GiveTask(inst)
+			return inst
+		end
+	end :: Mount.ClassNameConstructor
 	self.mount = Mount.fromInstance
-	self.new = Mount.fromClassName
 
 	self.import = function<T>(unknown: (T | State<T>)?): State<T>
 		if unknown == nil or typeof(unknown) ~= "table" then
 			local v: any = unknown
-			local state = State.new(v)
+			local state: any = State.new(v)
 			self._Maid:GiveTask(state)
 			return state
 		else
@@ -119,7 +128,7 @@ function Fuse.new(maid: Maid?)
 				return unknown
 			else
 				local v: any = unknown
-				local state = State.new(v)
+				local state: any = State.new(v)
 				self._Maid:GiveTask(state)
 				return state
 			end
@@ -128,7 +137,8 @@ function Fuse.new(maid: Maid?)
 
 	setmetatable(self, Fuse)
 
-	return self
+	local f: any = self
+	return f
 end
 
-return Fuse.new()
+return Fuse.fuse()

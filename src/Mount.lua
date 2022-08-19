@@ -124,21 +124,19 @@ end
 export type ClassNameConstructor = Types.ClassNameConstructors
 export type ClassConstructor = Types.ClassConstructors
 
-local fromInstance: ClassConstructor = function(inst: any): any
-	return function(params: any): any
+local fromInstance: ClassConstructor= function(inst: any): any
+	return function(params)
 		return applyToStateOrInstance(inst, params)
 	end
 end
 
 
 local fromClassName: ClassNameConstructor = function(className: any): any
-	return function(params: any): any
+	return function(params)
 		local inst: any = Instance.new(className)
 		return applyToStateOrInstance(inst, params)
 	end
 end
-
--- local _part = fromClassName("Part")
 
 Mount.fromInstance = fromInstance
 Mount.fromClassName = fromClassName
