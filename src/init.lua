@@ -59,6 +59,9 @@ function Fuse.new(maid: Maid?)
 
 	setmetatable(self, Fuse)
 
+	return self
 end
+
+export type Fuse = typeof(Fuse.new())
 
 return Fuse.new()
