@@ -17,18 +17,25 @@ function Value:Set<T>(val: (any | State<T>))
 	end
 end
 
+
+function Value:set(...): any? --for fusion compatibility
+	return self:Set(...)
+end
+
 function Value:Update(func)
 	assert(typeof(func) == "function", "Bad function")
 	self:Set(func(self:Get()))
 end
 
-function Value.new<T>(...): ValueState<T>
-	local self = State.new(...)
+export type Constructor = <T>(T) -> ValueState<T>
+
+Value.new = function <T>(v: T): ValueState<T>
+	local self = State.new(v)
 	setmetatable(self, Value)
 	self.Instance.Name = Value.__type
 	local output: any = self
 	return output
-end
+end :: Constructor
 
 setmetatable(Value, State)
 return Value

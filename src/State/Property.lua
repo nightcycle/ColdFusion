@@ -12,7 +12,9 @@ local Property = {}
 Property.__index = Property
 Property.__type = "Property"
 
-function Property.new<T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?): State<T>
+export type Constructor = <T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?) -> State<T>
+
+Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?): State<T>
 
 	local self = State.new()
 	self.Instance.Name = Property.__type
@@ -81,7 +83,7 @@ function Property.new<T>(instOrState: (Instance | State<T>), propertyName: strin
 	end
 	local output: any = self
 	return output
-end
+end :: Constructor
 setmetatable(Property, State)
 
 return Property

@@ -64,6 +64,19 @@ function applyToInstance(inst: Instance?, params: {any})
 				else
 					addChildren(v)
 				end
+			elseif k == "Attributes" then
+				if v.IsA and v:IsA("State") then
+					maid:GiveTask(v:Connect(function(cur)
+						inst:SetAttribute(k, v)
+					end))
+					if v.Set then
+						maid:GiveTask(inst:GetAttributeChangedSignal(k):Connect((function(val)
+							v:Set(val)
+						end)))
+					end
+				else
+					inst:SetAttribute(k, v)
+				end
 			else
 				applyProperty(k, v)
 			end
@@ -108,14 +121,15 @@ function applyToStateOrInstance(instOrState: (Instance | State<Instance?>), para
 		error("Bad instance")
 	end
 end
-type ClassNameConstructor = Types.ClassNameConstructor
-type ClassConstructor = Types.ClassConstructor
+export type ClassNameConstructor = Types.ClassNameConstructors
+export type ClassConstructor = Types.ClassConstructors
 
-local fromInstance: ClassConstructor = function(inst: Instance): any
-	return function(params: any)
+local fromInstance: ClassConstructor = function(inst: any): any
+	return function(params: any): any
 		return applyToStateOrInstance(inst, params)
 	end
 end
+
 
 local fromClassName: ClassNameConstructor = function(className: any): any
 	return function(params: any): any
@@ -124,7 +138,7 @@ local fromClassName: ClassNameConstructor = function(className: any): any
 	end
 end
 
-local _part = fromClassName("Part")
+-- local _part = fromClassName("Part")
 
 Mount.fromInstance = fromInstance
 Mount.fromClassName = fromClassName

@@ -1,17 +1,37 @@
-type State<T> = {Get: (self: State<T>) -> T}--State.State<T>
+
+local StateFolder = script.Parent.State
+local State = require(StateFolder.State)
+
+local Symbol = require(script.Parent.Symbol)
+
+type State<T> = State.State<T>
 type ParameterEntry<T> = (State<T> | T)?
-type Symbol = {any}
+type Symbol = Symbol.Symbol
+
 
 type InstanceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	ClassName: ParameterEntry<string>?,
 	Name: ParameterEntry<string>?,
-	RobloxLocked: ParameterEntry<boolean>?,
-	SourceAssetId: ParameterEntry<number>?,
-	Parent: ParameterEntry<Instance?>?,
+	Parent: ParameterEntry<Instance>?,
 	Children: {Instance}?,
-} & {
-	[Symbol]: any?,
+	Attributes: {[string]: ParameterEntry<
+		string | 
+		boolean | 
+		number |
+		UDim |
+		UDim2 |
+		BrickColor |
+		Color3 |
+		Vector2 |
+		Vector3 |
+		NumberSequence |
+		ColorSequence |
+		NumberRange |
+		Rect | nil
+	>}?,
+	[Symbol]: ((...any) -> any?),
+			
 }
 
 type AccoutrementProperties = InstanceProperties & {
@@ -20,15 +40,59 @@ type AccoutrementProperties = InstanceProperties & {
 	AttachmentPos: ParameterEntry<Vector3>?,
 	AttachmentRight: ParameterEntry<Vector3>?,
 	AttachmentUp: ParameterEntry<Vector3>?,
-} 
+}
 
 type AccessoryProperties = AccoutrementProperties & {
-	AccessoryType: ParameterEntry<Enum.AccessoryType>?
-} 
+}
+
+type HatProperties = AccoutrementProperties & {
+}
+
+type AdServiceProperties = InstanceProperties & {
+}
+
+type AdvancedDraggerProperties = InstanceProperties & {
+}
+
+type AnalyticsServiceProperties = InstanceProperties & {
+}
 
 type AnimationProperties = InstanceProperties & {
 	AnimationId: ParameterEntry<string>?,
-} 
+}
+
+type AnimationClipProperties = InstanceProperties & {
+	Loop: ParameterEntry<boolean>?,
+	Priority: ParameterEntry<Enum.AnimationPriority>?,
+}
+
+type CurveAnimationProperties = AnimationClipProperties & {
+}
+
+type KeyframeSequenceProperties = AnimationClipProperties & {
+}
+
+type AnimationClipProviderProperties = InstanceProperties & {
+}
+
+type AnimationControllerProperties = InstanceProperties & {
+}
+
+type AnimationFromVideoCreatorServiceProperties = InstanceProperties & {
+}
+
+type AnimationFromVideoCreatorStudioServiceProperties = InstanceProperties & {
+}
+
+type AnimationRigDataProperties = InstanceProperties & {
+}
+
+type AnimationStreamTrackProperties = InstanceProperties & {
+	IsPlaying: ParameterEntry<boolean>?,
+	Priority: ParameterEntry<Enum.AnimationPriority>?,
+	WeightCurrent: ParameterEntry<number>?,
+	WeightTarget: ParameterEntry<number>?,
+}
 
 type AnimationTrackProperties = InstanceProperties & {
 	Animation: ParameterEntry<Animation>?,
@@ -40,7 +104,31 @@ type AnimationTrackProperties = InstanceProperties & {
 	TimePosition: ParameterEntry<number>?,
 	WeightCurrent: ParameterEntry<number>?,
 	WeightTarget: ParameterEntry<number>?,
-} 
+}
+
+type AnimatorProperties = InstanceProperties & {
+}
+
+type AppUpdateServiceProperties = InstanceProperties & {
+}
+
+type AssetCounterServiceProperties = InstanceProperties & {
+}
+
+type AssetDeliveryProxyProperties = InstanceProperties & {
+}
+
+type AssetImportServiceProperties = InstanceProperties & {
+}
+
+type AssetImportSessionProperties = InstanceProperties & {
+}
+
+type AssetManagerServiceProperties = InstanceProperties & {
+}
+
+type AssetServiceProperties = InstanceProperties & {
+}
 
 type AtmosphereProperties = InstanceProperties & {
 	Color: ParameterEntry<Color3>?,
@@ -49,7 +137,7 @@ type AtmosphereProperties = InstanceProperties & {
 	Glare: ParameterEntry<number>?,
 	Haze: ParameterEntry<number>?,
 	Offset: ParameterEntry<number>?,
-} 
+}
 
 type AttachmentProperties = InstanceProperties & {
 	Axis: ParameterEntry<Vector3>?,
@@ -63,18 +151,31 @@ type AttachmentProperties = InstanceProperties & {
 	WorldOrientation: ParameterEntry<Vector3>?,
 	WorldPosition: ParameterEntry<Vector3>?,
 	WorldSecondaryAxis: ParameterEntry<Vector3>?,
-} 
+}
 
 type BoneProperties = AttachmentProperties & {
-	IsCFrameDriven: ParameterEntry<boolean>?,
 	Transform: ParameterEntry<CFrame>?,
 	TransformedCFrame: ParameterEntry<CFrame>?,
 	TransformedWorldCFrame: ParameterEntry<CFrame>?,
-} 
+}
+
+type AvatarEditorServiceProperties = InstanceProperties & {
+}
+
+type AvatarImportServiceProperties = InstanceProperties & {
+}
+
+type BackpackProperties = InstanceProperties & {
+}
 
 type BackpackItemProperties = InstanceProperties & {
 	TextureId: ParameterEntry<string>?,
-} 
+}
+
+type HopperBinProperties = BackpackItemProperties & {
+	Active: ParameterEntry<boolean>?,
+	BinType: ParameterEntry<Enum.BinType>?,
+}
 
 type ToolProperties = BackpackItemProperties & {
 	CanBeDropped: ParameterEntry<boolean>?,
@@ -87,36 +188,48 @@ type ToolProperties = BackpackItemProperties & {
 	ManualActivationOnly: ParameterEntry<boolean>?,
 	RequiresHandle: ParameterEntry<boolean>?,
 	ToolTip: ParameterEntry<string>?,
-} 
+}
+
+type FlagProperties = ToolProperties & {
+	TeamColor: ParameterEntry<BrickColor>?,
+}
+
+type BadgeServiceProperties = InstanceProperties & {
+}
+
+type BasePlayerGuiProperties = InstanceProperties & {
+}
+
+type CoreGuiProperties = BasePlayerGuiProperties & {
+	Version: ParameterEntry<number>?,
+}
+
+type PlayerGuiProperties = BasePlayerGuiProperties & {
+	CurrentScreenOrientation: ParameterEntry<Enum.ScreenOrientation>?,
+	ScreenOrientation: ParameterEntry<Enum.ScreenOrientation>?,
+	SelectionImageObject: ParameterEntry<GuiObject>?,
+}
+
+type StarterGuiProperties = BasePlayerGuiProperties & {
+	ScreenOrientation: ParameterEntry<Enum.ScreenOrientation>?,
+	ShowDevelopmentGui: ParameterEntry<boolean>?,
+}
 
 type BaseWrapProperties = InstanceProperties & {
-	CageMeshId: ParameterEntry<string>?,
-	CageOrigin: ParameterEntry<CFrame>?,
 	CageOriginWorld: ParameterEntry<CFrame>?,
-	HSRAssetId: ParameterEntry<string>?,
-	ImportOrigin: ParameterEntry<CFrame>?,
 	ImportOriginWorld: ParameterEntry<CFrame>?,
-} 
+}
 
-type WrapLayerProperties =  BaseWrapProperties & {
+type WrapLayerProperties = BaseWrapProperties & {
 	AutoSkin: ParameterEntry<Enum.WrapLayerAutoSkin>?,
-	BindOffset: ParameterEntry<CFrame>?,
-	Color: ParameterEntry<Color3>?,
-	DebugMode: ParameterEntry<Enum.WrapLayerDebugMode>?,
 	Enabled: ParameterEntry<boolean>?,
 	Order: ParameterEntry<number>?,
 	Puffiness: ParameterEntry<number>?,
-	ReferenceMeshId: ParameterEntry<string>?,
-	ReferenceOrigin: ParameterEntry<CFrame>?,
 	ReferenceOriginWorld: ParameterEntry<CFrame>?,
-	ShrinkFactor: ParameterEntry<number>?,
-} 
+}
 
-type WrapTargetProperties =  BaseWrapProperties & {
-	Color: ParameterEntry<Color3>?,
-	DebugMode: ParameterEntry<Enum.WrapTargetDebugMode>?,
-	Stiffness: ParameterEntry<number>?,
-} 
+type WrapTargetProperties = BaseWrapProperties & {
+}
 
 type BeamProperties = InstanceProperties & {
 	Attachment0: ParameterEntry<Attachment>?,
@@ -138,50 +251,92 @@ type BeamProperties = InstanceProperties & {
 	Width0: ParameterEntry<number>?,
 	Width1: ParameterEntry<number>?,
 	ZOffset: ParameterEntry<number>?,
-} 
+}
 
-type BindableEventProperties = InstanceProperties & {} 
+type BindableEventProperties = InstanceProperties & {
+}
 
 type BindableFunctionProperties = InstanceProperties & {
-	OnInvoke: ParameterEntry<((...any) -> ...any)>?
-} 
+}
 
-type BodyMoverProperties = InstanceProperties & {} 
+type BodyMoverProperties = InstanceProperties & {
+}
 
-type BodyAngularVelocityProperties =  BodyMoverProperties & {
+type BodyAngularVelocityProperties = BodyMoverProperties & {
 	AngularVelocity: ParameterEntry<Vector3>?,
 	MaxTorque: ParameterEntry<Vector3>?,
 	P: ParameterEntry<number>?,
-} 
+}
 
-type BodyForceProperties =  BodyMoverProperties & {
+type BodyForceProperties = BodyMoverProperties & {
 	Force: ParameterEntry<Vector3>?,
-} 
+}
 
-type BodyGyroProperties =  BodyMoverProperties & {
+type BodyGyroProperties = BodyMoverProperties & {
 	CFrame: ParameterEntry<CFrame>?,
 	D: ParameterEntry<number>?,
 	MaxTorque: ParameterEntry<Vector3>?,
 	P: ParameterEntry<number>?,
-} 
+}
 
-type BodyPositionProperties =  BodyMoverProperties & {
+type BodyPositionProperties = BodyMoverProperties & {
 	D: ParameterEntry<number>?,
 	MaxForce: ParameterEntry<Vector3>?,
 	P: ParameterEntry<number>?,
 	Position: ParameterEntry<Vector3>?,
-} 
+}
 
 type BodyThrustProperties = BodyMoverProperties & {
 	Force: ParameterEntry<Vector3>?,
 	Location: ParameterEntry<Vector3>?,
-} 
+}
 
-type BodyVelocityProperties =  BodyMoverProperties & {
+type BodyVelocityProperties = BodyMoverProperties & {
 	MaxForce: ParameterEntry<Vector3>?,
 	P: ParameterEntry<number>?,
 	Velocity: ParameterEntry<Vector3>?,
-} 
+}
+
+type RocketPropulsionProperties = BodyMoverProperties & {
+	CartoonFactor: ParameterEntry<number>?,
+	MaxSpeed: ParameterEntry<number>?,
+	MaxThrust: ParameterEntry<number>?,
+	MaxTorque: ParameterEntry<Vector3>?,
+	Target: ParameterEntry<BasePart>?,
+	TargetOffset: ParameterEntry<Vector3>?,
+	TargetRadius: ParameterEntry<number>?,
+	ThrustD: ParameterEntry<number>?,
+	ThrustP: ParameterEntry<number>?,
+	TurnD: ParameterEntry<number>?,
+	TurnP: ParameterEntry<number>?,
+}
+
+type BreakpointProperties = InstanceProperties & {
+}
+
+type BreakpointManagerProperties = InstanceProperties & {
+}
+
+type BrowserServiceProperties = InstanceProperties & {
+}
+
+type BulkImportServiceProperties = InstanceProperties & {
+}
+
+type CacheableContentProviderProperties = InstanceProperties & {
+}
+
+type HSRDataContentProviderProperties = CacheableContentProviderProperties & {
+}
+
+type MeshContentProviderProperties = CacheableContentProviderProperties & {
+}
+
+type SolidModelContentProviderProperties = CacheableContentProviderProperties & {
+}
+
+type CalloutServiceProperties = InstanceProperties & {
+}
 
 type CameraProperties = InstanceProperties & {
 	CFrame: ParameterEntry<CFrame>?,
@@ -196,11 +351,15 @@ type CameraProperties = InstanceProperties & {
 	MaxAxisFieldOfView: ParameterEntry<number>?,
 	NearPlaneZ: ParameterEntry<number>?,
 	ViewportSize: ParameterEntry<Vector2>?,
-} 
+}
 
-type CharacterAppearanceProperties = InstanceProperties & {} 
+type ChangeHistoryServiceProperties = InstanceProperties & {
+}
 
-type BodyColorsProperties =  CharacterAppearanceProperties & {
+type CharacterAppearanceProperties = InstanceProperties & {
+}
+
+type BodyColorsProperties = CharacterAppearanceProperties & {
 	HeadColor: ParameterEntry<BrickColor>?,
 	HeadColor3: ParameterEntry<Color3>?,
 	LeftArmColor: ParameterEntry<BrickColor>?,
@@ -213,38 +372,72 @@ type BodyColorsProperties =  CharacterAppearanceProperties & {
 	RightLegColor3: ParameterEntry<Color3>?,
 	TorsoColor: ParameterEntry<BrickColor>?,
 	TorsoColor3: ParameterEntry<Color3>?,
-} 
+}
 
-type ClothingProperties =  CharacterAppearanceProperties & {
+type CharacterMeshProperties = CharacterAppearanceProperties & {
+	BaseTextureId: ParameterEntry<number>?,
+	BodyPart: ParameterEntry<Enum.BodyPart>?,
+	MeshId: ParameterEntry<number>?,
+	OverlayTextureId: ParameterEntry<number>?,
+}
+
+type ClothingProperties = CharacterAppearanceProperties & {
 	Color3: ParameterEntry<Color3>?,
-} 
+}
 
-type PantsProperties =  ClothingProperties & {
+type PantsProperties = ClothingProperties & {
 	PantsTemplate: ParameterEntry<string>?,
-} 
+}
 
-type ShirtProperties =  ClothingProperties & {
+type ShirtProperties = ClothingProperties & {
 	ShirtTemplate: ParameterEntry<string>?,
-} 
+}
 
-type ShirtGraphicProperties =  CharacterAppearanceProperties & {
+type ShirtGraphicProperties = CharacterAppearanceProperties & {
 	Color3: ParameterEntry<Color3>?,
 	Graphic: ParameterEntry<string>?,
-} 
+}
+
+type SkinProperties = CharacterAppearanceProperties & {
+	SkinColor: ParameterEntry<BrickColor>?,
+}
+
+type ChatProperties = InstanceProperties & {
+	BubbleChatEnabled: ParameterEntry<boolean>?,
+}
 
 type ClickDetectorProperties = InstanceProperties & {
 	CursorIcon: ParameterEntry<string>?,
 	MaxActivationDistance: ParameterEntry<number>?,
-} 
+}
 
 type CloudsProperties = InstanceProperties & {
 	Color: ParameterEntry<Color3>?,
 	Cover: ParameterEntry<number>?,
 	Density: ParameterEntry<number>?,
 	Enabled: ParameterEntry<boolean>?,
-} 
+}
 
-type ConfigurationProperties = InstanceProperties & {} 
+type ClusterPacketCacheProperties = InstanceProperties & {
+}
+
+type CollectionServiceProperties = InstanceProperties & {
+}
+
+type CommandInstanceProperties = InstanceProperties & {
+	AllowGUIAccessPoints: ParameterEntry<boolean>?,
+	DisplayName: ParameterEntry<string>?,
+	Name: ParameterEntry<string>?,
+}
+
+type CommandServiceProperties = InstanceProperties & {
+}
+
+type ConfigurationProperties = InstanceProperties & {
+}
+
+type ConfigureServerServiceProperties = InstanceProperties & {
+}
 
 type ConstraintProperties = InstanceProperties & {
 	Active: ParameterEntry<boolean>?,
@@ -253,9 +446,9 @@ type ConstraintProperties = InstanceProperties & {
 	Color: ParameterEntry<BrickColor>?,
 	Enabled: ParameterEntry<boolean>?,
 	Visible: ParameterEntry<boolean>?,
-} 
+}
 
-type AlignOrientationProperties =  ConstraintProperties & {
+type AlignOrientationProperties = ConstraintProperties & {
 	AlignType: ParameterEntry<Enum.AlignType>?,
 	CFrame: ParameterEntry<CFrame>?,
 	MaxAngularVelocity: ParameterEntry<number>?,
@@ -267,7 +460,7 @@ type AlignOrientationProperties =  ConstraintProperties & {
 	Responsiveness: ParameterEntry<number>?,
 	RigidityEnabled: ParameterEntry<boolean>?,
 	SecondaryAxis: ParameterEntry<Vector3>?,
-} 
+}
 
 type AlignPositionProperties = ConstraintProperties & {
 	ApplyAtCenterOfMass: ParameterEntry<boolean>?,
@@ -278,16 +471,16 @@ type AlignPositionProperties = ConstraintProperties & {
 	ReactionForceEnabled: ParameterEntry<boolean>?,
 	Responsiveness: ParameterEntry<number>?,
 	RigidityEnabled: ParameterEntry<boolean>?,
-} 
+}
 
-type AngularVelocityProperties =  ConstraintProperties & {
+type AngularVelocityProperties = ConstraintProperties & {
 	AngularVelocity: ParameterEntry<Vector3>?,
 	MaxTorque: ParameterEntry<number>?,
 	ReactionTorqueEnabled: ParameterEntry<boolean>?,
 	RelativeTo: ParameterEntry<Enum.ActuatorRelativeTo>?,
-} 
+}
 
-type BallSocketConstraintProperties =  ConstraintProperties & {
+type BallSocketConstraintProperties = ConstraintProperties & {
 	LimitsEnabled: ParameterEntry<boolean>?,
 	MaxFrictionTorque: ParameterEntry<number>?,
 	Radius: ParameterEntry<number>?,
@@ -296,9 +489,9 @@ type BallSocketConstraintProperties =  ConstraintProperties & {
 	TwistLowerAngle: ParameterEntry<number>?,
 	TwistUpperAngle: ParameterEntry<number>?,
 	UpperAngle: ParameterEntry<number>?,
-} 
+}
 
-type HingeConstraintProperties =  ConstraintProperties & {
+type HingeConstraintProperties = ConstraintProperties & {
 	ActuatorType: ParameterEntry<Enum.ActuatorType>?,
 	AngularResponsiveness: ParameterEntry<number>?,
 	AngularSpeed: ParameterEntry<number>?,
@@ -313,17 +506,17 @@ type HingeConstraintProperties =  ConstraintProperties & {
 	ServoMaxTorque: ParameterEntry<number>?,
 	TargetAngle: ParameterEntry<number>?,
 	UpperAngle: ParameterEntry<number>?,
-} 
+}
 
-type LineForceProperties =  ConstraintProperties & {
+type LineForceProperties = ConstraintProperties & {
 	ApplyAtCenterOfMass: ParameterEntry<boolean>?,
 	InverseSquareLaw: ParameterEntry<boolean>?,
 	Magnitude: ParameterEntry<number>?,
 	MaxForce: ParameterEntry<number>?,
 	ReactionForceEnabled: ParameterEntry<boolean>?,
-} 
+}
 
-type LinearVelocityProperties =  ConstraintProperties & {
+type LinearVelocityProperties = ConstraintProperties & {
 	LineDirection: ParameterEntry<Vector3>?,
 	LineVelocity: ParameterEntry<number>?,
 	MaxForce: ParameterEntry<number>?,
@@ -333,20 +526,25 @@ type LinearVelocityProperties =  ConstraintProperties & {
 	SecondaryTangentAxis: ParameterEntry<Vector3>?,
 	VectorVelocity: ParameterEntry<Vector3>?,
 	VelocityConstraintMode: ParameterEntry<Enum.VelocityConstraintMode>?,
-} 
+}
 
-type PlaneConstraintProperties =  ConstraintProperties & {} 
+type PlaneConstraintProperties = ConstraintProperties & {
+}
 
-type RigidConstraintProperties =  ConstraintProperties & {} 
+type PlaneProperties = PlaneConstraintProperties & {
+}
 
-type RodConstraintProperties =  ConstraintProperties & {
+type RigidConstraintProperties = ConstraintProperties & {
+}
+
+type RodConstraintProperties = ConstraintProperties & {
 	CurrentDistance: ParameterEntry<number>?,
 	Length: ParameterEntry<number>?,
 	LimitAngle0: ParameterEntry<number>?,
 	LimitAngle1: ParameterEntry<number>?,
 	LimitsEnabled: ParameterEntry<boolean>?,
 	Thickness: ParameterEntry<number>?,
-} 
+}
 
 type RopeConstraintProperties = ConstraintProperties & {
 	CurrentDistance: ParameterEntry<number>?,
@@ -358,9 +556,9 @@ type RopeConstraintProperties = ConstraintProperties & {
 	WinchResponsiveness: ParameterEntry<number>?,
 	WinchSpeed: ParameterEntry<number>?,
 	WinchTarget: ParameterEntry<number>?,
-} 
+}
 
-type SlidingBallConstraintProperties =  ConstraintProperties & {
+type SlidingBallConstraintProperties = ConstraintProperties & {
 	ActuatorType: ParameterEntry<Enum.ActuatorType>?,
 	CurrentPosition: ParameterEntry<number>?,
 	LimitsEnabled: ParameterEntry<boolean>?,
@@ -375,9 +573,9 @@ type SlidingBallConstraintProperties =  ConstraintProperties & {
 	TargetPosition: ParameterEntry<number>?,
 	UpperLimit: ParameterEntry<number>?,
 	Velocity: ParameterEntry<number>?,
-} 
+}
 
-type CylindricalConstraintProperties =  SlidingBallConstraintProperties & {
+type CylindricalConstraintProperties = SlidingBallConstraintProperties & {
 	AngularActuatorType: ParameterEntry<Enum.ActuatorType>?,
 	AngularLimitsEnabled: ParameterEntry<boolean>?,
 	AngularResponsiveness: ParameterEntry<number>?,
@@ -394,11 +592,12 @@ type CylindricalConstraintProperties =  SlidingBallConstraintProperties & {
 	TargetAngle: ParameterEntry<number>?,
 	UpperAngle: ParameterEntry<number>?,
 	WorldRotationAxis: ParameterEntry<Vector3>?,
-} 
+}
 
-type PrismaticConstraintProperties =  SlidingBallConstraintProperties & {} 
+type PrismaticConstraintProperties = SlidingBallConstraintProperties & {
+}
 
-type SpringConstraintProperties =  ConstraintProperties & {
+type SpringConstraintProperties = ConstraintProperties & {
 	Coils: ParameterEntry<number>?,
 	CurrentLength: ParameterEntry<number>?,
 	Damping: ParameterEntry<number>?,
@@ -410,14 +609,14 @@ type SpringConstraintProperties =  ConstraintProperties & {
 	Radius: ParameterEntry<number>?,
 	Stiffness: ParameterEntry<number>?,
 	Thickness: ParameterEntry<number>?,
-} 
+}
 
 type TorqueProperties = ConstraintProperties & {
 	RelativeTo: ParameterEntry<Enum.ActuatorRelativeTo>?,
 	Torque: ParameterEntry<Vector3>?,
-} 
+}
 
-type TorsionSpringConstraintProperties =  ConstraintProperties & {
+type TorsionSpringConstraintProperties = ConstraintProperties & {
 	Coils: ParameterEntry<number>?,
 	CurrentAngle: ParameterEntry<number>?,
 	Damping: ParameterEntry<number>?,
@@ -427,29 +626,230 @@ type TorsionSpringConstraintProperties =  ConstraintProperties & {
 	Radius: ParameterEntry<number>?,
 	Restitution: ParameterEntry<number>?,
 	Stiffness: ParameterEntry<number>?,
-} 
+}
 
-type UniversalConstraintProperties =  ConstraintProperties & {
+type UniversalConstraintProperties = ConstraintProperties & {
 	LimitsEnabled: ParameterEntry<boolean>?,
 	MaxAngle: ParameterEntry<number>?,
 	Radius: ParameterEntry<number>?,
 	Restitution: ParameterEntry<number>?,
-} 
+}
 
-type VectorForceProperties =  ConstraintProperties & {
+type VectorForceProperties = ConstraintProperties & {
 	ApplyAtCenterOfMass: ParameterEntry<boolean>?,
 	Force: ParameterEntry<Vector3>?,
 	RelativeTo: ParameterEntry<Enum.ActuatorRelativeTo>?,
-} 
+}
 
-type FileMeshProperties =  DataModelMesh & {
+type ContentProviderProperties = InstanceProperties & {
+	BaseUrl: ParameterEntry<string>?,
+	RequestQueueSize: ParameterEntry<number>?,
+}
+
+type ContextActionServiceProperties = InstanceProperties & {
+}
+
+type ControllerProperties = InstanceProperties & {
+}
+
+type HumanoidControllerProperties = ControllerProperties & {
+}
+
+type SkateboardControllerProperties = ControllerProperties & {
+	Steer: ParameterEntry<number>?,
+	Throttle: ParameterEntry<number>?,
+}
+
+type VehicleControllerProperties = ControllerProperties & {
+}
+
+type ControllerBaseProperties = InstanceProperties & {
+	MoveSpeedFactor: ParameterEntry<number>?,
+	RigidityEnabled: ParameterEntry<boolean>?,
+}
+
+type AirControllerProperties = ControllerBaseProperties & {
+	CancelAirMomentum: ParameterEntry<boolean>?,
+	MoveMaxForce: ParameterEntry<number>?,
+	OrientationMaxTorque: ParameterEntry<number>?,
+	OrientationSpeed: ParameterEntry<number>?,
+	VectorForce: ParameterEntry<Vector3>?,
+}
+
+type ClimbControllerProperties = ControllerBaseProperties & {
+	AccelerationTime: ParameterEntry<number>?,
+	MoveMaxForce: ParameterEntry<number>?,
+	OrientationMaxTorque: ParameterEntry<number>?,
+	OrientationSpeed: ParameterEntry<number>?,
+}
+
+type GroundControllerProperties = ControllerBaseProperties & {
+	AccelerationLean: ParameterEntry<number>?,
+	AccelerationTime: ParameterEntry<number>?,
+	AlignSpeed: ParameterEntry<number>?,
+	AlignTorque: ParameterEntry<number>?,
+	DecelerationTime: ParameterEntry<number>?,
+	Friction: ParameterEntry<number>?,
+	FrictionWeight: ParameterEntry<number>?,
+	MaxSlopeAngle: ParameterEntry<number>?,
+	StandForce: ParameterEntry<number>?,
+	StandSpeed: ParameterEntry<number>?,
+	TurningFactor: ParameterEntry<number>?,
+}
+
+type SwimControllerProperties = ControllerBaseProperties & {
+	AccelerationTime: ParameterEntry<number>?,
+	OrientationMaxTorque: ParameterEntry<number>?,
+	OrientationSpeed: ParameterEntry<number>?,
+}
+
+type ControllerManagerProperties = InstanceProperties & {
+	ActiveController: ParameterEntry<ControllerBase>?,
+	BaseMoveSpeed: ParameterEntry<number>?,
+	HipHeight: ParameterEntry<number>?,
+}
+
+type ControllerServiceProperties = InstanceProperties & {
+}
+
+type CookiesServiceProperties = InstanceProperties & {
+}
+
+type CorePackagesProperties = InstanceProperties & {
+}
+
+type CoreScriptSyncServiceProperties = InstanceProperties & {
+}
+
+type CrossDMScriptChangeListenerProperties = InstanceProperties & {
+}
+
+type CustomEventProperties = InstanceProperties & {
+}
+
+type CustomEventReceiverProperties = InstanceProperties & {
+	Source: ParameterEntry<Instance>?,
+}
+
+type DataModelMeshProperties = InstanceProperties & {
+	Offset: ParameterEntry<Vector3>?,
+	Scale: ParameterEntry<Vector3>?,
+	VertexColor: ParameterEntry<Vector3>?,
+}
+
+type BevelMeshProperties = DataModelMeshProperties & {
+}
+
+type BlockMeshProperties = BevelMeshProperties & {
+}
+
+type CylinderMeshProperties = BevelMeshProperties & {
+}
+
+type FileMeshProperties = DataModelMeshProperties & {
 	MeshId: ParameterEntry<string>?,
 	TextureId: ParameterEntry<string>?,
-} 
+}
 
 type SpecialMeshProperties = FileMeshProperties & {
 	MeshType: ParameterEntry<Enum.MeshType>?,
-} 
+}
+
+type DataModelPatchServiceProperties = InstanceProperties & {
+}
+
+type DataModelSessionProperties = InstanceProperties & {
+}
+
+type DataStoreIncrementOptionsProperties = InstanceProperties & {
+}
+
+type DataStoreInfoProperties = InstanceProperties & {
+	CreatedTime: ParameterEntry<number>?,
+	DataStoreName: ParameterEntry<string>?,
+	UpdatedTime: ParameterEntry<number>?,
+}
+
+type DataStoreKeyProperties = InstanceProperties & {
+	KeyName: ParameterEntry<string>?,
+}
+
+type DataStoreKeyInfoProperties = InstanceProperties & {
+	CreatedTime: ParameterEntry<number>?,
+	UpdatedTime: ParameterEntry<number>?,
+	Version: ParameterEntry<string>?,
+}
+
+type DataStoreObjectVersionInfoProperties = InstanceProperties & {
+	CreatedTime: ParameterEntry<number>?,
+	IsDeleted: ParameterEntry<boolean>?,
+	Version: ParameterEntry<string>?,
+}
+
+type DataStoreOptionsProperties = InstanceProperties & {
+	AllScopes: ParameterEntry<boolean>?,
+}
+
+type DataStoreServiceProperties = InstanceProperties & {
+}
+
+type DataStoreSetOptionsProperties = InstanceProperties & {
+}
+
+type DebrisProperties = InstanceProperties & {
+}
+
+type DebugSettingsProperties = InstanceProperties & {
+	DataModel: ParameterEntry<number>?,
+	InstanceCount: ParameterEntry<number>?,
+	IsScriptStackTracingEnabled: ParameterEntry<boolean>?,
+	JobCount: ParameterEntry<number>?,
+	PlayerCount: ParameterEntry<number>?,
+	ReportSoundWarnings: ParameterEntry<boolean>?,
+	RobloxVersion: ParameterEntry<string>?,
+	TickCountPreciseOverride: ParameterEntry<Enum.TickCountSampleMethod>?,
+}
+
+type DebuggablePluginWatcherProperties = InstanceProperties & {
+}
+
+type DebuggerBreakpointProperties = InstanceProperties & {
+	Condition: ParameterEntry<string>?,
+	ContinueExecution: ParameterEntry<boolean>?,
+	IsEnabled: ParameterEntry<boolean>?,
+	Line: ParameterEntry<number>?,
+	LogExpression: ParameterEntry<string>?,
+	isContextDependentBreakpoint: ParameterEntry<boolean>?,
+}
+
+type DebuggerConnectionProperties = InstanceProperties & {
+}
+
+type LocalDebuggerConnectionProperties = DebuggerConnectionProperties & {
+}
+
+type DebuggerConnectionManagerProperties = InstanceProperties & {
+}
+
+type DebuggerLuaResponseProperties = InstanceProperties & {
+}
+
+type DebuggerManagerProperties = InstanceProperties & {
+	DebuggingEnabled: ParameterEntry<boolean>?,
+}
+
+type DebuggerUIServiceProperties = InstanceProperties & {
+}
+
+type DebuggerVariableProperties = InstanceProperties & {
+}
+
+type DebuggerWatchProperties = InstanceProperties & {
+	Expression: ParameterEntry<string>?,
+}
+
+type DeviceIdServiceProperties = InstanceProperties & {
+}
 
 type DialogProperties = InstanceProperties & {
 	BehaviorType: ParameterEntry<Enum.DialogBehaviorType>?,
@@ -463,12 +863,44 @@ type DialogProperties = InstanceProperties & {
 	TriggerDistance: ParameterEntry<number>?,
 	TriggerOffset: ParameterEntry<Vector3>?,
 }
+
 type DialogChoiceProperties = InstanceProperties & {
 	GoodbyeChoiceActive: ParameterEntry<boolean>?,
 	GoodbyeDialog: ParameterEntry<string>?,
 	ResponseDialog: ParameterEntry<string>?,
 	UserDialog: ParameterEntry<string>?,
-} 
+}
+
+type DraftsServiceProperties = InstanceProperties & {
+}
+
+type DraggerProperties = InstanceProperties & {
+}
+
+type DraggerServiceProperties = InstanceProperties & {
+	AlignDraggedObjects: ParameterEntry<boolean>?,
+	AngleSnapEnabled: ParameterEntry<boolean>?,
+	AngleSnapIncrement: ParameterEntry<number>?,
+	AnimateHover: ParameterEntry<boolean>?,
+	CollisionsEnabled: ParameterEntry<boolean>?,
+	DraggerCoordinateSpace: ParameterEntry<Enum.DraggerCoordinateSpace>?,
+	DraggerMovementMode: ParameterEntry<Enum.DraggerMovementMode>?,
+	GeometrySnapColor: ParameterEntry<Color3>?,
+	HoverAnimateFrequency: ParameterEntry<number>?,
+	HoverThickness: ParameterEntry<number>?,
+	JointsEnabled: ParameterEntry<boolean>?,
+	LinearSnapEnabled: ParameterEntry<boolean>?,
+	LinearSnapIncrement: ParameterEntry<number>?,
+	ShowHover: ParameterEntry<boolean>?,
+	ShowPivotIndicator: ParameterEntry<boolean>?,
+}
+
+type EulerRotationCurveProperties = InstanceProperties & {
+	RotationOrder: ParameterEntry<Enum.RotationOrder>?,
+}
+
+type EventIngestServiceProperties = InstanceProperties & {
+}
 
 type ExplosionProperties = InstanceProperties & {
 	BlastPressure: ParameterEntry<number>?,
@@ -480,77 +912,52 @@ type ExplosionProperties = InstanceProperties & {
 	Visible: ParameterEntry<boolean>?,
 }
 
+type FaceAnimatorServiceProperties = InstanceProperties & {
+}
+
 type FaceControlsProperties = InstanceProperties & {
-	ChinRaiser: ParameterEntry<number>?,
-	ChinRaiserUpperLip: ParameterEntry<number>?,
-	Corrugator: ParameterEntry<number>?,
-	EyesLookDown: ParameterEntry<number>?,
-	EyesLookLeft: ParameterEntry<number>?,
-	EyesLookRight: ParameterEntry<number>?,
-	EyesLookUp: ParameterEntry<number>?,
-	FlatPucker: ParameterEntry<number>?,
-	Funneler: ParameterEntry<number>?,
-	JawDrop: ParameterEntry<number>?,
-	JawLeft: ParameterEntry<number>?,
-	JawRight: ParameterEntry<number>?,
-	LeftBrowLowerer: ParameterEntry<number>?,
-	LeftCheekPuff: ParameterEntry<number>?,
-	LeftCheekRaiser: ParameterEntry<number>?,
-	LeftDimpler: ParameterEntry<number>?,
-	LeftEyeClosed: ParameterEntry<number>?,
-	LeftEyeUpperLidRaiser: ParameterEntry<number>?,
-	LeftInnerBrowRaiser: ParameterEntry<number>?,
-	LeftLipCornerDown: ParameterEntry<number>?,
-	LeftLipCornerPuller: ParameterEntry<number>?,
-	LeftLipStretcher: ParameterEntry<number>?,
-	LeftLowerLipDepressor: ParameterEntry<number>?,
-	LeftNoseWrinkler: ParameterEntry<number>?,
-	LeftOuterBrowRaiser: ParameterEntry<number>?,
-	LeftUpperLipRaiser: ParameterEntry<number>?,
-	LipPresser: ParameterEntry<number>?,
-	LipsTogether: ParameterEntry<number>?,
-	LowerLipSuck: ParameterEntry<number>?,
-	MouthLeft: ParameterEntry<number>?,
-	MouthRight: ParameterEntry<number>?,
-	Pucker: ParameterEntry<number>?,
-	RightBrowLowerer: ParameterEntry<number>?,
-	RightCheekPuff: ParameterEntry<number>?,
-	RightCheekRaiser: ParameterEntry<number>?,
-	RightDimpler: ParameterEntry<number>?,
-	RightEyeClosed: ParameterEntry<number>?,
-	RightEyeUpperLidRaiser: ParameterEntry<number>?,
-	RightInnerBrowRaiser: ParameterEntry<number>?,
-	RightLipCornerDown: ParameterEntry<number>?,
-	RightLipCornerPuller: ParameterEntry<number>?,
-	RightLipStretcher: ParameterEntry<number>?,
-	RightLowerLipDepressor: ParameterEntry<number>?,
-	RightNoseWrinkler: ParameterEntry<number>?,
-	RightOuterBrowRaiser: ParameterEntry<number>?,
-	RightUpperLipRaiser: ParameterEntry<number>?,
-	TongueDown: ParameterEntry<number>?,
-	TongueOut: ParameterEntry<number>?,
-	TongueUp: ParameterEntry<number>?,
-	UpperLipSuck: ParameterEntry<number>?,
-} 
+}
 
 type FaceInstanceProperties = InstanceProperties & {
 	Face: ParameterEntry<Enum.NormalId>?,
-} 
+}
 
-type DecalProperties =  FaceInstance & {
+type DecalProperties = FaceInstanceProperties & {
 	Color3: ParameterEntry<Color3>?,
 	LocalTransparencyModifier: ParameterEntry<number>?,
 	Texture: ParameterEntry<string>?,
 	Transparency: ParameterEntry<number>?,
 	ZIndex: ParameterEntry<number>?,
-} 
+}
 
-type TextureProperties =  DecalProperties & {
+type TextureProperties = DecalProperties & {
 	OffsetStudsU: ParameterEntry<number>?,
 	OffsetStudsV: ParameterEntry<number>?,
 	StudsPerTileU: ParameterEntry<number>?,
 	StudsPerTileV: ParameterEntry<number>?,
-} 
+}
+
+type FacialAnimationRecordingServiceProperties = InstanceProperties & {
+}
+
+type FacialAnimationStreamingServiceProperties = InstanceProperties & {
+}
+
+type FeatureProperties = InstanceProperties & {
+	FaceId: ParameterEntry<Enum.NormalId>?,
+	InOut: ParameterEntry<Enum.InOut>?,
+	LeftRight: ParameterEntry<Enum.LeftRight>?,
+	TopBottom: ParameterEntry<Enum.TopBottom>?,
+}
+
+type HoleProperties = FeatureProperties & {
+}
+
+type MotorFeatureProperties = FeatureProperties & {
+}
+
+type FileProperties = InstanceProperties & {
+}
 
 type FireProperties = InstanceProperties & {
 	Color: ParameterEntry<Color3>?,
@@ -559,34 +966,90 @@ type FireProperties = InstanceProperties & {
 	SecondaryColor: ParameterEntry<Color3>?,
 	Size: ParameterEntry<number>?,
 	TimeScale: ParameterEntry<number>?,
-} 
+}
 
-type FolderProperties = InstanceProperties & {} 
+type FlagStandServiceProperties = InstanceProperties & {
+}
+
+type FloatCurveProperties = InstanceProperties & {
+	Length: ParameterEntry<number>?,
+}
+
+type FlyweightServiceProperties = InstanceProperties & {
+}
+
+type CSGDictionaryServiceProperties = FlyweightServiceProperties & {
+}
+
+type NonReplicatedCSGDictionaryServiceProperties = FlyweightServiceProperties & {
+}
+
+type FolderProperties = InstanceProperties & {
+}
 
 type ForceFieldProperties = InstanceProperties & {
 	Visible: ParameterEntry<boolean>?,
-} 
+}
 
-type GuiBaseProperties = InstanceProperties & {} 
+type FriendServiceProperties = InstanceProperties & {
+}
 
-type GuiBase2dProperties =  GuiBaseProperties & {
+type FunctionalTestProperties = InstanceProperties & {
+	Description: ParameterEntry<string>?,
+}
+
+type GamePassServiceProperties = InstanceProperties & {
+}
+
+type GameSettingsProperties = InstanceProperties & {
+	VideoCaptureEnabled: ParameterEntry<boolean>?,
+}
+
+type GamepadServiceProperties = InstanceProperties & {
+}
+
+type GeometryProperties = InstanceProperties & {
+}
+
+type GetTextBoundsParamsProperties = InstanceProperties & {
+	Font: ParameterEntry<Font>?,
+	Size: ParameterEntry<number>?,
+	Text: ParameterEntry<string>?,
+	Width: ParameterEntry<number>?,
+}
+
+type GlobalDataStoreProperties = InstanceProperties & {
+}
+
+type DataStoreProperties = GlobalDataStoreProperties & {
+}
+
+type OrderedDataStoreProperties = GlobalDataStoreProperties & {
+}
+
+type GoogleAnalyticsConfigurationProperties = InstanceProperties & {
+}
+
+type GroupServiceProperties = InstanceProperties & {
+}
+
+type GuiBaseProperties = InstanceProperties & {
+}
+
+type GuiBase2dProperties = GuiBaseProperties & {
 	AbsolutePosition: ParameterEntry<Vector2>?,
 	AbsoluteRotation: ParameterEntry<number>?,
 	AbsoluteSize: ParameterEntry<Vector2>?,
 	AutoLocalize: ParameterEntry<boolean>?,
-	ClippedRect: ParameterEntry<Rect>?,
-	IsNotOccluded: ParameterEntry<boolean>?,
-	RawRect2D: ParameterEntry<Rect>?,
 	RootLocalizationTable: ParameterEntry<LocalizationTable>?,
 	SelectionBehaviorDown: ParameterEntry<Enum.SelectionBehavior>?,
 	SelectionBehaviorLeft: ParameterEntry<Enum.SelectionBehavior>?,
 	SelectionBehaviorRight: ParameterEntry<Enum.SelectionBehavior>?,
 	SelectionBehaviorUp: ParameterEntry<Enum.SelectionBehavior>?,
 	SelectionGroup: ParameterEntry<boolean>?,
-	TotalGroupScale: ParameterEntry<number>?,
-} 
+}
 
-type GuiObjectProperties =  GuiBase2dProperties & {
+type GuiObjectProperties = GuiBase2dProperties & {
 	Active: ParameterEntry<boolean>?,
 	AnchorPoint: ParameterEntry<Vector2>?,
 	AutomaticSize: ParameterEntry<Enum.AutomaticSize>?,
@@ -611,26 +1074,25 @@ type GuiObjectProperties =  GuiBase2dProperties & {
 	Transparency: ParameterEntry<number>?,
 	Visible: ParameterEntry<boolean>?,
 	ZIndex: ParameterEntry<number>?,
-} 
+}
 
-type CanvasGroupProperties =  GuiObjectProperties & {
+type CanvasGroupProperties = GuiObjectProperties & {
 	GroupColor3: ParameterEntry<Color3>?,
 	GroupTransparency: ParameterEntry<number>?,
-} 
+}
 
-type FrameProperties =  GuiObjectProperties & {
+type FrameProperties = GuiObjectProperties & {
 	Style: ParameterEntry<Enum.FrameStyle>?,
-} 
+}
 
-type GuiButtonProperties =  GuiObjectProperties & {
+type GuiButtonProperties = GuiObjectProperties & {
 	AutoButtonColor: ParameterEntry<boolean>?,
 	Modal: ParameterEntry<boolean>?,
 	Selected: ParameterEntry<boolean>?,
 	Style: ParameterEntry<Enum.ButtonStyle>?,
-} 
+}
 
-type ImageButtonProperties =  GuiButtonProperties & {
-	stringImageSize: ParameterEntry<Vector2>?,
+type ImageButtonProperties = GuiButtonProperties & {
 	HoverImage: ParameterEntry<string>?,
 	Image: ParameterEntry<string>?,
 	ImageColor3: ParameterEntry<Color3>?,
@@ -644,10 +1106,10 @@ type ImageButtonProperties =  GuiButtonProperties & {
 	SliceCenter: ParameterEntry<Rect>?,
 	SliceScale: ParameterEntry<number>?,
 	TileSize: ParameterEntry<UDim2>?,
-} 
+}
 
-type TextButtonProperties =  GuiButtonProperties & {
-	stringText: ParameterEntry<string>?,
+type TextButtonProperties = GuiButtonProperties & {
+	ContentText: ParameterEntry<string>?,
 	Font: ParameterEntry<Enum.Font>?,
 	FontFace: ParameterEntry<Font>?,
 	LineHeight: ParameterEntry<number>?,
@@ -667,12 +1129,12 @@ type TextButtonProperties =  GuiButtonProperties & {
 	TextWrapped: ParameterEntry<boolean>?,
 	TextXAlignment: ParameterEntry<Enum.TextXAlignment>?,
 	TextYAlignment: ParameterEntry<Enum.TextYAlignment>?,
-} 
+}
 
-type GuiLabelProperties =  GuiObjectProperties & {} 
+type GuiLabelProperties = GuiObjectProperties & {
+}
 
-type ImageLabelProperties =  GuiLabelProperties & {
-	stringImageSize: ParameterEntry<Vector2>?,
+type ImageLabelProperties = GuiLabelProperties & {
 	Image: ParameterEntry<string>?,
 	ImageColor3: ParameterEntry<Color3>?,
 	ImageRectOffset: ParameterEntry<Vector2>?,
@@ -684,10 +1146,10 @@ type ImageLabelProperties =  GuiLabelProperties & {
 	SliceCenter: ParameterEntry<Rect>?,
 	SliceScale: ParameterEntry<number>?,
 	TileSize: ParameterEntry<UDim2>?,
-} 
+}
 
-type TextLabelProperties =  GuiLabelProperties & {
-	stringText: ParameterEntry<string>?,
+type TextLabelProperties = GuiLabelProperties & {
+	ContentText: ParameterEntry<string>?,
 	Font: ParameterEntry<Enum.Font>?,
 	FontFace: ParameterEntry<Font>?,
 	LineHeight: ParameterEntry<number>?,
@@ -707,9 +1169,9 @@ type TextLabelProperties =  GuiLabelProperties & {
 	TextWrapped: ParameterEntry<boolean>?,
 	TextXAlignment: ParameterEntry<Enum.TextXAlignment>?,
 	TextYAlignment: ParameterEntry<Enum.TextYAlignment>?,
-} 
+}
 
-type ScrollingFrameProperties =  GuiObjectProperties & {
+type ScrollingFrameProperties = GuiObjectProperties & {
 	AbsoluteCanvasSize: ParameterEntry<Vector2>?,
 	AbsoluteWindowSize: ParameterEntry<Vector2>?,
 	AutomaticCanvasSize: ParameterEntry<Enum.AutomaticSize>?,
@@ -717,36 +1179,29 @@ type ScrollingFrameProperties =  GuiObjectProperties & {
 	CanvasPosition: ParameterEntry<Vector2>?,
 	CanvasSize: ParameterEntry<UDim2>?,
 	ElasticBehavior: ParameterEntry<Enum.ElasticBehavior>?,
-	HorizontalBarRect: ParameterEntry<Rect>?,
 	HorizontalScrollBarInset: ParameterEntry<Enum.ScrollBarInset>?,
-	MaxCanvasPosition: ParameterEntry<Vector2>?,
 	MidImage: ParameterEntry<string>?,
 	ScrollBarImageColor3: ParameterEntry<Color3>?,
 	ScrollBarImageTransparency: ParameterEntry<number>?,
 	ScrollBarThickness: ParameterEntry<number>?,
-	ScrollVelocity: ParameterEntry<Vector2>?,
 	ScrollingDirection: ParameterEntry<Enum.ScrollingDirection>?,
 	ScrollingEnabled: ParameterEntry<boolean>?,
 	TopImage: ParameterEntry<string>?,
-	VerticalBarRect: ParameterEntry<Rect>?,
 	VerticalScrollBarInset: ParameterEntry<Enum.ScrollBarInset>?,
 	VerticalScrollBarPosition: ParameterEntry<Enum.VerticalScrollBarPosition>?,
-} 
+}
 
-type TextBoxProperties =  GuiObjectProperties & {
+type TextBoxProperties = GuiObjectProperties & {
 	ClearTextOnFocus: ParameterEntry<boolean>?,
-	stringText: ParameterEntry<string>?,
+	ContentText: ParameterEntry<string>?,
 	CursorPosition: ParameterEntry<number>?,
 	Font: ParameterEntry<Enum.Font>?,
 	FontFace: ParameterEntry<Font>?,
 	LineHeight: ParameterEntry<number>?,
-	ManualFocusRelease: ParameterEntry<boolean>?,
 	MaxVisibleGraphemes: ParameterEntry<number>?,
 	MultiLine: ParameterEntry<boolean>?,
-	OverlayNativeInput: ParameterEntry<boolean>?,
 	PlaceholderColor3: ParameterEntry<Color3>?,
 	PlaceholderText: ParameterEntry<string>?,
-	ReturnKeyType: ParameterEntry<Enum.ReturnKeyType>?,
 	RichText: ParameterEntry<boolean>?,
 	SelectionStart: ParameterEntry<number>?,
 	ShowNativeInput: ParameterEntry<boolean>?,
@@ -755,7 +1210,6 @@ type TextBoxProperties =  GuiObjectProperties & {
 	TextColor3: ParameterEntry<Color3>?,
 	TextEditable: ParameterEntry<boolean>?,
 	TextFits: ParameterEntry<boolean>?,
-	TextInputType: ParameterEntry<Enum.TextInputType>?,
 	TextScaled: ParameterEntry<boolean>?,
 	TextSize: ParameterEntry<number>?,
 	TextStrokeColor3: ParameterEntry<Color3>?,
@@ -765,9 +1219,9 @@ type TextBoxProperties =  GuiObjectProperties & {
 	TextWrapped: ParameterEntry<boolean>?,
 	TextXAlignment: ParameterEntry<Enum.TextXAlignment>?,
 	TextYAlignment: ParameterEntry<Enum.TextYAlignment>?,
-} 
+}
 
-type VideoFrameProperties =  GuiObjectProperties & {
+type VideoFrameProperties = GuiObjectProperties & {
 	IsLoaded: ParameterEntry<boolean>?,
 	Looped: ParameterEntry<boolean>?,
 	Playing: ParameterEntry<boolean>?,
@@ -776,24 +1230,24 @@ type VideoFrameProperties =  GuiObjectProperties & {
 	TimePosition: ParameterEntry<number>?,
 	Video: ParameterEntry<string>?,
 	Volume: ParameterEntry<number>?,
-} 
+}
 
-type ViewportFrameProperties =  GuiObjectProperties & {
+type ViewportFrameProperties = GuiObjectProperties & {
 	Ambient: ParameterEntry<Color3>?,
 	CurrentCamera: ParameterEntry<Camera>?,
 	ImageColor3: ParameterEntry<Color3>?,
 	ImageTransparency: ParameterEntry<number>?,
 	LightColor: ParameterEntry<Color3>?,
 	LightDirection: ParameterEntry<Vector3>?,
-} 
+}
 
-type LayerCollectorProperties =  GuiBase2dProperties & {
+type LayerCollectorProperties = GuiBase2dProperties & {
 	Enabled: ParameterEntry<boolean>?,
 	ResetOnSpawn: ParameterEntry<boolean>?,
 	ZIndexBehavior: ParameterEntry<Enum.ZIndexBehavior>?,
-} 
+}
 
-type BillboardGuiProperties =  LayerCollectorProperties & {
+type BillboardGuiProperties = LayerCollectorProperties & {
 	Active: ParameterEntry<boolean>?,
 	Adornee: ParameterEntry<Instance>?,
 	AlwaysOnTop: ParameterEntry<boolean>?,
@@ -807,64 +1261,86 @@ type BillboardGuiProperties =  LayerCollectorProperties & {
 	ExtentsOffsetWorldSpace: ParameterEntry<Vector3>?,
 	LightInfluence: ParameterEntry<number>?,
 	MaxDistance: ParameterEntry<number>?,
+	PlayerToHideFrom: ParameterEntry<Instance>?,
 	Size: ParameterEntry<UDim2>?,
 	SizeOffset: ParameterEntry<Vector2>?,
 	StudsOffset: ParameterEntry<Vector3>?,
 	StudsOffsetWorldSpace: ParameterEntry<Vector3>?,
-} 
+}
 
-type PluginGuiProperties =  LayerCollectorProperties & {
+type PluginGuiProperties = LayerCollectorProperties & {
 	Title: ParameterEntry<string>?,
-} 
+}
 
-type DockWidgetPluginGuiProperties =  PluginGuiProperties & {
+type DockWidgetPluginGuiProperties = PluginGuiProperties & {
 	HostWidgetWasRestored: ParameterEntry<boolean>?,
-} 
+}
 
-type QWidgetPluginGuiProperties =  PluginGuiProperties & {} 
+type QWidgetPluginGuiProperties = PluginGuiProperties & {
+}
 
-type ScreenGuiProperties =  LayerCollectorProperties & {
+type ScreenGuiProperties = LayerCollectorProperties & {
 	DisplayOrder: ParameterEntry<number>?,
 	IgnoreGuiInset: ParameterEntry<boolean>?,
-	OnTopOfCoreBlur: ParameterEntry<boolean>?,
-} 
+}
 
-type SurfaceGuiProperties =  LayerCollectorProperties & {
+type GuiMainProperties = ScreenGuiProperties & {
+}
+
+type SurfaceGuiBaseProperties = LayerCollectorProperties & {
 	Active: ParameterEntry<boolean>?,
 	Adornee: ParameterEntry<Instance>?,
+	Face: ParameterEntry<Enum.NormalId>?,
+}
+
+type AdGuiProperties = SurfaceGuiBaseProperties & {
+	AdShape: ParameterEntry<Enum.AdShape>?,
+}
+
+type SurfaceGuiProperties = SurfaceGuiBaseProperties & {
 	AlwaysOnTop: ParameterEntry<boolean>?,
 	Brightness: ParameterEntry<number>?,
 	CanvasSize: ParameterEntry<Vector2>?,
 	ClipsDescendants: ParameterEntry<boolean>?,
-	Face: ParameterEntry<Enum.NormalId>?,
 	LightInfluence: ParameterEntry<number>?,
 	PixelsPerStud: ParameterEntry<number>?,
 	SizingMode: ParameterEntry<Enum.SurfaceGuiSizingMode>?,
 	ToolPunchThroughDistance: ParameterEntry<number>?,
 	ZOffset: ParameterEntry<number>?,
-} 
+}
 
-type GuiBase3dProperties =  GuiBaseProperties & {
+type GuiBase3dProperties = GuiBaseProperties & {
 	Color3: ParameterEntry<Color3>?,
 	Transparency: ParameterEntry<number>?,
 	Visible: ParameterEntry<boolean>?,
-} 
+}
 
-type InstanceAdornmentProperties =  GuiBase3dProperties & {
+type FloorWireProperties = GuiBase3dProperties & {
+	CycleOffset: ParameterEntry<number>?,
+	From: ParameterEntry<BasePart>?,
+	StudsBetweenTextures: ParameterEntry<number>?,
+	Texture: ParameterEntry<string>?,
+	TextureSize: ParameterEntry<Vector2>?,
+	To: ParameterEntry<BasePart>?,
+	Velocity: ParameterEntry<number>?,
+	WireRadius: ParameterEntry<number>?,
+}
+
+type InstanceAdornmentProperties = GuiBase3dProperties & {
 	Adornee: ParameterEntry<Instance>?,
-} 
+}
 
-type SelectionBoxProperties =  InstanceAdornmentProperties & {
+type SelectionBoxProperties = InstanceAdornmentProperties & {
 	LineThickness: ParameterEntry<number>?,
 	SurfaceColor3: ParameterEntry<Color3>?,
 	SurfaceTransparency: ParameterEntry<number>?,
-} 
+}
 
-type PVAdornmentProperties =  GuiBase3dProperties & {
+type PVAdornmentProperties = GuiBase3dProperties & {
 	Adornee: ParameterEntry<PVInstance>?,
-} 
+}
 
-type HandleAdornmentProperties =  PVAdornmentProperties & {
+type HandleAdornmentProperties = PVAdornmentProperties & {
 	AdornCullingMode: ParameterEntry<Enum.AdornCullingMode>?,
 	AlwaysOnTop: ParameterEntry<boolean>?,
 	CFrame: ParameterEntry<CFrame>?,
@@ -872,73 +1348,99 @@ type HandleAdornmentProperties =  PVAdornmentProperties & {
 	ZIndex: ParameterEntry<number>?,
 }
 
-type BoxHandleAdornmentProperties =  HandleAdornmentProperties & {
+type BoxHandleAdornmentProperties = HandleAdornmentProperties & {
 	Size: ParameterEntry<Vector3>?,
-} 
+}
 
-type ConeHandleAdornmentProperties =  HandleAdornmentProperties & {
+type ConeHandleAdornmentProperties = HandleAdornmentProperties & {
 	Height: ParameterEntry<number>?,
 	Radius: ParameterEntry<number>?,
-} 
+}
 
-type CylinderHandleAdornmentProperties =  HandleAdornmentProperties & {
+type CylinderHandleAdornmentProperties = HandleAdornmentProperties & {
 	Angle: ParameterEntry<number>?,
 	Height: ParameterEntry<number>?,
 	InnerRadius: ParameterEntry<number>?,
 	Radius: ParameterEntry<number>?,
-} 
+}
 
-type ImageHandleAdornmentProperties =  HandleAdornmentProperties & {
+type ImageHandleAdornmentProperties = HandleAdornmentProperties & {
 	Image: ParameterEntry<string>?,
 	Size: ParameterEntry<Vector2>?,
-} 
+}
 
-type LineHandleAdornmentProperties =  HandleAdornmentProperties & {
+type LineHandleAdornmentProperties = HandleAdornmentProperties & {
 	Length: ParameterEntry<number>?,
 	Thickness: ParameterEntry<number>?,
-} 
+}
 
-type SphereHandleAdornmentProperties =  HandleAdornmentProperties & {
+type SphereHandleAdornmentProperties = HandleAdornmentProperties & {
 	Radius: ParameterEntry<number>?,
-} 
+}
 
-type WireframeHandleAdornmentProperties =  HandleAdornmentProperties & {} 
+type WireframeHandleAdornmentProperties = HandleAdornmentProperties & {
+}
 
-type ParabolaAdornmentProperties =  PVAdornmentProperties & {
-	A: ParameterEntry<number>?,
-	B: ParameterEntry<number>?,
-	C: ParameterEntry<number>?,
-	Range: ParameterEntry<number>?,
-	Thickness: ParameterEntry<number>?,
-} 
+type ParabolaAdornmentProperties = PVAdornmentProperties & {
+}
 
-type SelectionSphereProperties =  PVAdornmentProperties & {
+type SelectionSphereProperties = PVAdornmentProperties & {
 	SurfaceColor3: ParameterEntry<Color3>?,
 	SurfaceTransparency: ParameterEntry<number>?,
-} 
+}
 
-type PartAdornmentProperties =  GuiBase3dProperties & {
+type PartAdornmentProperties = GuiBase3dProperties & {
 	Adornee: ParameterEntry<BasePart>?,
-} 
+}
 
-type HandlesBaseProperties =  PartAdornmentProperties & {} 
+type HandlesBaseProperties = PartAdornmentProperties & {
+}
 
-type ArcHandlesProperties =  HandlesBaseProperties & {
+type ArcHandlesProperties = HandlesBaseProperties & {
 	Axes: ParameterEntry<Axes>?,
-} 
+}
 
 type HandlesProperties = HandlesBaseProperties & {
 	Faces: ParameterEntry<Faces>?,
 	Style: ParameterEntry<Enum.HandlesStyle>?,
-} 
+}
 
 type SurfaceSelectionProperties = PartAdornmentProperties & {
 	TargetSurface: ParameterEntry<Enum.NormalId>?,
-} 
+}
 
-type SelectionLassoProperties =  GuiBase3dProperties & {
+type SelectionLassoProperties = GuiBase3dProperties & {
 	Humanoid: ParameterEntry<Humanoid>?,
-} 
+}
+
+type SelectionPartLassoProperties = SelectionLassoProperties & {
+	Part: ParameterEntry<BasePart>?,
+}
+
+type SelectionPointLassoProperties = SelectionLassoProperties & {
+	Point: ParameterEntry<Vector3>?,
+}
+
+type GuiServiceProperties = InstanceProperties & {
+	AutoSelectGuiEnabled: ParameterEntry<boolean>?,
+	CoreGuiNavigationEnabled: ParameterEntry<boolean>?,
+	GuiNavigationEnabled: ParameterEntry<boolean>?,
+	MenuIsOpen: ParameterEntry<boolean>?,
+	SelectedObject: ParameterEntry<GuiObject>?,
+	TouchControlsEnabled: ParameterEntry<boolean>?,
+}
+
+type GuidRegistryServiceProperties = InstanceProperties & {
+}
+
+type HapticServiceProperties = InstanceProperties & {
+}
+
+type HeightmapImporterServiceProperties = InstanceProperties & {
+}
+
+type HiddenSurfaceRemovalAssetProperties = InstanceProperties & {
+}
 
 type HighlightProperties = InstanceProperties & {
 	Adornee: ParameterEntry<Instance>?,
@@ -948,7 +1450,19 @@ type HighlightProperties = InstanceProperties & {
 	FillTransparency: ParameterEntry<number>?,
 	OutlineColor: ParameterEntry<Color3>?,
 	OutlineTransparency: ParameterEntry<number>?,
-} 
+}
+
+type HopperProperties = InstanceProperties & {
+}
+
+type HttpRbxApiServiceProperties = InstanceProperties & {
+}
+
+type HttpRequestProperties = InstanceProperties & {
+}
+
+type HttpServiceProperties = InstanceProperties & {
+}
 
 type HumanoidProperties = InstanceProperties & {
 	AutoJumpEnabled: ParameterEntry<boolean>?,
@@ -982,10 +1496,9 @@ type HumanoidProperties = InstanceProperties & {
 	WalkSpeed: ParameterEntry<number>?,
 	WalkToPart: ParameterEntry<BasePart>?,
 	WalkToPoint: ParameterEntry<Vector3>?,
-} 
+}
 
 type HumanoidDescriptionProperties = InstanceProperties & {
-	AccessoryBlob: ParameterEntry<string>?,
 	BackAccessory: ParameterEntry<string>?,
 	BodyTypeScale: ParameterEntry<number>?,
 	ClimbAnimation: ParameterEntry<number>?,
@@ -1009,7 +1522,6 @@ type HumanoidDescriptionProperties = InstanceProperties & {
 	LeftLegColor: ParameterEntry<Color3>?,
 	MoodAnimation: ParameterEntry<number>?,
 	NeckAccessory: ParameterEntry<string>?,
-	NumberEmotesLoaded: ParameterEntry<number>?,
 	Pants: ParameterEntry<number>?,
 	ProportionScale: ParameterEntry<number>?,
 	RightArm: ParameterEntry<number>?,
@@ -1025,7 +1537,95 @@ type HumanoidDescriptionProperties = InstanceProperties & {
 	WaistAccessory: ParameterEntry<string>?,
 	WalkAnimation: ParameterEntry<number>?,
 	WidthScale: ParameterEntry<number>?,
-} 
+}
+
+type ILegacyStudioBridgeProperties = InstanceProperties & {
+}
+
+type LegacyStudioBridgeProperties = ILegacyStudioBridgeProperties & {
+}
+
+type IXPServiceProperties = InstanceProperties & {
+}
+
+type ImporterBaseSettingsProperties = InstanceProperties & {
+	Id: ParameterEntry<string>?,
+	ImportName: ParameterEntry<string>?,
+	ShouldImport: ParameterEntry<boolean>?,
+}
+
+type ImporterAnimationSettingsProperties = ImporterBaseSettingsProperties & {
+}
+
+type ImporterGroupSettingsProperties = ImporterBaseSettingsProperties & {
+	Anchored: ParameterEntry<boolean>?,
+	ImportAsModelAsset: ParameterEntry<boolean>?,
+	InsertInWorkspace: ParameterEntry<boolean>?,
+}
+
+type ImporterJointSettingsProperties = ImporterBaseSettingsProperties & {
+}
+
+type ImporterMaterialSettingsProperties = ImporterBaseSettingsProperties & {
+	DiffuseFilePath: ParameterEntry<string>?,
+	IsPbr: ParameterEntry<boolean>?,
+	MetalnessFilePath: ParameterEntry<string>?,
+	NormalFilePath: ParameterEntry<string>?,
+	RoughnessFilePath: ParameterEntry<string>?,
+}
+
+type ImporterMeshSettingsProperties = ImporterBaseSettingsProperties & {
+	Anchored: ParameterEntry<boolean>?,
+	CageManifold: ParameterEntry<boolean>?,
+	CageMeshIntersectedPreview: ParameterEntry<boolean>?,
+	CageMeshNotIntersected: ParameterEntry<boolean>?,
+	CageNoOverlappingVertices: ParameterEntry<boolean>?,
+	CageNonManifoldPreview: ParameterEntry<boolean>?,
+	CageOverlappingVerticesPreview: ParameterEntry<boolean>?,
+	CageUVMatched: ParameterEntry<boolean>?,
+	CageUVMisMatchedPreview: ParameterEntry<boolean>?,
+	Dimensions: ParameterEntry<Vector3>?,
+	DoubleSided: ParameterEntry<boolean>?,
+	IgnoreVertexColors: ParameterEntry<boolean>?,
+	IrrelevantCageModifiedPreview: ParameterEntry<boolean>?,
+	MeshHoleDetectedPreview: ParameterEntry<boolean>?,
+	MeshNoHoleDetected: ParameterEntry<boolean>?,
+	NoIrrelevantCageModified: ParameterEntry<boolean>?,
+	NoOuterCageFarExtendedFromMesh: ParameterEntry<boolean>?,
+	OuterCageFarExtendedFromMeshPreview: ParameterEntry<boolean>?,
+	PolygonCount: ParameterEntry<number>?,
+	UseImportedPivot: ParameterEntry<boolean>?,
+}
+
+type ImporterRootSettingsProperties = ImporterBaseSettingsProperties & {
+	Anchored: ParameterEntry<boolean>?,
+	FileDimensions: ParameterEntry<Vector3>?,
+	ImportAsModelAsset: ParameterEntry<boolean>?,
+	InsertInWorkspace: ParameterEntry<boolean>?,
+	InsertWithScenePosition: ParameterEntry<boolean>?,
+	InvertNegativeFaces: ParameterEntry<boolean>?,
+	MergeMeshes: ParameterEntry<boolean>?,
+	PolygonCount: ParameterEntry<number>?,
+	RigType: ParameterEntry<Enum.RigType>?,
+	ScaleUnit: ParameterEntry<Enum.MeshScaleUnit>?,
+	UseSceneOriginAsPivot: ParameterEntry<boolean>?,
+	WorldForward: ParameterEntry<Enum.NormalId>?,
+	WorldUp: ParameterEntry<Enum.NormalId>?,
+}
+
+type IncrementalPatchBuilderProperties = InstanceProperties & {
+}
+
+type InputObjectProperties = InstanceProperties & {
+	Delta: ParameterEntry<Vector3>?,
+	KeyCode: ParameterEntry<Enum.KeyCode>?,
+	Position: ParameterEntry<Vector3>?,
+	UserInputState: ParameterEntry<Enum.UserInputState>?,
+	UserInputType: ParameterEntry<Enum.UserInputType>?,
+}
+
+type InsertServiceProperties = InstanceProperties & {
+}
 
 type JointInstanceProperties = InstanceProperties & {
 	Active: ParameterEntry<boolean>?,
@@ -1034,48 +1634,104 @@ type JointInstanceProperties = InstanceProperties & {
 	Enabled: ParameterEntry<boolean>?,
 	Part0: ParameterEntry<BasePart>?,
 	Part1: ParameterEntry<BasePart>?,
-} 
+}
 
-type DynamicRotateProperties =  JointInstanceProperties & {
+type DynamicRotateProperties = JointInstanceProperties & {
 	BaseAngle: ParameterEntry<number>?,
-} 
+}
 
-type MotorProperties =  JointInstanceProperties & {
+type RotatePProperties = DynamicRotateProperties & {
+}
+
+type RotateVProperties = DynamicRotateProperties & {
+}
+
+type GlueProperties = JointInstanceProperties & {
+	F0: ParameterEntry<Vector3>?,
+	F1: ParameterEntry<Vector3>?,
+	F2: ParameterEntry<Vector3>?,
+	F3: ParameterEntry<Vector3>?,
+}
+
+type ManualSurfaceJointInstanceProperties = JointInstanceProperties & {
+}
+
+type ManualGlueProperties = ManualSurfaceJointInstanceProperties & {
+}
+
+type ManualWeldProperties = ManualSurfaceJointInstanceProperties & {
+}
+
+type MotorProperties = JointInstanceProperties & {
 	CurrentAngle: ParameterEntry<number>?,
 	DesiredAngle: ParameterEntry<number>?,
 	MaxVelocity: ParameterEntry<number>?,
-} 
+}
 
-type Motor6DProperties =  MotorProperties & {
-	ChildName: ParameterEntry<string>?,
-	ParentName: ParameterEntry<string>?,
+type Motor6DProperties = MotorProperties & {
 	Transform: ParameterEntry<CFrame>?,
-} 
+}
 
-type WeldProperties =  JointInstanceProperties & {} 
+type RotateProperties = JointInstanceProperties & {
+}
+
+type SnapProperties = JointInstanceProperties & {
+}
+
+type VelocityMotorProperties = JointInstanceProperties & {
+	CurrentAngle: ParameterEntry<number>?,
+	DesiredAngle: ParameterEntry<number>?,
+	MaxVelocity: ParameterEntry<number>?,
+}
+
+type WeldProperties = JointInstanceProperties & {
+}
+
+type JointsServiceProperties = InstanceProperties & {
+}
+
+type KeyboardServiceProperties = InstanceProperties & {
+}
+
+type KeyframeProperties = InstanceProperties & {
+	Time: ParameterEntry<number>?,
+}
+
+type KeyframeMarkerProperties = InstanceProperties & {
+	Value: ParameterEntry<string>?,
+}
+
+type KeyframeSequenceProviderProperties = InstanceProperties & {
+}
+
+type LSPFileSyncServiceProperties = InstanceProperties & {
+}
+
+type LanguageServiceProperties = InstanceProperties & {
+}
 
 type LightProperties = InstanceProperties & {
 	Brightness: ParameterEntry<number>?,
 	Color: ParameterEntry<Color3>?,
 	Enabled: ParameterEntry<boolean>?,
 	Shadows: ParameterEntry<boolean>?,
-} 
+}
 
-type PointLightProperties =  LightProperties & {
+type PointLightProperties = LightProperties & {
 	Range: ParameterEntry<number>?,
-} 
+}
 
-type SpotLightProperties =  LightProperties & {
+type SpotLightProperties = LightProperties & {
 	Angle: ParameterEntry<number>?,
 	Face: ParameterEntry<Enum.NormalId>?,
 	Range: ParameterEntry<number>?,
-} 
+}
 
-type SurfaceLightProperties =  LightProperties & {
+type SurfaceLightProperties = LightProperties & {
 	Angle: ParameterEntry<number>?,
 	Face: ParameterEntry<Enum.NormalId>?,
 	Range: ParameterEntry<number>?,
-} 
+}
 
 type LightingProperties = InstanceProperties & {
 	Ambient: ParameterEntry<Color3>?,
@@ -1093,62 +1749,122 @@ type LightingProperties = InstanceProperties & {
 	GlobalShadows: ParameterEntry<boolean>?,
 	OutdoorAmbient: ParameterEntry<Color3>?,
 	ShadowSoftness: ParameterEntry<number>?,
-	Technology: ParameterEntry<Enum.Technology>?,
-	TempUseNewSkyRemovalBehaviour: ParameterEntry<boolean>?,
 	TimeOfDay: ParameterEntry<string>?,
-} 
+}
+
+type LocalStorageServiceProperties = InstanceProperties & {
+}
+
+type AppStorageServiceProperties = LocalStorageServiceProperties & {
+}
+
+type UserStorageServiceProperties = LocalStorageServiceProperties & {
+}
+
+type LocalizationServiceProperties = InstanceProperties & {
+	RobloxLocaleId: ParameterEntry<string>?,
+	SystemLocaleId: ParameterEntry<string>?,
+}
 
 type LocalizationTableProperties = InstanceProperties & {
 	SourceLocaleId: ParameterEntry<string>?,
-} 
+}
+
+type LodDataEntityProperties = InstanceProperties & {
+	EntityLodEnabled: ParameterEntry<boolean>?,
+}
+
+type LodDataServiceProperties = InstanceProperties & {
+}
+
+type LogServiceProperties = InstanceProperties & {
+}
+
+type LoginServiceProperties = InstanceProperties & {
+}
+
+type LuaSettingsProperties = InstanceProperties & {
+}
+
+type LuaSourceContainerProperties = InstanceProperties & {
+}
+
+type BaseScriptProperties = LuaSourceContainerProperties & {
+	Disabled: ParameterEntry<boolean>?,
+	LinkedSource: ParameterEntry<string>?,
+}
+
+type CoreScriptProperties = BaseScriptProperties & {
+}
+
+type ScriptProperties = BaseScriptProperties & {
+}
+
+type LocalScriptProperties = ScriptProperties & {
+}
+
+type ModuleScriptProperties = LuaSourceContainerProperties & {
+	LinkedSource: ParameterEntry<string>?,
+}
+
+type LuaWebServiceProperties = InstanceProperties & {
+}
+
+type LuauScriptAnalyzerServiceProperties = InstanceProperties & {
+}
+
+type MarkerCurveProperties = InstanceProperties & {
+	Length: ParameterEntry<number>?,
+}
+
+type MarketplaceServiceProperties = InstanceProperties & {
+}
 
 type MaterialServiceProperties = InstanceProperties & {
-	AsphaltName: ParameterEntry<string>?,
-	BasaltName: ParameterEntry<string>?,
-	BrickName: ParameterEntry<string>?,
-	CobblestoneName: ParameterEntry<string>?,
-	ConcreteName: ParameterEntry<string>?,
-	CorrodedMetalName: ParameterEntry<string>?,
-	CrackedLavaName: ParameterEntry<string>?,
-	DiamondPlateName: ParameterEntry<string>?,
-	FabricName: ParameterEntry<string>?,
-	FoilName: ParameterEntry<string>?,
-	GlacierName: ParameterEntry<string>?,
-	GraniteName: ParameterEntry<string>?,
-	GrassName: ParameterEntry<string>?,
-	GroundName: ParameterEntry<string>?,
-	IceName: ParameterEntry<string>?,
-	LeafyGrassName: ParameterEntry<string>?,
-	LimestoneName: ParameterEntry<string>?,
-	MarbleName: ParameterEntry<string>?,
-	MetalName: ParameterEntry<string>?,
-	MudName: ParameterEntry<string>?,
-	PavementName: ParameterEntry<string>?,
-	PebbleName: ParameterEntry<string>?,
-	PlasticName: ParameterEntry<string>?,
-	RockName: ParameterEntry<string>?,
-	SaltName: ParameterEntry<string>?,
-	SandName: ParameterEntry<string>?,
-	SandstoneName: ParameterEntry<string>?,
-	SlateName: ParameterEntry<string>?,
-	SmoothPlasticName: ParameterEntry<string>?,
-	SnowName: ParameterEntry<string>?,
-	Use2022Materials: ParameterEntry<boolean>?,
-	WoodName: ParameterEntry<string>?,
-	WoodPlanksName: ParameterEntry<string>?,
-	hasPropertyWarningInStudio: ParameterEntry<boolean>?,
-} 
+}
 
 type MaterialVariantProperties = InstanceProperties & {
-	BaseMaterial: ParameterEntry<Enum.Material>?,
-	ColorMap: ParameterEntry<string>?,
 	CustomPhysicalProperties: ParameterEntry<PhysicalProperties>?,
 	MaterialPattern: ParameterEntry<Enum.MaterialPattern>?,
-	MetalnessMap: ParameterEntry<string>?,
-	NormalMap: ParameterEntry<string>?,
-	RoughnessMap: ParameterEntry<string>?,
 	StudsPerTile: ParameterEntry<number>?,
-} 
+}
+
+type MemStorageConnectionProperties = InstanceProperties & {
+}
+
+type MemStorageServiceProperties = InstanceProperties & {
+}
+
+type MemoryStoreQueueProperties = InstanceProperties & {
+}
+
+type MemoryStoreServiceProperties = InstanceProperties & {
+}
+
+type MemoryStoreSortedMapProperties = InstanceProperties & {
+}
+
+type MessageProperties = InstanceProperties & {
+	Text: ParameterEntry<string>?,
+}
+
+type HintProperties = MessageProperties & {
+}
+
+type MessageBusConnectionProperties = InstanceProperties & {
+}
+
+type MessageBusServiceProperties = InstanceProperties & {
+}
+
+type MessagingServiceProperties = InstanceProperties & {
+}
+
+type MetaBreakpointProperties = InstanceProperties & {
+}
+
+type MetaBreakpointContextProperties = InstanceProperties & {
+}
 
 type MouseProperties = InstanceProperties & {
 	Hit: ParameterEntry<CFrame>?,
@@ -1162,16 +1878,64 @@ type MouseProperties = InstanceProperties & {
 	ViewSizeY: ParameterEntry<number>?,
 	X: ParameterEntry<number>?,
 	Y: ParameterEntry<number>?,
-} 
+}
+
+type PlayerMouseProperties = MouseProperties & {
+}
+
+type PluginMouseProperties = MouseProperties & {
+}
+
+type MouseServiceProperties = InstanceProperties & {
+}
+
+type MultipleDocumentInterfaceInstanceProperties = InstanceProperties & {
+}
+
+type NetworkMarkerProperties = InstanceProperties & {
+}
+
+type NetworkPeerProperties = InstanceProperties & {
+}
+
+type NetworkClientProperties = NetworkPeerProperties & {
+}
+
+type NetworkServerProperties = NetworkPeerProperties & {
+}
+
+type NetworkReplicatorProperties = InstanceProperties & {
+}
+
+type ClientReplicatorProperties = NetworkReplicatorProperties & {
+}
+
+type ServerReplicatorProperties = NetworkReplicatorProperties & {
+}
+
+type NetworkSettingsProperties = InstanceProperties & {
+	IncomingReplicationLag: ParameterEntry<number>?,
+	PrintJoinSizeBreakdown: ParameterEntry<boolean>?,
+	PrintPhysicsErrors: ParameterEntry<boolean>?,
+	PrintStreamInstanceQuota: ParameterEntry<boolean>?,
+	RandomizeJoinInstanceOrder: ParameterEntry<boolean>?,
+	RenderStreamedRegions: ParameterEntry<boolean>?,
+	ShowActiveAnimationAsset: ParameterEntry<boolean>?,
+}
+
+type NoCollisionConstraintProperties = InstanceProperties & {
+	Enabled: ParameterEntry<boolean>?,
+	Part0: ParameterEntry<BasePart>?,
+	Part1: ParameterEntry<BasePart>?,
+}
+
+type NotificationServiceProperties = InstanceProperties & {
+}
 
 type PVInstanceProperties = InstanceProperties & {
-	Origin_Orientation: ParameterEntry<Vector3>?,
-	Origin_Position: ParameterEntry<Vector3>?,
-	Pivot_Offset_Orientation: ParameterEntry<Vector3>?,
-	Pivot_Offset_Position: ParameterEntry<Vector3>?,
-} 
+}
 
-type BasePartProperties =  PVInstanceProperties & {
+type BasePartProperties = PVInstanceProperties & {
 	Anchored: ParameterEntry<boolean>?,
 	AssemblyAngularVelocity: ParameterEntry<Vector3>?,
 	AssemblyCenterOfMass: ParameterEntry<Vector3>?,
@@ -1187,7 +1951,6 @@ type BasePartProperties =  PVInstanceProperties & {
 	CanTouch: ParameterEntry<boolean>?,
 	CastShadow: ParameterEntry<boolean>?,
 	CenterOfMass: ParameterEntry<Vector3>?,
-	CollisionGroup: ParameterEntry<string>?,
 	CollisionGroupId: ParameterEntry<number>?,
 	Color: ParameterEntry<Color3>?,
 	CustomPhysicalProperties: ParameterEntry<PhysicalProperties>?,
@@ -1212,39 +1975,82 @@ type BasePartProperties =  PVInstanceProperties & {
 	Size: ParameterEntry<Vector3>?,
 	TopSurface: ParameterEntry<Enum.SurfaceType>?,
 	Transparency: ParameterEntry<number>?,
-} 
+}
 
-type CornerWedgePartProperties =  BasePartProperties & {} 
+type CornerWedgePartProperties = BasePartProperties & {
+}
 
-type FormFactorPartProperties =  BasePartProperties & {} 
+type FormFactorPartProperties = BasePartProperties & {
+}
 
-type PartProperties =  FormFactorPartProperties & {
+type PartProperties = FormFactorPartProperties & {
 	Shape: ParameterEntry<Enum.PartType>?,
-} 
+}
 
-type PlatformProperties =  PartProperties & {} 
+type FlagStandProperties = PartProperties & {
+	TeamColor: ParameterEntry<BrickColor>?,
+}
 
-type SeatProperties =  PartProperties & {
+type PlatformProperties = PartProperties & {
+}
+
+type SeatProperties = PartProperties & {
 	Disabled: ParameterEntry<boolean>?,
 	Occupant: ParameterEntry<Humanoid>?,
-} 
+}
 
-type SpawnLocationProperties =  PartProperties & {
+type SkateboardPlatformProperties = PartProperties & {
+	Controller: ParameterEntry<SkateboardController>?,
+	ControllingHumanoid: ParameterEntry<Humanoid>?,
+	Steer: ParameterEntry<number>?,
+	StickyWheels: ParameterEntry<boolean>?,
+	Throttle: ParameterEntry<number>?,
+}
+
+type SpawnLocationProperties = PartProperties & {
 	AllowTeamChangeOnTouch: ParameterEntry<boolean>?,
 	Duration: ParameterEntry<number>?,
 	Enabled: ParameterEntry<boolean>?,
 	Neutral: ParameterEntry<boolean>?,
 	TeamColor: ParameterEntry<BrickColor>?,
-} 
+}
 
-type WedgePartProperties =  FormFactorPartProperties & {
-} 
+type WedgePartProperties = FormFactorPartProperties & {
+}
 
-type TrussPartProperties =  BasePartProperties & {
+type TerrainProperties = BasePartProperties & {
+	MaxExtents: ParameterEntry<Region3int16>?,
+	WaterColor: ParameterEntry<Color3>?,
+	WaterReflectance: ParameterEntry<number>?,
+	WaterTransparency: ParameterEntry<number>?,
+	WaterWaveSize: ParameterEntry<number>?,
+	WaterWaveSpeed: ParameterEntry<number>?,
+}
+
+type TriangleMeshPartProperties = BasePartProperties & {
+	MeshSize: ParameterEntry<Vector3>?,
+}
+
+type MeshPartProperties = TriangleMeshPartProperties & {
+	TextureID: ParameterEntry<string>?,
+}
+
+type PartOperationProperties = TriangleMeshPartProperties & {
+	TriangleCount: ParameterEntry<number>?,
+	UsePartColor: ParameterEntry<boolean>?,
+}
+
+type NegateOperationProperties = PartOperationProperties & {
+}
+
+type UnionOperationProperties = PartOperationProperties & {
+}
+
+type TrussPartProperties = BasePartProperties & {
 	Style: ParameterEntry<Enum.Style>?,
-} 
+}
 
-type VehicleSeatProperties =  BasePartProperties & {
+type VehicleSeatProperties = BasePartProperties & {
 	AreHingesDetected: ParameterEntry<number>?,
 	Disabled: ParameterEntry<boolean>?,
 	HeadsUpDisplay: ParameterEntry<boolean>?,
@@ -1256,21 +2062,82 @@ type VehicleSeatProperties =  BasePartProperties & {
 	ThrottleFloat: ParameterEntry<number>?,
 	Torque: ParameterEntry<number>?,
 	TurnSpeed: ParameterEntry<number>?,
-} 
+}
 
-type ModelProperties =  PVInstanceProperties & {
-	LevelOfDetail: ParameterEntry<Enum.ModelLevelOfDetail>?,
-	World_Pivot_Orientation: ParameterEntry<Vector3>?,
-	World_Pivot_Position: ParameterEntry<Vector3>?,
+type ModelProperties = PVInstanceProperties & {
+	PrimaryPart: ParameterEntry<BasePart>?,
 	WorldPivot: ParameterEntry<CFrame>?,
-	PrimaryPart: ParameterEntry<BasePart?>?
-} 
+}
 
-type ActorProperties =  ModelProperties & {} 
+type ActorProperties = ModelProperties & {
+}
 
-type WorldRootProperties =  ModelProperties & {} 
+type StatusProperties = ModelProperties & {
+}
 
-type WorldModelProperties =  WorldRootProperties & {} 
+type WorldRootProperties = ModelProperties & {
+}
+
+type WorkspaceProperties = WorldRootProperties & {
+	AllowThirdPartySales: ParameterEntry<boolean>?,
+	ClientAnimatorThrottling: ParameterEntry<Enum.ClientAnimatorThrottlingMode>?,
+	CurrentCamera: ParameterEntry<Camera>?,
+	DistributedGameTime: ParameterEntry<number>?,
+	GlobalWind: ParameterEntry<Vector3>?,
+	Gravity: ParameterEntry<number>?,
+	Retargeting: ParameterEntry<Enum.AnimatorRetargetingMode>?,
+	Terrain: ParameterEntry<Terrain>?,
+}
+
+type WorldModelProperties = WorldRootProperties & {
+}
+
+type PackageLinkProperties = InstanceProperties & {
+	PackageId: ParameterEntry<string>?,
+}
+
+type PackageServiceProperties = InstanceProperties & {
+}
+
+type PackageUIServiceProperties = InstanceProperties & {
+}
+
+type PagesProperties = InstanceProperties & {
+	IsFinished: ParameterEntry<boolean>?,
+}
+
+type CatalogPagesProperties = PagesProperties & {
+}
+
+type DataStoreKeyPagesProperties = PagesProperties & {
+}
+
+type DataStoreListingPagesProperties = PagesProperties & {
+}
+
+type DataStorePagesProperties = PagesProperties & {
+}
+
+type DataStoreVersionPagesProperties = PagesProperties & {
+}
+
+type FriendPagesProperties = PagesProperties & {
+}
+
+type InventoryPagesProperties = PagesProperties & {
+}
+
+type EmotesPagesProperties = InventoryPagesProperties & {
+}
+
+type OutfitPagesProperties = PagesProperties & {
+}
+
+type StandardPagesProperties = PagesProperties & {
+}
+
+type PartOperationAssetProperties = InstanceProperties & {
+}
 
 type ParticleEmitterProperties = InstanceProperties & {
 	Acceleration: ParameterEntry<Vector3>?,
@@ -1305,23 +2172,75 @@ type ParticleEmitterProperties = InstanceProperties & {
 	Transparency: ParameterEntry<NumberSequence>?,
 	VelocityInheritance: ParameterEntry<number>?,
 	ZOffset: ParameterEntry<number>?,
-} 
+}
+
+type PatchMappingProperties = InstanceProperties & {
+	FlattenTree: ParameterEntry<boolean>?,
+	PatchId: ParameterEntry<string>?,
+	TargetPath: ParameterEntry<string>?,
+}
 
 type PathProperties = InstanceProperties & {
 	Status: ParameterEntry<Enum.PathStatus>?,
-} 
+}
 
 type PathfindingLinkProperties = InstanceProperties & {
 	Attachment0: ParameterEntry<Attachment>?,
 	Attachment1: ParameterEntry<Attachment>?,
 	IsBidirectional: ParameterEntry<boolean>?,
 	Label: ParameterEntry<string>?,
-} 
+}
 
 type PathfindingModifierProperties = InstanceProperties & {
 	Label: ParameterEntry<string>?,
 	PassThrough: ParameterEntry<boolean>?,
-} 
+}
+
+type PathfindingServiceProperties = InstanceProperties & {
+}
+
+type PausedStateProperties = InstanceProperties & {
+}
+
+type PausedStateBreakpointProperties = PausedStateProperties & {
+}
+
+type PausedStateExceptionProperties = PausedStateProperties & {
+}
+
+type PermissionsServiceProperties = InstanceProperties & {
+}
+
+type PhysicsServiceProperties = InstanceProperties & {
+}
+
+type PhysicsSettingsProperties = InstanceProperties & {
+	AllowSleep: ParameterEntry<boolean>?,
+	AreAnchorsShown: ParameterEntry<boolean>?,
+	AreAssembliesShown: ParameterEntry<boolean>?,
+	AreAwakePartsHighlighted: ParameterEntry<boolean>?,
+	AreBodyTypesShown: ParameterEntry<boolean>?,
+	AreContactIslandsShown: ParameterEntry<boolean>?,
+	AreContactPointsShown: ParameterEntry<boolean>?,
+	AreJointCoordinatesShown: ParameterEntry<boolean>?,
+	AreMechanismsShown: ParameterEntry<boolean>?,
+	AreModelCoordsShown: ParameterEntry<boolean>?,
+	AreOwnersShown: ParameterEntry<boolean>?,
+	ArePartCoordsShown: ParameterEntry<boolean>?,
+	AreRegionsShown: ParameterEntry<boolean>?,
+	AreTerrainReplicationRegionsShown: ParameterEntry<boolean>?,
+	AreUnalignedPartsShown: ParameterEntry<boolean>?,
+	AreWorldCoordsShown: ParameterEntry<boolean>?,
+	DisableCSGv2: ParameterEntry<boolean>?,
+	ForceCSGv2: ParameterEntry<boolean>?,
+	IsInterpolationThrottleShown: ParameterEntry<boolean>?,
+	IsReceiveAgeShown: ParameterEntry<boolean>?,
+	IsTreeShown: ParameterEntry<boolean>?,
+	PhysicsEnvironmentalThrottle: ParameterEntry<Enum.EnviromentalPhysicsThrottle>?,
+	ShowDecompositionGeometry: ParameterEntry<boolean>?,
+	ThrottleAdjustTime: ParameterEntry<number>?,
+	UseCSGv2: ParameterEntry<boolean>?,
+}
 
 type PlayerProperties = InstanceProperties & {
 	AccountAge: ParameterEntry<number>?,
@@ -1332,7 +2251,6 @@ type PlayerProperties = InstanceProperties & {
 	CanLoadCharacterAppearance: ParameterEntry<boolean>?,
 	Character: ParameterEntry<Model>?,
 	CharacterAppearanceId: ParameterEntry<number>?,
-	ChatMode: ParameterEntry<Enum.ChatMode>?,
 	DevCameraOcclusionMode: ParameterEntry<Enum.DevCameraOcclusionMode>?,
 	DevComputerCameraMode: ParameterEntry<Enum.DevComputerCameraMovementMode>?,
 	DevComputerMovementMode: ParameterEntry<Enum.DevComputerMovementMode>?,
@@ -1341,26 +2259,23 @@ type PlayerProperties = InstanceProperties & {
 	DevTouchMovementMode: ParameterEntry<Enum.DevTouchMovementMode>?,
 	DisplayName: ParameterEntry<string>?,
 	FollowUserId: ParameterEntry<number>?,
-	GameplayPaused: ParameterEntry<boolean>?,
-	Guest: ParameterEntry<boolean>?,
 	HealthDisplayDistance: ParameterEntry<number>?,
 	LocaleId: ParameterEntry<string>?,
-	MaximumSimulationRadius: ParameterEntry<number>?,
 	MembershipType: ParameterEntry<Enum.MembershipType>?,
 	NameDisplayDistance: ParameterEntry<number>?,
 	Neutral: ParameterEntry<boolean>?,
-	OsPlatform: ParameterEntry<string>?,
-	PlatformName: ParameterEntry<string>?,
 	ReplicationFocus: ParameterEntry<Instance>?,
 	RespawnLocation: ParameterEntry<SpawnLocation>?,
-	SimulationRadius: ParameterEntry<number>?,
 	Team: ParameterEntry<Team>?,
 	TeamColor: ParameterEntry<BrickColor>?,
-	Teleported: ParameterEntry<boolean>?,
-	TeleportedIn: ParameterEntry<boolean>?,
 	UserId: ParameterEntry<number>?,
-	VRDevice: ParameterEntry<string>?,
-} 
+}
+
+type PlayerEmulatorServiceProperties = InstanceProperties & {
+}
+
+type PlayerScriptsProperties = InstanceProperties & {
+}
 
 type PlayersProperties = InstanceProperties & {
 	BubbleChat: ParameterEntry<boolean>?,
@@ -1368,74 +2283,350 @@ type PlayersProperties = InstanceProperties & {
 	ClassicChat: ParameterEntry<boolean>?,
 	LocalPlayer: ParameterEntry<Player>?,
 	MaxPlayers: ParameterEntry<number>?,
-	MaxPlayersInternal: ParameterEntry<number>?,
 	PreferredPlayers: ParameterEntry<number>?,
-	PreferredPlayersInternal: ParameterEntry<number>?,
 	RespawnTime: ParameterEntry<number>?,
-} 
+}
+
+type PluginProperties = InstanceProperties & {
+	CollisionEnabled: ParameterEntry<boolean>?,
+	GridSize: ParameterEntry<number>?,
+}
 
 type PluginActionProperties = InstanceProperties & {
 	ActionId: ParameterEntry<string>?,
 	AllowBinding: ParameterEntry<boolean>?,
-	Checked: ParameterEntry<boolean>?,
-	DefaultShortcut: ParameterEntry<string>?,
-	Enabled: ParameterEntry<boolean>?,
 	StatusTip: ParameterEntry<string>?,
 	Text: ParameterEntry<string>?,
-} 
+}
+
+type PluginDebugServiceProperties = InstanceProperties & {
+}
+
+type PluginDragEventProperties = InstanceProperties & {
+	Data: ParameterEntry<string>?,
+	MimeType: ParameterEntry<string>?,
+	Position: ParameterEntry<Vector2>?,
+	Sender: ParameterEntry<string>?,
+}
+
+type PluginGuiServiceProperties = InstanceProperties & {
+}
+
+type PluginManagementServiceProperties = InstanceProperties & {
+}
+
+type PluginManagerProperties = InstanceProperties & {
+}
+
+type PluginManagerInterfaceProperties = InstanceProperties & {
+}
 
 type PluginMenuProperties = InstanceProperties & {
 	Icon: ParameterEntry<string>?,
 	Title: ParameterEntry<string>?,
-} 
+}
 
-type PluginToolbarProperties = InstanceProperties & {} 
+type PluginPolicyServiceProperties = InstanceProperties & {
+}
+
+type PluginToolbarProperties = InstanceProperties & {
+}
 
 type PluginToolbarButtonProperties = InstanceProperties & {
 	ClickableWhenViewportHidden: ParameterEntry<boolean>?,
 	Enabled: ParameterEntry<boolean>?,
 	Icon: ParameterEntry<string>?,
-} 
+}
+
+type PointsServiceProperties = InstanceProperties & {
+}
+
+type PolicyServiceProperties = InstanceProperties & {
+}
+
+type PoseBaseProperties = InstanceProperties & {
+	EasingDirection: ParameterEntry<Enum.PoseEasingDirection>?,
+	EasingStyle: ParameterEntry<Enum.PoseEasingStyle>?,
+	Weight: ParameterEntry<number>?,
+}
+
+type NumberPoseProperties = PoseBaseProperties & {
+	Value: ParameterEntry<number>?,
+}
+
+type PoseProperties = PoseBaseProperties & {
+	CFrame: ParameterEntry<CFrame>?,
+}
 
 type PostEffectProperties = InstanceProperties & {
 	Enabled: ParameterEntry<boolean>?,
-} 
+}
 
-type BloomEffectProperties =  PostEffectProperties & {
+type BloomEffectProperties = PostEffectProperties & {
 	Intensity: ParameterEntry<number>?,
 	Size: ParameterEntry<number>?,
 	Threshold: ParameterEntry<number>?,
-} 
+}
 
-type BlurEffectProperties =  PostEffectProperties & {
+type BlurEffectProperties = PostEffectProperties & {
 	Size: ParameterEntry<number>?,
-} 
+}
 
-type ColorCorrectionEffectProperties =  PostEffectProperties & {
+type ColorCorrectionEffectProperties = PostEffectProperties & {
 	Brightness: ParameterEntry<number>?,
 	Contrast: ParameterEntry<number>?,
 	Saturation: ParameterEntry<number>?,
 	TintColor: ParameterEntry<Color3>?,
-} 
+}
 
-type DepthOfFieldEffectProperties =  PostEffectProperties & {
+type DepthOfFieldEffectProperties = PostEffectProperties & {
 	FarIntensity: ParameterEntry<number>?,
 	FocusDistance: ParameterEntry<number>?,
 	InFocusRadius: ParameterEntry<number>?,
 	NearIntensity: ParameterEntry<number>?,
-} 
+}
 
-type SunRaysEffectProperties =  PostEffectProperties & {
+type SunRaysEffectProperties = PostEffectProperties & {
 	Intensity: ParameterEntry<number>?,
 	Spread: ParameterEntry<number>?,
-} 
+}
 
-type RemoteEventProperties = InstanceProperties & {} 
+type ProcessInstancePhysicsServiceProperties = InstanceProperties & {
+}
+
+type ProximityPromptProperties = InstanceProperties & {
+	ActionText: ParameterEntry<string>?,
+	AutoLocalize: ParameterEntry<boolean>?,
+	ClickablePrompt: ParameterEntry<boolean>?,
+	Enabled: ParameterEntry<boolean>?,
+	Exclusivity: ParameterEntry<Enum.ProximityPromptExclusivity>?,
+	GamepadKeyCode: ParameterEntry<Enum.KeyCode>?,
+	HoldDuration: ParameterEntry<number>?,
+	KeyboardKeyCode: ParameterEntry<Enum.KeyCode>?,
+	MaxActivationDistance: ParameterEntry<number>?,
+	ObjectText: ParameterEntry<string>?,
+	RequiresLineOfSight: ParameterEntry<boolean>?,
+	RootLocalizationTable: ParameterEntry<LocalizationTable>?,
+	Style: ParameterEntry<Enum.ProximityPromptStyle>?,
+	UIOffset: ParameterEntry<Vector2>?,
+}
+
+type ProximityPromptServiceProperties = InstanceProperties & {
+	Enabled: ParameterEntry<boolean>?,
+	MaxPromptsVisible: ParameterEntry<number>?,
+}
+
+type PublishServiceProperties = InstanceProperties & {
+}
+
+type RbxAnalyticsServiceProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataCallbacksProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataClassesProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataEnumsProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataEventsProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataFunctionsProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataItemProperties = InstanceProperties & {
+	Browsable: ParameterEntry<boolean>?,
+	ClassCategory: ParameterEntry<string>?,
+	ClientOnly: ParameterEntry<boolean>?,
+	Constraint: ParameterEntry<string>?,
+	Deprecated: ParameterEntry<boolean>?,
+	EditingDisabled: ParameterEntry<boolean>?,
+	EditorType: ParameterEntry<string>?,
+	FFlag: ParameterEntry<string>?,
+	IsBackend: ParameterEntry<boolean>?,
+	PropertyOrder: ParameterEntry<number>?,
+	ScriptContext: ParameterEntry<string>?,
+	ServerOnly: ParameterEntry<boolean>?,
+	SliderScaling: ParameterEntry<string>?,
+	UIMaximum: ParameterEntry<number>?,
+	UIMinimum: ParameterEntry<number>?,
+	UINumTicks: ParameterEntry<number>?,
+}
+
+type ReflectionMetadataClassProperties = ReflectionMetadataItemProperties & {
+	ExplorerImageIndex: ParameterEntry<number>?,
+	ExplorerOrder: ParameterEntry<number>?,
+	Insertable: ParameterEntry<boolean>?,
+	PreferredParent: ParameterEntry<string>?,
+}
+
+type ReflectionMetadataEnumProperties = ReflectionMetadataItemProperties & {
+}
+
+type ReflectionMetadataEnumItemProperties = ReflectionMetadataItemProperties & {
+}
+
+type ReflectionMetadataMemberProperties = ReflectionMetadataItemProperties & {
+}
+
+type ReflectionMetadataPropertiesProperties = InstanceProperties & {
+}
+
+type ReflectionMetadataYieldFunctionsProperties = InstanceProperties & {
+}
+
+type RemoteDebuggerServerProperties = InstanceProperties & {
+}
+
+type RemoteEventProperties = InstanceProperties & {
+}
 
 type RemoteFunctionProperties = InstanceProperties & {
-	OnClientInvoke: ParameterEntry<((...any) -> ...any)>?,
-	OnServerInvoke: ParameterEntry<((player: Player, ...any) -> (...any))>?,
-} 
+}
+
+type RenderSettingsProperties = InstanceProperties & {
+	AutoFRMLevel: ParameterEntry<number>?,
+	EagerBulkExecution: ParameterEntry<boolean>?,
+	EditQualityLevel: ParameterEntry<Enum.QualityLevel>?,
+	EnableFRM: ParameterEntry<boolean>?,
+	ExportMergeByMaterial: ParameterEntry<boolean>?,
+	FrameRateManager: ParameterEntry<Enum.FramerateManagerMode>?,
+	GraphicsMode: ParameterEntry<Enum.GraphicsMode>?,
+	MeshCacheSize: ParameterEntry<number>?,
+	MeshPartDetailLevel: ParameterEntry<Enum.MeshPartDetailLevel>?,
+	QualityLevel: ParameterEntry<Enum.QualityLevel>?,
+	ReloadAssets: ParameterEntry<boolean>?,
+	RenderCSGTrianglesDebug: ParameterEntry<boolean>?,
+	ShowBoundingBoxes: ParameterEntry<boolean>?,
+}
+
+type RenderingTestProperties = InstanceProperties & {
+	CFrame: ParameterEntry<CFrame>?,
+	ComparisonDiffThreshold: ParameterEntry<number>?,
+	ComparisonMethod: ParameterEntry<Enum.RenderingTestComparisonMethod>?,
+	ComparisonPsnrThreshold: ParameterEntry<number>?,
+	Description: ParameterEntry<string>?,
+	FieldOfView: ParameterEntry<number>?,
+	Orientation: ParameterEntry<Vector3>?,
+	Position: ParameterEntry<Vector3>?,
+	QualityLevel: ParameterEntry<number>?,
+	ShouldSkip: ParameterEntry<boolean>?,
+	Ticket: ParameterEntry<string>?,
+}
+
+type ReplicatedFirstProperties = InstanceProperties & {
+}
+
+type ReplicatedStorageProperties = InstanceProperties & {
+}
+
+type RobloxPluginGuiServiceProperties = InstanceProperties & {
+}
+
+type RobloxReplicatedStorageProperties = InstanceProperties & {
+}
+
+type RotationCurveProperties = InstanceProperties & {
+	Length: ParameterEntry<number>?,
+}
+
+type RtMessagingServiceProperties = InstanceProperties & {
+}
+
+type RunServiceProperties = InstanceProperties & {
+}
+
+type RuntimeScriptServiceProperties = InstanceProperties & {
+}
+
+type ScreenshotHudProperties = InstanceProperties & {
+	CameraButtonIcon: ParameterEntry<string>?,
+	CameraButtonPosition: ParameterEntry<UDim2>?,
+	CloseButtonPosition: ParameterEntry<UDim2>?,
+	CloseWhenScreenshotTaken: ParameterEntry<boolean>?,
+	ExperienceNameOverlayEnabled: ParameterEntry<boolean>?,
+	OverlayFont: ParameterEntry<Enum.Font>?,
+	UsernameOverlayEnabled: ParameterEntry<boolean>?,
+	Visible: ParameterEntry<boolean>?,
+}
+
+type ScriptChangeServiceProperties = InstanceProperties & {
+}
+
+type ScriptCloneWatcherProperties = InstanceProperties & {
+}
+
+type ScriptCloneWatcherHelperProperties = InstanceProperties & {
+}
+
+type ScriptContextProperties = InstanceProperties & {
+}
+
+type ScriptDebuggerProperties = InstanceProperties & {
+	CurrentLine: ParameterEntry<number>?,
+	IsDebugging: ParameterEntry<boolean>?,
+	IsPaused: ParameterEntry<boolean>?,
+	Script: ParameterEntry<Instance>?,
+}
+
+type ScriptDocumentProperties = InstanceProperties & {
+}
+
+type ScriptEditorServiceProperties = InstanceProperties & {
+}
+
+type ScriptRegistrationServiceProperties = InstanceProperties & {
+}
+
+type ScriptServiceProperties = InstanceProperties & {
+}
+
+type SelectionProperties = InstanceProperties & {
+	SelectionThickness: ParameterEntry<number>?,
+}
+
+type ServerScriptServiceProperties = InstanceProperties & {
+}
+
+type ServerStorageProperties = InstanceProperties & {
+}
+
+type ServiceProviderProperties = InstanceProperties & {
+}
+
+type DataModelProperties = ServiceProviderProperties & {
+	CreatorId: ParameterEntry<number>?,
+	CreatorType: ParameterEntry<Enum.CreatorType>?,
+	GameId: ParameterEntry<number>?,
+	Genre: ParameterEntry<Enum.Genre>?,
+	JobId: ParameterEntry<string>?,
+	PlaceId: ParameterEntry<number>?,
+	PlaceVersion: ParameterEntry<number>?,
+	PrivateServerId: ParameterEntry<string>?,
+	PrivateServerOwnerId: ParameterEntry<number>?,
+	Workspace: ParameterEntry<Workspace>?,
+}
+
+type GenericSettingsProperties = ServiceProviderProperties & {
+}
+
+type AnalysticsSettingsProperties = GenericSettingsProperties & {
+}
+
+type GlobalSettingsProperties = GenericSettingsProperties & {
+}
+
+type UserSettingsProperties = GenericSettingsProperties & {
+}
+
+type SessionServiceProperties = InstanceProperties & {
+}
 
 type SkyProperties = InstanceProperties & {
 	CelestialBodiesShown: ParameterEntry<boolean>?,
@@ -1450,7 +2641,7 @@ type SkyProperties = InstanceProperties & {
 	StarCount: ParameterEntry<number>?,
 	SunAngularSize: ParameterEntry<number>?,
 	SunTextureId: ParameterEntry<string>?,
-} 
+}
 
 type SmokeProperties = InstanceProperties & {
 	Color: ParameterEntry<Color3>?,
@@ -1459,10 +2650,15 @@ type SmokeProperties = InstanceProperties & {
 	RiseVelocity: ParameterEntry<number>?,
 	Size: ParameterEntry<number>?,
 	TimeScale: ParameterEntry<number>?,
-} 
+}
+
+type SnippetServiceProperties = InstanceProperties & {
+}
+
+type SocialServiceProperties = InstanceProperties & {
+}
 
 type SoundProperties = InstanceProperties & {
-	ChannelCount: ParameterEntry<number>?,
 	IsLoaded: ParameterEntry<boolean>?,
 	IsPaused: ParameterEntry<boolean>?,
 	IsPlaying: ParameterEntry<boolean>?,
@@ -1478,104 +2674,363 @@ type SoundProperties = InstanceProperties & {
 	SoundId: ParameterEntry<string>?,
 	TimeLength: ParameterEntry<number>?,
 	TimePosition: ParameterEntry<number>?,
-	UsageContextPermission: ParameterEntry<Enum.UsageContext>?,
 	Volume: ParameterEntry<number>?,
-} 
+}
 
 type SoundEffectProperties = InstanceProperties & {
 	Enabled: ParameterEntry<boolean>?,
 	Priority: ParameterEntry<number>?,
-} 
+}
 
-type AssetSoundEffectProperties =  SoundEffectProperties & {} 
+type AssetSoundEffectProperties = SoundEffectProperties & {
+}
 
-type ChorusSoundEffectProperties =  SoundEffectProperties & {
+type ChorusSoundEffectProperties = SoundEffectProperties & {
 	Depth: ParameterEntry<number>?,
 	Mix: ParameterEntry<number>?,
 	Rate: ParameterEntry<number>?,
-} 
+}
 
-type CompressorSoundEffectProperties =  SoundEffectProperties & {
+type CompressorSoundEffectProperties = SoundEffectProperties & {
 	Attack: ParameterEntry<number>?,
 	GainMakeup: ParameterEntry<number>?,
 	Ratio: ParameterEntry<number>?,
 	Release: ParameterEntry<number>?,
 	SideChain: ParameterEntry<Instance>?,
 	Threshold: ParameterEntry<number>?,
-} 
+}
 
-type CustomSoundEffectProperties =  SoundEffectProperties & {} 
+type CustomSoundEffectProperties = SoundEffectProperties & {
+}
 
-type ChannelSelectorSoundEffectProperties =  CustomSoundEffectProperties & {
+type ChannelSelectorSoundEffectProperties = CustomSoundEffectProperties & {
 	Channel: ParameterEntry<number>?,
-} 
+}
 
-type DistortionSoundEffectProperties =  SoundEffectProperties & {
+type DistortionSoundEffectProperties = SoundEffectProperties & {
 	Level: ParameterEntry<number>?,
-} 
+}
 
-type EchoSoundEffectProperties =  SoundEffectProperties & {
+type EchoSoundEffectProperties = SoundEffectProperties & {
 	Delay: ParameterEntry<number>?,
 	DryLevel: ParameterEntry<number>?,
 	Feedback: ParameterEntry<number>?,
 	WetLevel: ParameterEntry<number>?,
-} 
+}
 
-type EqualizerSoundEffectProperties =  SoundEffectProperties & {
+type EqualizerSoundEffectProperties = SoundEffectProperties & {
 	HighGain: ParameterEntry<number>?,
 	LowGain: ParameterEntry<number>?,
 	MidGain: ParameterEntry<number>?,
-} 
+}
 
-type FlangeSoundEffectProperties =  SoundEffectProperties & {
+type FlangeSoundEffectProperties = SoundEffectProperties & {
 	Depth: ParameterEntry<number>?,
 	Mix: ParameterEntry<number>?,
 	Rate: ParameterEntry<number>?,
-} 
+}
 
-type PitchShiftSoundEffectProperties =  SoundEffectProperties & {
+type PitchShiftSoundEffectProperties = SoundEffectProperties & {
 	Octave: ParameterEntry<number>?,
-} 
+}
 
-type ReverbSoundEffectProperties =  SoundEffectProperties & {
+type ReverbSoundEffectProperties = SoundEffectProperties & {
 	DecayTime: ParameterEntry<number>?,
 	Density: ParameterEntry<number>?,
 	Diffusion: ParameterEntry<number>?,
 	DryLevel: ParameterEntry<number>?,
 	WetLevel: ParameterEntry<number>?,
-} 
+}
 
-type TremoloSoundEffectProperties =  SoundEffectProperties & {
+type TremoloSoundEffectProperties = SoundEffectProperties & {
 	Depth: ParameterEntry<number>?,
 	Duty: ParameterEntry<number>?,
 	Frequency: ParameterEntry<number>?,
-} 
+}
 
 type SoundGroupProperties = InstanceProperties & {
 	Volume: ParameterEntry<number>?,
-} 
+}
+
+type SoundServiceProperties = InstanceProperties & {
+	AmbientReverb: ParameterEntry<Enum.ReverbType>?,
+	DistanceFactor: ParameterEntry<number>?,
+	DopplerScale: ParameterEntry<number>?,
+	RespectFilteringEnabled: ParameterEntry<boolean>?,
+	RolloffScale: ParameterEntry<number>?,
+}
 
 type SparklesProperties = InstanceProperties & {
 	Color: ParameterEntry<Color3>?,
 	Enabled: ParameterEntry<boolean>?,
 	SparkleColor: ParameterEntry<Color3>?,
 	TimeScale: ParameterEntry<number>?,
-} 
+}
+
+type SpawnerServiceProperties = InstanceProperties & {
+}
+
+type SpeakerProperties = InstanceProperties & {
+	ChannelCount: ParameterEntry<number>?,
+	PlaybackLoudness: ParameterEntry<number>?,
+	RollOffMaxDistance: ParameterEntry<number>?,
+	RollOffMinDistance: ParameterEntry<number>?,
+	RollOffMode: ParameterEntry<Enum.RollOffMode>?,
+	SoundGroup: ParameterEntry<SoundGroup>?,
+	Source: ParameterEntry<Instance>?,
+	Volume: ParameterEntry<number>?,
+}
+
+type StackFrameProperties = InstanceProperties & {
+}
+
+type StandalonePluginScriptsProperties = InstanceProperties & {
+}
+
+type StarterGearProperties = InstanceProperties & {
+}
+
+type StarterPackProperties = InstanceProperties & {
+}
+
+type StarterPlayerProperties = InstanceProperties & {
+	AutoJumpEnabled: ParameterEntry<boolean>?,
+	CameraMaxZoomDistance: ParameterEntry<number>?,
+	CameraMinZoomDistance: ParameterEntry<number>?,
+	CameraMode: ParameterEntry<Enum.CameraMode>?,
+	CharacterJumpHeight: ParameterEntry<number>?,
+	CharacterJumpPower: ParameterEntry<number>?,
+	CharacterMaxSlopeAngle: ParameterEntry<number>?,
+	CharacterUseJumpPower: ParameterEntry<boolean>?,
+	CharacterWalkSpeed: ParameterEntry<number>?,
+	DevCameraOcclusionMode: ParameterEntry<Enum.DevCameraOcclusionMode>?,
+	DevComputerCameraMovementMode: ParameterEntry<Enum.DevComputerCameraMovementMode>?,
+	DevComputerMovementMode: ParameterEntry<Enum.DevComputerMovementMode>?,
+	DevTouchCameraMovementMode: ParameterEntry<Enum.DevTouchCameraMovementMode>?,
+	DevTouchMovementMode: ParameterEntry<Enum.DevTouchMovementMode>?,
+	EnableMouseLockOption: ParameterEntry<boolean>?,
+	HealthDisplayDistance: ParameterEntry<number>?,
+	LoadCharacterAppearance: ParameterEntry<boolean>?,
+	NameDisplayDistance: ParameterEntry<number>?,
+	UserEmotesEnabled: ParameterEntry<boolean>?,
+}
+
+type StarterPlayerScriptsProperties = InstanceProperties & {
+}
+
+type StarterCharacterScriptsProperties = StarterPlayerScriptsProperties & {
+}
+
+type StatsProperties = InstanceProperties & {
+	ContactsCount: ParameterEntry<number>?,
+	DataReceiveKbps: ParameterEntry<number>?,
+	DataSendKbps: ParameterEntry<number>?,
+	HeartbeatTimeMs: ParameterEntry<number>?,
+	InstanceCount: ParameterEntry<number>?,
+	MovingPrimitivesCount: ParameterEntry<number>?,
+	PhysicsReceiveKbps: ParameterEntry<number>?,
+	PhysicsSendKbps: ParameterEntry<number>?,
+	PhysicsStepTimeMs: ParameterEntry<number>?,
+	PrimitivesCount: ParameterEntry<number>?,
+}
+
+type StatsItemProperties = InstanceProperties & {
+}
+
+type RunningAverageItemDoubleProperties = StatsItemProperties & {
+}
+
+type RunningAverageItemIntProperties = StatsItemProperties & {
+}
+
+type RunningAverageTimeIntervalItemProperties = StatsItemProperties & {
+}
+
+type TotalCountTimeIntervalItemProperties = StatsItemProperties & {
+}
+
+type StopWatchReporterProperties = InstanceProperties & {
+}
+
+type StudioAssetServiceProperties = InstanceProperties & {
+}
+
+type StudioDataProperties = InstanceProperties & {
+}
+
+type StudioDeviceEmulatorServiceProperties = InstanceProperties & {
+}
+
+type StudioHighDpiServiceProperties = InstanceProperties & {
+}
+
+type StudioPublishServiceProperties = InstanceProperties & {
+}
+
+type StudioScriptDebugEventListenerProperties = InstanceProperties & {
+}
+
+type StudioServiceProperties = InstanceProperties & {
+	ActiveScript: ParameterEntry<Instance>?,
+	DraggerSolveConstraints: ParameterEntry<boolean>?,
+	DrawConstraintsOnTop: ParameterEntry<boolean>?,
+	GridSize: ParameterEntry<number>?,
+	RotateIncrement: ParameterEntry<number>?,
+	ShowConstraintDetails: ParameterEntry<boolean>?,
+	StudioLocaleId: ParameterEntry<string>?,
+	UseLocalSpace: ParameterEntry<boolean>?,
+}
+
+type StudioThemeProperties = InstanceProperties & {
+}
 
 type SurfaceAppearanceProperties = InstanceProperties & {
-	AlphaMode: ParameterEntry<Enum.AlphaMode>?,
-	ColorMap: ParameterEntry<string>?,
-	MetalnessMap: ParameterEntry<string>?,
-	NormalMap: ParameterEntry<string>?,
-	RoughnessMap: ParameterEntry<string>?,
-	TexturePack: ParameterEntry<string>?,
-} 
+}
+
+type TaskSchedulerProperties = InstanceProperties & {
+	SchedulerDutyCycle: ParameterEntry<number>?,
+	SchedulerRate: ParameterEntry<number>?,
+	ThreadPoolConfig: ParameterEntry<Enum.ThreadPoolConfig>?,
+	ThreadPoolSize: ParameterEntry<number>?,
+}
 
 type TeamProperties = InstanceProperties & {
 	AutoAssignable: ParameterEntry<boolean>?,
-	ChildOrder: ParameterEntry<number>?,
 	TeamColor: ParameterEntry<BrickColor>?,
-} 
+}
+
+type TeamCreateServiceProperties = InstanceProperties & {
+}
+
+type TeamsProperties = InstanceProperties & {
+}
+
+type TeleportAsyncResultProperties = InstanceProperties & {
+	PrivateServerId: ParameterEntry<string>?,
+	ReservedServerAccessCode: ParameterEntry<string>?,
+}
+
+type TeleportOptionsProperties = InstanceProperties & {
+	ReservedServerAccessCode: ParameterEntry<string>?,
+	ServerInstanceId: ParameterEntry<string>?,
+	ShouldReserveServer: ParameterEntry<boolean>?,
+}
+
+type TeleportServiceProperties = InstanceProperties & {
+}
+
+type TemporaryCageMeshProviderProperties = InstanceProperties & {
+}
+
+type TemporaryScriptServiceProperties = InstanceProperties & {
+}
+
+type TerrainDetailProperties = InstanceProperties & {
+	Face: ParameterEntry<Enum.TerrainFace>?,
+	MaterialPattern: ParameterEntry<Enum.MaterialPattern>?,
+	StudsPerTile: ParameterEntry<number>?,
+}
+
+type TerrainRegionProperties = InstanceProperties & {
+	SizeInCells: ParameterEntry<Vector3>?,
+}
+
+type TestServiceProperties = InstanceProperties & {
+	AutoRuns: ParameterEntry<boolean>?,
+	Description: ParameterEntry<string>?,
+	ErrorCount: ParameterEntry<number>?,
+	ExecuteWithStudioRun: ParameterEntry<boolean>?,
+	Is30FpsThrottleEnabled: ParameterEntry<boolean>?,
+	IsPhysicsEnvironmentalThrottled: ParameterEntry<boolean>?,
+	IsSleepAllowed: ParameterEntry<boolean>?,
+	NumberOfPlayers: ParameterEntry<number>?,
+	SimulateSecondsLag: ParameterEntry<number>?,
+	TestCount: ParameterEntry<number>?,
+	Timeout: ParameterEntry<number>?,
+	WarnCount: ParameterEntry<number>?,
+}
+
+type TextBoxServiceProperties = InstanceProperties & {
+}
+
+type TextChannelProperties = InstanceProperties & {
+}
+
+type TextChatCommandProperties = InstanceProperties & {
+	Enabled: ParameterEntry<boolean>?,
+	PrimaryAlias: ParameterEntry<string>?,
+	SecondaryAlias: ParameterEntry<string>?,
+}
+
+type TextChatConfigurationsProperties = InstanceProperties & {
+}
+
+type ChatInputBarConfigurationProperties = TextChatConfigurationsProperties & {
+	AbsolutePosition: ParameterEntry<Vector2>?,
+	AbsoluteSize: ParameterEntry<Vector2>?,
+	Enabled: ParameterEntry<boolean>?,
+	TargetTextChannel: ParameterEntry<TextChannel>?,
+}
+
+type ChatWindowConfigurationProperties = TextChatConfigurationsProperties & {
+	AbsolutePosition: ParameterEntry<Vector2>?,
+	AbsoluteSize: ParameterEntry<Vector2>?,
+	Enabled: ParameterEntry<boolean>?,
+}
+
+type TextChatMessageProperties = InstanceProperties & {
+	MessageId: ParameterEntry<string>?,
+	Metadata: ParameterEntry<string>?,
+	PrefixText: ParameterEntry<string>?,
+	Status: ParameterEntry<Enum.TextChatMessageStatus>?,
+	Text: ParameterEntry<string>?,
+	TextChannel: ParameterEntry<TextChannel>?,
+	TextSource: ParameterEntry<TextSource>?,
+	Timestamp: ParameterEntry<DateTime>?,
+}
+
+type TextChatMessagePropertiesProperties = InstanceProperties & {
+	PrefixText: ParameterEntry<string>?,
+	Text: ParameterEntry<string>?,
+}
+
+type TextChatServiceProperties = InstanceProperties & {
+}
+
+type TextFilterResultProperties = InstanceProperties & {
+}
+
+type TextServiceProperties = InstanceProperties & {
+}
+
+type TextSourceProperties = InstanceProperties & {
+	CanSend: ParameterEntry<boolean>?,
+	UserId: ParameterEntry<number>?,
+}
+
+type ThirdPartyUserServiceProperties = InstanceProperties & {
+}
+
+type ThreadStateProperties = InstanceProperties & {
+}
+
+type TimerServiceProperties = InstanceProperties & {
+}
+
+type ToastNotificationServiceProperties = InstanceProperties & {
+}
+
+type TouchInputServiceProperties = InstanceProperties & {
+}
+
+type TouchTransmitterProperties = InstanceProperties & {
+}
+
+type TracerServiceProperties = InstanceProperties & {
+}
+
+type TrackerStreamAnimationProperties = InstanceProperties & {
+}
 
 type TrailProperties = InstanceProperties & {
 	Attachment0: ParameterEntry<Attachment>?,
@@ -1594,66 +3049,89 @@ type TrailProperties = InstanceProperties & {
 	TextureMode: ParameterEntry<Enum.TextureMode>?,
 	Transparency: ParameterEntry<NumberSequence>?,
 	WidthScale: ParameterEntry<NumberSequence>?,
-} 
+}
 
-type UIBaseProperties = InstanceProperties & {} 
+type TranslatorProperties = InstanceProperties & {
+	LocaleId: ParameterEntry<string>?,
+}
 
-type UIComponentProperties =  UIBaseProperties & {} 
+type TweenBaseProperties = InstanceProperties & {
+	PlaybackState: ParameterEntry<Enum.PlaybackState>?,
+}
 
-type UIConstraintProperties =  UIComponentProperties & {} 
+type TweenProperties = TweenBaseProperties & {
+	Instance: ParameterEntry<Instance>?,
+	TweenInfo: ParameterEntry<TweenInfo>?,
+}
 
-type UIAspectRatioConstraintProperties =  UIConstraintProperties & {
+type TweenServiceProperties = InstanceProperties & {
+}
+
+type UGCValidationServiceProperties = InstanceProperties & {
+}
+
+type UIBaseProperties = InstanceProperties & {
+}
+
+type UIComponentProperties = UIBaseProperties & {
+}
+
+type UIConstraintProperties = UIComponentProperties & {
+}
+
+type UIAspectRatioConstraintProperties = UIConstraintProperties & {
 	AspectRatio: ParameterEntry<number>?,
 	AspectType: ParameterEntry<Enum.AspectType>?,
 	DominantAxis: ParameterEntry<Enum.DominantAxis>?,
-} 
+}
 
-type UISizeConstraintProperties =  UIConstraintProperties & {
+type UISizeConstraintProperties = UIConstraintProperties & {
 	MaxSize: ParameterEntry<Vector2>?,
 	MinSize: ParameterEntry<Vector2>?,
-} 
+}
 
-type UITextSizeConstraintProperties =  UIConstraintProperties & {
+type UITextSizeConstraintProperties = UIConstraintProperties & {
 	MaxTextSize: ParameterEntry<number>?,
 	MinTextSize: ParameterEntry<number>?,
-} 
+}
 
-type UICornerProperties =  UIComponentProperties & {
+type UICornerProperties = UIComponentProperties & {
 	CornerRadius: ParameterEntry<UDim>?,
-} 
+}
 
-type UIGradientProperties =  UIComponentProperties & {
+type UIGradientProperties = UIComponentProperties & {
 	Color: ParameterEntry<ColorSequence>?,
 	Enabled: ParameterEntry<boolean>?,
 	Offset: ParameterEntry<Vector2>?,
 	Rotation: ParameterEntry<number>?,
 	Transparency: ParameterEntry<NumberSequence>?,
-} 
+}
 
-type UILayoutProperties =  UIComponentProperties & {} 
+type UILayoutProperties = UIComponentProperties & {
+}
 
-type UIGridStyleLayoutProperties =  UILayoutProperties & {
-	AbsolutestringSize: ParameterEntry<Vector2>?,
+type UIGridStyleLayoutProperties = UILayoutProperties & {
+	AbsoluteContentSize: ParameterEntry<Vector2>?,
 	FillDirection: ParameterEntry<Enum.FillDirection>?,
 	HorizontalAlignment: ParameterEntry<Enum.HorizontalAlignment>?,
 	SortOrder: ParameterEntry<Enum.SortOrder>?,
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
-} 
+}
 
-type UIGridLayoutProperties =  UIGridStyleLayoutProperties & {
+type UIGridLayoutProperties = UIGridStyleLayoutProperties & {
 	AbsoluteCellCount: ParameterEntry<Vector2>?,
 	AbsoluteCellSize: ParameterEntry<Vector2>?,
 	CellPadding: ParameterEntry<UDim2>?,
 	CellSize: ParameterEntry<UDim2>?,
 	FillDirectionMaxCells: ParameterEntry<number>?,
 	StartCorner: ParameterEntry<Enum.StartCorner>?,
-} 
+}
 
-type UIListLayoutProperties =  UIGridStyleLayoutProperties & {
+type UIListLayoutProperties = UIGridStyleLayoutProperties & {
 	Padding: ParameterEntry<UDim>?,
-} 
+}
 
-type UIPageLayoutProperties =  UIGridStyleLayoutProperties & {
+type UIPageLayoutProperties = UIGridStyleLayoutProperties & {
 	Animated: ParameterEntry<boolean>?,
 	Circular: ParameterEntry<boolean>?,
 	CurrentPage: ParameterEntry<GuiObject>?,
@@ -1664,78 +3142,169 @@ type UIPageLayoutProperties =  UIGridStyleLayoutProperties & {
 	ScrollWheelInputEnabled: ParameterEntry<boolean>?,
 	TouchInputEnabled: ParameterEntry<boolean>?,
 	TweenTime: ParameterEntry<number>?,
-} 
+}
 
-type UITableLayoutProperties =  UIGridStyleLayoutProperties & {
+type UITableLayoutProperties = UIGridStyleLayoutProperties & {
 	FillEmptySpaceColumns: ParameterEntry<boolean>?,
 	FillEmptySpaceRows: ParameterEntry<boolean>?,
 	MajorAxis: ParameterEntry<Enum.TableMajorAxis>?,
 	Padding: ParameterEntry<UDim2>?,
-} 
+}
 
-type UIPaddingProperties =  UIComponentProperties & {
+type UIPaddingProperties = UIComponentProperties & {
 	PaddingBottom: ParameterEntry<UDim>?,
 	PaddingLeft: ParameterEntry<UDim>?,
 	PaddingRight: ParameterEntry<UDim>?,
 	PaddingTop: ParameterEntry<UDim>?,
-} 
+}
 
-type UIScaleProperties =  UIComponentProperties & {
+type UIScaleProperties = UIComponentProperties & {
 	Scale: ParameterEntry<number>?,
-} 
+}
 
-type UIStrokeProperties =  UIComponentProperties & {
+type UIStrokeProperties = UIComponentProperties & {
 	ApplyStrokeMode: ParameterEntry<Enum.ApplyStrokeMode>?,
 	Color: ParameterEntry<Color3>?,
 	Enabled: ParameterEntry<boolean>?,
 	LineJoinMode: ParameterEntry<Enum.LineJoinMode>?,
 	Thickness: ParameterEntry<number>?,
 	Transparency: ParameterEntry<number>?,
-} 
+}
 
-type ValueBaseProperties = InstanceProperties & {} 
+type UnvalidatedAssetServiceProperties = InstanceProperties & {
+}
 
-type BinaryStringValueProperties =  ValueBaseProperties & {} 
+type UserGameSettingsProperties = InstanceProperties & {
+	ComputerCameraMovementMode: ParameterEntry<Enum.ComputerCameraMovementMode>?,
+	ComputerMovementMode: ParameterEntry<Enum.ComputerMovementMode>?,
+	ControlMode: ParameterEntry<Enum.ControlMode>?,
+	GamepadCameraSensitivity: ParameterEntry<number>?,
+	MouseSensitivity: ParameterEntry<number>?,
+	RCCProfilerRecordFrameRate: ParameterEntry<number>?,
+	RCCProfilerRecordTimeFrame: ParameterEntry<number>?,
+	RotationType: ParameterEntry<Enum.RotationType>?,
+	SavedQualityLevel: ParameterEntry<Enum.SavedQualitySetting>?,
+	TouchCameraMovementMode: ParameterEntry<Enum.TouchCameraMovementMode>?,
+	TouchMovementMode: ParameterEntry<Enum.TouchMovementMode>?,
+}
 
-type BoolValueProperties =  ValueBaseProperties & {
+type UserInputServiceProperties = InstanceProperties & {
+	AccelerometerEnabled: ParameterEntry<boolean>?,
+	GamepadEnabled: ParameterEntry<boolean>?,
+	GyroscopeEnabled: ParameterEntry<boolean>?,
+	KeyboardEnabled: ParameterEntry<boolean>?,
+	MouseBehavior: ParameterEntry<Enum.MouseBehavior>?,
+	MouseDeltaSensitivity: ParameterEntry<number>?,
+	MouseEnabled: ParameterEntry<boolean>?,
+	MouseIconEnabled: ParameterEntry<boolean>?,
+	OnScreenKeyboardPosition: ParameterEntry<Vector2>?,
+	OnScreenKeyboardSize: ParameterEntry<Vector2>?,
+	OnScreenKeyboardVisible: ParameterEntry<boolean>?,
+	TouchEnabled: ParameterEntry<boolean>?,
+	VREnabled: ParameterEntry<boolean>?,
+}
+
+type UserServiceProperties = InstanceProperties & {
+}
+
+type VRServiceProperties = InstanceProperties & {
+	GuiInputUserCFrame: ParameterEntry<Enum.UserCFrame>?,
+	VREnabled: ParameterEntry<boolean>?,
+}
+
+type ValueBaseProperties = InstanceProperties & {
+}
+
+type BinaryStringValueProperties = ValueBaseProperties & {
+}
+
+type BoolValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<boolean>?,
-} 
+}
 
-type BrickColorValueProperties =  ValueBaseProperties & {
+type BrickColorValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<BrickColor>?,
-} 
+}
 
-type CFrameValueProperties =  ValueBaseProperties & {
+type CFrameValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<CFrame>?,
-} 
+}
 
-type Color3ValueProperties =  ValueBaseProperties & {
+type Color3ValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<Color3>?,
-} 
+}
 
-type IntValueProperties =  ValueBaseProperties & {
+type DoubleConstrainedValueProperties = ValueBaseProperties & {
+	ConstrainedValue: ParameterEntry<number>?,
+	MaxValue: ParameterEntry<number>?,
+	MinValue: ParameterEntry<number>?,
 	Value: ParameterEntry<number>?,
-} 
+}
 
-type NumberValueProperties =  ValueBaseProperties & {
+type IntConstrainedValueProperties = ValueBaseProperties & {
+	ConstrainedValue: ParameterEntry<number>?,
+	MaxValue: ParameterEntry<number>?,
+	MinValue: ParameterEntry<number>?,
 	Value: ParameterEntry<number>?,
-} 
+}
 
-type ObjectValueProperties =  ValueBaseProperties & {
+type IntValueProperties = ValueBaseProperties & {
+	Value: ParameterEntry<number>?,
+}
+
+type NumberValueProperties = ValueBaseProperties & {
+	Value: ParameterEntry<number>?,
+}
+
+type ObjectValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<Instance>?,
-} 
+}
 
-type RayValueProperties =  ValueBaseProperties & {
+type RayValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<Ray>?,
-} 
+}
 
-type StringValueProperties =  ValueBaseProperties & {
+type StringValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<string>?,
-} 
+}
 
-type Vector3ValueProperties =  ValueBaseProperties & {
+type Vector3ValueProperties = ValueBaseProperties & {
 	Value: ParameterEntry<Vector3>?,
-} 
+}
+
+type Vector3CurveProperties = InstanceProperties & {
+}
+
+type VersionControlServiceProperties = InstanceProperties & {
+}
+
+type VideoCaptureServiceProperties = InstanceProperties & {
+}
+
+type VirtualInputManagerProperties = InstanceProperties & {
+}
+
+type VirtualUserProperties = InstanceProperties & {
+}
+
+type VisibilityServiceProperties = InstanceProperties & {
+}
+
+type VisitProperties = InstanceProperties & {
+}
+
+type VoiceChannelProperties = InstanceProperties & {
+}
+
+type VoiceChatInternalProperties = InstanceProperties & {
+}
+
+type VoiceChatServiceProperties = InstanceProperties & {
+}
+
+type VoiceSourceProperties = InstanceProperties & {
+	UserId: ParameterEntry<number>?,
+}
 
 type WeldConstraintProperties = InstanceProperties & {
 	Active: ParameterEntry<boolean>?,
@@ -1744,420 +3313,458 @@ type WeldConstraintProperties = InstanceProperties & {
 	Part1: ParameterEntry<BasePart>?,
 }
 
-export type ClassNameConstructor = (("Accessory") ->  ((AccessoryProperties) -> Accessory ))
-& ((className: "Animation") ->  ((AnimationProperties) -> Animation ))
-& ((className: "AnimationTrack") ->  ((AnimationTrackProperties) -> AnimationTrack ))
-& ((className: "Atmosphere") ->  ((AtmosphereProperties) -> Atmosphere ))
-& ((className: "Attachment") ->  ((AttachmentProperties) -> Attachment ))
-& ((className: "Bone") ->  ((BoneProperties) -> Bone ))
--- & ((className: "BackpackItem") ->  ((BackpackItemProperties) -> BackpackItem ))
-& ((className: "Tool") ->  ((ToolProperties) -> Tool ))
-& ((className: "BaseWrap") ->  ((BaseWrapProperties) -> BaseWrap ))
-& ((className: "WrapLayer") ->  ((WrapLayerProperties) -> WrapLayer ))
-& ((className: "WrapTarget") ->  ((WrapTargetProperties) -> WrapTarget ))
-& ((className: "Beam") ->  ((BeamProperties) -> Beam ))
-& ((className: "BindableEvent") ->  ((BindableEventProperties) -> BindableEvent ))
-& ((className: "BindableFunction") ->  ((BindableFunctionProperties) -> BindableFunction ))
-& ((className: "BodyMover") ->  ((BodyMoverProperties) -> BodyMover ))
-& ((className: "BodyAngularVelocity") ->  ((BodyAngularVelocityProperties) -> BodyAngularVelocity ))
-& ((className: "BodyForce") ->  ((BodyForceProperties) -> BodyForce ))
-& ((className: "BodyGyro") ->  ((BodyGyroProperties) -> BodyGyro ))
-& ((className: "BodyPosition") ->  ((BodyPositionProperties) -> BodyPosition ))
-& ((className: "BodyThrust") ->  ((BodyThrustProperties) -> BodyThrust ))
-& ((className: "BodyVelocity") ->  ((BodyVelocityProperties) -> BodyVelocity ))
-& ((className: "Camera") ->  ((CameraProperties) -> Camera ))
-& ((className: "CharacterAppearance") ->  ((CharacterAppearanceProperties) -> CharacterAppearance ))
-& ((className: "BodyColors") ->  ((BodyColorsProperties) -> BodyColors ))
-& ((className: "Clothing") ->  ((ClothingProperties) -> Clothing ))
-& ((className: "Pants") ->  ((PantsProperties) -> Pants ))
-& ((className: "Shirt") ->  ((ShirtProperties) -> Shirt ))
-& ((className: "ShirtGraphic") ->  ((ShirtGraphicProperties) -> ShirtGraphic ))
-& ((className: "ClickDetector") ->  ((ClickDetectorProperties) -> ClickDetector ))
-& ((className: "Clouds") ->  ((CloudsProperties) -> Clouds ))
-& ((className: "Configuration") ->  ((ConfigurationProperties) -> Configuration ))
--- & ((className: "Constraint") ->  ((ConstraintProperties) -> Constraint ))
-& ((className: "AlignOrientation") ->  ((AlignOrientationProperties) -> AlignOrientation ))
-& ((className: "AlignPosition") ->  ((AlignPositionProperties) -> AlignPosition ))
-& ((className: "AngularVelocity") ->  ((AngularVelocityProperties) -> AngularVelocity ))
-& ((className: "BallSocketConstraint") ->  ((BallSocketConstraintProperties) -> BallSocketConstraint ))
-& ((className: "HingeConstraint") ->  ((HingeConstraintProperties) -> HingeConstraint ))
-& ((className: "LineForce") ->  ((LineForceProperties) -> LineForce ))
-& ((className: "LinearVelocity") ->  ((LinearVelocityProperties) -> LinearVelocity ))
-& ((className: "PlaneConstraint") ->  ((PlaneConstraintProperties) -> PlaneConstraint ))
-& ((className: "RigidConstraint") ->  ((RigidConstraintProperties) -> RigidConstraint ))
-& ((className: "RodConstraint") ->  ((RodConstraintProperties) -> RodConstraint ))
-& ((className: "RopeConstraint") ->  ((RopeConstraintProperties) -> RopeConstraint ))
-& ((className: "SlidingBallConstraint") ->  ((SlidingBallConstraintProperties) -> SlidingBallConstraint ))
-& ((className: "CylindricalConstraint") ->  ((CylindricalConstraintProperties) -> CylindricalConstraint ))
-& ((className: "PrismaticConstraint") ->  ((PrismaticConstraintProperties) -> PrismaticConstraint ))
-& ((className: "SpringConstraint") ->  ((SpringConstraintProperties) -> SpringConstraint ))
-& ((className: "Torque") ->  ((TorqueProperties) -> Torque ))
-& ((className: "TorsionSpringConstraint") ->  ((TorsionSpringConstraintProperties) -> TorsionSpringConstraint ))
-& ((className: "UniversalConstraint") ->  ((UniversalConstraintProperties) -> UniversalConstraint ))
-& ((className: "VectorForce") ->  ((VectorForceProperties) -> VectorForce ))
-& ((className: "FileMesh") ->  ((FileMeshProperties) -> FileMesh ))
-& ((className: "SpecialMesh") ->  ((SpecialMeshProperties) -> SpecialMesh ))
-& ((className: "Dialog") ->  ((DialogProperties) -> Dialog ))
-& ((className: "DialogChoice") ->  ((DialogChoiceProperties) -> DialogChoice ))
-& ((className: "Explosion") ->  ((ExplosionProperties) -> Explosion ))
-& ((className: "FaceControls") ->  ((FaceControlsProperties) -> FaceControls ))
-& ((className: "FaceInstance") ->  ((FaceInstanceProperties) -> FaceInstance ))
-& ((className: "Decal") ->  ((DecalProperties) -> Decal ))
-& ((className: "Texture") ->  ((TextureProperties) -> Texture ))
-& ((className: "Fire") ->  ((FireProperties) -> Fire ))
-& ((className: "Folder") ->  ((FolderProperties) -> Folder ))
-& ((className: "ForceField") ->  ((ForceFieldProperties) -> ForceField ))
--- & ((className: "GuiBase") ->  ((GuiBaseProperties) -> GuiBase ))
--- & ((className: "GuiBase2d") ->  ((GuiBase2dProperties) -> GuiBase2d ))
--- & ((className: "GuiObject") ->  ((GuiObjectProperties) -> GuiObject ))
-& ((className: "CanvasGroup") ->  ((CanvasGroupProperties) -> CanvasGroup ))
-& ((className: "Frame") ->  ((FrameProperties) -> Frame ))
--- & ((className: "GuiButton") ->  ((GuiButtonProperties) -> GuiButton ))
-& ((className: "ImageButton") ->  ((ImageButtonProperties) -> ImageButton ))
-& ((className: "TextButton") ->  ((TextButtonProperties) -> TextButton ))
--- & ((className: "GuiLabel") ->  ((GuiLabelProperties) -> GuiLabel ))
-& ((className: "ImageLabel") ->  ((ImageLabelProperties) -> ImageLabel ))
-& ((className: "TextLabel") ->  ((TextLabelProperties) -> TextLabel ))
-& ((className: "ScrollingFrame") ->  ((ScrollingFrameProperties) -> ScrollingFrame ))
-& ((className: "TextBox") ->  ((TextBoxProperties) -> TextBox ))
-& ((className: "VideoFrame") ->  ((VideoFrameProperties) -> VideoFrame ))
-& ((className: "ViewportFrame") ->  ((ViewportFrameProperties) -> ViewportFrame ))
--- & ((className: "LayerCollector") ->  ((LayerCollectorProperties) -> LayerCollector ))
-& ((className: "BillboardGui") ->  ((BillboardGuiProperties) -> BillboardGui ))
-& ((className: "PluginGui") ->  ((PluginGuiProperties) -> PluginGui ))
-& ((className: "DockWidgetPluginGui") ->  ((DockWidgetPluginGuiProperties) -> DockWidgetPluginGui ))
-& ((className: "QWidgetPluginGui") ->  ((QWidgetPluginGuiProperties) -> QWidgetPluginGui ))
-& ((className: "ScreenGui") ->  ((ScreenGuiProperties) -> ScreenGui ))
-& ((className: "SurfaceGui") ->  ((SurfaceGuiProperties) -> SurfaceGui ))
-& ((className: "GuiBase3d") ->  ((GuiBase3dProperties) -> GuiBase3d ))
--- & ((className: "InstanceAdornment") ->  ((InstanceAdornmentProperties) -> InstanceAdornment ))
-& ((className: "SelectionBox") ->  ((SelectionBoxProperties) -> SelectionBox ))
--- & ((className: "PVAdornment") ->  ((PVAdornmentProperties) -> PVAdornment ))
-& ((className: "HandleAdornment") ->  ((HandleAdornmentProperties) -> HandleAdornment ))
-& ((className: "BoxHandleAdornment") ->  ((BoxHandleAdornmentProperties) -> BoxHandleAdornment ))
-& ((className: "ConeHandleAdornment") ->  ((ConeHandleAdornmentProperties) -> ConeHandleAdornment ))
-& ((className: "CylinderHandleAdornment") ->  ((CylinderHandleAdornmentProperties) -> CylinderHandleAdornment ))
-& ((className: "ImageHandleAdornment") ->  ((ImageHandleAdornmentProperties) -> ImageHandleAdornment ))
-& ((className: "LineHandleAdornment") ->  ((LineHandleAdornmentProperties) -> LineHandleAdornment ))
-& ((className: "SphereHandleAdornment") ->  ((SphereHandleAdornmentProperties) -> SphereHandleAdornment ))
-& ((className: "WireframeHandleAdornment") ->  ((WireframeHandleAdornmentProperties) -> WireframeHandleAdornment ))
-& ((className: "ParabolaAdornment") ->  ((ParabolaAdornmentProperties) -> ParabolaAdornment ))
-& ((className: "SelectionSphere") ->  ((SelectionSphereProperties) -> SelectionSphere ))
-& ((className: "PartAdornment") ->  ((PartAdornmentProperties) -> PartAdornment ))
-& ((className: "HandlesBase") ->  ((HandlesBaseProperties) -> HandlesBase ))
-& ((className: "ArcHandles") ->  ((ArcHandlesProperties) -> ArcHandles ))
-& ((className: "Handles") ->  ((HandlesProperties) -> Handles ))
-& ((className: "SurfaceSelection") ->  ((SurfaceSelectionProperties) -> SurfaceSelection ))
-& ((className: "SelectionLasso") ->  ((SelectionLassoProperties) -> SelectionLasso ))
-& ((className: "Highlight") ->  ((HighlightProperties) -> Highlight ))
-& ((className: "Humanoid") ->  ((HumanoidProperties) -> Humanoid ))
-& ((className: "HumanoidDescription") ->  ((HumanoidDescriptionProperties) -> HumanoidDescription ))
-& ((className: "JointInstance") ->  ((JointInstanceProperties) -> JointInstance ))
-& ((className: "DynamicRotate") ->  ((DynamicRotateProperties) -> DynamicRotate ))
-& ((className: "Motor") ->  ((MotorProperties) -> Motor ))
-& ((className: "Motor6D") ->  ((Motor6DProperties) -> Motor6D ))
-& ((className: "Weld") ->  ((WeldProperties) -> Weld ))
-& ((className: "Light") ->  ((LightProperties) -> Light ))
-& ((className: "PointLight") ->  ((PointLightProperties) -> PointLight ))
-& ((className: "SpotLight") ->  ((SpotLightProperties) -> SpotLight ))
-& ((className: "SurfaceLight") ->  ((SurfaceLightProperties) -> SurfaceLight ))
-& ((className: "Lighting") ->  ((LightingProperties) -> Lighting ))
-& ((className: "LocalizationTable") ->  ((LocalizationTableProperties) -> LocalizationTable ))
-& ((className: "MaterialService") ->  ((MaterialServiceProperties) -> MaterialService ))
-& ((className: "MaterialVariant") ->  ((MaterialVariantProperties) -> MaterialVariant ))
-& ((className: "Mouse") ->  ((MouseProperties) -> Mouse ))
--- & ((className: "PVInstance") ->  ((PVInstanceProperties) -> PVInstance ))
-& ((className: "BasePart") ->  ((BasePartProperties) -> BasePart ))
-& ((className: "CornerWedgePart") ->  ((CornerWedgePartProperties) -> CornerWedgePart ))
-& ((className: "FormFactorPart") ->  ((FormFactorPartProperties) -> FormFactorPart ))
-& ((className: "Part") ->  ((PartProperties) -> Part ))
-& ((className: "Platform") ->  ((PlatformProperties) -> Platform ))
-& ((className: "Seat") ->  ((SeatProperties) -> Seat ))
-& ((className: "SpawnLocation") ->  ((SpawnLocationProperties) -> SpawnLocation ))
-& ((className: "WedgePart") ->  ((WedgePartProperties) -> WedgePart ))
-& ((className: "TrussPart") ->  ((TrussPartProperties) -> TrussPart ))
-& ((className: "VehicleSeat") ->  ((VehicleSeatProperties) -> VehicleSeat ))
-& ((className: "Model") ->  ((ModelProperties) -> Model ))
-& ((className: "Actor") ->  ((ActorProperties) -> Actor ))
--- & ((className: "WorldRoot") ->  ((WorldRootProperties) -> WorldRoot ))
--- & ((className: "WorldModel") ->  ((WorldModelProperties) -> WorldModel ))
-& ((className: "ParticleEmitter") ->  ((ParticleEmitterProperties) -> ParticleEmitter ))
-& ((className: "Path") ->  ((PathProperties) -> Path ))
-& ((className: "PathfindingLink") ->  ((PathfindingLinkProperties) -> PathfindingLink ))
-& ((className: "PathfindingModifier") ->  ((PathfindingModifierProperties) -> PathfindingModifier ))
-& ((className: "Player") ->  ((PlayerProperties) -> Player ))
-& ((className: "Players") ->  ((PlayersProperties) -> Players ))
-& ((className: "PluginAction") ->  ((PluginActionProperties) -> PluginAction ))
-& ((className: "PluginMenu") ->  ((PluginMenuProperties) -> PluginMenu ))
-& ((className: "PluginToolbar") ->  ((PluginToolbarProperties) -> PluginToolbar ))
-& ((className: "PluginToolbarButton") ->  ((PluginToolbarButtonProperties) -> PluginToolbarButton ))
-& ((className: "PostEffect") ->  ((PostEffectProperties) -> PostEffect ))
-& ((className: "BloomEffect") ->  ((BloomEffectProperties) -> BloomEffect ))
-& ((className: "BlurEffect") ->  ((BlurEffectProperties) -> BlurEffect ))
-& ((className: "ColorCorrectionEffect") ->  ((ColorCorrectionEffectProperties) -> ColorCorrectionEffect ))
-& ((className: "DepthOfFieldEffect") ->  ((DepthOfFieldEffectProperties) -> DepthOfFieldEffect ))
-& ((className: "SunRaysEffect") ->  ((SunRaysEffectProperties) -> SunRaysEffect ))
-& ((className: "RemoteEvent") ->  ((RemoteEventProperties) -> RemoteEvent ))
-& ((className: "RemoteFunction") ->  ((RemoteFunctionProperties) -> RemoteFunction ))
-& ((className: "Sky") ->  ((SkyProperties) -> Sky ))
-& ((className: "Smoke") ->  ((SmokeProperties) -> Smoke ))
-& ((className: "Sound") ->  ((SoundProperties) -> Sound ))
--- & ((className: "SoundEffect") ->  ((SoundEffectProperties) -> SoundEffect ))
-& ((className: "AssetSoundEffect") ->  ((AssetSoundEffectProperties) -> AssetSoundEffect ))
-& ((className: "ChorusSoundEffect") ->  ((ChorusSoundEffectProperties) -> ChorusSoundEffect ))
-& ((className: "CompressorSoundEffect") ->  ((CompressorSoundEffectProperties) -> CompressorSoundEffect ))
-& ((className: "CustomSoundEffect") ->  ((CustomSoundEffectProperties) -> CustomSoundEffect ))
-& ((className: "ChannelSelectorSoundEffect") ->  ((ChannelSelectorSoundEffectProperties) -> ChannelSelectorSoundEffect ))
-& ((className: "DistortionSoundEffect") ->  ((DistortionSoundEffectProperties) -> DistortionSoundEffect ))
-& ((className: "EchoSoundEffect") ->  ((EchoSoundEffectProperties) -> EchoSoundEffect ))
-& ((className: "EqualizerSoundEffect") ->  ((EqualizerSoundEffectProperties) -> EqualizerSoundEffect ))
-& ((className: "FlangeSoundEffect") ->  ((FlangeSoundEffectProperties) -> FlangeSoundEffect ))
-& ((className: "PitchShiftSoundEffect") ->  ((PitchShiftSoundEffectProperties) -> PitchShiftSoundEffect ))
-& ((className: "ReverbSoundEffect") ->  ((ReverbSoundEffectProperties) -> ReverbSoundEffect ))
-& ((className: "TremoloSoundEffect") ->  ((TremoloSoundEffectProperties) -> TremoloSoundEffect ))
-& ((className: "SoundGroup") ->  ((SoundGroupProperties) -> SoundGroup ))
-& ((className: "Sparkles") ->  ((SparklesProperties) -> Sparkles ))
-& ((className: "SurfaceAppearance") ->  ((SurfaceAppearanceProperties) -> SurfaceAppearance ))
-& ((className: "Team") ->  ((TeamProperties) -> Team ))
-& ((className: "Trail") ->  ((TrailProperties) -> Trail ))
--- & ((className: "UIBase") ->  ((UIBaseProperties) -> UIBase ))
--- & ((className: "UIComponent") ->  ((UIComponentProperties) -> UIComponent ))
--- & ((className: "UIConstraint") ->  ((UIConstraintProperties) -> UIConstraint ))
-& ((className: "UIAspectRatioConstraint") ->  ((UIAspectRatioConstraintProperties) -> UIAspectRatioConstraint ))
-& ((className: "UISizeConstraint") ->  ((UISizeConstraintProperties) -> UISizeConstraint ))
-& ((className: "UITextSizeConstraint") ->  ((UITextSizeConstraintProperties) -> UITextSizeConstraint ))
-& ((className: "UICorner") ->  ((UICornerProperties) -> UICorner ))
-& ((className: "UIGradient") ->  ((UIGradientProperties) -> UIGradient ))
-& ((className: "UILayout") ->  ((UILayoutProperties) -> UILayout ))
-& ((className: "UIGridStyleLayout") ->  ((UIGridStyleLayoutProperties) -> UIGridStyleLayout ))
-& ((className: "UIGridLayout") ->  ((UIGridLayoutProperties) -> UIGridLayout ))
-& ((className: "UIListLayout") ->  ((UIListLayoutProperties) -> UIListLayout ))
-& ((className: "UIPageLayout") ->  ((UIPageLayoutProperties) -> UIPageLayout ))
-& ((className: "UITableLayout") ->  ((UITableLayoutProperties) -> UITableLayout ))
-& ((className: "UIPadding") ->  ((UIPaddingProperties) -> UIPadding ))
-& ((className: "UIScale") ->  ((UIScaleProperties) -> UIScale ))
-& ((className: "UIStroke") ->  ((UIStrokeProperties) -> UIStroke ))
--- & ((className: "ValueBase") ->  ((ValueBaseProperties) -> ValueBase ))
-& ((className: "BinaryStringValue") ->  ((BinaryStringValueProperties) -> BinaryStringValue ))
-& ((className: "BoolValue") ->  ((BoolValueProperties) -> BoolValue ))
-& ((className: "BrickColorValue") ->  ((BrickColorValueProperties) -> BrickColorValue ))
-& ((className: "CFrameValue") ->  ((CFrameValueProperties) -> CFrameValue ))
-& ((className: "Color3Value") ->  ((Color3ValueProperties) -> Color3Value ))
-& ((className: "IntValue") ->  ((IntValueProperties) -> IntValue ))
-& ((className: "NumberValue") ->  ((NumberValueProperties) -> NumberValue ))
-& ((className: "ObjectValue") ->  ((ObjectValueProperties) -> ObjectValue ))
-& ((className: "RayValue") ->  ((RayValueProperties) -> RayValue ))
-& ((className: "StringValue") ->  ((StringValueProperties) -> StringValue ))
-& ((className: "Vector3Value") ->  ((Vector3ValueProperties) -> Vector3Value ))
-& ((className: "WeldConstraint") ->  ((WeldConstraintProperties) -> WeldConstraint ))
--- ((Instance) ->  ((InstanceProperties) -> Instance))
--- & ((Accoutrement) ->  ((AccoutrementProperties) -> Accoutrement ))
-export type ClassConstructor = ((Accessory) ->  ((AccessoryProperties) -> Accessory ))
-& ((Animation) ->  ((AnimationProperties) -> Animation ))
-& ((AnimationTrack) ->  ((AnimationTrackProperties) -> AnimationTrack ))
-& ((Atmosphere) ->  ((AtmosphereProperties) -> Atmosphere ))
-& ((Attachment) ->  ((AttachmentProperties) -> Attachment ))
-& ((Bone) ->  ((BoneProperties) -> Bone ))
--- & ((BackpackItem) ->  ((BackpackItemProperties) -> BackpackItem ))
-& ((Tool) ->  ((ToolProperties) -> Tool ))
-& ((BaseWrap) ->  ((BaseWrapProperties) -> BaseWrap ))
-& ((WrapLayer) ->  ((WrapLayerProperties) -> WrapLayer ))
-& ((WrapTarget) ->  ((WrapTargetProperties) -> WrapTarget ))
-& ((Beam) ->  ((BeamProperties) -> Beam ))
-& ((BindableEvent) ->  ((BindableEventProperties) -> BindableEvent ))
-& ((BindableFunction) ->  ((BindableFunctionProperties) -> BindableFunction ))
-& ((BodyMover) ->  ((BodyMoverProperties) -> BodyMover ))
-& ((BodyAngularVelocity) ->  ((BodyAngularVelocityProperties) -> BodyAngularVelocity ))
-& ((BodyForce) ->  ((BodyForceProperties) -> BodyForce ))
-& ((BodyGyro) ->  ((BodyGyroProperties) -> BodyGyro ))
-& ((BodyPosition) ->  ((BodyPositionProperties) -> BodyPosition ))
-& ((BodyThrust) ->  ((BodyThrustProperties) -> BodyThrust ))
-& ((BodyVelocity) ->  ((BodyVelocityProperties) -> BodyVelocity ))
-& ((Camera) ->  ((CameraProperties) -> Camera ))
-& ((CharacterAppearance) ->  ((CharacterAppearanceProperties) -> CharacterAppearance ))
-& ((BodyColors) ->  ((BodyColorsProperties) -> BodyColors ))
-& ((Clothing) ->  ((ClothingProperties) -> Clothing ))
-& ((Pants) ->  ((PantsProperties) -> Pants ))
-& ((Shirt) ->  ((ShirtProperties) -> Shirt ))
-& ((ShirtGraphic) ->  ((ShirtGraphicProperties) -> ShirtGraphic ))
-& ((ClickDetector) ->  ((ClickDetectorProperties) -> ClickDetector ))
-& ((Clouds) ->  ((CloudsProperties) -> Clouds ))
-& ((Configuration) ->  ((ConfigurationProperties) -> Configuration ))
--- & ((Constraint) ->  ((ConstraintProperties) -> Constraint ))
-& ((AlignOrientation) ->  ((AlignOrientationProperties) -> AlignOrientation ))
-& ((AlignPosition) ->  ((AlignPositionProperties) -> AlignPosition ))
-& ((AngularVelocity) ->  ((AngularVelocityProperties) -> AngularVelocity ))
-& ((BallSocketConstraint) ->  ((BallSocketConstraintProperties) -> BallSocketConstraint ))
-& ((HingeConstraint) ->  ((HingeConstraintProperties) -> HingeConstraint ))
-& ((LineForce) ->  ((LineForceProperties) -> LineForce ))
-& ((LinearVelocity) ->  ((LinearVelocityProperties) -> LinearVelocity ))
-& ((PlaneConstraint) ->  ((PlaneConstraintProperties) -> PlaneConstraint ))
-& ((RigidConstraint) ->  ((RigidConstraintProperties) -> RigidConstraint ))
-& ((RodConstraint) ->  ((RodConstraintProperties) -> RodConstraint ))
-& ((RopeConstraint) ->  ((RopeConstraintProperties) -> RopeConstraint ))
-& ((SlidingBallConstraint) ->  ((SlidingBallConstraintProperties) -> SlidingBallConstraint ))
-& ((CylindricalConstraint) ->  ((CylindricalConstraintProperties) -> CylindricalConstraint ))
-& ((PrismaticConstraint) ->  ((PrismaticConstraintProperties) -> PrismaticConstraint ))
-& ((SpringConstraint) ->  ((SpringConstraintProperties) -> SpringConstraint ))
-& ((Torque) ->  ((TorqueProperties) -> Torque ))
-& ((TorsionSpringConstraint) ->  ((TorsionSpringConstraintProperties) -> TorsionSpringConstraint ))
-& ((UniversalConstraint) ->  ((UniversalConstraintProperties) -> UniversalConstraint ))
-& ((VectorForce) ->  ((VectorForceProperties) -> VectorForce ))
-& ((FileMesh) ->  ((FileMeshProperties) -> FileMesh ))
-& ((SpecialMesh) ->  ((SpecialMeshProperties) -> SpecialMesh ))
-& ((Dialog) ->  ((DialogProperties) -> Dialog ))
-& ((DialogChoice) ->  ((DialogChoiceProperties) -> DialogChoice ))
-& ((Explosion) ->  ((ExplosionProperties) -> Explosion ))
-& ((FaceControls) ->  ((FaceControlsProperties) -> FaceControls ))
-& ((FaceInstance) ->  ((FaceInstanceProperties) -> FaceInstance ))
-& ((Decal) ->  ((DecalProperties) -> Decal ))
-& ((Texture) ->  ((TextureProperties) -> Texture ))
-& ((Fire) ->  ((FireProperties) -> Fire ))
-& ((Folder) ->  ((FolderProperties) -> Folder ))
-& ((ForceField) ->  ((ForceFieldProperties) -> ForceField ))
--- & ((GuiBase) ->  ((GuiBaseProperties) -> GuiBase ))
--- & ((GuiBase2d) ->  ((GuiBase2dProperties) -> GuiBase2d ))
--- & ((GuiObject) ->  ((GuiObjectProperties) -> GuiObject ))
-& ((CanvasGroup) ->  ((CanvasGroupProperties) -> CanvasGroup ))
-& ((Frame) ->  ((FrameProperties) -> Frame ))
--- & ((GuiButton) ->  ((GuiButtonProperties) -> GuiButton ))
-& ((ImageButton) ->  ((ImageButtonProperties) -> ImageButton ))
-& ((TextButton) ->  ((TextButtonProperties) -> TextButton ))
--- & ((GuiLabel) ->  ((GuiLabelProperties) -> GuiLabel ))
-& ((ImageLabel) ->  ((ImageLabelProperties) -> ImageLabel ))
-& ((TextLabel) ->  ((TextLabelProperties) -> TextLabel ))
-& ((ScrollingFrame) ->  ((ScrollingFrameProperties) -> ScrollingFrame ))
-& ((TextBox) ->  ((TextBoxProperties) -> TextBox ))
-& ((VideoFrame) ->  ((VideoFrameProperties) -> VideoFrame ))
-& ((ViewportFrame) ->  ((ViewportFrameProperties) -> ViewportFrame ))
--- & ((LayerCollector) ->  ((LayerCollectorProperties) -> LayerCollector ))
-& ((BillboardGui) ->  ((BillboardGuiProperties) -> BillboardGui ))
-& ((PluginGui) ->  ((PluginGuiProperties) -> PluginGui ))
-& ((DockWidgetPluginGui) ->  ((DockWidgetPluginGuiProperties) -> DockWidgetPluginGui ))
-& ((QWidgetPluginGui) ->  ((QWidgetPluginGuiProperties) -> QWidgetPluginGui ))
-& ((ScreenGui) ->  ((ScreenGuiProperties) -> ScreenGui ))
-& ((SurfaceGui) ->  ((SurfaceGuiProperties) -> SurfaceGui ))
-& ((GuiBase3d) ->  ((GuiBase3dProperties) -> GuiBase3d ))
--- & ((InstanceAdornment) ->  ((InstanceAdornmentProperties) -> InstanceAdornment ))
-& ((SelectionBox) ->  ((SelectionBoxProperties) -> SelectionBox ))
--- & ((PVAdornment) ->  ((PVAdornmentProperties) -> PVAdornment ))
-& ((HandleAdornment) ->  ((HandleAdornmentProperties) -> HandleAdornment ))
-& ((BoxHandleAdornment) ->  ((BoxHandleAdornmentProperties) -> BoxHandleAdornment ))
-& ((ConeHandleAdornment) ->  ((ConeHandleAdornmentProperties) -> ConeHandleAdornment ))
-& ((CylinderHandleAdornment) ->  ((CylinderHandleAdornmentProperties) -> CylinderHandleAdornment ))
-& ((ImageHandleAdornment) ->  ((ImageHandleAdornmentProperties) -> ImageHandleAdornment ))
-& ((LineHandleAdornment) ->  ((LineHandleAdornmentProperties) -> LineHandleAdornment ))
-& ((SphereHandleAdornment) ->  ((SphereHandleAdornmentProperties) -> SphereHandleAdornment ))
-& ((WireframeHandleAdornment) ->  ((WireframeHandleAdornmentProperties) -> WireframeHandleAdornment ))
-& ((ParabolaAdornment) ->  ((ParabolaAdornmentProperties) -> ParabolaAdornment ))
-& ((SelectionSphere) ->  ((SelectionSphereProperties) -> SelectionSphere ))
-& ((PartAdornment) ->  ((PartAdornmentProperties) -> PartAdornment ))
-& ((HandlesBase) ->  ((HandlesBaseProperties) -> HandlesBase ))
-& ((ArcHandles) ->  ((ArcHandlesProperties) -> ArcHandles ))
-& ((Handles) ->  ((HandlesProperties) -> Handles ))
-& ((SurfaceSelection) ->  ((SurfaceSelectionProperties) -> SurfaceSelection ))
-& ((SelectionLasso) ->  ((SelectionLassoProperties) -> SelectionLasso ))
-& ((Highlight) ->  ((HighlightProperties) -> Highlight ))
-& ((Humanoid) ->  ((HumanoidProperties) -> Humanoid ))
-& ((HumanoidDescription) ->  ((HumanoidDescriptionProperties) -> HumanoidDescription ))
-& ((JointInstance) ->  ((JointInstanceProperties) -> JointInstance ))
-& ((DynamicRotate) ->  ((DynamicRotateProperties) -> DynamicRotate ))
-& ((Motor) ->  ((MotorProperties) -> Motor ))
-& ((Motor6D) ->  ((Motor6DProperties) -> Motor6D ))
-& ((Weld) ->  ((WeldProperties) -> Weld ))
-& ((Light) ->  ((LightProperties) -> Light ))
-& ((PointLight) ->  ((PointLightProperties) -> PointLight ))
-& ((SpotLight) ->  ((SpotLightProperties) -> SpotLight ))
-& ((SurfaceLight) ->  ((SurfaceLightProperties) -> SurfaceLight ))
-& ((Lighting) ->  ((LightingProperties) -> Lighting ))
-& ((LocalizationTable) ->  ((LocalizationTableProperties) -> LocalizationTable ))
-& ((MaterialService) ->  ((MaterialServiceProperties) -> MaterialService ))
-& ((MaterialVariant) ->  ((MaterialVariantProperties) -> MaterialVariant ))
-& ((Mouse) ->  ((MouseProperties) -> Mouse ))
--- & ((PVInstance) ->  ((PVInstanceProperties) -> PVInstance ))
-& ((BasePart) ->  ((BasePartProperties) -> BasePart ))
-& ((CornerWedgePart) ->  ((CornerWedgePartProperties) -> CornerWedgePart ))
-& ((FormFactorPart) ->  ((FormFactorPartProperties) -> FormFactorPart ))
-& ((Part) ->  ((PartProperties) -> Part ))
-& ((Platform) ->  ((PlatformProperties) -> Platform ))
-& ((Seat) ->  ((SeatProperties) -> Seat ))
-& ((SpawnLocation) ->  ((SpawnLocationProperties) -> SpawnLocation ))
-& ((WedgePart) ->  ((WedgePartProperties) -> WedgePart ))
-& ((TrussPart) ->  ((TrussPartProperties) -> TrussPart ))
-& ((VehicleSeat) ->  ((VehicleSeatProperties) -> VehicleSeat ))
-& ((Model) ->  ((ModelProperties) -> Model ))
-& ((Actor) ->  ((ActorProperties) -> Actor ))
--- & ((WorldRoot) ->  ((WorldRootProperties) -> WorldRoot ))
--- & ((WorldModel) ->  ((WorldModelProperties) -> WorldModel ))
-& ((ParticleEmitter) ->  ((ParticleEmitterProperties) -> ParticleEmitter ))
-& ((Path) ->  ((PathProperties) -> Path ))
-& ((PathfindingLink) ->  ((PathfindingLinkProperties) -> PathfindingLink ))
-& ((PathfindingModifier) ->  ((PathfindingModifierProperties) -> PathfindingModifier ))
-& ((Player) ->  ((PlayerProperties) -> Player ))
-& ((Players) ->  ((PlayersProperties) -> Players ))
-& ((PluginAction) ->  ((PluginActionProperties) -> PluginAction ))
-& ((PluginMenu) ->  ((PluginMenuProperties) -> PluginMenu ))
-& ((PluginToolbar) ->  ((PluginToolbarProperties) -> PluginToolbar ))
-& ((PluginToolbarButton) ->  ((PluginToolbarButtonProperties) -> PluginToolbarButton ))
-& ((PostEffect) ->  ((PostEffectProperties) -> PostEffect ))
-& ((BloomEffect) ->  ((BloomEffectProperties) -> BloomEffect ))
-& ((BlurEffect) ->  ((BlurEffectProperties) -> BlurEffect ))
-& ((ColorCorrectionEffect) ->  ((ColorCorrectionEffectProperties) -> ColorCorrectionEffect ))
-& ((DepthOfFieldEffect) ->  ((DepthOfFieldEffectProperties) -> DepthOfFieldEffect ))
-& ((SunRaysEffect) ->  ((SunRaysEffectProperties) -> SunRaysEffect ))
-& ((RemoteEvent) ->  ((RemoteEventProperties) -> RemoteEvent ))
-& ((RemoteFunction) ->  ((RemoteFunctionProperties) -> RemoteFunction ))
-& ((Sky) ->  ((SkyProperties) -> Sky ))
-& ((Smoke) ->  ((SmokeProperties) -> Smoke ))
-& ((Sound) ->  ((SoundProperties) -> Sound ))
--- & ((SoundEffect) ->  ((SoundEffectProperties) -> SoundEffect ))
-& ((AssetSoundEffect) ->  ((AssetSoundEffectProperties) -> AssetSoundEffect ))
-& ((ChorusSoundEffect) ->  ((ChorusSoundEffectProperties) -> ChorusSoundEffect ))
-& ((CompressorSoundEffect) ->  ((CompressorSoundEffectProperties) -> CompressorSoundEffect ))
-& ((CustomSoundEffect) ->  ((CustomSoundEffectProperties) -> CustomSoundEffect ))
-& ((ChannelSelectorSoundEffect) ->  ((ChannelSelectorSoundEffectProperties) -> ChannelSelectorSoundEffect ))
-& ((DistortionSoundEffect) ->  ((DistortionSoundEffectProperties) -> DistortionSoundEffect ))
-& ((EchoSoundEffect) ->  ((EchoSoundEffectProperties) -> EchoSoundEffect ))
-& ((EqualizerSoundEffect) ->  ((EqualizerSoundEffectProperties) -> EqualizerSoundEffect ))
-& ((FlangeSoundEffect) ->  ((FlangeSoundEffectProperties) -> FlangeSoundEffect ))
-& ((PitchShiftSoundEffect) ->  ((PitchShiftSoundEffectProperties) -> PitchShiftSoundEffect ))
-& ((ReverbSoundEffect) ->  ((ReverbSoundEffectProperties) -> ReverbSoundEffect ))
-& ((TremoloSoundEffect) ->  ((TremoloSoundEffectProperties) -> TremoloSoundEffect ))
-& ((SoundGroup) ->  ((SoundGroupProperties) -> SoundGroup ))
-& ((Sparkles) ->  ((SparklesProperties) -> Sparkles ))
-& ((SurfaceAppearance) ->  ((SurfaceAppearanceProperties) -> SurfaceAppearance ))
-& ((Team) ->  ((TeamProperties) -> Team ))
-& ((Trail) ->  ((TrailProperties) -> Trail ))
--- & ((UIBase) ->  ((UIBaseProperties) -> UIBase ))
--- & ((UIComponent) ->  ((UIComponentProperties) -> UIComponent ))
--- & ((UIConstraint) ->  ((UIConstraintProperties) -> UIConstraint ))
-& ((UIAspectRatioConstraint) ->  ((UIAspectRatioConstraintProperties) -> UIAspectRatioConstraint ))
-& ((UISizeConstraint) ->  ((UISizeConstraintProperties) -> UISizeConstraint ))
-& ((UITextSizeConstraint) ->  ((UITextSizeConstraintProperties) -> UITextSizeConstraint ))
-& ((UICorner) ->  ((UICornerProperties) -> UICorner ))
-& ((UIGradient) ->  ((UIGradientProperties) -> UIGradient ))
-& ((UILayout) ->  ((UILayoutProperties) -> UILayout ))
-& ((UIGridStyleLayout) ->  ((UIGridStyleLayoutProperties) -> UIGridStyleLayout ))
-& ((UIGridLayout) ->  ((UIGridLayoutProperties) -> UIGridLayout ))
-& ((UIListLayout) ->  ((UIListLayoutProperties) -> UIListLayout ))
-& ((UIPageLayout) ->  ((UIPageLayoutProperties) -> UIPageLayout ))
-& ((UITableLayout) ->  ((UITableLayoutProperties) -> UITableLayout ))
-& ((UIPadding) ->  ((UIPaddingProperties) -> UIPadding ))
-& ((UIScale) ->  ((UIScaleProperties) -> UIScale ))
-& ((UIStroke) ->  ((UIStrokeProperties) -> UIStroke ))
--- & ((ValueBase) ->  ((ValueBaseProperties) -> ValueBase ))
-& ((BinaryStringValue) ->  ((BinaryStringValueProperties) -> BinaryStringValue ))
-& ((BoolValue) ->  ((BoolValueProperties) -> BoolValue ))
-& ((BrickColorValue) ->  ((BrickColorValueProperties) -> BrickColorValue ))
-& ((CFrameValue) ->  ((CFrameValueProperties) -> CFrameValue ))
-& ((Color3Value) ->  ((Color3ValueProperties) -> Color3Value ))
-& ((IntValue) ->  ((IntValueProperties) -> IntValue ))
-& ((NumberValue) ->  ((NumberValueProperties) -> NumberValue ))
-& ((ObjectValue) ->  ((ObjectValueProperties) -> ObjectValue ))
-& ((RayValue) ->  ((RayValueProperties) -> RayValue ))
-& ((StringValue) ->  ((StringValueProperties) -> StringValue ))
-& ((Vector3Value) ->  ((Vector3ValueProperties) -> Vector3Value ))
-& ((WeldConstraint) ->  ((WeldConstraintProperties) -> WeldConstraint ))
+type ClassNameConstructors0 = (
+	(className: "Instance") -> ((InstanceProperties) -> Instance)
+	& (className: "Accessory") -> ((AccessoryProperties) -> Accessory)
+	& (className: "AdvancedDragger") -> ((AdvancedDraggerProperties) -> AdvancedDragger)
+	& (className: "AnalyticsService") -> ((AnalyticsServiceProperties) -> AnalyticsService)
+	& (className: "Animation") -> ((AnimationProperties) -> Animation)
+	& (className: "CurveAnimation") -> ((CurveAnimationProperties) -> CurveAnimation)
+	& (className: "KeyframeSequence") -> ((KeyframeSequenceProperties) -> KeyframeSequence)
+	& (className: "AnimationController") -> ((AnimationControllerProperties) -> AnimationController)
+	& (className: "AnimationRigData") -> ((AnimationRigDataProperties) -> AnimationRigData))
 
+type ClassNameConstructors1 = (
+	(className: "Animator") -> ((AnimatorProperties) -> Animator)
+	& (className: "Atmosphere") -> ((AtmosphereProperties) -> Atmosphere)
+	& (className: "Attachment") -> ((AttachmentProperties) -> Attachment)
+	& (className: "Bone") -> ((BoneProperties) -> Bone)
+	& (className: "Backpack") -> ((BackpackProperties) -> Backpack)
+	& (className: "Tool") -> ((ToolProperties) -> Tool)
+	& (className: "StarterGui") -> ((StarterGuiProperties) -> StarterGui)
+	& (className: "WrapLayer") -> ((WrapLayerProperties) -> WrapLayer)
+	& (className: "WrapTarget") -> ((WrapTargetProperties) -> WrapTarget)
+	& (className: "Beam") -> ((BeamProperties) -> Beam))
+
+type ClassNameConstructors2 = (
+	(className: "BindableEvent") -> ((BindableEventProperties) -> BindableEvent)
+	& (className: "BindableFunction") -> ((BindableFunctionProperties) -> BindableFunction)
+	& (className: "BodyAngularVelocity") -> ((BodyAngularVelocityProperties) -> BodyAngularVelocity)
+	& (className: "BodyForce") -> ((BodyForceProperties) -> BodyForce)
+	& (className: "BodyGyro") -> ((BodyGyroProperties) -> BodyGyro)
+	& (className: "BodyPosition") -> ((BodyPositionProperties) -> BodyPosition)
+	& (className: "BodyThrust") -> ((BodyThrustProperties) -> BodyThrust)
+	& (className: "BodyVelocity") -> ((BodyVelocityProperties) -> BodyVelocity)
+	& (className: "Camera") -> ((CameraProperties) -> Camera)
+	& (className: "BodyColors") -> ((BodyColorsProperties) -> BodyColors))
+
+type ClassNameConstructors3 = (
+	(className: "Pants") -> ((PantsProperties) -> Pants)
+	& (className: "Shirt") -> ((ShirtProperties) -> Shirt)
+	& (className: "ShirtGraphic") -> ((ShirtGraphicProperties) -> ShirtGraphic)
+	& (className: "ClickDetector") -> ((ClickDetectorProperties) -> ClickDetector)
+	& (className: "Clouds") -> ((CloudsProperties) -> Clouds)
+	& (className: "Configuration") -> ((ConfigurationProperties) -> Configuration)
+	& (className: "AlignOrientation") -> ((AlignOrientationProperties) -> AlignOrientation)
+	& (className: "AlignPosition") -> ((AlignPositionProperties) -> AlignPosition)
+	& (className: "AngularVelocity") -> ((AngularVelocityProperties) -> AngularVelocity)
+	& (className: "BallSocketConstraint") -> ((BallSocketConstraintProperties) -> BallSocketConstraint))
+
+type ClassNameConstructors4 = (
+	(className: "HingeConstraint") -> ((HingeConstraintProperties) -> HingeConstraint)
+	& (className: "LineForce") -> ((LineForceProperties) -> LineForce)
+	& (className: "LinearVelocity") -> ((LinearVelocityProperties) -> LinearVelocity)
+	& (className: "PlaneConstraint") -> ((PlaneConstraintProperties) -> PlaneConstraint)
+	& (className: "RigidConstraint") -> ((RigidConstraintProperties) -> RigidConstraint)
+	& (className: "RodConstraint") -> ((RodConstraintProperties) -> RodConstraint)
+	& (className: "RopeConstraint") -> ((RopeConstraintProperties) -> RopeConstraint)
+	& (className: "CylindricalConstraint") -> ((CylindricalConstraintProperties) -> CylindricalConstraint)
+	& (className: "PrismaticConstraint") -> ((PrismaticConstraintProperties) -> PrismaticConstraint)
+	& (className: "SpringConstraint") -> ((SpringConstraintProperties) -> SpringConstraint))
+
+type ClassNameConstructors5 = (
+	(className: "Torque") -> ((TorqueProperties) -> Torque)
+	& (className: "TorsionSpringConstraint") -> ((TorsionSpringConstraintProperties) -> TorsionSpringConstraint)
+	& (className: "UniversalConstraint") -> ((UniversalConstraintProperties) -> UniversalConstraint)
+	& (className: "VectorForce") -> ((VectorForceProperties) -> VectorForce)
+	& (className: "FileMesh") -> ((FileMeshProperties) -> FileMesh)
+	& (className: "SpecialMesh") -> ((SpecialMeshProperties) -> SpecialMesh)
+	& (className: "Dialog") -> ((DialogProperties) -> Dialog)
+	& (className: "DialogChoice") -> ((DialogChoiceProperties) -> DialogChoice)
+	& (className: "Dragger") -> ((DraggerProperties) -> Dragger)
+	& (className: "Explosion") -> ((ExplosionProperties) -> Explosion))
+
+type ClassNameConstructors6 = (
+	(className: "FaceControls") -> ((FaceControlsProperties) -> FaceControls)
+	& (className: "Decal") -> ((DecalProperties) -> Decal)
+	& (className: "Texture") -> ((TextureProperties) -> Texture)
+	& (className: "Fire") -> ((FireProperties) -> Fire)
+	& (className: "FlyweightService") -> ((FlyweightServiceProperties) -> FlyweightService)
+	& (className: "CSGDictionaryService") -> ((CSGDictionaryServiceProperties) -> CSGDictionaryService)
+	& (className: "NonReplicatedCSGDictionaryService") -> ((NonReplicatedCSGDictionaryServiceProperties) -> NonReplicatedCSGDictionaryService)
+	& (className: "Folder") -> ((FolderProperties) -> Folder)
+	& (className: "ForceField") -> ((ForceFieldProperties) -> ForceField)
+	& (className: "CanvasGroup") -> ((CanvasGroupProperties) -> CanvasGroup))
+
+type ClassNameConstructors7 = (
+	(className: "Frame") -> ((FrameProperties) -> Frame)
+	& (className: "ImageButton") -> ((ImageButtonProperties) -> ImageButton)
+	& (className: "TextButton") -> ((TextButtonProperties) -> TextButton)
+	& (className: "ImageLabel") -> ((ImageLabelProperties) -> ImageLabel)
+	& (className: "TextLabel") -> ((TextLabelProperties) -> TextLabel)
+	& (className: "ScrollingFrame") -> ((ScrollingFrameProperties) -> ScrollingFrame)
+	& (className: "TextBox") -> ((TextBoxProperties) -> TextBox)
+	& (className: "VideoFrame") -> ((VideoFrameProperties) -> VideoFrame)
+	& (className: "ViewportFrame") -> ((ViewportFrameProperties) -> ViewportFrame)
+	& (className: "BillboardGui") -> ((BillboardGuiProperties) -> BillboardGui))
+
+type ClassNameConstructors8 = (
+	(className: "ScreenGui") -> ((ScreenGuiProperties) -> ScreenGui)
+	& (className: "SurfaceGui") -> ((SurfaceGuiProperties) -> SurfaceGui)
+	& (className: "SelectionBox") -> ((SelectionBoxProperties) -> SelectionBox)
+	& (className: "BoxHandleAdornment") -> ((BoxHandleAdornmentProperties) -> BoxHandleAdornment)
+	& (className: "ConeHandleAdornment") -> ((ConeHandleAdornmentProperties) -> ConeHandleAdornment)
+	& (className: "CylinderHandleAdornment") -> ((CylinderHandleAdornmentProperties) -> CylinderHandleAdornment)
+	& (className: "ImageHandleAdornment") -> ((ImageHandleAdornmentProperties) -> ImageHandleAdornment)
+	& (className: "LineHandleAdornment") -> ((LineHandleAdornmentProperties) -> LineHandleAdornment)
+	& (className: "SphereHandleAdornment") -> ((SphereHandleAdornmentProperties) -> SphereHandleAdornment)
+	& (className: "WireframeHandleAdornment") -> ((WireframeHandleAdornmentProperties) -> WireframeHandleAdornment))
+
+type ClassNameConstructors9 = (
+	(className: "ParabolaAdornment") -> ((ParabolaAdornmentProperties) -> ParabolaAdornment)
+	& (className: "SelectionSphere") -> ((SelectionSphereProperties) -> SelectionSphere)
+	& (className: "ArcHandles") -> ((ArcHandlesProperties) -> ArcHandles)
+	& (className: "Handles") -> ((HandlesProperties) -> Handles)
+	& (className: "SurfaceSelection") -> ((SurfaceSelectionProperties) -> SurfaceSelection)
+	& (className: "HeightmapImporterService") -> ((HeightmapImporterServiceProperties) -> HeightmapImporterService)
+	& (className: "HiddenSurfaceRemovalAsset") -> ((HiddenSurfaceRemovalAssetProperties) -> HiddenSurfaceRemovalAsset)
+	& (className: "Highlight") -> ((HighlightProperties) -> Highlight)
+	& (className: "Humanoid") -> ((HumanoidProperties) -> Humanoid)
+	& (className: "HumanoidDescription") -> ((HumanoidDescriptionProperties) -> HumanoidDescription))
+
+type ClassNameConstructors10 = (
+	(className: "Motor6D") -> ((Motor6DProperties) -> Motor6D)
+	& (className: "VelocityMotor") -> ((VelocityMotorProperties) -> VelocityMotor)
+	& (className: "Weld") -> ((WeldProperties) -> Weld)
+	& (className: "PointLight") -> ((PointLightProperties) -> PointLight)
+	& (className: "SpotLight") -> ((SpotLightProperties) -> SpotLight)
+	& (className: "SurfaceLight") -> ((SurfaceLightProperties) -> SurfaceLight)
+	& (className: "Lighting") -> ((LightingProperties) -> Lighting)
+	& (className: "MaterialService") -> ((MaterialServiceProperties) -> MaterialService)
+	& (className: "MaterialVariant") -> ((MaterialVariantProperties) -> MaterialVariant)
+	& (className: "MemoryStoreService") -> ((MemoryStoreServiceProperties) -> MemoryStoreService))
+
+type ClassNameConstructors11 = (
+	(className: "NoCollisionConstraint") -> ((NoCollisionConstraintProperties) -> NoCollisionConstraint)
+	& (className: "CornerWedgePart") -> ((CornerWedgePartProperties) -> CornerWedgePart)
+	& (className: "Part") -> ((PartProperties) -> Part)
+	& (className: "Seat") -> ((SeatProperties) -> Seat)
+	& (className: "SpawnLocation") -> ((SpawnLocationProperties) -> SpawnLocation)
+	& (className: "WedgePart") -> ((WedgePartProperties) -> WedgePart)
+	& (className: "MeshPart") -> ((MeshPartProperties) -> MeshPart)
+	& (className: "NegateOperation") -> ((NegateOperationProperties) -> NegateOperation)
+	& (className: "UnionOperation") -> ((UnionOperationProperties) -> UnionOperation)
+	& (className: "TrussPart") -> ((TrussPartProperties) -> TrussPart))
+
+type ClassNameConstructors12 = (
+	(className: "VehicleSeat") -> ((VehicleSeatProperties) -> VehicleSeat)
+	& (className: "Model") -> ((ModelProperties) -> Model)
+	& (className: "Actor") -> ((ActorProperties) -> Actor)
+	& (className: "WorldModel") -> ((WorldModelProperties) -> WorldModel)
+	& (className: "ParticleEmitter") -> ((ParticleEmitterProperties) -> ParticleEmitter)
+	& (className: "PathfindingLink") -> ((PathfindingLinkProperties) -> PathfindingLink)
+	& (className: "PathfindingModifier") -> ((PathfindingModifierProperties) -> PathfindingModifier)
+	& (className: "Player") -> ((PlayerProperties) -> Player)
+	& (className: "Players") -> ((PlayersProperties) -> Players)
+	& (className: "BloomEffect") -> ((BloomEffectProperties) -> BloomEffect))
+
+type ClassNameConstructors13 = (
+	(className: "BlurEffect") -> ((BlurEffectProperties) -> BlurEffect)
+	& (className: "ColorCorrectionEffect") -> ((ColorCorrectionEffectProperties) -> ColorCorrectionEffect)
+	& (className: "DepthOfFieldEffect") -> ((DepthOfFieldEffectProperties) -> DepthOfFieldEffect)
+	& (className: "SunRaysEffect") -> ((SunRaysEffectProperties) -> SunRaysEffect)
+	& (className: "ProximityPrompt") -> ((ProximityPromptProperties) -> ProximityPrompt)
+	& (className: "ProximityPromptService") -> ((ProximityPromptServiceProperties) -> ProximityPromptService)
+	& (className: "RemoteEvent") -> ((RemoteEventProperties) -> RemoteEvent)
+	& (className: "RemoteFunction") -> ((RemoteFunctionProperties) -> RemoteFunction)
+	& (className: "RotationCurve") -> ((RotationCurveProperties) -> RotationCurve)
+	& (className: "Sky") -> ((SkyProperties) -> Sky))
+
+type ClassNameConstructors14 = (
+	(className: "Smoke") -> ((SmokeProperties) -> Smoke)
+	& (className: "Sound") -> ((SoundProperties) -> Sound)
+	& (className: "ChorusSoundEffect") -> ((ChorusSoundEffectProperties) -> ChorusSoundEffect)
+	& (className: "CompressorSoundEffect") -> ((CompressorSoundEffectProperties) -> CompressorSoundEffect)
+	& (className: "ChannelSelectorSoundEffect") -> ((ChannelSelectorSoundEffectProperties) -> ChannelSelectorSoundEffect)
+	& (className: "DistortionSoundEffect") -> ((DistortionSoundEffectProperties) -> DistortionSoundEffect)
+	& (className: "EchoSoundEffect") -> ((EchoSoundEffectProperties) -> EchoSoundEffect)
+	& (className: "EqualizerSoundEffect") -> ((EqualizerSoundEffectProperties) -> EqualizerSoundEffect)
+	& (className: "FlangeSoundEffect") -> ((FlangeSoundEffectProperties) -> FlangeSoundEffect)
+	& (className: "PitchShiftSoundEffect") -> ((PitchShiftSoundEffectProperties) -> PitchShiftSoundEffect))
+
+type ClassNameConstructors15 = (
+	(className: "ReverbSoundEffect") -> ((ReverbSoundEffectProperties) -> ReverbSoundEffect)
+	& (className: "TremoloSoundEffect") -> ((TremoloSoundEffectProperties) -> TremoloSoundEffect)
+	& (className: "SoundGroup") -> ((SoundGroupProperties) -> SoundGroup)
+	& (className: "SoundService") -> ((SoundServiceProperties) -> SoundService)
+	& (className: "Sparkles") -> ((SparklesProperties) -> Sparkles)
+	& (className: "StarterGear") -> ((StarterGearProperties) -> StarterGear)
+	& (className: "StarterPack") -> ((StarterPackProperties) -> StarterPack)
+	& (className: "SurfaceAppearance") -> ((SurfaceAppearanceProperties) -> SurfaceAppearance)
+	& (className: "Team") -> ((TeamProperties) -> Team)
+	& (className: "TestService") -> ((TestServiceProperties) -> TestService))
+
+type ClassNameConstructors16 = (
+	(className: "TextChannel") -> ((TextChannelProperties) -> TextChannel)
+	& (className: "TrackerStreamAnimation") -> ((TrackerStreamAnimationProperties) -> TrackerStreamAnimation)
+	& (className: "Trail") -> ((TrailProperties) -> Trail)
+	& (className: "UIAspectRatioConstraint") -> ((UIAspectRatioConstraintProperties) -> UIAspectRatioConstraint)
+	& (className: "UISizeConstraint") -> ((UISizeConstraintProperties) -> UISizeConstraint)
+	& (className: "UITextSizeConstraint") -> ((UITextSizeConstraintProperties) -> UITextSizeConstraint)
+	& (className: "UICorner") -> ((UICornerProperties) -> UICorner)
+	& (className: "UIGradient") -> ((UIGradientProperties) -> UIGradient)
+	& (className: "UIGridLayout") -> ((UIGridLayoutProperties) -> UIGridLayout)
+	& (className: "UIListLayout") -> ((UIListLayoutProperties) -> UIListLayout))
+
+type ClassNameConstructors17 = (
+	(className: "UIPageLayout") -> ((UIPageLayoutProperties) -> UIPageLayout)
+	& (className: "UITableLayout") -> ((UITableLayoutProperties) -> UITableLayout)
+	& (className: "UIPadding") -> ((UIPaddingProperties) -> UIPadding)
+	& (className: "UIScale") -> ((UIScaleProperties) -> UIScale)
+	& (className: "UIStroke") -> ((UIStrokeProperties) -> UIStroke)
+	& (className: "BoolValue") -> ((BoolValueProperties) -> BoolValue)
+	& (className: "BrickColorValue") -> ((BrickColorValueProperties) -> BrickColorValue)
+	& (className: "CFrameValue") -> ((CFrameValueProperties) -> CFrameValue)
+	& (className: "Color3Value") -> ((Color3ValueProperties) -> Color3Value)
+	& (className: "IntValue") -> ((IntValueProperties) -> IntValue))
+
+type ClassNameConstructors18 = (
+	(className: "NumberValue") -> ((NumberValueProperties) -> NumberValue)
+	& (className: "ObjectValue") -> ((ObjectValueProperties) -> ObjectValue)
+	& (className: "StringValue") -> ((StringValueProperties) -> StringValue)
+	& (className: "Vector3Value") -> ((Vector3ValueProperties) -> Vector3Value)
+	& (className: "Vector3Curve") -> ((Vector3CurveProperties) -> Vector3Curve)
+	& (className: "VirtualInputManager") -> ((VirtualInputManagerProperties) -> VirtualInputManager)
+	& (className: "VoiceChannel") -> ((VoiceChannelProperties) -> VoiceChannel)
+	& (className: "WeldConstraint") -> ((WeldConstraintProperties) -> WeldConstraint))
+
+export type ClassNameConstructors = ClassNameConstructors0 & ClassNameConstructors1 & ClassNameConstructors2 & ClassNameConstructors3 & ClassNameConstructors4 & ClassNameConstructors5 & ClassNameConstructors6 & ClassNameConstructors7 & ClassNameConstructors8 & ClassNameConstructors9 & ClassNameConstructors10 & ClassNameConstructors11 & ClassNameConstructors12 & ClassNameConstructors13 & ClassNameConstructors14 & ClassNameConstructors15 & ClassNameConstructors16 & ClassNameConstructors17 & ClassNameConstructors18
+
+type ClassConstructors0 = (
+	(Instance) -> ((InstanceProperties) -> Instance)
+	& (Accessory) -> ((AccessoryProperties) -> Accessory)
+	& (AdvancedDragger) -> ((AdvancedDraggerProperties) -> AdvancedDragger)
+	& (AnalyticsService) -> ((AnalyticsServiceProperties) -> AnalyticsService)
+	& (Animation) -> ((AnimationProperties) -> Animation)
+	& (CurveAnimation) -> ((CurveAnimationProperties) -> CurveAnimation)
+	& (KeyframeSequence) -> ((KeyframeSequenceProperties) -> KeyframeSequence)
+	& (AnimationController) -> ((AnimationControllerProperties) -> AnimationController)
+	& (AnimationRigData) -> ((AnimationRigDataProperties) -> AnimationRigData))
+
+type ClassConstructors1 = (
+	(Animator) -> ((AnimatorProperties) -> Animator)
+	& (Atmosphere) -> ((AtmosphereProperties) -> Atmosphere)
+	& (Attachment) -> ((AttachmentProperties) -> Attachment)
+	& (Bone) -> ((BoneProperties) -> Bone)
+	& (Backpack) -> ((BackpackProperties) -> Backpack)
+	& (Tool) -> ((ToolProperties) -> Tool)
+	& (StarterGui) -> ((StarterGuiProperties) -> StarterGui)
+	& (WrapLayer) -> ((WrapLayerProperties) -> WrapLayer)
+	& (WrapTarget) -> ((WrapTargetProperties) -> WrapTarget)
+	& (Beam) -> ((BeamProperties) -> Beam))
+
+type ClassConstructors2 = (
+	(BindableEvent) -> ((BindableEventProperties) -> BindableEvent)
+	& (BindableFunction) -> ((BindableFunctionProperties) -> BindableFunction)
+	& (BodyAngularVelocity) -> ((BodyAngularVelocityProperties) -> BodyAngularVelocity)
+	& (BodyForce) -> ((BodyForceProperties) -> BodyForce)
+	& (BodyGyro) -> ((BodyGyroProperties) -> BodyGyro)
+	& (BodyPosition) -> ((BodyPositionProperties) -> BodyPosition)
+	& (BodyThrust) -> ((BodyThrustProperties) -> BodyThrust)
+	& (BodyVelocity) -> ((BodyVelocityProperties) -> BodyVelocity)
+	& (Camera) -> ((CameraProperties) -> Camera)
+	& (BodyColors) -> ((BodyColorsProperties) -> BodyColors))
+
+type ClassConstructors3 = (
+	(Pants) -> ((PantsProperties) -> Pants)
+	& (Shirt) -> ((ShirtProperties) -> Shirt)
+	& (ShirtGraphic) -> ((ShirtGraphicProperties) -> ShirtGraphic)
+	& (ClickDetector) -> ((ClickDetectorProperties) -> ClickDetector)
+	& (Clouds) -> ((CloudsProperties) -> Clouds)
+	& (Configuration) -> ((ConfigurationProperties) -> Configuration)
+	& (AlignOrientation) -> ((AlignOrientationProperties) -> AlignOrientation)
+	& (AlignPosition) -> ((AlignPositionProperties) -> AlignPosition)
+	& (AngularVelocity) -> ((AngularVelocityProperties) -> AngularVelocity)
+	& (BallSocketConstraint) -> ((BallSocketConstraintProperties) -> BallSocketConstraint))
+
+type ClassConstructors4 = (
+	(HingeConstraint) -> ((HingeConstraintProperties) -> HingeConstraint)
+	& (LineForce) -> ((LineForceProperties) -> LineForce)
+	& (LinearVelocity) -> ((LinearVelocityProperties) -> LinearVelocity)
+	& (PlaneConstraint) -> ((PlaneConstraintProperties) -> PlaneConstraint)
+	& (RigidConstraint) -> ((RigidConstraintProperties) -> RigidConstraint)
+	& (RodConstraint) -> ((RodConstraintProperties) -> RodConstraint)
+	& (RopeConstraint) -> ((RopeConstraintProperties) -> RopeConstraint)
+	& (CylindricalConstraint) -> ((CylindricalConstraintProperties) -> CylindricalConstraint)
+	& (PrismaticConstraint) -> ((PrismaticConstraintProperties) -> PrismaticConstraint)
+	& (SpringConstraint) -> ((SpringConstraintProperties) -> SpringConstraint))
+
+type ClassConstructors5 = (
+	(Torque) -> ((TorqueProperties) -> Torque)
+	& (TorsionSpringConstraint) -> ((TorsionSpringConstraintProperties) -> TorsionSpringConstraint)
+	& (UniversalConstraint) -> ((UniversalConstraintProperties) -> UniversalConstraint)
+	& (VectorForce) -> ((VectorForceProperties) -> VectorForce)
+	& (FileMesh) -> ((FileMeshProperties) -> FileMesh)
+	& (SpecialMesh) -> ((SpecialMeshProperties) -> SpecialMesh)
+	& (Dialog) -> ((DialogProperties) -> Dialog)
+	& (DialogChoice) -> ((DialogChoiceProperties) -> DialogChoice)
+	& (Dragger) -> ((DraggerProperties) -> Dragger)
+	& (Explosion) -> ((ExplosionProperties) -> Explosion))
+
+type ClassConstructors6 = (
+	(FaceControls) -> ((FaceControlsProperties) -> FaceControls)
+	& (Decal) -> ((DecalProperties) -> Decal)
+	& (Texture) -> ((TextureProperties) -> Texture)
+	& (Fire) -> ((FireProperties) -> Fire)
+	& (FlyweightService) -> ((FlyweightServiceProperties) -> FlyweightService)
+	& (CSGDictionaryService) -> ((CSGDictionaryServiceProperties) -> CSGDictionaryService)
+	& (NonReplicatedCSGDictionaryService) -> ((NonReplicatedCSGDictionaryServiceProperties) -> NonReplicatedCSGDictionaryService)
+	& (Folder) -> ((FolderProperties) -> Folder)
+	& (ForceField) -> ((ForceFieldProperties) -> ForceField)
+	& (CanvasGroup) -> ((CanvasGroupProperties) -> CanvasGroup))
+
+type ClassConstructors7 = (
+	(Frame) -> ((FrameProperties) -> Frame)
+	& (ImageButton) -> ((ImageButtonProperties) -> ImageButton)
+	& (TextButton) -> ((TextButtonProperties) -> TextButton)
+	& (ImageLabel) -> ((ImageLabelProperties) -> ImageLabel)
+	& (TextLabel) -> ((TextLabelProperties) -> TextLabel)
+	& (ScrollingFrame) -> ((ScrollingFrameProperties) -> ScrollingFrame)
+	& (TextBox) -> ((TextBoxProperties) -> TextBox)
+	& (VideoFrame) -> ((VideoFrameProperties) -> VideoFrame)
+	& (ViewportFrame) -> ((ViewportFrameProperties) -> ViewportFrame)
+	& (BillboardGui) -> ((BillboardGuiProperties) -> BillboardGui))
+
+type ClassConstructors8 = (
+	(ScreenGui) -> ((ScreenGuiProperties) -> ScreenGui)
+	& (SurfaceGui) -> ((SurfaceGuiProperties) -> SurfaceGui)
+	& (SelectionBox) -> ((SelectionBoxProperties) -> SelectionBox)
+	& (BoxHandleAdornment) -> ((BoxHandleAdornmentProperties) -> BoxHandleAdornment)
+	& (ConeHandleAdornment) -> ((ConeHandleAdornmentProperties) -> ConeHandleAdornment)
+	& (CylinderHandleAdornment) -> ((CylinderHandleAdornmentProperties) -> CylinderHandleAdornment)
+	& (ImageHandleAdornment) -> ((ImageHandleAdornmentProperties) -> ImageHandleAdornment)
+	& (LineHandleAdornment) -> ((LineHandleAdornmentProperties) -> LineHandleAdornment)
+	& (SphereHandleAdornment) -> ((SphereHandleAdornmentProperties) -> SphereHandleAdornment)
+	& (WireframeHandleAdornment) -> ((WireframeHandleAdornmentProperties) -> WireframeHandleAdornment))
+
+type ClassConstructors9 = (
+	(ParabolaAdornment) -> ((ParabolaAdornmentProperties) -> ParabolaAdornment)
+	& (SelectionSphere) -> ((SelectionSphereProperties) -> SelectionSphere)
+	& (ArcHandles) -> ((ArcHandlesProperties) -> ArcHandles)
+	& (Handles) -> ((HandlesProperties) -> Handles)
+	& (SurfaceSelection) -> ((SurfaceSelectionProperties) -> SurfaceSelection)
+	& (HeightmapImporterService) -> ((HeightmapImporterServiceProperties) -> HeightmapImporterService)
+	& (HiddenSurfaceRemovalAsset) -> ((HiddenSurfaceRemovalAssetProperties) -> HiddenSurfaceRemovalAsset)
+	& (Highlight) -> ((HighlightProperties) -> Highlight)
+	& (Humanoid) -> ((HumanoidProperties) -> Humanoid)
+	& (HumanoidDescription) -> ((HumanoidDescriptionProperties) -> HumanoidDescription))
+
+type ClassConstructors10 = (
+	(Motor6D) -> ((Motor6DProperties) -> Motor6D)
+	& (VelocityMotor) -> ((VelocityMotorProperties) -> VelocityMotor)
+	& (Weld) -> ((WeldProperties) -> Weld)
+	& (PointLight) -> ((PointLightProperties) -> PointLight)
+	& (SpotLight) -> ((SpotLightProperties) -> SpotLight)
+	& (SurfaceLight) -> ((SurfaceLightProperties) -> SurfaceLight)
+	& (Lighting) -> ((LightingProperties) -> Lighting)
+	& (MaterialService) -> ((MaterialServiceProperties) -> MaterialService)
+	& (MaterialVariant) -> ((MaterialVariantProperties) -> MaterialVariant)
+	& (MemoryStoreService) -> ((MemoryStoreServiceProperties) -> MemoryStoreService))
+
+type ClassConstructors11 = (
+	(NoCollisionConstraint) -> ((NoCollisionConstraintProperties) -> NoCollisionConstraint)
+	& (CornerWedgePart) -> ((CornerWedgePartProperties) -> CornerWedgePart)
+	& (Part) -> ((PartProperties) -> Part)
+	& (Seat) -> ((SeatProperties) -> Seat)
+	& (SpawnLocation) -> ((SpawnLocationProperties) -> SpawnLocation)
+	& (WedgePart) -> ((WedgePartProperties) -> WedgePart)
+	& (MeshPart) -> ((MeshPartProperties) -> MeshPart)
+	& (NegateOperation) -> ((NegateOperationProperties) -> NegateOperation)
+	& (UnionOperation) -> ((UnionOperationProperties) -> UnionOperation)
+	& (TrussPart) -> ((TrussPartProperties) -> TrussPart))
+
+type ClassConstructors12 = (
+	(VehicleSeat) -> ((VehicleSeatProperties) -> VehicleSeat)
+	& (Model) -> ((ModelProperties) -> Model)
+	& (Actor) -> ((ActorProperties) -> Actor)
+	& (WorldModel) -> ((WorldModelProperties) -> WorldModel)
+	& (ParticleEmitter) -> ((ParticleEmitterProperties) -> ParticleEmitter)
+	& (PathfindingLink) -> ((PathfindingLinkProperties) -> PathfindingLink)
+	& (PathfindingModifier) -> ((PathfindingModifierProperties) -> PathfindingModifier)
+	& (Player) -> ((PlayerProperties) -> Player)
+	& (Players) -> ((PlayersProperties) -> Players)
+	& (BloomEffect) -> ((BloomEffectProperties) -> BloomEffect))
+
+type ClassConstructors13 = (
+	(BlurEffect) -> ((BlurEffectProperties) -> BlurEffect)
+	& (ColorCorrectionEffect) -> ((ColorCorrectionEffectProperties) -> ColorCorrectionEffect)
+	& (DepthOfFieldEffect) -> ((DepthOfFieldEffectProperties) -> DepthOfFieldEffect)
+	& (SunRaysEffect) -> ((SunRaysEffectProperties) -> SunRaysEffect)
+	& (ProximityPrompt) -> ((ProximityPromptProperties) -> ProximityPrompt)
+	& (ProximityPromptService) -> ((ProximityPromptServiceProperties) -> ProximityPromptService)
+	& (RemoteEvent) -> ((RemoteEventProperties) -> RemoteEvent)
+	& (RemoteFunction) -> ((RemoteFunctionProperties) -> RemoteFunction)
+	& (RotationCurve) -> ((RotationCurveProperties) -> RotationCurve)
+	& (Sky) -> ((SkyProperties) -> Sky))
+
+type ClassConstructors14 = (
+	(Smoke) -> ((SmokeProperties) -> Smoke)
+	& (Sound) -> ((SoundProperties) -> Sound)
+	& (ChorusSoundEffect) -> ((ChorusSoundEffectProperties) -> ChorusSoundEffect)
+	& (CompressorSoundEffect) -> ((CompressorSoundEffectProperties) -> CompressorSoundEffect)
+	& (ChannelSelectorSoundEffect) -> ((ChannelSelectorSoundEffectProperties) -> ChannelSelectorSoundEffect)
+	& (DistortionSoundEffect) -> ((DistortionSoundEffectProperties) -> DistortionSoundEffect)
+	& (EchoSoundEffect) -> ((EchoSoundEffectProperties) -> EchoSoundEffect)
+	& (EqualizerSoundEffect) -> ((EqualizerSoundEffectProperties) -> EqualizerSoundEffect)
+	& (FlangeSoundEffect) -> ((FlangeSoundEffectProperties) -> FlangeSoundEffect)
+	& (PitchShiftSoundEffect) -> ((PitchShiftSoundEffectProperties) -> PitchShiftSoundEffect))
+
+type ClassConstructors15 = (
+	(ReverbSoundEffect) -> ((ReverbSoundEffectProperties) -> ReverbSoundEffect)
+	& (TremoloSoundEffect) -> ((TremoloSoundEffectProperties) -> TremoloSoundEffect)
+	& (SoundGroup) -> ((SoundGroupProperties) -> SoundGroup)
+	& (SoundService) -> ((SoundServiceProperties) -> SoundService)
+	& (Sparkles) -> ((SparklesProperties) -> Sparkles)
+	& (StarterGear) -> ((StarterGearProperties) -> StarterGear)
+	& (StarterPack) -> ((StarterPackProperties) -> StarterPack)
+	& (SurfaceAppearance) -> ((SurfaceAppearanceProperties) -> SurfaceAppearance)
+	& (Team) -> ((TeamProperties) -> Team)
+	& (TestService) -> ((TestServiceProperties) -> TestService))
+
+type ClassConstructors16 = (
+	(TextChannel) -> ((TextChannelProperties) -> TextChannel)
+	& (TrackerStreamAnimation) -> ((TrackerStreamAnimationProperties) -> TrackerStreamAnimation)
+	& (Trail) -> ((TrailProperties) -> Trail)
+	& (UIAspectRatioConstraint) -> ((UIAspectRatioConstraintProperties) -> UIAspectRatioConstraint)
+	& (UISizeConstraint) -> ((UISizeConstraintProperties) -> UISizeConstraint)
+	& (UITextSizeConstraint) -> ((UITextSizeConstraintProperties) -> UITextSizeConstraint)
+	& (UICorner) -> ((UICornerProperties) -> UICorner)
+	& (UIGradient) -> ((UIGradientProperties) -> UIGradient)
+	& (UIGridLayout) -> ((UIGridLayoutProperties) -> UIGridLayout)
+	& (UIListLayout) -> ((UIListLayoutProperties) -> UIListLayout))
+
+type ClassConstructors17 = (
+	(UIPageLayout) -> ((UIPageLayoutProperties) -> UIPageLayout)
+	& (UITableLayout) -> ((UITableLayoutProperties) -> UITableLayout)
+	& (UIPadding) -> ((UIPaddingProperties) -> UIPadding)
+	& (UIScale) -> ((UIScaleProperties) -> UIScale)
+	& (UIStroke) -> ((UIStrokeProperties) -> UIStroke)
+	& (BoolValue) -> ((BoolValueProperties) -> BoolValue)
+	& (BrickColorValue) -> ((BrickColorValueProperties) -> BrickColorValue)
+	& (CFrameValue) -> ((CFrameValueProperties) -> CFrameValue)
+	& (Color3Value) -> ((Color3ValueProperties) -> Color3Value)
+	& (IntValue) -> ((IntValueProperties) -> IntValue))
+
+type ClassConstructors18 = (
+	(NumberValue) -> ((NumberValueProperties) -> NumberValue)
+	& (ObjectValue) -> ((ObjectValueProperties) -> ObjectValue)
+	& (StringValue) -> ((StringValueProperties) -> StringValue)
+	& (Vector3Value) -> ((Vector3ValueProperties) -> Vector3Value)
+	& (Vector3Curve) -> ((Vector3CurveProperties) -> Vector3Curve)
+	& (VirtualInputManager) -> ((VirtualInputManagerProperties) -> VirtualInputManager)
+	& (VoiceChannel) -> ((VoiceChannelProperties) -> VoiceChannel)
+	& (WeldConstraint) -> ((WeldConstraintProperties) -> WeldConstraint))
+
+export type ClassConstructors = ClassConstructors0 & ClassConstructors1 & ClassConstructors2 & ClassConstructors3 & ClassConstructors4 & ClassConstructors5 & ClassConstructors6 & ClassConstructors7 & ClassConstructors8 & ClassConstructors9 & ClassConstructors10 & ClassConstructors11 & ClassConstructors12 & ClassConstructors13 & ClassConstructors14 & ClassConstructors15 & ClassConstructors16 & ClassConstructors17 & ClassConstructors18
 
 return {}

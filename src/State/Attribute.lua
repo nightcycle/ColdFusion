@@ -10,7 +10,9 @@ local Attribute = {}
 Attribute.__index = Attribute
 Attribute.__type = "Attribute"
 
-function Attribute.new<T>(instOrState: (Instance | State<Instance>), attributeName: string): State<T>
+export type Constructor = <T>(instOrState: (Instance | State<Instance>), attributeName: string) -> State<T>
+
+Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attributeName: string): State<T>
 
 	local self = State.new()
 	self.Instance.Name = Attribute.__type
@@ -55,7 +57,7 @@ function Attribute.new<T>(instOrState: (Instance | State<Instance>), attributeNa
 	end
 	local output: any = self
 	return output
-end
+end :: Constructor
 setmetatable(Attribute, State)
 
 return Attribute

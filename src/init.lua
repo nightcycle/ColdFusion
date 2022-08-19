@@ -24,6 +24,20 @@ export type State<T> = State.State<T>
 export type ValueState<T> = Value.ValueState<T>
 export type Symbol = Symbol.Symbol
 
+export type Fuse = {
+	Destroy: (Fuse) -> nil,
+	fuse: (Maid?) -> Fuse,
+	Event: Event.Constructor,
+	Changed: Changed.Constructor,
+	Computed: Computed.Constructor,
+	Tween: Tween.Constructor,
+	Value: Value.Constructor,
+	Property: Property.Constructor,
+	Attribute: Attribute.Constructor,
+	mount: Mount.ClassConstructor,
+	new: Mount.ClassNameConstructor,
+}
+
 local Fuse = {}
 Fuse.__index = Fuse
 
@@ -46,22 +60,75 @@ function Fuse.new(maid: Maid?)
 
 	--Symbol
 	self.fuse = Fuse.new(self._Maid)
-	self.Event = Event.new
-	self.Changed = Changed.new
 
-	self.Computed = Computed.new
-	self.Tween = Tween.new
-	self.Property = Property.new
-	self.Attribute = Attribute.new
+	self.Event = function(...)
+		local symbol = Event.new(...)
+		self._Maid:GiveTask(symbol)
+		return symbol
+	end :: Event.Constructor
+
+	self.Changed = function(...)
+		local symbol = Changed.new(...)
+		self._Maid:GiveTask(symbol)
+		return symbol
+	end :: Changed.Constructor
+
+	self.Computed = function<T, G...>(...)
+		local state = Computed.new(...)
+		self._Maid:GiveTask(state)
+		return state
+	end :: Computed.Constructor
+
+	self.Tween = function<T>(...)
+		local state = Tween.new(...)
+		self._Maid:GiveTask(state)
+		return state
+	end :: Tween.Constructor
+
+	self.Property = function<T>(...)
+		local state = Property.new(...)
+		self._Maid:GiveTask(state)
+		return state
+	end :: Property.Constructor
+
+	self.Attribute = function<T>(...)
+		local state = Attribute.new(...)
+		self._Maid:GiveTask(state)
+		return state
+	end :: Attribute.Constructor
+
+	self.Value = function<T>(...)
+		local state = Value.new(...)
+		self._Maid:GiveTask(state)
+		return state
+	end :: Value.Constructor
 
 	self.mount = Mount.fromInstance
 	self.new = Mount.fromClassName
+
+	self.import = function<T>(unknown: (T | State<T>)?): State<T>
+		if unknown == nil or typeof(unknown) ~= "table" then
+			local v: any = unknown
+			local state = State.new(v)
+			self._Maid:GiveTask(state)
+			return state
+		else
+			assert(typeof(unknown) == "table")
+
+			if unknown.Get then
+				return unknown
+			else
+				local v: any = unknown
+				local state = State.new(v)
+				self._Maid:GiveTask(state)
+				return state
+			end
+		end
+	end
 
 	setmetatable(self, Fuse)
 
 	return self
 end
-
-export type Fuse = typeof(Fuse.new())
 
 return Fuse.new()

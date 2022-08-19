@@ -299,6 +299,10 @@ function StateAbstract:Get(): any? --so that inherited states can still access t
 	return val
 end
 
+function StateAbstract:get(): any? --for fusion compatibility
+	return self:Get()
+end
+
 function StateAbstract:_Set<T>(val: any | StateAbstract<T>): boolean --returns if a chance was made
 	local prevVal = self.Prev
 	local isDif = isValueDifferent(val, prevVal)

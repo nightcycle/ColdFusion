@@ -14,6 +14,13 @@ Tween.__index = Tween
 Tween.__type = "Tween"
 setmetatable(Tween, State)
 
+export type Constructor = <T>(
+	goal: StateAbstract<T>, 
+	duration: (number | StateAbstract<number>?), 
+	easingStyle: (Enum.EasingStyle | StateAbstract<Enum.EasingStyle>)?, 
+	easingDirection: (Enum.EasingDirection | StateAbstract<Enum.EasingDirection>)?
+) -> State<T>
+
 Tween.new = function<T>(
 	goal: StateAbstract<T>, 
 	duration: (number | StateAbstract<number>?), 
@@ -27,6 +34,6 @@ Tween.new = function<T>(
 	local output: any = self
 
 	return output
-end
+end :: Constructor
 
 return Tween

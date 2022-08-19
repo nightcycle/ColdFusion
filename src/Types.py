@@ -20,12 +20,12 @@ for classData in classes:
 file.write("""
 local StateFolder = script.Parent.State
 local State = require(StateFolder.State)
-type State<T> = State.State<T>
 
 local Symbol = require(script.Parent.Symbol)
-type Symbol = Symbol.Symbol
 
+type State<T> = State.State<T>
 type ParameterEntry<T> = (State<T> | T)?
+type Symbol = Symbol.Symbol
 """)
 
 safe = {
@@ -198,10 +198,29 @@ for classData in classList:
 
 				if member["ValueType"]["Category"] == "Enum":
 					valueType = "Enum."+valueType
+
 				if not valueType == "Hole":
 					file.write("\n\t"+member["Name"]+": ParameterEntry<"+valueType+">?,")
 		if className == "Instance":
-			file.write("\n\t[Symbol]: ((...any) -> any?)?,")
+			file.write("""
+	Children: {Instance}?,
+	Attributes: {[string]: ParameterEntry<
+		string | 
+		boolean | 
+		number |
+		UDim |
+		UDim2 |
+		BrickColor |
+		Color3 |
+		Vector2 |
+		Vector3 |
+		NumberSequence |
+		ColorSequence |
+		NumberRange |
+		Rect | nil
+	>}?,
+	[Symbol]: ((...any) -> any?),
+			""")
 		file.write("\n}")
 
 
@@ -210,14 +229,14 @@ index = 1
 file.write("\n\ntype ClassNameConstructors0 = (")
 typenameList.append("ClassNameConstructors0")
 for classData in finalList:
-	print(index % 100)
-	if index % 100 == 0:
+	print(index % 10)
+	if index % 10 == 0:
 		file.write(")\n\n")
-		file.write("type ClassNameConstructors"+ str(int(index/100)) + " = (")
-		typenameList.append("ClassNameConstructors"+ str(int(index/100)))
+		file.write("type ClassNameConstructors"+ str(int(index/10)) + " = (")
+		typenameList.append("ClassNameConstructors"+ str(int(index/10)))
 	className = classData["Name"]
 	file.write("\n\t")
-	if index != 1 and index % 100 != 0:
+	if index != 1 and index % 10 != 0:
 		file.write("& ")
 	index += 1
 
@@ -225,3 +244,28 @@ for classData in finalList:
 file.write(")")
 
 file.write(f"\n\nexport type ClassNameConstructors = {' & '.join(typenameList)}")
+
+
+typenameList2 = []
+index2 = 1
+file.write("\n\ntype ClassConstructors0 = (")
+typenameList2.append("ClassConstructors0")
+for classData in finalList:
+	print(index2 % 10)
+	if index2 % 10 == 0:
+		file.write(")\n\n")
+		file.write("type ClassConstructors"+ str(int(index2/10)) + " = (")
+		typenameList2.append("ClassConstructors"+ str(int(index2/10)))
+	className = classData["Name"]
+	file.write("\n\t")
+	if index2 != 1 and index2 % 10 != 0:
+		file.write("& ")
+	index2 += 1
+
+	file.write("("+className+") -> (("+className+"Properties) -> "+className+")")
+file.write(")")
+
+file.write(f"\n\nexport type ClassConstructors = {' & '.join(typenameList2)}")
+
+
+file.write("\n\nreturn {}")

@@ -14,6 +14,8 @@ Computed.__index = Computed
 Computed.__type = "Computed"
 setmetatable(Computed, State)
 
+export type Constructor = <T, G...>(solver: (G...) -> T, ...StateAbstract<any>) -> StateAbstract<T>
+
 Computed.new = function<T, G...>(solver: (G...) -> T, ...: StateAbstract<any>): StateAbstract<T>
 	-- print("Start val", goal:Get())
 	local self = ComputedAbstract.new(solver, ...)
@@ -22,6 +24,6 @@ Computed.new = function<T, G...>(solver: (G...) -> T, ...: StateAbstract<any>): 
 	local output: any = self
 
 	return output
-end
+end :: Constructor
 
 return Computed

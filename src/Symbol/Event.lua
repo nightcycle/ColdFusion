@@ -8,10 +8,13 @@ setmetatable(Event, Symbol)
 export type Event = Symbol.Symbol & {
 	_ColdFusionSymbolType: "Event",
 }
-function Event.new(eventName: string): Event
+
+export type Constructor = (eventName: string) -> Event
+
+Event.new = function(eventName: string): Event
 	local s: any = Symbol.new("Event", eventName)
 	setmetatable(s, Event)
 	return s
-end
+end :: Constructor
 
 return Event
