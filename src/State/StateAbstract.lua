@@ -28,8 +28,8 @@ export type StateInstance = {
 	--  & ((self: Instance, name: "Dependants", recurse: false, duration: number) -> Folder?)
 } & Folder
 
-type StateConnection = {
-	_Maid: Maid,
+export type StateConnection = {
+	_Maid: any,
 	DelayAmount: number?,
 	Alive: boolean?,
 	Dependencies: Folder,
@@ -38,15 +38,7 @@ type StateConnection = {
 	_Dependant: (self: StateConnection, state: StateConnection) -> nil,
 }
 
-export type StateAbstract<T> = StateConnection & {
-	new: (any?) -> StateAbstract<T>,
-	Bind: (self: StateAbstract<T>, other: StateConnection) -> nil,
-	Connect: (self: StateAbstract<T>, (val: any?, prev: any?) -> nil) -> nil?,
-	Destroy: (self: StateAbstract<T>) -> nil,
-	Get: (self: StateAbstract<T>) -> T,
-	_Set: (self: StateAbstract<T>, T) -> nil,
-	IsA: (self: StateAbstract<T>, className: string) -> boolean,
-}
+export type StateAbstract<T> = any
 
 local StateAbstract = {}
 StateAbstract.__index = StateAbstract

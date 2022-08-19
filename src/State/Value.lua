@@ -29,13 +29,13 @@ end
 
 export type Constructor = <T>(T) -> ValueState<T>
 
-Value.new = function <T>(v: T): ValueState<T>
+function Value.new<T>(v: T): ValueState<T>
 	local self = State.new(v)
 	setmetatable(self, Value)
 	self.Instance.Name = Value.__type
 	local output: any = self
 	return output
-end :: Constructor
+end
 
 setmetatable(Value, State)
 return Value

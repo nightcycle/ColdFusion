@@ -7,7 +7,17 @@ type StateAbstract<T> = StateAbstract.StateAbstract<T>
 local TweenAbstract = require(script.Parent.TweenAbstract)
 local ComputedAbstract = require(script.Parent.ComputedAbstract)
 
-export type State<T> = StateAbstract<T> & {
+export type State<T> = {
+	Value: T,
+	_Maid: any,
+	Instance: Folder,
+	-- new: (T) -> StateAbstract<T>,
+	Bind: (self: StateAbstract<T>, other: StateAbstract.StateConnection) -> nil,
+	Connect: (self: StateAbstract<T>, (val: any?, prev: any?) -> nil) -> nil?,
+	Destroy: (self: StateAbstract<T>) -> nil,
+	Get: (self: StateAbstract<T>) -> T,
+	_Set: (self: StateAbstract<T>, T) -> nil,
+	IsA: (self: StateAbstract<T>, className: string) -> boolean,
 	Tween: (
 		self: State<T>, 
 		duration: (number | StateAbstract<number>?), 
@@ -25,7 +35,8 @@ export type State<T> = StateAbstract<T> & {
 	Delay: (self: State<T>, val: (number | State<T>?)) -> State<T>,
 	SetParent: (self: State<T>, parent: Instance) -> State<T>,
 	SetId: (self: State<T>, key: string) -> State<T>,
-	IsA: (self: State<T>, className: string) -> boolean,
+	_UpdateDependants: (self: State<T>) -> nil,
+	-- IsA: (self: State<T>, className: string) -> boolean,
 }
 
 local State = {}
@@ -202,6 +213,11 @@ function State:IsA(className: string)
 		return false
 	end
 	return getClasses(self)
+end
+
+function State.new<T>(value: T): State<T>
+	local s: any = StateAbstract.new(value)
+	return s
 end
 
 return State

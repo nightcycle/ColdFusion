@@ -16,11 +16,11 @@ export type Constructor = <T>(instOrState: (Instance | State<T>), propertyName: 
 
 Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?): State<T>
 
-	local self = State.new()
+	local self: State<nil> = State.new(nil)
 	self.Instance.Name = Property.__type
 	setmetatable(self, Property)
 
-	local maid = self._Maid
+	local maid: Maid.Maid = self._Maid
 	local function connectProperty(inst: any?)
 		if not inst then return end
 		assert(inst ~= nil)
@@ -29,6 +29,7 @@ Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: str
 		instMaid:GiveTask(inst.Destroying:Connect(function()
 			instMaid:Destroy()
 		end))
+		local tabl: any = self
 
 		if rate then
 			local dur = 1/rate
@@ -38,7 +39,7 @@ Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: str
 				if tick() - lastUpdate < dur then return end
 				lastUpdate = tick()
 				if self:_Set(inst[propertyName]) then
-					self:_UpdateDependants()
+					tabl:_UpdateDependants()
 				end
 			end
 
@@ -54,11 +55,11 @@ Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: str
 				local val = inst[propertyName]
 
 				if self:_Set(val) then
-					self:_UpdateDependants()
+					tabl:_UpdateDependants()
 				end
 			end)
 			if self:_Set(inst[propertyName]) then
-				self:_UpdateDependants()
+				tabl:_UpdateDependants()
 			end
 		end
 	end

@@ -21,15 +21,11 @@ for classData in classes:
 	classList.append(classData)
 
 file.write("""
---!strict
--- local StateFolder = script.Parent.State
--- local State = require(StateFolder.State)
-
-local Symbol = require(script.Parent.Symbol)
-
-type State<T> = {Get: (self: State<T>) -> T} -- State.State<T>
+type State<T> = {Value: T, [any]:any}
 type ParameterEntry<T> = (State<T> | T)
-type Symbol = Symbol.Symbol
+type Attributes = {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}
+type Children = ParameterEntry<{Instance}>
+type BoundFunction = (...any) -> nil
 """)
 
 safe = {
@@ -227,8 +223,8 @@ def setClassProperties(classData):
 						properties[member["Name"]] = "ParameterEntry<"+valueType+">"
 
 			if className == "Instance":
-				properties["Children"] = "ParameterEntry<{Instance}>?"
-				properties["Attributes"] = """{[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}?"""
+				properties["Children"] = "Children"
+				properties["Attributes"] = """Attributes"""
 		classProperties[className] = properties	
 
 hierarchy = {}
@@ -262,11 +258,11 @@ for classData in finalList:
 		file.write("\n\ntype " + className + "Properties = {")
 		for propName, propType in propList.items():
 			file.write("\n\t" + propName + ": " + propType + "?,")
-		file.write("\n\t[any]: (...any) -> any?")
+		file.write("\n\t[any]: BoundFunction")
 		file.write("\n} | {")
 		for propName, propType in propList.items():
 			file.write("\n\t" + propName + ": " + propType + "?,")
-		file.write("\n\t[any]: (...any) -> nil")
+		file.write("\n\t[any]: nil")
 		file.write("\n}")
 
 def createAMonster(baseName, firstParamFormatter):
@@ -327,6 +323,6 @@ def classFormat(className):
 	return className
 
 createAMonster("ClassNameConstructors", classNameFormat)
-createAMonster("ClassConstructors", classFormat)
+# createAMonster("ClassConstructors", classFormat)
 
 file.write("\n\nreturn {}") 

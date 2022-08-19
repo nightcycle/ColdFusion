@@ -6,8 +6,9 @@ local Maid = require(packages.Maid)
 
 local StateFolder = script.Parent.State
 local State = require(StateFolder.State)
+local Value = require(StateFolder.Value)
 type State<T> = State.State<T>
-
+type ValueState<T> = Value.ValueState<T>
 local Property = require(StateFolder.Property)
 
 local Symbol = require(script.Parent.Symbol)
@@ -122,7 +123,7 @@ function applyToStateOrInstance(instOrState: (Instance | State<Instance?>), para
 	end
 end
 export type ClassNameConstructor = Types.ClassNameConstructors
-export type ClassConstructor = Types.ClassConstructors
+export type ClassConstructor = (Instance) -> (({[string]: any}) -> Instance)
 
 local fromInstance: ClassConstructor= function(inst: any): any
 	return function(params)
@@ -137,6 +138,21 @@ local fromClassName: ClassNameConstructor = function(className: any): any
 		return applyToStateOrInstance(inst, params)
 	end
 end
+
+
+-- local fConst = fromClassName("UIListLayout")
+
+-- local _nameState = State.new("Test")
+-- local _vState = Value.new("")
+
+
+-- local _fInst1 = fConst({
+-- 	Name = _vState, --{Value = "Name"}
+-- })
+
+-- local _fInst1 = fConst({
+-- 	Name = "Test"
+-- })
 
 Mount.fromInstance = fromInstance
 Mount.fromClassName = fromClassName

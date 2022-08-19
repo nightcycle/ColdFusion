@@ -14,7 +14,8 @@ export type Constructor = <T>(instOrState: (Instance | State<Instance>), attribu
 
 Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attributeName: string): State<T>
 
-	local self = State.new()
+	local self: State<nil> = State.new(nil)
+	local se: any = self
 	self.Instance.Name = Attribute.__type
 	setmetatable(self, Attribute)
 
@@ -29,11 +30,11 @@ Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attribute
 
 		instMaid["_attr"..attributeName] = inst:GetAttributeChangedSignal(attributeName):Connect(function()
 			if self:_Set(inst:GetAttribute(attributeName)) then
-				self:_UpdateDependants()
+				se:_UpdateDependants()
 			end
 		end)
 		if self:_Set(inst:GetAttribute(attributeName)) then
-			self:_UpdateDependants()
+			se:_UpdateDependants()
 		end
 	end
 	if typeof(instOrState) == "Instance" then

@@ -1,29 +1,25 @@
 
---!strict
--- local StateFolder = script.Parent.State
--- local State = require(StateFolder.State)
-
-local Symbol = require(script.Parent.Symbol)
-
-type State<T> = {Get: (self: State<T>) -> T} -- State.State<T>
+type State<T> = {Value: T, [any]:any}
 type ParameterEntry<T> = (State<T> | T)
-type Symbol = Symbol.Symbol
+type Attributes = {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}
+type Children = ParameterEntry<{Instance}>
+type BoundFunction = (...any) -> nil
 
 
 type InstanceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AccessoryProperties = {
@@ -35,9 +31,9 @@ type AccessoryProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AttachmentForward: ParameterEntry<Vector3>?,
 	AttachmentPoint: ParameterEntry<CFrame>?,
@@ -47,41 +43,41 @@ type AccessoryProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AdvancedDraggerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AnalyticsServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AnimationProperties = {
@@ -89,17 +85,17 @@ type AnimationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AnimationId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CurveAnimationProperties = {
@@ -108,18 +104,18 @@ type CurveAnimationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Loop: ParameterEntry<boolean>?,
 	Priority: ParameterEntry<Enum.AnimationPriority>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type KeyframeSequenceProperties = {
@@ -128,66 +124,66 @@ type KeyframeSequenceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Loop: ParameterEntry<boolean>?,
 	Priority: ParameterEntry<Enum.AnimationPriority>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AnimationControllerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AnimationRigDataProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AnimatorProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AtmosphereProperties = {
@@ -200,9 +196,9 @@ type AtmosphereProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color: ParameterEntry<Color3>?,
 	Decay: ParameterEntry<Color3>?,
@@ -213,9 +209,9 @@ type AtmosphereProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AttachmentProperties = {
@@ -233,9 +229,9 @@ type AttachmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Axis: ParameterEntry<Vector3>?,
 	CFrame: ParameterEntry<CFrame>?,
@@ -251,9 +247,9 @@ type AttachmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BoneProperties = {
@@ -272,9 +268,9 @@ type BoneProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Transform: ParameterEntry<CFrame>?,
 	Axis: ParameterEntry<Vector3>?,
@@ -291,25 +287,25 @@ type BoneProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BackpackProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ToolProperties = {
@@ -327,9 +323,9 @@ type ToolProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CanBeDropped: ParameterEntry<boolean>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -345,9 +341,9 @@ type ToolProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type StarterGuiProperties = {
@@ -356,18 +352,18 @@ type StarterGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ScreenOrientation: ParameterEntry<Enum.ScreenOrientation>?,
 	ShowDevelopmentGui: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WrapLayerProperties = {
@@ -378,9 +374,9 @@ type WrapLayerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AutoSkin: ParameterEntry<Enum.WrapLayerAutoSkin>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -389,25 +385,25 @@ type WrapLayerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WrapTargetProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BeamProperties = {
@@ -433,9 +429,9 @@ type BeamProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Attachment0: ParameterEntry<Attachment>?,
 	Attachment1: ParameterEntry<Attachment>?,
@@ -459,41 +455,41 @@ type BeamProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BindableEventProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BindableFunctionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyAngularVelocityProperties = {
@@ -503,9 +499,9 @@ type BodyAngularVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AngularVelocity: ParameterEntry<Vector3>?,
 	MaxTorque: ParameterEntry<Vector3>?,
@@ -513,9 +509,9 @@ type BodyAngularVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyForceProperties = {
@@ -523,17 +519,17 @@ type BodyForceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Force: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyGyroProperties = {
@@ -544,9 +540,9 @@ type BodyGyroProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CFrame: ParameterEntry<CFrame>?,
 	D: ParameterEntry<number>?,
@@ -555,9 +551,9 @@ type BodyGyroProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyPositionProperties = {
@@ -568,9 +564,9 @@ type BodyPositionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	D: ParameterEntry<number>?,
 	MaxForce: ParameterEntry<Vector3>?,
@@ -579,9 +575,9 @@ type BodyPositionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyThrustProperties = {
@@ -590,18 +586,18 @@ type BodyThrustProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Force: ParameterEntry<Vector3>?,
 	Location: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyVelocityProperties = {
@@ -611,9 +607,9 @@ type BodyVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	MaxForce: ParameterEntry<Vector3>?,
 	P: ParameterEntry<number>?,
@@ -621,9 +617,9 @@ type BodyVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CameraProperties = {
@@ -640,9 +636,9 @@ type CameraProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CFrame: ParameterEntry<CFrame>?,
 	CameraSubject: ParameterEntry<Instance>?,
@@ -657,9 +653,9 @@ type CameraProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BodyColorsProperties = {
@@ -678,9 +674,9 @@ type BodyColorsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	HeadColor: ParameterEntry<BrickColor>?,
 	HeadColor3: ParameterEntry<Color3>?,
@@ -697,9 +693,9 @@ type BodyColorsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PantsProperties = {
@@ -708,18 +704,18 @@ type PantsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	PantsTemplate: ParameterEntry<string>?,
 	Color3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ShirtProperties = {
@@ -728,18 +724,18 @@ type ShirtProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ShirtTemplate: ParameterEntry<string>?,
 	Color3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ShirtGraphicProperties = {
@@ -748,18 +744,18 @@ type ShirtGraphicProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color3: ParameterEntry<Color3>?,
 	Graphic: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ClickDetectorProperties = {
@@ -768,18 +764,18 @@ type ClickDetectorProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CursorIcon: ParameterEntry<string>?,
 	MaxActivationDistance: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CloudsProperties = {
@@ -790,9 +786,9 @@ type CloudsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color: ParameterEntry<Color3>?,
 	Cover: ParameterEntry<number>?,
@@ -801,25 +797,25 @@ type CloudsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ConfigurationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AlignOrientationProperties = {
@@ -842,9 +838,9 @@ type AlignOrientationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AlignType: ParameterEntry<Enum.AlignType>?,
 	CFrame: ParameterEntry<CFrame>?,
@@ -865,9 +861,9 @@ type AlignOrientationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AlignPositionProperties = {
@@ -887,9 +883,9 @@ type AlignPositionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ApplyAtCenterOfMass: ParameterEntry<boolean>?,
 	MaxForce: ParameterEntry<number>?,
@@ -907,9 +903,9 @@ type AlignPositionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type AngularVelocityProperties = {
@@ -925,9 +921,9 @@ type AngularVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AngularVelocity: ParameterEntry<Vector3>?,
 	MaxTorque: ParameterEntry<number>?,
@@ -941,9 +937,9 @@ type AngularVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BallSocketConstraintProperties = {
@@ -963,9 +959,9 @@ type BallSocketConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	LimitsEnabled: ParameterEntry<boolean>?,
 	MaxFrictionTorque: ParameterEntry<number>?,
@@ -983,9 +979,9 @@ type BallSocketConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HingeConstraintProperties = {
@@ -1010,9 +1006,9 @@ type HingeConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ActuatorType: ParameterEntry<Enum.ActuatorType>?,
 	AngularResponsiveness: ParameterEntry<number>?,
@@ -1035,9 +1031,9 @@ type HingeConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type LineForceProperties = {
@@ -1054,9 +1050,9 @@ type LineForceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ApplyAtCenterOfMass: ParameterEntry<boolean>?,
 	InverseSquareLaw: ParameterEntry<boolean>?,
@@ -1071,9 +1067,9 @@ type LineForceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type LinearVelocityProperties = {
@@ -1094,9 +1090,9 @@ type LinearVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	LineDirection: ParameterEntry<Vector3>?,
 	LineVelocity: ParameterEntry<number>?,
@@ -1115,9 +1111,9 @@ type LinearVelocityProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PlaneConstraintProperties = {
@@ -1129,9 +1125,9 @@ type PlaneConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Attachment0: ParameterEntry<Attachment>?,
 	Attachment1: ParameterEntry<Attachment>?,
@@ -1141,9 +1137,9 @@ type PlaneConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type RigidConstraintProperties = {
@@ -1155,9 +1151,9 @@ type RigidConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Attachment0: ParameterEntry<Attachment>?,
 	Attachment1: ParameterEntry<Attachment>?,
@@ -1167,9 +1163,9 @@ type RigidConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type RodConstraintProperties = {
@@ -1186,9 +1182,9 @@ type RodConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Length: ParameterEntry<number>?,
 	LimitAngle0: ParameterEntry<number>?,
@@ -1203,9 +1199,9 @@ type RodConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type RopeConstraintProperties = {
@@ -1225,9 +1221,9 @@ type RopeConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Length: ParameterEntry<number>?,
 	Restitution: ParameterEntry<number>?,
@@ -1245,9 +1241,9 @@ type RopeConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CylindricalConstraintProperties = {
@@ -1286,9 +1282,9 @@ type CylindricalConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AngularActuatorType: ParameterEntry<Enum.ActuatorType>?,
 	AngularLimitsEnabled: ParameterEntry<boolean>?,
@@ -1325,9 +1321,9 @@ type CylindricalConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PrismaticConstraintProperties = {
@@ -1352,9 +1348,9 @@ type PrismaticConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ActuatorType: ParameterEntry<Enum.ActuatorType>?,
 	LimitsEnabled: ParameterEntry<boolean>?,
@@ -1377,9 +1373,9 @@ type PrismaticConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SpringConstraintProperties = {
@@ -1401,9 +1397,9 @@ type SpringConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Coils: ParameterEntry<number>?,
 	Damping: ParameterEntry<number>?,
@@ -1423,9 +1419,9 @@ type SpringConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TorqueProperties = {
@@ -1439,9 +1435,9 @@ type TorqueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	RelativeTo: ParameterEntry<Enum.ActuatorRelativeTo>?,
 	Torque: ParameterEntry<Vector3>?,
@@ -1453,9 +1449,9 @@ type TorqueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TorsionSpringConstraintProperties = {
@@ -1475,9 +1471,9 @@ type TorsionSpringConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Coils: ParameterEntry<number>?,
 	Damping: ParameterEntry<number>?,
@@ -1495,9 +1491,9 @@ type TorsionSpringConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UniversalConstraintProperties = {
@@ -1513,9 +1509,9 @@ type UniversalConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	LimitsEnabled: ParameterEntry<boolean>?,
 	MaxAngle: ParameterEntry<number>?,
@@ -1529,9 +1525,9 @@ type UniversalConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type VectorForceProperties = {
@@ -1546,9 +1542,9 @@ type VectorForceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ApplyAtCenterOfMass: ParameterEntry<boolean>?,
 	Force: ParameterEntry<Vector3>?,
@@ -1561,9 +1557,9 @@ type VectorForceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FileMeshProperties = {
@@ -1575,9 +1571,9 @@ type FileMeshProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	MeshId: ParameterEntry<string>?,
 	TextureId: ParameterEntry<string>?,
@@ -1587,9 +1583,9 @@ type FileMeshProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SpecialMeshProperties = {
@@ -1602,9 +1598,9 @@ type SpecialMeshProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	MeshType: ParameterEntry<Enum.MeshType>?,
 	MeshId: ParameterEntry<string>?,
@@ -1615,9 +1611,9 @@ type SpecialMeshProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type DialogProperties = {
@@ -1634,9 +1630,9 @@ type DialogProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	BehaviorType: ParameterEntry<Enum.DialogBehaviorType>?,
 	ConversationDistance: ParameterEntry<number>?,
@@ -1651,9 +1647,9 @@ type DialogProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type DialogChoiceProperties = {
@@ -1664,9 +1660,9 @@ type DialogChoiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	GoodbyeChoiceActive: ParameterEntry<boolean>?,
 	GoodbyeDialog: ParameterEntry<string>?,
@@ -1675,25 +1671,25 @@ type DialogChoiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type DraggerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ExplosionProperties = {
@@ -1707,9 +1703,9 @@ type ExplosionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	BlastPressure: ParameterEntry<number>?,
 	BlastRadius: ParameterEntry<number>?,
@@ -1721,25 +1717,25 @@ type ExplosionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FaceControlsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type DecalProperties = {
@@ -1752,9 +1748,9 @@ type DecalProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color3: ParameterEntry<Color3>?,
 	LocalTransparencyModifier: ParameterEntry<number>?,
@@ -1765,9 +1761,9 @@ type DecalProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TextureProperties = {
@@ -1784,9 +1780,9 @@ type TextureProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	OffsetStudsU: ParameterEntry<number>?,
 	OffsetStudsV: ParameterEntry<number>?,
@@ -1801,9 +1797,9 @@ type TextureProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FireProperties = {
@@ -1816,9 +1812,9 @@ type FireProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color: ParameterEntry<Color3>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -1829,73 +1825,73 @@ type FireProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FlyweightServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CSGDictionaryServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type NonReplicatedCSGDictionaryServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FolderProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ForceFieldProperties = {
@@ -1903,17 +1899,17 @@ type ForceFieldProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CanvasGroupProperties = {
@@ -1953,9 +1949,9 @@ type CanvasGroupProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	GroupColor3: ParameterEntry<Color3>?,
 	GroupTransparency: ParameterEntry<number>?,
@@ -1993,9 +1989,9 @@ type CanvasGroupProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FrameProperties = {
@@ -2034,9 +2030,9 @@ type FrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Style: ParameterEntry<Enum.FrameStyle>?,
 	Active: ParameterEntry<boolean>?,
@@ -2073,9 +2069,9 @@ type FrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ImageButtonProperties = {
@@ -2129,9 +2125,9 @@ type ImageButtonProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	HoverImage: ParameterEntry<string>?,
 	Image: ParameterEntry<string>?,
@@ -2183,9 +2179,9 @@ type ImageButtonProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TextButtonProperties = {
@@ -2243,9 +2239,9 @@ type TextButtonProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Font: ParameterEntry<Enum.Font>?,
 	FontFace: ParameterEntry<Font>?,
@@ -2301,9 +2297,9 @@ type TextButtonProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ImageLabelProperties = {
@@ -2351,9 +2347,9 @@ type ImageLabelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Image: ParameterEntry<string>?,
 	ImageColor3: ParameterEntry<Color3>?,
@@ -2399,9 +2395,9 @@ type ImageLabelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TextLabelProperties = {
@@ -2455,9 +2451,9 @@ type TextLabelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Font: ParameterEntry<Enum.Font>?,
 	FontFace: ParameterEntry<Font>?,
@@ -2509,9 +2505,9 @@ type TextLabelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ScrollingFrameProperties = {
@@ -2564,9 +2560,9 @@ type ScrollingFrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AutomaticCanvasSize: ParameterEntry<Enum.AutomaticSize>?,
 	BottomImage: ParameterEntry<string>?,
@@ -2617,9 +2613,9 @@ type ScrollingFrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TextBoxProperties = {
@@ -2681,9 +2677,9 @@ type TextBoxProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ClearTextOnFocus: ParameterEntry<boolean>?,
 	CursorPosition: ParameterEntry<number>?,
@@ -2743,9 +2739,9 @@ type TextBoxProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type VideoFrameProperties = {
@@ -2788,9 +2784,9 @@ type VideoFrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Looped: ParameterEntry<boolean>?,
 	Playing: ParameterEntry<boolean>?,
@@ -2831,9 +2827,9 @@ type VideoFrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ViewportFrameProperties = {
@@ -2877,9 +2873,9 @@ type ViewportFrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Ambient: ParameterEntry<Color3>?,
 	CurrentCamera: ParameterEntry<Camera>?,
@@ -2921,9 +2917,9 @@ type ViewportFrameProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BillboardGuiProperties = {
@@ -2957,9 +2953,9 @@ type BillboardGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Active: ParameterEntry<boolean>?,
 	Adornee: ParameterEntry<Instance>?,
@@ -2991,9 +2987,9 @@ type BillboardGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ScreenGuiProperties = {
@@ -3012,9 +3008,9 @@ type ScreenGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	DisplayOrder: ParameterEntry<number>?,
 	IgnoreGuiInset: ParameterEntry<boolean>?,
@@ -3031,9 +3027,9 @@ type ScreenGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SurfaceGuiProperties = {
@@ -3062,9 +3058,9 @@ type SurfaceGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AlwaysOnTop: ParameterEntry<boolean>?,
 	Brightness: ParameterEntry<number>?,
@@ -3091,9 +3087,9 @@ type SurfaceGuiProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SelectionBoxProperties = {
@@ -3107,9 +3103,9 @@ type SelectionBoxProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	LineThickness: ParameterEntry<number>?,
 	SurfaceColor3: ParameterEntry<Color3>?,
@@ -3121,9 +3117,9 @@ type SelectionBoxProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BoxHandleAdornmentProperties = {
@@ -3140,9 +3136,9 @@ type BoxHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Size: ParameterEntry<Vector3>?,
 	AdornCullingMode: ParameterEntry<Enum.AdornCullingMode>?,
@@ -3157,9 +3153,9 @@ type BoxHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ConeHandleAdornmentProperties = {
@@ -3177,9 +3173,9 @@ type ConeHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Height: ParameterEntry<number>?,
 	Radius: ParameterEntry<number>?,
@@ -3195,9 +3191,9 @@ type ConeHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CylinderHandleAdornmentProperties = {
@@ -3217,9 +3213,9 @@ type CylinderHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Angle: ParameterEntry<number>?,
 	Height: ParameterEntry<number>?,
@@ -3237,9 +3233,9 @@ type CylinderHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ImageHandleAdornmentProperties = {
@@ -3257,9 +3253,9 @@ type ImageHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Image: ParameterEntry<string>?,
 	Size: ParameterEntry<Vector2>?,
@@ -3275,9 +3271,9 @@ type ImageHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type LineHandleAdornmentProperties = {
@@ -3295,9 +3291,9 @@ type LineHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Length: ParameterEntry<number>?,
 	Thickness: ParameterEntry<number>?,
@@ -3313,9 +3309,9 @@ type LineHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SphereHandleAdornmentProperties = {
@@ -3332,9 +3328,9 @@ type SphereHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Radius: ParameterEntry<number>?,
 	AdornCullingMode: ParameterEntry<Enum.AdornCullingMode>?,
@@ -3349,9 +3345,9 @@ type SphereHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WireframeHandleAdornmentProperties = {
@@ -3367,9 +3363,9 @@ type WireframeHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AdornCullingMode: ParameterEntry<Enum.AdornCullingMode>?,
 	AlwaysOnTop: ParameterEntry<boolean>?,
@@ -3383,9 +3379,9 @@ type WireframeHandleAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ParabolaAdornmentProperties = {
@@ -3396,9 +3392,9 @@ type ParabolaAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Adornee: ParameterEntry<PVInstance>?,
 	Color3: ParameterEntry<Color3>?,
@@ -3407,9 +3403,9 @@ type ParabolaAdornmentProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SelectionSphereProperties = {
@@ -3422,9 +3418,9 @@ type SelectionSphereProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	SurfaceColor3: ParameterEntry<Color3>?,
 	SurfaceTransparency: ParameterEntry<number>?,
@@ -3435,9 +3431,9 @@ type SelectionSphereProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ArcHandlesProperties = {
@@ -3449,9 +3445,9 @@ type ArcHandlesProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Axes: ParameterEntry<Axes>?,
 	Adornee: ParameterEntry<BasePart>?,
@@ -3461,9 +3457,9 @@ type ArcHandlesProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HandlesProperties = {
@@ -3476,9 +3472,9 @@ type HandlesProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Faces: ParameterEntry<Faces>?,
 	Style: ParameterEntry<Enum.HandlesStyle>?,
@@ -3489,9 +3485,9 @@ type HandlesProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SurfaceSelectionProperties = {
@@ -3503,9 +3499,9 @@ type SurfaceSelectionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	TargetSurface: ParameterEntry<Enum.NormalId>?,
 	Adornee: ParameterEntry<BasePart>?,
@@ -3515,41 +3511,41 @@ type SurfaceSelectionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HeightmapImporterServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HiddenSurfaceRemovalAssetProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HighlightProperties = {
@@ -3563,9 +3559,9 @@ type HighlightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Adornee: ParameterEntry<Instance>?,
 	DepthMode: ParameterEntry<Enum.HighlightDepthMode>?,
@@ -3577,9 +3573,9 @@ type HighlightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HumanoidProperties = {
@@ -3613,9 +3609,9 @@ type HumanoidProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AutoJumpEnabled: ParameterEntry<boolean>?,
 	AutoRotate: ParameterEntry<boolean>?,
@@ -3647,9 +3643,9 @@ type HumanoidProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type HumanoidDescriptionProperties = {
@@ -3694,9 +3690,9 @@ type HumanoidDescriptionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	BackAccessory: ParameterEntry<string>?,
 	BodyTypeScale: ParameterEntry<number>?,
@@ -3739,9 +3735,9 @@ type HumanoidDescriptionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type Motor6DProperties = {
@@ -3757,9 +3753,9 @@ type Motor6DProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Transform: ParameterEntry<CFrame>?,
 	CurrentAngle: ParameterEntry<number>?,
@@ -3773,9 +3769,9 @@ type Motor6DProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type VelocityMotorProperties = {
@@ -3790,9 +3786,9 @@ type VelocityMotorProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CurrentAngle: ParameterEntry<number>?,
 	DesiredAngle: ParameterEntry<number>?,
@@ -3805,9 +3801,9 @@ type VelocityMotorProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WeldProperties = {
@@ -3819,9 +3815,9 @@ type WeldProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	C0: ParameterEntry<CFrame>?,
 	C1: ParameterEntry<CFrame>?,
@@ -3831,9 +3827,9 @@ type WeldProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PointLightProperties = {
@@ -3845,9 +3841,9 @@ type PointLightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Range: ParameterEntry<number>?,
 	Brightness: ParameterEntry<number>?,
@@ -3857,9 +3853,9 @@ type PointLightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SpotLightProperties = {
@@ -3873,9 +3869,9 @@ type SpotLightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Angle: ParameterEntry<number>?,
 	Face: ParameterEntry<Enum.NormalId>?,
@@ -3887,9 +3883,9 @@ type SpotLightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SurfaceLightProperties = {
@@ -3903,9 +3899,9 @@ type SurfaceLightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Angle: ParameterEntry<number>?,
 	Face: ParameterEntry<Enum.NormalId>?,
@@ -3917,9 +3913,9 @@ type SurfaceLightProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type LightingProperties = {
@@ -3942,9 +3938,9 @@ type LightingProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Ambient: ParameterEntry<Color3>?,
 	Brightness: ParameterEntry<number>?,
@@ -3965,25 +3961,25 @@ type LightingProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type MaterialServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type MaterialVariantProperties = {
@@ -3993,9 +3989,9 @@ type MaterialVariantProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CustomPhysicalProperties: ParameterEntry<PhysicalProperties>?,
 	MaterialPattern: ParameterEntry<Enum.MaterialPattern>?,
@@ -4003,25 +3999,25 @@ type MaterialVariantProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type MemoryStoreServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type NoCollisionConstraintProperties = {
@@ -4031,9 +4027,9 @@ type NoCollisionConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Enabled: ParameterEntry<boolean>?,
 	Part0: ParameterEntry<BasePart>?,
@@ -4041,9 +4037,9 @@ type NoCollisionConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CornerWedgePartProperties = {
@@ -4081,9 +4077,9 @@ type CornerWedgePartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Anchored: ParameterEntry<boolean>?,
 	AssemblyAngularVelocity: ParameterEntry<Vector3>?,
@@ -4119,9 +4115,9 @@ type CornerWedgePartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PartProperties = {
@@ -4160,9 +4156,9 @@ type PartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Shape: ParameterEntry<Enum.PartType>?,
 	Anchored: ParameterEntry<boolean>?,
@@ -4199,9 +4195,9 @@ type PartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SeatProperties = {
@@ -4241,9 +4237,9 @@ type SeatProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Disabled: ParameterEntry<boolean>?,
 	Shape: ParameterEntry<Enum.PartType>?,
@@ -4281,9 +4277,9 @@ type SeatProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SpawnLocationProperties = {
@@ -4327,9 +4323,9 @@ type SpawnLocationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AllowTeamChangeOnTouch: ParameterEntry<boolean>?,
 	Duration: ParameterEntry<number>?,
@@ -4371,9 +4367,9 @@ type SpawnLocationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WedgePartProperties = {
@@ -4411,9 +4407,9 @@ type WedgePartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Anchored: ParameterEntry<boolean>?,
 	AssemblyAngularVelocity: ParameterEntry<Vector3>?,
@@ -4449,9 +4445,9 @@ type WedgePartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type MeshPartProperties = {
@@ -4490,9 +4486,9 @@ type MeshPartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	TextureID: ParameterEntry<string>?,
 	Anchored: ParameterEntry<boolean>?,
@@ -4529,9 +4525,9 @@ type MeshPartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type NegateOperationProperties = {
@@ -4570,9 +4566,9 @@ type NegateOperationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	UsePartColor: ParameterEntry<boolean>?,
 	Anchored: ParameterEntry<boolean>?,
@@ -4609,9 +4605,9 @@ type NegateOperationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UnionOperationProperties = {
@@ -4650,9 +4646,9 @@ type UnionOperationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	UsePartColor: ParameterEntry<boolean>?,
 	Anchored: ParameterEntry<boolean>?,
@@ -4689,9 +4685,9 @@ type UnionOperationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TrussPartProperties = {
@@ -4730,9 +4726,9 @@ type TrussPartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Style: ParameterEntry<Enum.Style>?,
 	Anchored: ParameterEntry<boolean>?,
@@ -4769,9 +4765,9 @@ type TrussPartProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type VehicleSeatProperties = {
@@ -4818,9 +4814,9 @@ type VehicleSeatProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Disabled: ParameterEntry<boolean>?,
 	HeadsUpDisplay: ParameterEntry<boolean>?,
@@ -4865,9 +4861,9 @@ type VehicleSeatProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ModelProperties = {
@@ -4876,18 +4872,18 @@ type ModelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	PrimaryPart: ParameterEntry<BasePart>?,
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ActorProperties = {
@@ -4896,18 +4892,18 @@ type ActorProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	PrimaryPart: ParameterEntry<BasePart>?,
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WorldModelProperties = {
@@ -4916,18 +4912,18 @@ type WorldModelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	PrimaryPart: ParameterEntry<BasePart>?,
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ParticleEmitterProperties = {
@@ -4966,9 +4962,9 @@ type ParticleEmitterProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Acceleration: ParameterEntry<Vector3>?,
 	Brightness: ParameterEntry<number>?,
@@ -5005,9 +5001,9 @@ type ParticleEmitterProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PathfindingLinkProperties = {
@@ -5018,9 +5014,9 @@ type PathfindingLinkProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Attachment0: ParameterEntry<Attachment>?,
 	Attachment1: ParameterEntry<Attachment>?,
@@ -5029,9 +5025,9 @@ type PathfindingLinkProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PathfindingModifierProperties = {
@@ -5040,18 +5036,18 @@ type PathfindingModifierProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Label: ParameterEntry<string>?,
 	PassThrough: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PlayerProperties = {
@@ -5080,9 +5076,9 @@ type PlayerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AutoJumpEnabled: ParameterEntry<boolean>?,
 	CameraMaxZoomDistance: ParameterEntry<number>?,
@@ -5109,9 +5105,9 @@ type PlayerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PlayersProperties = {
@@ -5120,18 +5116,18 @@ type PlayersProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CharacterAutoLoads: ParameterEntry<boolean>?,
 	RespawnTime: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BloomEffectProperties = {
@@ -5142,9 +5138,9 @@ type BloomEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Intensity: ParameterEntry<number>?,
 	Size: ParameterEntry<number>?,
@@ -5153,9 +5149,9 @@ type BloomEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BlurEffectProperties = {
@@ -5164,18 +5160,18 @@ type BlurEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Size: ParameterEntry<number>?,
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ColorCorrectionEffectProperties = {
@@ -5187,9 +5183,9 @@ type ColorCorrectionEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Brightness: ParameterEntry<number>?,
 	Contrast: ParameterEntry<number>?,
@@ -5199,9 +5195,9 @@ type ColorCorrectionEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type DepthOfFieldEffectProperties = {
@@ -5213,9 +5209,9 @@ type DepthOfFieldEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	FarIntensity: ParameterEntry<number>?,
 	FocusDistance: ParameterEntry<number>?,
@@ -5225,9 +5221,9 @@ type DepthOfFieldEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SunRaysEffectProperties = {
@@ -5237,9 +5233,9 @@ type SunRaysEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Intensity: ParameterEntry<number>?,
 	Spread: ParameterEntry<number>?,
@@ -5247,9 +5243,9 @@ type SunRaysEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ProximityPromptProperties = {
@@ -5270,9 +5266,9 @@ type ProximityPromptProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ActionText: ParameterEntry<string>?,
 	AutoLocalize: ParameterEntry<boolean>?,
@@ -5291,9 +5287,9 @@ type ProximityPromptProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ProximityPromptServiceProperties = {
@@ -5302,66 +5298,66 @@ type ProximityPromptServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Enabled: ParameterEntry<boolean>?,
 	MaxPromptsVisible: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type RemoteEventProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type RemoteFunctionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type RotationCurveProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SkyProperties = {
@@ -5380,9 +5376,9 @@ type SkyProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CelestialBodiesShown: ParameterEntry<boolean>?,
 	MoonAngularSize: ParameterEntry<number>?,
@@ -5399,9 +5395,9 @@ type SkyProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SmokeProperties = {
@@ -5414,9 +5410,9 @@ type SmokeProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color: ParameterEntry<Color3>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -5427,9 +5423,9 @@ type SmokeProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SoundProperties = {
@@ -5447,9 +5443,9 @@ type SoundProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Looped: ParameterEntry<boolean>?,
 	PlayOnRemove: ParameterEntry<boolean>?,
@@ -5465,9 +5461,9 @@ type SoundProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ChorusSoundEffectProperties = {
@@ -5479,9 +5475,9 @@ type ChorusSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Depth: ParameterEntry<number>?,
 	Mix: ParameterEntry<number>?,
@@ -5491,9 +5487,9 @@ type ChorusSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CompressorSoundEffectProperties = {
@@ -5508,9 +5504,9 @@ type CompressorSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Attack: ParameterEntry<number>?,
 	GainMakeup: ParameterEntry<number>?,
@@ -5523,9 +5519,9 @@ type CompressorSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ChannelSelectorSoundEffectProperties = {
@@ -5535,9 +5531,9 @@ type ChannelSelectorSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Channel: ParameterEntry<number>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -5545,9 +5541,9 @@ type ChannelSelectorSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type DistortionSoundEffectProperties = {
@@ -5557,9 +5553,9 @@ type DistortionSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Level: ParameterEntry<number>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -5567,9 +5563,9 @@ type DistortionSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type EchoSoundEffectProperties = {
@@ -5582,9 +5578,9 @@ type EchoSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Delay: ParameterEntry<number>?,
 	DryLevel: ParameterEntry<number>?,
@@ -5595,9 +5591,9 @@ type EchoSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type EqualizerSoundEffectProperties = {
@@ -5609,9 +5605,9 @@ type EqualizerSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	HighGain: ParameterEntry<number>?,
 	LowGain: ParameterEntry<number>?,
@@ -5621,9 +5617,9 @@ type EqualizerSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type FlangeSoundEffectProperties = {
@@ -5635,9 +5631,9 @@ type FlangeSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Depth: ParameterEntry<number>?,
 	Mix: ParameterEntry<number>?,
@@ -5647,9 +5643,9 @@ type FlangeSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type PitchShiftSoundEffectProperties = {
@@ -5659,9 +5655,9 @@ type PitchShiftSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Octave: ParameterEntry<number>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -5669,9 +5665,9 @@ type PitchShiftSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ReverbSoundEffectProperties = {
@@ -5685,9 +5681,9 @@ type ReverbSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	DecayTime: ParameterEntry<number>?,
 	Density: ParameterEntry<number>?,
@@ -5699,9 +5695,9 @@ type ReverbSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TremoloSoundEffectProperties = {
@@ -5713,9 +5709,9 @@ type TremoloSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Depth: ParameterEntry<number>?,
 	Duty: ParameterEntry<number>?,
@@ -5725,9 +5721,9 @@ type TremoloSoundEffectProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SoundGroupProperties = {
@@ -5735,17 +5731,17 @@ type SoundGroupProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Volume: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SoundServiceProperties = {
@@ -5757,9 +5753,9 @@ type SoundServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AmbientReverb: ParameterEntry<Enum.ReverbType>?,
 	DistanceFactor: ParameterEntry<number>?,
@@ -5769,9 +5765,9 @@ type SoundServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SparklesProperties = {
@@ -5782,9 +5778,9 @@ type SparklesProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color: ParameterEntry<Color3>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -5793,57 +5789,57 @@ type SparklesProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type StarterGearProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type StarterPackProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type SurfaceAppearanceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TeamProperties = {
@@ -5852,18 +5848,18 @@ type TeamProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AutoAssignable: ParameterEntry<boolean>?,
 	TeamColor: ParameterEntry<BrickColor>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TestServiceProperties = {
@@ -5879,9 +5875,9 @@ type TestServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AutoRuns: ParameterEntry<boolean>?,
 	Description: ParameterEntry<string>?,
@@ -5895,41 +5891,41 @@ type TestServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TextChannelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TrackerStreamAnimationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type TrailProperties = {
@@ -5952,9 +5948,9 @@ type TrailProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Attachment0: ParameterEntry<Attachment>?,
 	Attachment1: ParameterEntry<Attachment>?,
@@ -5975,9 +5971,9 @@ type TrailProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIAspectRatioConstraintProperties = {
@@ -5987,9 +5983,9 @@ type UIAspectRatioConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	AspectRatio: ParameterEntry<number>?,
 	AspectType: ParameterEntry<Enum.AspectType>?,
@@ -5997,9 +5993,9 @@ type UIAspectRatioConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UISizeConstraintProperties = {
@@ -6008,18 +6004,18 @@ type UISizeConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	MaxSize: ParameterEntry<Vector2>?,
 	MinSize: ParameterEntry<Vector2>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UITextSizeConstraintProperties = {
@@ -6028,18 +6024,18 @@ type UITextSizeConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	MaxTextSize: ParameterEntry<number>?,
 	MinTextSize: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UICornerProperties = {
@@ -6047,17 +6043,17 @@ type UICornerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CornerRadius: ParameterEntry<UDim>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIGradientProperties = {
@@ -6069,9 +6065,9 @@ type UIGradientProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Color: ParameterEntry<ColorSequence>?,
 	Enabled: ParameterEntry<boolean>?,
@@ -6081,9 +6077,9 @@ type UIGradientProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIGridLayoutProperties = {
@@ -6098,9 +6094,9 @@ type UIGridLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	CellPadding: ParameterEntry<UDim2>?,
 	CellSize: ParameterEntry<UDim2>?,
@@ -6113,9 +6109,9 @@ type UIGridLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIListLayoutProperties = {
@@ -6127,9 +6123,9 @@ type UIListLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Padding: ParameterEntry<UDim>?,
 	FillDirection: ParameterEntry<Enum.FillDirection>?,
@@ -6139,9 +6135,9 @@ type UIListLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIPageLayoutProperties = {
@@ -6161,9 +6157,9 @@ type UIPageLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Animated: ParameterEntry<boolean>?,
 	Circular: ParameterEntry<boolean>?,
@@ -6181,9 +6177,9 @@ type UIPageLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UITableLayoutProperties = {
@@ -6198,9 +6194,9 @@ type UITableLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	FillEmptySpaceColumns: ParameterEntry<boolean>?,
 	FillEmptySpaceRows: ParameterEntry<boolean>?,
@@ -6213,9 +6209,9 @@ type UITableLayoutProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIPaddingProperties = {
@@ -6226,9 +6222,9 @@ type UIPaddingProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	PaddingBottom: ParameterEntry<UDim>?,
 	PaddingLeft: ParameterEntry<UDim>?,
@@ -6237,9 +6233,9 @@ type UIPaddingProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIScaleProperties = {
@@ -6247,17 +6243,17 @@ type UIScaleProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Scale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type UIStrokeProperties = {
@@ -6270,9 +6266,9 @@ type UIStrokeProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	ApplyStrokeMode: ParameterEntry<Enum.ApplyStrokeMode>?,
 	Color: ParameterEntry<Color3>?,
@@ -6283,9 +6279,9 @@ type UIStrokeProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BoolValueProperties = {
@@ -6293,17 +6289,17 @@ type BoolValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type BrickColorValueProperties = {
@@ -6311,17 +6307,17 @@ type BrickColorValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<BrickColor>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type CFrameValueProperties = {
@@ -6329,17 +6325,17 @@ type CFrameValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type Color3ValueProperties = {
@@ -6347,17 +6343,17 @@ type Color3ValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type IntValueProperties = {
@@ -6365,17 +6361,17 @@ type IntValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type NumberValueProperties = {
@@ -6383,17 +6379,17 @@ type NumberValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ObjectValueProperties = {
@@ -6401,17 +6397,17 @@ type ObjectValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<Instance>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type StringValueProperties = {
@@ -6419,17 +6415,17 @@ type StringValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type Vector3ValueProperties = {
@@ -6437,65 +6433,65 @@ type Vector3ValueProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Value: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type Vector3CurveProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type VirtualInputManagerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type VoiceChannelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type WeldConstraintProperties = {
@@ -6505,9 +6501,9 @@ type WeldConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> any?
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: BoundFunction
 } | {
 	Enabled: ParameterEntry<boolean>?,
 	Part0: ParameterEntry<BasePart>?,
@@ -6515,9 +6511,9 @@ type WeldConstraintProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
 	Parent: ParameterEntry<Instance>?,
-	Children: ParameterEntry<{Instance}>??,
-	Attributes: {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}??,
-	[any]: (...any) -> nil
+	Children: Children?,
+	Attributes: Attributes?,
+	[any]: nil
 }
 
 type ClassNameConstructors0 = (
@@ -6904,390 +6900,5 @@ type ClassNameConstructors37 = (
  type ClassNameConstructorsR = ClassNameConstructorsRL & ClassNameConstructorsRR
 
  export type ClassNameConstructors = ClassNameConstructorsL & ClassNameConstructorsR
-
-type ClassConstructors0 = (
-	((Instance) -> ((params: InstanceProperties) -> Instance))
-	& ((Accessory) -> ((params: AccessoryProperties) -> Accessory))
-	& ((AdvancedDragger) -> ((params: AdvancedDraggerProperties) -> AdvancedDragger))
-	& ((AnalyticsService) -> ((params: AnalyticsServiceProperties) -> AnalyticsService)))
-
-type ClassConstructors1 = (
-	((Animation) -> ((params: AnimationProperties) -> Animation))
-	& ((CurveAnimation) -> ((params: CurveAnimationProperties) -> CurveAnimation))
-	& ((KeyframeSequence) -> ((params: KeyframeSequenceProperties) -> KeyframeSequence))
-	& ((AnimationController) -> ((params: AnimationControllerProperties) -> AnimationController))
-	& ((AnimationRigData) -> ((params: AnimationRigDataProperties) -> AnimationRigData)))
-
-type ClassConstructors2 = (
-	((Animator) -> ((params: AnimatorProperties) -> Animator))
-	& ((Atmosphere) -> ((params: AtmosphereProperties) -> Atmosphere))
-	& ((Attachment) -> ((params: AttachmentProperties) -> Attachment))
-	& ((Bone) -> ((params: BoneProperties) -> Bone))
-	& ((Backpack) -> ((params: BackpackProperties) -> Backpack)))
-
-type ClassConstructors3 = (
-	((Tool) -> ((params: ToolProperties) -> Tool))
-	& ((StarterGui) -> ((params: StarterGuiProperties) -> StarterGui))
-	& ((WrapLayer) -> ((params: WrapLayerProperties) -> WrapLayer))
-	& ((WrapTarget) -> ((params: WrapTargetProperties) -> WrapTarget))
-	& ((Beam) -> ((params: BeamProperties) -> Beam)))
-
-type ClassConstructors4 = (
-	((BindableEvent) -> ((params: BindableEventProperties) -> BindableEvent))
-	& ((BindableFunction) -> ((params: BindableFunctionProperties) -> BindableFunction))
-	& ((BodyAngularVelocity) -> ((params: BodyAngularVelocityProperties) -> BodyAngularVelocity))
-	& ((BodyForce) -> ((params: BodyForceProperties) -> BodyForce))
-	& ((BodyGyro) -> ((params: BodyGyroProperties) -> BodyGyro)))
-
-type ClassConstructors5 = (
-	((BodyPosition) -> ((params: BodyPositionProperties) -> BodyPosition))
-	& ((BodyThrust) -> ((params: BodyThrustProperties) -> BodyThrust))
-	& ((BodyVelocity) -> ((params: BodyVelocityProperties) -> BodyVelocity))
-	& ((Camera) -> ((params: CameraProperties) -> Camera))
-	& ((BodyColors) -> ((params: BodyColorsProperties) -> BodyColors)))
-
-type ClassConstructors6 = (
-	((Pants) -> ((params: PantsProperties) -> Pants))
-	& ((Shirt) -> ((params: ShirtProperties) -> Shirt))
-	& ((ShirtGraphic) -> ((params: ShirtGraphicProperties) -> ShirtGraphic))
-	& ((ClickDetector) -> ((params: ClickDetectorProperties) -> ClickDetector))
-	& ((Clouds) -> ((params: CloudsProperties) -> Clouds)))
-
-type ClassConstructors7 = (
-	((Configuration) -> ((params: ConfigurationProperties) -> Configuration))
-	& ((AlignOrientation) -> ((params: AlignOrientationProperties) -> AlignOrientation))
-	& ((AlignPosition) -> ((params: AlignPositionProperties) -> AlignPosition))
-	& ((AngularVelocity) -> ((params: AngularVelocityProperties) -> AngularVelocity))
-	& ((BallSocketConstraint) -> ((params: BallSocketConstraintProperties) -> BallSocketConstraint)))
-
-type ClassConstructors8 = (
-	((HingeConstraint) -> ((params: HingeConstraintProperties) -> HingeConstraint))
-	& ((LineForce) -> ((params: LineForceProperties) -> LineForce))
-	& ((LinearVelocity) -> ((params: LinearVelocityProperties) -> LinearVelocity))
-	& ((PlaneConstraint) -> ((params: PlaneConstraintProperties) -> PlaneConstraint))
-	& ((RigidConstraint) -> ((params: RigidConstraintProperties) -> RigidConstraint)))
-
-type ClassConstructors9 = (
-	((RodConstraint) -> ((params: RodConstraintProperties) -> RodConstraint))
-	& ((RopeConstraint) -> ((params: RopeConstraintProperties) -> RopeConstraint))
-	& ((CylindricalConstraint) -> ((params: CylindricalConstraintProperties) -> CylindricalConstraint))
-	& ((PrismaticConstraint) -> ((params: PrismaticConstraintProperties) -> PrismaticConstraint))
-	& ((SpringConstraint) -> ((params: SpringConstraintProperties) -> SpringConstraint)))
-
-type ClassConstructors10 = (
-	((Torque) -> ((params: TorqueProperties) -> Torque))
-	& ((TorsionSpringConstraint) -> ((params: TorsionSpringConstraintProperties) -> TorsionSpringConstraint))
-	& ((UniversalConstraint) -> ((params: UniversalConstraintProperties) -> UniversalConstraint))
-	& ((VectorForce) -> ((params: VectorForceProperties) -> VectorForce))
-	& ((FileMesh) -> ((params: FileMeshProperties) -> FileMesh)))
-
-type ClassConstructors11 = (
-	((SpecialMesh) -> ((params: SpecialMeshProperties) -> SpecialMesh))
-	& ((Dialog) -> ((params: DialogProperties) -> Dialog))
-	& ((DialogChoice) -> ((params: DialogChoiceProperties) -> DialogChoice))
-	& ((Dragger) -> ((params: DraggerProperties) -> Dragger))
-	& ((Explosion) -> ((params: ExplosionProperties) -> Explosion)))
-
-type ClassConstructors12 = (
-	((FaceControls) -> ((params: FaceControlsProperties) -> FaceControls))
-	& ((Decal) -> ((params: DecalProperties) -> Decal))
-	& ((Texture) -> ((params: TextureProperties) -> Texture))
-	& ((Fire) -> ((params: FireProperties) -> Fire))
-	& ((FlyweightService) -> ((params: FlyweightServiceProperties) -> FlyweightService)))
-
-type ClassConstructors13 = (
-	((CSGDictionaryService) -> ((params: CSGDictionaryServiceProperties) -> CSGDictionaryService))
-	& ((NonReplicatedCSGDictionaryService) -> ((params: NonReplicatedCSGDictionaryServiceProperties) -> NonReplicatedCSGDictionaryService))
-	& ((Folder) -> ((params: FolderProperties) -> Folder))
-	& ((ForceField) -> ((params: ForceFieldProperties) -> ForceField))
-	& ((CanvasGroup) -> ((params: CanvasGroupProperties) -> CanvasGroup)))
-
-type ClassConstructors14 = (
-	((Frame) -> ((params: FrameProperties) -> Frame))
-	& ((ImageButton) -> ((params: ImageButtonProperties) -> ImageButton))
-	& ((TextButton) -> ((params: TextButtonProperties) -> TextButton))
-	& ((ImageLabel) -> ((params: ImageLabelProperties) -> ImageLabel))
-	& ((TextLabel) -> ((params: TextLabelProperties) -> TextLabel)))
-
-type ClassConstructors15 = (
-	((ScrollingFrame) -> ((params: ScrollingFrameProperties) -> ScrollingFrame))
-	& ((TextBox) -> ((params: TextBoxProperties) -> TextBox))
-	& ((VideoFrame) -> ((params: VideoFrameProperties) -> VideoFrame))
-	& ((ViewportFrame) -> ((params: ViewportFrameProperties) -> ViewportFrame))
-	& ((BillboardGui) -> ((params: BillboardGuiProperties) -> BillboardGui)))
-
-type ClassConstructors16 = (
-	((ScreenGui) -> ((params: ScreenGuiProperties) -> ScreenGui))
-	& ((SurfaceGui) -> ((params: SurfaceGuiProperties) -> SurfaceGui))
-	& ((SelectionBox) -> ((params: SelectionBoxProperties) -> SelectionBox))
-	& ((BoxHandleAdornment) -> ((params: BoxHandleAdornmentProperties) -> BoxHandleAdornment))
-	& ((ConeHandleAdornment) -> ((params: ConeHandleAdornmentProperties) -> ConeHandleAdornment)))
-
-type ClassConstructors17 = (
-	((CylinderHandleAdornment) -> ((params: CylinderHandleAdornmentProperties) -> CylinderHandleAdornment))
-	& ((ImageHandleAdornment) -> ((params: ImageHandleAdornmentProperties) -> ImageHandleAdornment))
-	& ((LineHandleAdornment) -> ((params: LineHandleAdornmentProperties) -> LineHandleAdornment))
-	& ((SphereHandleAdornment) -> ((params: SphereHandleAdornmentProperties) -> SphereHandleAdornment))
-	& ((WireframeHandleAdornment) -> ((params: WireframeHandleAdornmentProperties) -> WireframeHandleAdornment)))
-
-type ClassConstructors18 = (
-	((ParabolaAdornment) -> ((params: ParabolaAdornmentProperties) -> ParabolaAdornment))
-	& ((SelectionSphere) -> ((params: SelectionSphereProperties) -> SelectionSphere))
-	& ((ArcHandles) -> ((params: ArcHandlesProperties) -> ArcHandles))
-	& ((Handles) -> ((params: HandlesProperties) -> Handles))
-	& ((SurfaceSelection) -> ((params: SurfaceSelectionProperties) -> SurfaceSelection)))
-
-type ClassConstructors19 = (
-	((HeightmapImporterService) -> ((params: HeightmapImporterServiceProperties) -> HeightmapImporterService))
-	& ((HiddenSurfaceRemovalAsset) -> ((params: HiddenSurfaceRemovalAssetProperties) -> HiddenSurfaceRemovalAsset))
-	& ((Highlight) -> ((params: HighlightProperties) -> Highlight))
-	& ((Humanoid) -> ((params: HumanoidProperties) -> Humanoid))
-	& ((HumanoidDescription) -> ((params: HumanoidDescriptionProperties) -> HumanoidDescription)))
-
-type ClassConstructors20 = (
-	((Motor6D) -> ((params: Motor6DProperties) -> Motor6D))
-	& ((VelocityMotor) -> ((params: VelocityMotorProperties) -> VelocityMotor))
-	& ((Weld) -> ((params: WeldProperties) -> Weld))
-	& ((PointLight) -> ((params: PointLightProperties) -> PointLight))
-	& ((SpotLight) -> ((params: SpotLightProperties) -> SpotLight)))
-
-type ClassConstructors21 = (
-	((SurfaceLight) -> ((params: SurfaceLightProperties) -> SurfaceLight))
-	& ((Lighting) -> ((params: LightingProperties) -> Lighting))
-	& ((MaterialService) -> ((params: MaterialServiceProperties) -> MaterialService))
-	& ((MaterialVariant) -> ((params: MaterialVariantProperties) -> MaterialVariant))
-	& ((MemoryStoreService) -> ((params: MemoryStoreServiceProperties) -> MemoryStoreService)))
-
-type ClassConstructors22 = (
-	((NoCollisionConstraint) -> ((params: NoCollisionConstraintProperties) -> NoCollisionConstraint))
-	& ((CornerWedgePart) -> ((params: CornerWedgePartProperties) -> CornerWedgePart))
-	& ((Part) -> ((params: PartProperties) -> Part))
-	& ((Seat) -> ((params: SeatProperties) -> Seat))
-	& ((SpawnLocation) -> ((params: SpawnLocationProperties) -> SpawnLocation)))
-
-type ClassConstructors23 = (
-	((WedgePart) -> ((params: WedgePartProperties) -> WedgePart))
-	& ((MeshPart) -> ((params: MeshPartProperties) -> MeshPart))
-	& ((NegateOperation) -> ((params: NegateOperationProperties) -> NegateOperation))
-	& ((UnionOperation) -> ((params: UnionOperationProperties) -> UnionOperation))
-	& ((TrussPart) -> ((params: TrussPartProperties) -> TrussPart)))
-
-type ClassConstructors24 = (
-	((VehicleSeat) -> ((params: VehicleSeatProperties) -> VehicleSeat))
-	& ((Model) -> ((params: ModelProperties) -> Model))
-	& ((Actor) -> ((params: ActorProperties) -> Actor))
-	& ((WorldModel) -> ((params: WorldModelProperties) -> WorldModel))
-	& ((ParticleEmitter) -> ((params: ParticleEmitterProperties) -> ParticleEmitter)))
-
-type ClassConstructors25 = (
-	((PathfindingLink) -> ((params: PathfindingLinkProperties) -> PathfindingLink))
-	& ((PathfindingModifier) -> ((params: PathfindingModifierProperties) -> PathfindingModifier))
-	& ((Player) -> ((params: PlayerProperties) -> Player))
-	& ((Players) -> ((params: PlayersProperties) -> Players))
-	& ((BloomEffect) -> ((params: BloomEffectProperties) -> BloomEffect)))
-
-type ClassConstructors26 = (
-	((BlurEffect) -> ((params: BlurEffectProperties) -> BlurEffect))
-	& ((ColorCorrectionEffect) -> ((params: ColorCorrectionEffectProperties) -> ColorCorrectionEffect))
-	& ((DepthOfFieldEffect) -> ((params: DepthOfFieldEffectProperties) -> DepthOfFieldEffect))
-	& ((SunRaysEffect) -> ((params: SunRaysEffectProperties) -> SunRaysEffect))
-	& ((ProximityPrompt) -> ((params: ProximityPromptProperties) -> ProximityPrompt)))
-
-type ClassConstructors27 = (
-	((ProximityPromptService) -> ((params: ProximityPromptServiceProperties) -> ProximityPromptService))
-	& ((RemoteEvent) -> ((params: RemoteEventProperties) -> RemoteEvent))
-	& ((RemoteFunction) -> ((params: RemoteFunctionProperties) -> RemoteFunction))
-	& ((RotationCurve) -> ((params: RotationCurveProperties) -> RotationCurve))
-	& ((Sky) -> ((params: SkyProperties) -> Sky)))
-
-type ClassConstructors28 = (
-	((Smoke) -> ((params: SmokeProperties) -> Smoke))
-	& ((Sound) -> ((params: SoundProperties) -> Sound))
-	& ((ChorusSoundEffect) -> ((params: ChorusSoundEffectProperties) -> ChorusSoundEffect))
-	& ((CompressorSoundEffect) -> ((params: CompressorSoundEffectProperties) -> CompressorSoundEffect))
-	& ((ChannelSelectorSoundEffect) -> ((params: ChannelSelectorSoundEffectProperties) -> ChannelSelectorSoundEffect)))
-
-type ClassConstructors29 = (
-	((DistortionSoundEffect) -> ((params: DistortionSoundEffectProperties) -> DistortionSoundEffect))
-	& ((EchoSoundEffect) -> ((params: EchoSoundEffectProperties) -> EchoSoundEffect))
-	& ((EqualizerSoundEffect) -> ((params: EqualizerSoundEffectProperties) -> EqualizerSoundEffect))
-	& ((FlangeSoundEffect) -> ((params: FlangeSoundEffectProperties) -> FlangeSoundEffect))
-	& ((PitchShiftSoundEffect) -> ((params: PitchShiftSoundEffectProperties) -> PitchShiftSoundEffect)))
-
-type ClassConstructors30 = (
-	((ReverbSoundEffect) -> ((params: ReverbSoundEffectProperties) -> ReverbSoundEffect))
-	& ((TremoloSoundEffect) -> ((params: TremoloSoundEffectProperties) -> TremoloSoundEffect))
-	& ((SoundGroup) -> ((params: SoundGroupProperties) -> SoundGroup))
-	& ((SoundService) -> ((params: SoundServiceProperties) -> SoundService))
-	& ((Sparkles) -> ((params: SparklesProperties) -> Sparkles)))
-
-type ClassConstructors31 = (
-	((StarterGear) -> ((params: StarterGearProperties) -> StarterGear))
-	& ((StarterPack) -> ((params: StarterPackProperties) -> StarterPack))
-	& ((SurfaceAppearance) -> ((params: SurfaceAppearanceProperties) -> SurfaceAppearance))
-	& ((Team) -> ((params: TeamProperties) -> Team))
-	& ((TestService) -> ((params: TestServiceProperties) -> TestService)))
-
-type ClassConstructors32 = (
-	((TextChannel) -> ((params: TextChannelProperties) -> TextChannel))
-	& ((TrackerStreamAnimation) -> ((params: TrackerStreamAnimationProperties) -> TrackerStreamAnimation))
-	& ((Trail) -> ((params: TrailProperties) -> Trail))
-	& ((UIAspectRatioConstraint) -> ((params: UIAspectRatioConstraintProperties) -> UIAspectRatioConstraint))
-	& ((UISizeConstraint) -> ((params: UISizeConstraintProperties) -> UISizeConstraint)))
-
-type ClassConstructors33 = (
-	((UITextSizeConstraint) -> ((params: UITextSizeConstraintProperties) -> UITextSizeConstraint))
-	& ((UICorner) -> ((params: UICornerProperties) -> UICorner))
-	& ((UIGradient) -> ((params: UIGradientProperties) -> UIGradient))
-	& ((UIGridLayout) -> ((params: UIGridLayoutProperties) -> UIGridLayout))
-	& ((UIListLayout) -> ((params: UIListLayoutProperties) -> UIListLayout)))
-
-type ClassConstructors34 = (
-	((UIPageLayout) -> ((params: UIPageLayoutProperties) -> UIPageLayout))
-	& ((UITableLayout) -> ((params: UITableLayoutProperties) -> UITableLayout))
-	& ((UIPadding) -> ((params: UIPaddingProperties) -> UIPadding))
-	& ((UIScale) -> ((params: UIScaleProperties) -> UIScale))
-	& ((UIStroke) -> ((params: UIStrokeProperties) -> UIStroke)))
-
-type ClassConstructors35 = (
-	((BoolValue) -> ((params: BoolValueProperties) -> BoolValue))
-	& ((BrickColorValue) -> ((params: BrickColorValueProperties) -> BrickColorValue))
-	& ((CFrameValue) -> ((params: CFrameValueProperties) -> CFrameValue))
-	& ((Color3Value) -> ((params: Color3ValueProperties) -> Color3Value))
-	& ((IntValue) -> ((params: IntValueProperties) -> IntValue)))
-
-type ClassConstructors36 = (
-	((NumberValue) -> ((params: NumberValueProperties) -> NumberValue))
-	& ((ObjectValue) -> ((params: ObjectValueProperties) -> ObjectValue))
-	& ((StringValue) -> ((params: StringValueProperties) -> StringValue))
-	& ((Vector3Value) -> ((params: Vector3ValueProperties) -> Vector3Value))
-	& ((Vector3Curve) -> ((params: Vector3CurveProperties) -> Vector3Curve)))
-
-type ClassConstructors37 = (
-	((VirtualInputManager) -> ((params: VirtualInputManagerProperties) -> VirtualInputManager))
-	& ((VoiceChannel) -> ((params: VoiceChannelProperties) -> VoiceChannel))
-	& ((WeldConstraint) -> ((params: WeldConstraintProperties) -> WeldConstraint)))
-
- type ClassConstructorsBLLL = ClassConstructors8 & ClassConstructors24
-
- type ClassConstructorsALLLL = ClassConstructors0 & ClassConstructors32
-
- type ClassConstructorsBLLLL = ClassConstructors16
-
- type ClassConstructorsLLLL = ClassConstructorsALLLL & ClassConstructorsBLLLL
-
- type ClassConstructorsALLLR = ClassConstructors8
-
- type ClassConstructorsBLLLR = ClassConstructors24
-
- type ClassConstructorsLLLR = ClassConstructorsALLLR & ClassConstructorsBLLLR
-
- type ClassConstructorsLLL = ClassConstructorsLLLL & ClassConstructorsLLLR
-
- type ClassConstructorsBLLR = ClassConstructors12 & ClassConstructors28
-
- type ClassConstructorsALLRL = ClassConstructors4 & ClassConstructors36
-
- type ClassConstructorsBLLRL = ClassConstructors20
-
- type ClassConstructorsLLRL = ClassConstructorsALLRL & ClassConstructorsBLLRL
-
- type ClassConstructorsALLRR = ClassConstructors12
-
- type ClassConstructorsBLLRR = ClassConstructors28
-
- type ClassConstructorsLLRR = ClassConstructorsALLRR & ClassConstructorsBLLRR
-
- type ClassConstructorsLLR = ClassConstructorsLLRL & ClassConstructorsLLRR
-
- type ClassConstructorsLL = ClassConstructorsLLL & ClassConstructorsLLR
-
- type ClassConstructorsBLRL = ClassConstructors10 & ClassConstructors26
-
- type ClassConstructorsALRLL = ClassConstructors2 & ClassConstructors34
-
- type ClassConstructorsBLRLL = ClassConstructors18
-
- type ClassConstructorsLRLL = ClassConstructorsALRLL & ClassConstructorsBLRLL
-
- type ClassConstructorsALRLR = ClassConstructors10
-
- type ClassConstructorsBLRLR = ClassConstructors26
-
- type ClassConstructorsLRLR = ClassConstructorsALRLR & ClassConstructorsBLRLR
-
- type ClassConstructorsLRL = ClassConstructorsLRLL & ClassConstructorsLRLR
-
- type ClassConstructorsALRR = ClassConstructors6 & ClassConstructors22
-
- type ClassConstructorsBLRR = ClassConstructors14 & ClassConstructors30
-
- type ClassConstructorsLRR = ClassConstructorsALRR & ClassConstructorsBLRR
-
- type ClassConstructorsLR = ClassConstructorsLRL & ClassConstructorsLRR
-
- type ClassConstructorsL = ClassConstructorsLL & ClassConstructorsLR
-
- type ClassConstructorsBRLL = ClassConstructors9 & ClassConstructors25
-
- type ClassConstructorsARLLL = ClassConstructors1 & ClassConstructors33
-
- type ClassConstructorsBRLLL = ClassConstructors17
-
- type ClassConstructorsRLLL = ClassConstructorsARLLL & ClassConstructorsBRLLL
-
- type ClassConstructorsARLLR = ClassConstructors9
-
- type ClassConstructorsBRLLR = ClassConstructors25
-
- type ClassConstructorsRLLR = ClassConstructorsARLLR & ClassConstructorsBRLLR
-
- type ClassConstructorsRLL = ClassConstructorsRLLL & ClassConstructorsRLLR
-
- type ClassConstructorsBRLR = ClassConstructors13 & ClassConstructors29
-
- type ClassConstructorsARLRL = ClassConstructors5 & ClassConstructors37
-
- type ClassConstructorsBRLRL = ClassConstructors21
-
- type ClassConstructorsRLRL = ClassConstructorsARLRL & ClassConstructorsBRLRL
-
- type ClassConstructorsARLRR = ClassConstructors13
-
- type ClassConstructorsBRLRR = ClassConstructors29
-
- type ClassConstructorsRLRR = ClassConstructorsARLRR & ClassConstructorsBRLRR
-
- type ClassConstructorsRLR = ClassConstructorsRLRL & ClassConstructorsRLRR
-
- type ClassConstructorsRL = ClassConstructorsRLL & ClassConstructorsRLR
-
- type ClassConstructorsBRRL = ClassConstructors11 & ClassConstructors27
-
- type ClassConstructorsARRLL = ClassConstructors3 & ClassConstructors35
-
- type ClassConstructorsBRRLL = ClassConstructors19
-
- type ClassConstructorsRRLL = ClassConstructorsARRLL & ClassConstructorsBRRLL
-
- type ClassConstructorsARRLR = ClassConstructors11
-
- type ClassConstructorsBRRLR = ClassConstructors27
-
- type ClassConstructorsRRLR = ClassConstructorsARRLR & ClassConstructorsBRRLR
-
- type ClassConstructorsRRL = ClassConstructorsRRLL & ClassConstructorsRRLR
-
- type ClassConstructorsARRR = ClassConstructors7 & ClassConstructors23
-
- type ClassConstructorsBRRR = ClassConstructors15 & ClassConstructors31
-
- type ClassConstructorsRRR = ClassConstructorsARRR & ClassConstructorsBRRR
-
- type ClassConstructorsRR = ClassConstructorsRRL & ClassConstructorsRRR
-
- type ClassConstructorsR = ClassConstructorsRL & ClassConstructorsRR
-
- export type ClassConstructors = ClassConstructorsL & ClassConstructorsR
 
 return {}

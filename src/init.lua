@@ -39,6 +39,7 @@ export type Fuse = {
 	Attribute: Attribute.Constructor,
 	mount: Mount.ClassConstructor,
 	new: Mount.ClassNameConstructor,
+	import: (<T>(unknown: (T | State<T>)?, alt: T) -> State<T>),
 }
 
 local Fuse = {}
