@@ -225,6 +225,7 @@ def setClassProperties(classData):
 			if className == "Instance":
 				properties["Children"] = "Children"
 				properties["Attributes"] = """Attributes"""
+				properties["Parent"] = "ParameterEntry<Instance?>"
 		classProperties[className] = properties	
 
 hierarchy = {}

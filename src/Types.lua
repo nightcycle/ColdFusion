@@ -9,14 +9,14 @@ type BoundFunction = (...any) -> nil
 type InstanceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -30,7 +30,7 @@ type AccessoryProperties = {
 	AttachmentUp: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -42,7 +42,7 @@ type AccessoryProperties = {
 	AttachmentUp: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -51,14 +51,14 @@ type AccessoryProperties = {
 type AdvancedDraggerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -67,14 +67,14 @@ type AdvancedDraggerProperties = {
 type AnalyticsServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -84,7 +84,7 @@ type AnimationProperties = {
 	AnimationId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -92,7 +92,7 @@ type AnimationProperties = {
 	AnimationId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -103,7 +103,7 @@ type CurveAnimationProperties = {
 	Priority: ParameterEntry<Enum.AnimationPriority>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -112,7 +112,7 @@ type CurveAnimationProperties = {
 	Priority: ParameterEntry<Enum.AnimationPriority>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -123,7 +123,7 @@ type KeyframeSequenceProperties = {
 	Priority: ParameterEntry<Enum.AnimationPriority>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -132,7 +132,7 @@ type KeyframeSequenceProperties = {
 	Priority: ParameterEntry<Enum.AnimationPriority>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -141,14 +141,14 @@ type KeyframeSequenceProperties = {
 type AnimationControllerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -157,14 +157,14 @@ type AnimationControllerProperties = {
 type AnimationRigDataProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -173,14 +173,14 @@ type AnimationRigDataProperties = {
 type AnimatorProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -195,7 +195,7 @@ type AtmosphereProperties = {
 	Offset: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -208,7 +208,7 @@ type AtmosphereProperties = {
 	Offset: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -228,7 +228,7 @@ type AttachmentProperties = {
 	WorldSecondaryAxis: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -246,7 +246,7 @@ type AttachmentProperties = {
 	WorldSecondaryAxis: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -267,7 +267,7 @@ type BoneProperties = {
 	WorldSecondaryAxis: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -286,7 +286,7 @@ type BoneProperties = {
 	WorldSecondaryAxis: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -295,14 +295,14 @@ type BoneProperties = {
 type BackpackProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -322,7 +322,7 @@ type ToolProperties = {
 	TextureId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -340,7 +340,7 @@ type ToolProperties = {
 	TextureId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -351,7 +351,7 @@ type StarterGuiProperties = {
 	ShowDevelopmentGui: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -360,7 +360,7 @@ type StarterGuiProperties = {
 	ShowDevelopmentGui: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -373,7 +373,7 @@ type WrapLayerProperties = {
 	Puffiness: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -384,7 +384,7 @@ type WrapLayerProperties = {
 	Puffiness: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -393,14 +393,14 @@ type WrapLayerProperties = {
 type WrapTargetProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -428,7 +428,7 @@ type BeamProperties = {
 	ZOffset: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -454,7 +454,7 @@ type BeamProperties = {
 	ZOffset: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -463,14 +463,14 @@ type BeamProperties = {
 type BindableEventProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -479,14 +479,14 @@ type BindableEventProperties = {
 type BindableFunctionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -498,7 +498,7 @@ type BodyAngularVelocityProperties = {
 	P: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -508,7 +508,7 @@ type BodyAngularVelocityProperties = {
 	P: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -518,7 +518,7 @@ type BodyForceProperties = {
 	Force: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -526,7 +526,7 @@ type BodyForceProperties = {
 	Force: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -539,7 +539,7 @@ type BodyGyroProperties = {
 	P: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -550,7 +550,7 @@ type BodyGyroProperties = {
 	P: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -563,7 +563,7 @@ type BodyPositionProperties = {
 	Position: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -574,7 +574,7 @@ type BodyPositionProperties = {
 	Position: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -585,7 +585,7 @@ type BodyThrustProperties = {
 	Location: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -594,7 +594,7 @@ type BodyThrustProperties = {
 	Location: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -606,7 +606,7 @@ type BodyVelocityProperties = {
 	Velocity: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -616,7 +616,7 @@ type BodyVelocityProperties = {
 	Velocity: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -635,7 +635,7 @@ type CameraProperties = {
 	MaxAxisFieldOfView: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -652,7 +652,7 @@ type CameraProperties = {
 	MaxAxisFieldOfView: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -673,7 +673,7 @@ type BodyColorsProperties = {
 	TorsoColor3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -692,7 +692,7 @@ type BodyColorsProperties = {
 	TorsoColor3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -703,7 +703,7 @@ type PantsProperties = {
 	Color3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -712,7 +712,7 @@ type PantsProperties = {
 	Color3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -723,7 +723,7 @@ type ShirtProperties = {
 	Color3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -732,7 +732,7 @@ type ShirtProperties = {
 	Color3: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -743,7 +743,7 @@ type ShirtGraphicProperties = {
 	Graphic: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -752,7 +752,7 @@ type ShirtGraphicProperties = {
 	Graphic: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -763,7 +763,7 @@ type ClickDetectorProperties = {
 	MaxActivationDistance: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -772,7 +772,7 @@ type ClickDetectorProperties = {
 	MaxActivationDistance: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -785,7 +785,7 @@ type CloudsProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -796,7 +796,7 @@ type CloudsProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -805,14 +805,14 @@ type CloudsProperties = {
 type ConfigurationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -837,7 +837,7 @@ type AlignOrientationProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -860,7 +860,7 @@ type AlignOrientationProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -882,7 +882,7 @@ type AlignPositionProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -902,7 +902,7 @@ type AlignPositionProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -920,7 +920,7 @@ type AngularVelocityProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -936,7 +936,7 @@ type AngularVelocityProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -958,7 +958,7 @@ type BallSocketConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -978,7 +978,7 @@ type BallSocketConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1005,7 +1005,7 @@ type HingeConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1030,7 +1030,7 @@ type HingeConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1049,7 +1049,7 @@ type LineForceProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1066,7 +1066,7 @@ type LineForceProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1089,7 +1089,7 @@ type LinearVelocityProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1110,7 +1110,7 @@ type LinearVelocityProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1124,7 +1124,7 @@ type PlaneConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1136,7 +1136,7 @@ type PlaneConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1150,7 +1150,7 @@ type RigidConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1162,7 +1162,7 @@ type RigidConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1181,7 +1181,7 @@ type RodConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1198,7 +1198,7 @@ type RodConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1220,7 +1220,7 @@ type RopeConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1240,7 +1240,7 @@ type RopeConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1281,7 +1281,7 @@ type CylindricalConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1320,7 +1320,7 @@ type CylindricalConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1347,7 +1347,7 @@ type PrismaticConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1372,7 +1372,7 @@ type PrismaticConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1396,7 +1396,7 @@ type SpringConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1418,7 +1418,7 @@ type SpringConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1434,7 +1434,7 @@ type TorqueProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1448,7 +1448,7 @@ type TorqueProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1470,7 +1470,7 @@ type TorsionSpringConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1490,7 +1490,7 @@ type TorsionSpringConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1508,7 +1508,7 @@ type UniversalConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1524,7 +1524,7 @@ type UniversalConstraintProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1541,7 +1541,7 @@ type VectorForceProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1556,7 +1556,7 @@ type VectorForceProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1570,7 +1570,7 @@ type FileMeshProperties = {
 	VertexColor: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1582,7 +1582,7 @@ type FileMeshProperties = {
 	VertexColor: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1597,7 +1597,7 @@ type SpecialMeshProperties = {
 	VertexColor: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1610,7 +1610,7 @@ type SpecialMeshProperties = {
 	VertexColor: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1629,7 +1629,7 @@ type DialogProperties = {
 	TriggerOffset: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1646,7 +1646,7 @@ type DialogProperties = {
 	TriggerOffset: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1659,7 +1659,7 @@ type DialogChoiceProperties = {
 	UserDialog: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1670,7 +1670,7 @@ type DialogChoiceProperties = {
 	UserDialog: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1679,14 +1679,14 @@ type DialogChoiceProperties = {
 type DraggerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1702,7 +1702,7 @@ type ExplosionProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1716,7 +1716,7 @@ type ExplosionProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1725,14 +1725,14 @@ type ExplosionProperties = {
 type FaceControlsProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1747,7 +1747,7 @@ type DecalProperties = {
 	Face: ParameterEntry<Enum.NormalId>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1760,7 +1760,7 @@ type DecalProperties = {
 	Face: ParameterEntry<Enum.NormalId>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1779,7 +1779,7 @@ type TextureProperties = {
 	Face: ParameterEntry<Enum.NormalId>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1796,7 +1796,7 @@ type TextureProperties = {
 	Face: ParameterEntry<Enum.NormalId>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1811,7 +1811,7 @@ type FireProperties = {
 	TimeScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1824,7 +1824,7 @@ type FireProperties = {
 	TimeScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1833,14 +1833,14 @@ type FireProperties = {
 type FlyweightServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1849,14 +1849,14 @@ type FlyweightServiceProperties = {
 type CSGDictionaryServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1865,14 +1865,14 @@ type CSGDictionaryServiceProperties = {
 type NonReplicatedCSGDictionaryServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1881,14 +1881,14 @@ type NonReplicatedCSGDictionaryServiceProperties = {
 type FolderProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1898,7 +1898,7 @@ type ForceFieldProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1906,7 +1906,7 @@ type ForceFieldProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -1948,7 +1948,7 @@ type CanvasGroupProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -1988,7 +1988,7 @@ type CanvasGroupProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2029,7 +2029,7 @@ type FrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2068,7 +2068,7 @@ type FrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2124,7 +2124,7 @@ type ImageButtonProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2178,7 +2178,7 @@ type ImageButtonProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2238,7 +2238,7 @@ type TextButtonProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2296,7 +2296,7 @@ type TextButtonProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2346,7 +2346,7 @@ type ImageLabelProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2394,7 +2394,7 @@ type ImageLabelProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2450,7 +2450,7 @@ type TextLabelProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2504,7 +2504,7 @@ type TextLabelProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2559,7 +2559,7 @@ type ScrollingFrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2612,7 +2612,7 @@ type ScrollingFrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2676,7 +2676,7 @@ type TextBoxProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2738,7 +2738,7 @@ type TextBoxProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2783,7 +2783,7 @@ type VideoFrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2826,7 +2826,7 @@ type VideoFrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2872,7 +2872,7 @@ type ViewportFrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2916,7 +2916,7 @@ type ViewportFrameProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -2952,7 +2952,7 @@ type BillboardGuiProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -2986,7 +2986,7 @@ type BillboardGuiProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3007,7 +3007,7 @@ type ScreenGuiProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3026,7 +3026,7 @@ type ScreenGuiProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3057,7 +3057,7 @@ type SurfaceGuiProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3086,7 +3086,7 @@ type SurfaceGuiProperties = {
 	SelectionGroup: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3102,7 +3102,7 @@ type SelectionBoxProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3116,7 +3116,7 @@ type SelectionBoxProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3135,7 +3135,7 @@ type BoxHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3152,7 +3152,7 @@ type BoxHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3172,7 +3172,7 @@ type ConeHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3190,7 +3190,7 @@ type ConeHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3212,7 +3212,7 @@ type CylinderHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3232,7 +3232,7 @@ type CylinderHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3252,7 +3252,7 @@ type ImageHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3270,7 +3270,7 @@ type ImageHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3290,7 +3290,7 @@ type LineHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3308,7 +3308,7 @@ type LineHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3327,7 +3327,7 @@ type SphereHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3344,7 +3344,7 @@ type SphereHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3362,7 +3362,7 @@ type WireframeHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3378,7 +3378,7 @@ type WireframeHandleAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3391,7 +3391,7 @@ type ParabolaAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3402,7 +3402,7 @@ type ParabolaAdornmentProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3417,7 +3417,7 @@ type SelectionSphereProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3430,7 +3430,7 @@ type SelectionSphereProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3444,7 +3444,7 @@ type ArcHandlesProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3456,7 +3456,7 @@ type ArcHandlesProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3471,7 +3471,7 @@ type HandlesProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3484,7 +3484,7 @@ type HandlesProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3498,7 +3498,7 @@ type SurfaceSelectionProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3510,7 +3510,7 @@ type SurfaceSelectionProperties = {
 	Visible: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3519,14 +3519,14 @@ type SurfaceSelectionProperties = {
 type HeightmapImporterServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3535,14 +3535,14 @@ type HeightmapImporterServiceProperties = {
 type HiddenSurfaceRemovalAssetProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3558,7 +3558,7 @@ type HighlightProperties = {
 	OutlineTransparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3572,7 +3572,7 @@ type HighlightProperties = {
 	OutlineTransparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3608,7 +3608,7 @@ type HumanoidProperties = {
 	WalkToPoint: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3642,7 +3642,7 @@ type HumanoidProperties = {
 	WalkToPoint: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3689,7 +3689,7 @@ type HumanoidDescriptionProperties = {
 	WidthScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3734,7 +3734,7 @@ type HumanoidDescriptionProperties = {
 	WidthScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3752,7 +3752,7 @@ type Motor6DProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3768,7 +3768,7 @@ type Motor6DProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3785,7 +3785,7 @@ type VelocityMotorProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3800,7 +3800,7 @@ type VelocityMotorProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3814,7 +3814,7 @@ type WeldProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3826,7 +3826,7 @@ type WeldProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3840,7 +3840,7 @@ type PointLightProperties = {
 	Shadows: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3852,7 +3852,7 @@ type PointLightProperties = {
 	Shadows: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3868,7 +3868,7 @@ type SpotLightProperties = {
 	Shadows: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3882,7 +3882,7 @@ type SpotLightProperties = {
 	Shadows: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3898,7 +3898,7 @@ type SurfaceLightProperties = {
 	Shadows: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3912,7 +3912,7 @@ type SurfaceLightProperties = {
 	Shadows: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3937,7 +3937,7 @@ type LightingProperties = {
 	TimeOfDay: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3960,7 +3960,7 @@ type LightingProperties = {
 	TimeOfDay: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3969,14 +3969,14 @@ type LightingProperties = {
 type MaterialServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -3988,7 +3988,7 @@ type MaterialVariantProperties = {
 	StudsPerTile: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -3998,7 +3998,7 @@ type MaterialVariantProperties = {
 	StudsPerTile: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4007,14 +4007,14 @@ type MaterialVariantProperties = {
 type MemoryStoreServiceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4026,7 +4026,7 @@ type NoCollisionConstraintProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4036,7 +4036,7 @@ type NoCollisionConstraintProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4076,7 +4076,7 @@ type CornerWedgePartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4114,7 +4114,7 @@ type CornerWedgePartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4155,7 +4155,7 @@ type PartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4194,7 +4194,7 @@ type PartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4236,7 +4236,7 @@ type SeatProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4276,7 +4276,7 @@ type SeatProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4322,7 +4322,7 @@ type SpawnLocationProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4366,7 +4366,7 @@ type SpawnLocationProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4406,7 +4406,7 @@ type WedgePartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4444,7 +4444,7 @@ type WedgePartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4485,7 +4485,7 @@ type MeshPartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4524,7 +4524,7 @@ type MeshPartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4565,7 +4565,7 @@ type NegateOperationProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4604,7 +4604,7 @@ type NegateOperationProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4645,7 +4645,7 @@ type UnionOperationProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4684,7 +4684,7 @@ type UnionOperationProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4725,7 +4725,7 @@ type TrussPartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4764,7 +4764,7 @@ type TrussPartProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4813,7 +4813,7 @@ type VehicleSeatProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4860,7 +4860,7 @@ type VehicleSeatProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4871,7 +4871,7 @@ type ModelProperties = {
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4880,7 +4880,7 @@ type ModelProperties = {
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4891,7 +4891,7 @@ type ActorProperties = {
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4900,7 +4900,7 @@ type ActorProperties = {
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4911,7 +4911,7 @@ type WorldModelProperties = {
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -4920,7 +4920,7 @@ type WorldModelProperties = {
 	WorldPivot: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -4961,7 +4961,7 @@ type ParticleEmitterProperties = {
 	ZOffset: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5000,7 +5000,7 @@ type ParticleEmitterProperties = {
 	ZOffset: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5013,7 +5013,7 @@ type PathfindingLinkProperties = {
 	Label: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5024,7 +5024,7 @@ type PathfindingLinkProperties = {
 	Label: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5035,7 +5035,7 @@ type PathfindingModifierProperties = {
 	PassThrough: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5044,7 +5044,7 @@ type PathfindingModifierProperties = {
 	PassThrough: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5075,7 +5075,7 @@ type PlayerProperties = {
 	UserId: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5104,7 +5104,7 @@ type PlayerProperties = {
 	UserId: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5115,7 +5115,7 @@ type PlayersProperties = {
 	RespawnTime: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5124,7 +5124,7 @@ type PlayersProperties = {
 	RespawnTime: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5137,7 +5137,7 @@ type BloomEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5148,7 +5148,7 @@ type BloomEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5159,7 +5159,7 @@ type BlurEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5168,7 +5168,7 @@ type BlurEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5182,7 +5182,7 @@ type ColorCorrectionEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5194,7 +5194,7 @@ type ColorCorrectionEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5208,7 +5208,7 @@ type DepthOfFieldEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5220,7 +5220,7 @@ type DepthOfFieldEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5232,7 +5232,7 @@ type SunRaysEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5242,7 +5242,7 @@ type SunRaysEffectProperties = {
 	Enabled: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5265,7 +5265,7 @@ type ProximityPromptProperties = {
 	UIOffset: ParameterEntry<Vector2>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5286,7 +5286,7 @@ type ProximityPromptProperties = {
 	UIOffset: ParameterEntry<Vector2>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5297,7 +5297,7 @@ type ProximityPromptServiceProperties = {
 	MaxPromptsVisible: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5306,7 +5306,7 @@ type ProximityPromptServiceProperties = {
 	MaxPromptsVisible: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5315,14 +5315,14 @@ type ProximityPromptServiceProperties = {
 type RemoteEventProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5331,14 +5331,14 @@ type RemoteEventProperties = {
 type RemoteFunctionProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5347,14 +5347,14 @@ type RemoteFunctionProperties = {
 type RotationCurveProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5375,7 +5375,7 @@ type SkyProperties = {
 	SunTextureId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5394,7 +5394,7 @@ type SkyProperties = {
 	SunTextureId: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5409,7 +5409,7 @@ type SmokeProperties = {
 	TimeScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5422,7 +5422,7 @@ type SmokeProperties = {
 	TimeScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5442,7 +5442,7 @@ type SoundProperties = {
 	Volume: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5460,7 +5460,7 @@ type SoundProperties = {
 	Volume: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5474,7 +5474,7 @@ type ChorusSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5486,7 +5486,7 @@ type ChorusSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5503,7 +5503,7 @@ type CompressorSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5518,7 +5518,7 @@ type CompressorSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5530,7 +5530,7 @@ type ChannelSelectorSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5540,7 +5540,7 @@ type ChannelSelectorSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5552,7 +5552,7 @@ type DistortionSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5562,7 +5562,7 @@ type DistortionSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5577,7 +5577,7 @@ type EchoSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5590,7 +5590,7 @@ type EchoSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5604,7 +5604,7 @@ type EqualizerSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5616,7 +5616,7 @@ type EqualizerSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5630,7 +5630,7 @@ type FlangeSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5642,7 +5642,7 @@ type FlangeSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5654,7 +5654,7 @@ type PitchShiftSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5664,7 +5664,7 @@ type PitchShiftSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5680,7 +5680,7 @@ type ReverbSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5694,7 +5694,7 @@ type ReverbSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5708,7 +5708,7 @@ type TremoloSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5720,7 +5720,7 @@ type TremoloSoundEffectProperties = {
 	Priority: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5730,7 +5730,7 @@ type SoundGroupProperties = {
 	Volume: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5738,7 +5738,7 @@ type SoundGroupProperties = {
 	Volume: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5752,7 +5752,7 @@ type SoundServiceProperties = {
 	RolloffScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5764,7 +5764,7 @@ type SoundServiceProperties = {
 	RolloffScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5777,7 +5777,7 @@ type SparklesProperties = {
 	TimeScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5788,7 +5788,7 @@ type SparklesProperties = {
 	TimeScale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5797,14 +5797,14 @@ type SparklesProperties = {
 type StarterGearProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5813,14 +5813,14 @@ type StarterGearProperties = {
 type StarterPackProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5829,14 +5829,14 @@ type StarterPackProperties = {
 type SurfaceAppearanceProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5847,7 +5847,7 @@ type TeamProperties = {
 	TeamColor: ParameterEntry<BrickColor>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5856,7 +5856,7 @@ type TeamProperties = {
 	TeamColor: ParameterEntry<BrickColor>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5874,7 +5874,7 @@ type TestServiceProperties = {
 	Timeout: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5890,7 +5890,7 @@ type TestServiceProperties = {
 	Timeout: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5899,14 +5899,14 @@ type TestServiceProperties = {
 type TextChannelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5915,14 +5915,14 @@ type TextChannelProperties = {
 type TrackerStreamAnimationProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5947,7 +5947,7 @@ type TrailProperties = {
 	WidthScale: ParameterEntry<NumberSequence>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5970,7 +5970,7 @@ type TrailProperties = {
 	WidthScale: ParameterEntry<NumberSequence>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -5982,7 +5982,7 @@ type UIAspectRatioConstraintProperties = {
 	DominantAxis: ParameterEntry<Enum.DominantAxis>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -5992,7 +5992,7 @@ type UIAspectRatioConstraintProperties = {
 	DominantAxis: ParameterEntry<Enum.DominantAxis>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6003,7 +6003,7 @@ type UISizeConstraintProperties = {
 	MinSize: ParameterEntry<Vector2>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6012,7 +6012,7 @@ type UISizeConstraintProperties = {
 	MinSize: ParameterEntry<Vector2>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6023,7 +6023,7 @@ type UITextSizeConstraintProperties = {
 	MinTextSize: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6032,7 +6032,7 @@ type UITextSizeConstraintProperties = {
 	MinTextSize: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6042,7 +6042,7 @@ type UICornerProperties = {
 	CornerRadius: ParameterEntry<UDim>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6050,7 +6050,7 @@ type UICornerProperties = {
 	CornerRadius: ParameterEntry<UDim>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6064,7 +6064,7 @@ type UIGradientProperties = {
 	Transparency: ParameterEntry<NumberSequence>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6076,7 +6076,7 @@ type UIGradientProperties = {
 	Transparency: ParameterEntry<NumberSequence>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6093,7 +6093,7 @@ type UIGridLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6108,7 +6108,7 @@ type UIGridLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6122,7 +6122,7 @@ type UIListLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6134,7 +6134,7 @@ type UIListLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6156,7 +6156,7 @@ type UIPageLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6176,7 +6176,7 @@ type UIPageLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6193,7 +6193,7 @@ type UITableLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6208,7 +6208,7 @@ type UITableLayoutProperties = {
 	VerticalAlignment: ParameterEntry<Enum.VerticalAlignment>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6221,7 +6221,7 @@ type UIPaddingProperties = {
 	PaddingTop: ParameterEntry<UDim>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6232,7 +6232,7 @@ type UIPaddingProperties = {
 	PaddingTop: ParameterEntry<UDim>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6242,7 +6242,7 @@ type UIScaleProperties = {
 	Scale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6250,7 +6250,7 @@ type UIScaleProperties = {
 	Scale: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6265,7 +6265,7 @@ type UIStrokeProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6278,7 +6278,7 @@ type UIStrokeProperties = {
 	Transparency: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6288,7 +6288,7 @@ type BoolValueProperties = {
 	Value: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6296,7 +6296,7 @@ type BoolValueProperties = {
 	Value: ParameterEntry<boolean>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6306,7 +6306,7 @@ type BrickColorValueProperties = {
 	Value: ParameterEntry<BrickColor>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6314,7 +6314,7 @@ type BrickColorValueProperties = {
 	Value: ParameterEntry<BrickColor>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6324,7 +6324,7 @@ type CFrameValueProperties = {
 	Value: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6332,7 +6332,7 @@ type CFrameValueProperties = {
 	Value: ParameterEntry<CFrame>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6342,7 +6342,7 @@ type Color3ValueProperties = {
 	Value: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6350,7 +6350,7 @@ type Color3ValueProperties = {
 	Value: ParameterEntry<Color3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6360,7 +6360,7 @@ type IntValueProperties = {
 	Value: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6368,7 +6368,7 @@ type IntValueProperties = {
 	Value: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6378,7 +6378,7 @@ type NumberValueProperties = {
 	Value: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6386,7 +6386,7 @@ type NumberValueProperties = {
 	Value: ParameterEntry<number>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6396,7 +6396,7 @@ type ObjectValueProperties = {
 	Value: ParameterEntry<Instance>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6404,7 +6404,7 @@ type ObjectValueProperties = {
 	Value: ParameterEntry<Instance>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6414,7 +6414,7 @@ type StringValueProperties = {
 	Value: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6422,7 +6422,7 @@ type StringValueProperties = {
 	Value: ParameterEntry<string>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6432,7 +6432,7 @@ type Vector3ValueProperties = {
 	Value: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6440,7 +6440,7 @@ type Vector3ValueProperties = {
 	Value: ParameterEntry<Vector3>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6449,14 +6449,14 @@ type Vector3ValueProperties = {
 type Vector3CurveProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6465,14 +6465,14 @@ type Vector3CurveProperties = {
 type VirtualInputManagerProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6481,14 +6481,14 @@ type VirtualInputManagerProperties = {
 type VoiceChannelProperties = {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
 } | {
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil
@@ -6500,7 +6500,7 @@ type WeldConstraintProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: BoundFunction
@@ -6510,7 +6510,7 @@ type WeldConstraintProperties = {
 	Part1: ParameterEntry<BasePart>?,
 	Archivable: ParameterEntry<boolean>?,
 	Name: ParameterEntry<string>?,
-	Parent: ParameterEntry<Instance>?,
+	Parent: ParameterEntry<Instance?>?,
 	Children: Children?,
 	Attributes: Attributes?,
 	[any]: nil

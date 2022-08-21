@@ -20,7 +20,6 @@ local Attribute = require(StateFolder.Attribute)
 
 local Mount = require(script.Mount)
 
-
 export type State<T> = State.State<T>
 export type ValueState<T> = Value.ValueState<T>
 export type Symbol = Symbol.Symbol
