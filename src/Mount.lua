@@ -70,13 +70,14 @@ function applyToInstance(inst: Instance?, params: {any})
 				for aK, aV in pairs(v) do
 					if typeof(aV) == "table" and aV.IsA and aV:IsA("State") then
 						maid:GiveTask(aV:Connect(function(cur)
-							inst:SetAttribute(aK, cur)
+							inst:SetAttribute(aK, aV:Get())
 						end))
 						if aV.Set then
 							maid:GiveTask(inst:GetAttributeChangedSignal(aK):Connect((function(val)
-								aV:Set(val)
+								aV:Set(aV:Get())
 							end)))
 						end
+						inst:SetAttribute(aK, aV:Get())
 					else
 						inst:SetAttribute(aK, aV)
 					end
