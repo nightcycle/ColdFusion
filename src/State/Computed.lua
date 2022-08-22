@@ -12,7 +12,7 @@ type State<T> = State.State<T>
 local Computed = {}
 Computed.__index = Computed
 Computed.__type = "Computed"
-setmetatable(Computed, State)
+
 
 export type Constructor = <T, G...>(solver: (G...) -> T, ...StateAbstract<any>) -> StateAbstract<T>
 
@@ -25,5 +25,5 @@ Computed.new = function<T, G...>(solver: (G...) -> T, ...: StateAbstract<any>): 
 
 	return output
 end :: Constructor
-
+setmetatable(Computed, State)
 return Computed

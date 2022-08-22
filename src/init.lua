@@ -7,8 +7,8 @@ type Maid = Maid.Maid
 
 local SymbolFolder = script.Symbol
 local Symbol = require(SymbolFolder)
-local Event = require(SymbolFolder.Event)
-local Changed = require(SymbolFolder.Changed)
+local Event = require(SymbolFolder:FindFirstChild("Event"))
+local Changed = require(SymbolFolder:FindFirstChild("Changed"))
 
 local StateFolder = script.State
 local State = require(StateFolder.State)
@@ -62,7 +62,11 @@ function Fuse.fuse(maid: Maid?): Fuse
 	self._Maid = maid or Maid.new() :: Maid
 
 	--Symbol
-	self.fuse = Fuse.fuse(self._Maid)
+	self.fuse = function(...)
+		local f = Fuse.fuse(...)
+		self._Maid:GiveTask(f)
+		return f
+	end
 
 	self.Event = function(...)
 		local symbol = Event.new(...)
@@ -106,7 +110,7 @@ function Fuse.fuse(maid: Maid?): Fuse
 		return state
 	end :: Value.Constructor
 	self.new = function(...)
-		local constFunc = Mount.fromInstance(...)
+		local constFunc = Mount.fromClassName(...)
 		return function(...)
 			local inst = constFunc(...)
 			self._Maid:GiveTask(inst)
@@ -115,18 +119,26 @@ function Fuse.fuse(maid: Maid?): Fuse
 	end :: Mount.ClassNameConstructor
 	self.mount = Mount.fromInstance
 
-	self.import = function<T>(unknown: (T | State<T>)?): State<T>
-		if unknown == nil or typeof(unknown) ~= "table" then
+	self.import = function<T>(unknown: (T | State<T>)?, alt: T): State<T>
+		-- print("A", unknown)
+		if unknown == nil then
+			local state: any = State.new(alt)
+			self._Maid:GiveTask(state)
+			return state
+		elseif typeof(unknown) ~= "table" then
+			-- print("B1")
 			local v: any = unknown
 			local state: any = State.new(v)
 			self._Maid:GiveTask(state)
 			return state
 		else
 			assert(typeof(unknown) == "table")
-
+			-- print("B2")
 			if unknown.Get then
+				-- print("C1")
 				return unknown
 			else
+				-- print("C2")
 				local v: any = unknown
 				local state: any = State.new(v)
 				self._Maid:GiveTask(state)
@@ -134,6 +146,7 @@ function Fuse.fuse(maid: Maid?): Fuse
 			end
 		end
 	end
+
 
 	setmetatable(self, Fuse)
 

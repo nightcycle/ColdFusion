@@ -42,7 +42,7 @@ export type StateAbstract<T> = any
 
 local StateAbstract = {}
 StateAbstract.__index = StateAbstract
-StateAbstract.__type = "StateAbstract"
+StateAbstract.__type = "State"
 
 function StateAbstract:__newindex(k: any, v: any): any
 	error("You can't set properties of state: "..tostring(k)..","..tostring(v))
@@ -295,9 +295,28 @@ function StateAbstract:get(): any? --for fusion compatibility
 	return self:Get()
 end
 
+function StateAbstract:IsA(className: string)
+	if self.__type == className then return true end
+	local checkList = {}
+	local function getClasses(tabl)
+		local meta = getmetatable(tabl)
+		if meta and checkList[meta] == nil then
+			checkList[meta] = true
+			if meta.__type == className then
+				return true
+			else
+				return getClasses(meta)
+			end
+		end
+		return false
+	end
+	return getClasses(self)
+end
+
 function StateAbstract:_Set<T>(val: any | StateAbstract<T>): boolean --returns if a chance was made
 	local prevVal = self.Prev
-	local isDif = isValueDifferent(val, prevVal)
+	local isDif = if typeof(prevVal) ~= "boolean" then isValueDifferent(val, prevVal) else true 
+
 	-- print("IsDif", isDif, "V", val, "P", prevVal)
 	if isDif then
 		local newPrev = self:Get()

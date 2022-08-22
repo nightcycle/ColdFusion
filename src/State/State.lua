@@ -40,8 +40,8 @@ export type State<T> = {
 }
 
 local State = {}
+State.__type = "State"
 State.__index = State
-setmetatable(State, StateAbstract)
 
 function getRemoteEvent(remoteName: string): RemoteEvent
 	if RunService:IsClient() then
@@ -197,27 +197,11 @@ function State:SetId<T>(key): State<T> --changes the name of the instance
 end
 
 
-function State:IsA(className: string)
-	if self.__type == className then return true end
-	local checkList = {}
-	local function getClasses(tabl)
-		local meta = getmetatable(tabl)
-		if meta and checkList[meta] == nil then
-			checkList[meta] = true
-			if meta.__type == className then
-				return true
-			else
-				return getClasses(meta)
-			end
-		end
-		return false
-	end
-	return getClasses(self)
-end
-
 function State.new<T>(value: T): State<T>
 	local s: any = StateAbstract.new(value)
+	setmetatable(s, State)
 	return s
 end
+setmetatable(State, StateAbstract)
 
 return State

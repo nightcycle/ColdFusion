@@ -12,7 +12,7 @@ type State<T> = State.State<T>
 local Tween = {}
 Tween.__index = Tween
 Tween.__type = "Tween"
-setmetatable(Tween, State)
+
 
 export type Constructor = <T>(
 	goal: StateAbstract<T>, 
@@ -35,5 +35,5 @@ Tween.new = function<T>(
 
 	return output
 end :: Constructor
-
+setmetatable(Tween, State)
 return Tween

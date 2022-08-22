@@ -37,6 +37,7 @@ function applyToInstance(inst: Instance?, params: {any})
 	end))
 
 	local function applyProperty(propName, valOrState: State<any> | any)
+		if not inst then return end
 		if typeof(valOrState) == "table" then
 			maid:GiveTask(valOrState:Connect(function(cur)
 				setProperty(inst, propName, cur)
@@ -66,17 +67,19 @@ function applyToInstance(inst: Instance?, params: {any})
 					addChildren(v)
 				end
 			elseif k == "Attributes" then
-				if v.IsA and v:IsA("State") then
-					maid:GiveTask(v:Connect(function(cur)
-						inst:SetAttribute(k, v)
-					end))
-					if v.Set then
-						maid:GiveTask(inst:GetAttributeChangedSignal(k):Connect((function(val)
-							v:Set(val)
-						end)))
+				for aK, aV in pairs(v) do
+					if typeof(aV) == "table" and aV.IsA and aV:IsA("State") then
+						maid:GiveTask(aV:Connect(function(cur)
+							inst:SetAttribute(aK, cur)
+						end))
+						if aV.Set then
+							maid:GiveTask(inst:GetAttributeChangedSignal(aK):Connect((function(val)
+								aV:Set(val)
+							end)))
+						end
+					else
+						inst:SetAttribute(aK, aV)
 					end
-				else
-					inst:SetAttribute(k, v)
 				end
 			else
 				applyProperty(k, v)

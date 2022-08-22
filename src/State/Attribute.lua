@@ -10,9 +10,9 @@ local Attribute = {}
 Attribute.__index = Attribute
 Attribute.__type = "Attribute"
 
-export type Constructor = <T>(instOrState: (Instance | State<Instance>), attributeName: string) -> State<T>
+export type Constructor = <T>(instOrState: (Instance? | State<Instance?>), attributeName: string) -> State<T>
 
-Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attributeName: string): State<T>
+Attribute.new = function<T>(instOrState: (Instance? | State<Instance?>), attributeName: string): State<T>
 
 	local self: State<nil> = State.new(nil)
 	local se: any = self
@@ -20,8 +20,9 @@ Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attribute
 	setmetatable(self, Attribute)
 
 	local maid = self._Maid
-	local function connectAttribute(inst: Instance)
+	local function connectAttribute(inst: Instance?)
 		if not inst then return end
+		assert(inst ~= nil)
 		local instMaid = Maid.new()
 		maid["_attr"..attributeName] = instMaid
 		instMaid:GiveTask(inst.Destroying:Connect(function()
@@ -42,7 +43,7 @@ Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attribute
 	elseif typeof(instOrState) == "table" then
 		local tabl = instOrState
 		if tabl.IsA and tabl:IsA("State") then
-			local state:State<Instance> = tabl
+			local state:State<Instance?> = tabl
 			state:Connect(function(cur: any?)
 				if cur == nil then return nil end
 				assert(cur ~= nil and cur:IsA("Instance"))
@@ -53,8 +54,8 @@ Attribute.new = function<T>(instOrState: (Instance | State<Instance>), attribute
 		else
 			error("Bad inst state")
 		end
-	else
-		error("Bad inst")
+	-- else
+		-- error("Bad inst")
 	end
 	local output: any = self
 	return output

@@ -3,8 +3,7 @@ name = "nightcycle/cold-fusion"
 description = "A framework inspired by Elttob's Fusion allowing for chained states and explicit memory management"
 license = "MIT"
 authors = ["Elttob", "Nightcycle"]
-version = "4.1.7"
-
+version = "4.1.23"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 

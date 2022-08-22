@@ -15,7 +15,7 @@ export type TweenAbstract<T> = StateAbstract<T>
 
 local TweenAbstract = {}
 TweenAbstract.__index = TweenAbstract
-TweenAbstract.__type = "TweenAbstract"
+TweenAbstract.__type = "Tween"
 
 TweenAbstract.new = function<T>(
 	goal: StateAbstract<T>, 

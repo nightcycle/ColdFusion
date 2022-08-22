@@ -4,8 +4,7 @@ type StateAbstract<T> = StateAbstract.StateAbstract<T>
 export type ComputedAbstract<T> = StateAbstract<T>
 local ComputedAbstract = {}
 ComputedAbstract.__index = ComputedAbstract
-ComputedAbstract.__type = "ComputedAbstract"
-setmetatable(ComputedAbstract, StateAbstract)
+ComputedAbstract.__type = "Computed"
 
 ComputedAbstract.new = function<T, G...>(solver: (G...) -> T, ...: StateAbstract<any>): StateAbstract<T>
 	local self = StateAbstract.new(nil)
@@ -42,4 +41,6 @@ ComputedAbstract.new = function<T, G...>(solver: (G...) -> T, ...: StateAbstract
 	solve()
 	return self
 end
+setmetatable(ComputedAbstract, StateAbstract)
+
 return ComputedAbstract

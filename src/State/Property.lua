@@ -12,9 +12,9 @@ local Property = {}
 Property.__index = Property
 Property.__type = "Property"
 
-export type Constructor = <T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?) -> State<T>
+export type Constructor = <T>(instOrState: (Instance? | State<Instance?>), propertyName: string, rate: number?) -> State<T>
 
-Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: string, rate: number?): State<T>
+Property.new = function<T>(instOrState: (Instance? | State<Instance?>), propertyName: string, rate: number?): State<T>
 
 	local self: State<nil> = State.new(nil)
 	self.Instance.Name = Property.__type
@@ -24,6 +24,7 @@ Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: str
 	local function connectProperty(inst: any?)
 		if not inst then return end
 		assert(inst ~= nil)
+
 		local instMaid = Maid.new()
 		maid["_prop"..propertyName] = instMaid
 		instMaid:GiveTask(inst.Destroying:Connect(function()
@@ -68,7 +69,7 @@ Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: str
 	elseif typeof(instOrState) == "table" then
 		local tabl: {[any]: any} = instOrState
 		if tabl.IsA and tabl:IsA("State") then
-			local state:State<T> = tabl
+			local state:State<Instance?> = tabl
 			state:Connect(function(cur: any?)
 				if not cur then return nil end
 				assert(cur ~= nil and cur:IsA("Instance"))
@@ -79,8 +80,8 @@ Property.new = function<T>(instOrState: (Instance | State<T>), propertyName: str
 		else
 			error("Bad inst state")
 		end
-	else
-		error("Bad inst")
+	-- else
+		-- error("Bad inst")
 	end
 	local output: any = self
 	return output
