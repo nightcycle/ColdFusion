@@ -64,6 +64,7 @@ end
 function State:Tween<T>(duration: (number | State<number>?), easingStyle: (Enum.EasingStyle | State<Enum.EasingStyle>)?, easingDirection: (Enum.EasingDirection | State<Enum.EasingDirection>)?): State<T>
 	local t = TweenAbstract.new(self, duration, easingStyle, easingDirection)
 	self._Maid:GiveTask(t)
+	setmetatable(t, State)
 	return t
 end
 
@@ -77,6 +78,7 @@ function State:Else<T>(alt: (any | State<T>)): State<T>
 		end
 	end, self, Alternate)
 	self._Maid:GiveTask(t)
+	setmetatable(t, State)
 	return t
 end
 
