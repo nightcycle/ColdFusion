@@ -1,6 +1,9 @@
 {
-    "name": "cold-fusion",
-    "tree": {
-        "$path": "src"
-    }
+	"name": "cold-fusion",
+	"tree": {
+		"$path": "src",
+		"Fusion": {
+				"$path": "fusion/src"
+			}
+	}
 }
