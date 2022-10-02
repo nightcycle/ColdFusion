@@ -1,0 +1,121 @@
+{
+	"PseudoEnum": {
+		"prefix": "PseudoEnum.new",
+		"body": [
+			"--- $name",
+			"export type $name = PseudoEnumItem & {EnumType: $name${identifier:Enum}}",
+			"PseudoEnums.$name = newPseudoEnum({",
+			"\tNone = newPseudoEnumItem(1) :: $name,",
+			"",
+			"})",
+			"type $name${identifier:Enum} = typeof(PseudoEnums.$name)"
+		],
+		"description": "A new PseudoEnum entry.",
+		"scope": "lua, luau"
+	},
+	"ImportPrivateServer": {
+		"prefix": "import _server",
+		"body": [
+			"local _$name = require(game.ServerScriptService.Server.$name)"
+		],
+		"description": "Imports a server module.",
+		"scope": "lua, luau"
+	},
+	"ImportPrivateClient": {
+		"prefix": "import _client",
+		"body": [
+			"local _$name = require(game.ReplicatedStorage.Client.$name)"
+		],
+		"description": "Imports a client module.",
+		"scope": "lua, luau"
+	},
+	"ImportPrivateShared": {
+		"prefix": "import _shared",
+		"body": [
+			"local _$name = require(game.ReplicatedStorage.Shared.$name)"
+		],
+		"description": "Imports a shared module.",
+		"scope": "lua, luau"
+	},
+	"ImportPrivatePackages": {
+		"prefix": "import _package",
+		"body": [
+			"local _$name = require(game.ReplicatedStorage.Packages.$name)"
+		],
+		"description": "Imports a package module.",
+		"scope": "lua, luau"
+	},
+	"ImportServer": {
+		"prefix": "import server",
+		"body": [
+			"local $name = require(game.ServerScriptService.Server.$name)"
+		],
+		"description": "Imports a server module.",
+		"scope": "lua, luau"
+	},
+	"ImportClient": {
+		"prefix": "import client",
+		"body": [
+			"local $name = require(game.ReplicatedStorage.Client.$name)"
+		],
+		"description": "Imports a client module.",
+		"scope": "lua, luau"
+	},
+	"ImportShared": {
+		"prefix": "import shared",
+		"body": [
+			"local $name = require(game.ReplicatedStorage.Shared.$name)"
+		],
+		"description": "Imports a shared module.",
+		"scope": "lua, luau"
+	},
+	"ImportPackages": {
+		"prefix": "import package",
+		"body": [
+			"local $name = require(game.ReplicatedStorage.Packages.$name)"
+		],
+		"description": "Imports a package module.",
+		"scope": "lua, luau"
+	},
+	"Header": {
+		"prefix": "Header",
+		"body": [
+			"--!strict",
+			"local _Config = require(game.ReplicatedStorage.Shared.Config)",
+			"local _PseudoEnum = require(game.ReplicatedStorage.Shared.PseudoEnum)",
+			"local _Math = require(game.ReplicatedStorage.Packages.Math)",
+			"local _Maid = require(game.ReplicatedStorage.Packages.Maid)",
+			"local _Signal = require(game.ReplicatedStorage.Packages.Signal)",
+			"",
+			"type Maid = _Maid.Maid",
+			"type Signal = _Signal.Signal",
+			""
+		],
+		"description": "A basic header for a file.",
+		"scope": "lua, luau"
+	},
+	"StoryTemplate": {
+		"prefix": "StoryTemplate",
+		"body": [
+		  "--!strict",
+		  "local _Config = require(game.ReplicatedStorage.Shared.Config)",
+		  "local _PseudoEnum = require(game.ReplicatedStorage.Shared.PseudoEnum)",
+		  "local _Math = require(game.ReplicatedStorage.Packages.Math)",
+		  "local _Maid = require(game.ReplicatedStorage.Packages.Maid)",
+		  "",
+		  "return function(coreGui: ScreenGui)",
+		  "\tlocal maid = _Maid.new()",
+		  "\t",
+		  "\ttask.spawn(function()",
+		  "\t\tlocal _Module = require(script.Parent)",
+		  "\t\t",
+		  "\tend)",
+		  "\t",
+		  "\treturn function()",
+		  "\t\tmaid:Destroy()",
+		  "\tend",
+		  "end"
+		],
+		"description": "A template used for creating HoarceKat stories"
+	   }
+}

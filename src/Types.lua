@@ -7,39 +7,47 @@ local FusionPubTypes = require(FusionFolder.PubTypes)
 -- local FusionTypes = require(FusionFolder.Types)
 
 export type BaseState<T> = {
-	Get: (BaseState<T>) -> T,
-	get: (BaseState<T>) -> T,
+	Get: (any) -> T,
 }
 export type CanBeState<T> = (BaseState<T> | T)
 
-export type StateUtil<T> = {
+export type State<T> = BaseState<T> & {
 	Tween: (
+		self: any, 
 		duration: CanBeState<number>?, 
 		easingStyle: CanBeState<Enum.EasingStyle>?, 
-		easingDirection: CanBeState<Enum.EasingDirection>?
+		easingDirection: CanBeState<Enum.EasingDirection>?,
+		repetitions: number?,
+		reverses: boolean?,
+		delayTime: number?
 	) -> State<T>,
-	Else: (alt: CanBeState<T>) -> State<T>,
+	Spring: (
+		self: any, 
+		speed: number?,
+		dampingRatio: number?
+	) -> State<T>,
+	Else: (self: any, alt: CanBeState<T>) -> State<T>,
 	Transmit: (
+		self: any, 
 		remoteName: string, 
 		id: string?, 
 		rate: number?, 
 		player: Player?
 	) -> State<T>,
 	Receive: (
+		self: any, 
 		remoteName: string, 
 		id: string?, 
 		player: Player?
 	) -> State<T>,
-	CleanUp: () -> State<T>,
-	Delay: (val: CanBeState<number>) -> State<T>,
-	Connect: (func: (cur: T, prev: T?) -> nil) -> nil,
-	Destroy: () -> nil,
+	CleanUp: (self: any) -> State<T>,
+	Delay: (self: any, val: CanBeState<number>) -> State<T>,
+	Connect: (self: any, func: (cur: T, prev: T?) -> nil) -> nil,
+	Destroy: (self: any) -> nil,
 }
 
-export type State<T> = BaseState<T> & StateUtil<T>
-
 export type ValueState<T> = State<T> & {
-	Set: (State<T>, T) -> nil,
+	Set: (any, T) -> nil,
 }
 
 export type FusionSpecialKey = FusionPubTypes.SpecialKey
