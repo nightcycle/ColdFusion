@@ -96,46 +96,30 @@ return function(maid: Maid)
 			table.insert(paramStates, state)
 		end
 
+		local possibleDestructor = ({...})[1]
+		local hasDestructor: boolean = typeof(possibleDestructor) == "function"
+
 		local compState = _FusionComputed(function()
 			local vals = {}
 			for i, paramState in ipairs(paramStates) do
-				vals[i] = paramState:Get()
+				if hasDestructor and i > 1 then
+					vals[i-1] = paramState:Get()
+				else
+					vals[i] = paramState:Get()
+				end
 			end
 			local val = processor(table.unpack(vals, 1, #paramStates))
 			return val
-		end)
-
+		end, if hasDestructor then possibleDestructor else function() end)
+	
 		return Interface._init(compState, _FusionComputed) :: any
 	end
 
-	--- @TODO Value
 	function Interface.Value<T>(initalVal: T): ValueState<T>
 
 		local valState = _FusionValue(initalVal)
 
 		return Interface._init(valState, _FusionValue) :: any
-	end
-
-	--- @TODO Attribute
-	function Interface.Attribute<T>(inst: CanBeState<Instance>, attributeName: CanBeState<string>): State<T>	
-
-		local instState: State<Instance> = if not Interface._getIfState(inst) then Interface.Value(inst) else inst :: any
-		local nameState: State<string> = if not Interface._getIfState(attributeName) then Interface.Value(attributeName) else attributeName :: any
-
-		return Interface.Computed(function(inst, name): T
-			return inst:GetAttribute(name)
-		end, instState, nameState)
-	end
-
-	--- @TODO Property
-	function Interface.Property<T>(inst: CanBeState<Instance>, attributeName: CanBeState<string>): State<T>
-
-		local instState: State<Instance> = if not Interface._getIfState(inst) then Interface.Value(inst) else inst :: any
-		local nameState: State<string> = if not Interface._getIfState(attributeName) then Interface.Value(attributeName) else attributeName :: any
-
-		return Interface.Computed(function(inst: Instance, name: string): T
-			return (inst :: any)[name]
-		end, instState, nameState)
 	end
 
 	--- @TODO Tween
@@ -310,7 +294,7 @@ return function(maid: Maid)
 		return connection
 	end
 
-	-- Overwritten in fusion class
+	-- Overwritten in cold-fusion init
 	function Interface._init<T>(
 		state: State<T>,
 		fusionConstructor: (...any) -> State<T>

@@ -8,6 +8,7 @@
 *.lock
 
 # Ignore site folder
-/site/
-/Packages/
-/Fusion/
+/site/**
+/Packages/**
+/Fusion/**
+/src/Fusion/**

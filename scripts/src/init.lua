@@ -70,22 +70,23 @@ export type Fuse = {
 		(State<K>)?,
 		(State<L>)?,
 		...(State<any>)
+	) -> State<T> & <T, A, B, C, D, E, F, G, H, I, J, K, L>(
+		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T, 
+		(T) -> nil, 
+		(State<A>)?,
+		(State<B>)?,
+		(State<C>)?,
+		(State<D>)?,
+		(State<E>)?,
+		(State<F>)?,
+		(State<G>)?,
+		(State<H>)?,
+		(State<I>)?,
+		(State<J>)?,
+		(State<K>)?,
+		(State<L>)?,
+		...(State<any>)
 	) -> State<T>,
-	-- Tween: <T>(
-	-- 	goal: State<T>, 
-	-- 	duration: number?, 
-	-- 	easingStyle: Enum.EasingStyle?, 
-	-- 	easingDirection: Enum.EasingDirection?,
-	-- 	repetitions: number?,
-	-- 	reverses: boolean?,
-	-- 	delayTime: number?
-	-- ) -> State<T>,
-	-- Spring: <T>(
-	-- 	goal: State<T>,
-	-- 	speed: number?,
-	-- 	dampingRatio: number?
-	-- ) -> State<T>,
-
 	-- ForPairs: <KI, VI, KO, VO, M>(
 	-- 	inputTable: CanBeState<{[KI]: VI}>, 
 	-- 	processor: (KI, VI) -> (KO, VO, M?), 
@@ -187,14 +188,6 @@ function Fuse.fuse(maid: Maid?): Fuse
 	self.CHILDREN = _interface.CHILDREN
 	self.OUT = _interface.OUT
 	self.REF = _interface.REF
-
-	self.Attribute = function<T>(...)
-		return _interface.Attribute(...)
-	end
-
-	self.Property = function<T>(...)
-		return _interface.Property(...)
-	end
 
 	self.import = function<T>(...)
 		return _interface.import(...)
