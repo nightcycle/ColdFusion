@@ -36,6 +36,7 @@ local _FusionTween = require(FusionAnimationFolder.Tween) :: (...any) -> any
 local _Interface = require(_Package.Interface)
 local _Util = require(_Package.Util)
 
+type BaseState<T> = _Types.BaseState<T>
 export type Fuse = {
 	fuse: (maid: Maid?) -> Fuse,
 
@@ -55,38 +56,38 @@ export type Fuse = {
 
 	-- States
 	Value: <T>(initialValue: T) -> ValueState<T>,
-	Computed: <T, A, B, C, D, E, F, G, H, I, J, K, L>(
+	Computed: (<T, A, B, C, D, E, F, G, H, I, J, K, L>(
 		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T, 
-		(State<A>)?,
-		(State<B>)?,
-		(State<C>)?,
-		(State<D>)?,
-		(State<E>)?,
-		(State<F>)?,
-		(State<G>)?,
-		(State<H>)?,
-		(State<I>)?,
-		(State<J>)?,
-		(State<K>)?,
-		(State<L>)?,
-		...(State<any>)
-	) -> State<T> & <T, A, B, C, D, E, F, G, H, I, J, K, L>(
+		(BaseState<A>)?,
+		(BaseState<B>)?,
+		(BaseState<C>)?,
+		(BaseState<D>)?,
+		(BaseState<E>)?,
+		(BaseState<F>)?,
+		(BaseState<G>)?,
+		(BaseState<H>)?,
+		(BaseState<I>)?,
+		(BaseState<J>)?,
+		(BaseState<K>)?,
+		(BaseState<L>)?,
+		...(BaseState<any>)
+	) -> State<T>) & (<T, A, B, C, D, E, F, G, H, I, J, K, L>(
 		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T, 
 		(T) -> nil, 
-		(State<A>)?,
-		(State<B>)?,
-		(State<C>)?,
-		(State<D>)?,
-		(State<E>)?,
-		(State<F>)?,
-		(State<G>)?,
-		(State<H>)?,
-		(State<I>)?,
-		(State<J>)?,
-		(State<K>)?,
-		(State<L>)?,
-		...(State<any>)
-	) -> State<T>,
+		(BaseState<A>)?,
+		(BaseState<B>)?,
+		(BaseState<C>)?,
+		(BaseState<D>)?,
+		(BaseState<E>)?,
+		(BaseState<F>)?,
+		(BaseState<G>)?,
+		(BaseState<H>)?,
+		(BaseState<I>)?,
+		(BaseState<J>)?,
+		(BaseState<K>)?,
+		(BaseState<L>)?,
+		...(BaseState<any>)
+	) -> State<T>),
 	-- ForPairs: <KI, VI, KO, VO, M>(
 	-- 	inputTable: CanBeState<{[KI]: VI}>, 
 	-- 	processor: (KI, VI) -> (KO, VO, M?), 

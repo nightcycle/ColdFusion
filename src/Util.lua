@@ -112,7 +112,7 @@ return function(interface: any)
 		return interface.Receive(...)
 	end
 
-	function Util:__sub<T>(other:CanBeState<T>): State<T>
+	function Util:Subtract<T>(other:CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a - b
@@ -124,7 +124,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__add<T>(other:CanBeState<T>): State<T>
+	function Util:Add<T>(other:CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a + b
@@ -136,7 +136,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__mul<T>(other:CanBeState<T>): State<T>
+	function Util:Multiply<T>(other:CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a * b
@@ -148,7 +148,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__div<T>(other:CanBeState<T>): State<T>
+	function Util:Divide<T>(other:CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a / b
@@ -160,7 +160,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__mod<T>(other:CanBeState<T>): State<T>
+	function Util:Modulus<T>(other:CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a % b
@@ -172,7 +172,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__pow<T>(other:CanBeState<T>): State<T>
+	function Util:Power<T>(other:CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a ^ b
@@ -184,7 +184,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__eq<T>(other:CanBeState<T>): State<boolean>
+	function Util:Equal<T>(other:CanBeState<T>): State<boolean>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a == b
@@ -196,7 +196,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__lt<T>(other:CanBeState<T>): State<boolean>
+	function Util:LessThan<T>(other:CanBeState<T>): State<boolean>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a < b
@@ -208,7 +208,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__le<T>(other:CanBeState<T>): State<boolean>
+	function Util:LessThanEqualTo<T>(other:CanBeState<T>): State<boolean>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a <= b
@@ -220,7 +220,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:__concat<T>(other:CanBeState<T>): State<string>
+	function Util:Concatenate<T>(other:CanBeState<T>): State<string>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): string
 				return tostring(a) .. tostring(b)
@@ -230,12 +230,6 @@ return function(interface: any)
 				return tostring(a) .. tostring(other)
 			end, self)
 		end
-	end
-
-	function Util:__tostring<T>(): State<string>
-		return interface.Computed(function(a: any): string
-			return tostring(a)
-		end, self)
 	end
 
 	function Util:Index<T>(key: CanBeState<any>): State<T>

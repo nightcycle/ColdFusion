@@ -8,10 +8,7 @@
 				"$className": "Folder",
 				"$path": "Packages",
 				"my-package": {
-					"$path": "src",
-					"Fusion": {
-						"$path": "fusion/src"
-					}
+					"$path": "src"
 				}
 			}
 		}

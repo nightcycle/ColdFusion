@@ -39,58 +39,55 @@ export type State<T> = BaseState<T> & {
 		id: string?, 
 		player: Player?
 	) -> State<T>,
-	CleanUp: (self: any) -> State<T>,
-	Delay: (self: any, val: CanBeState<number>) -> State<T>,
-	Connect: (self: any, func: (cur: T, prev: T?) -> nil) -> nil,
-	Destroy: (self: any) -> nil,
-	Index: (self: any, key: CanBeState<any>) -> State<T>,
-	__add: (
-		self: any, 
+	CleanUp: (self: BaseState<T>) -> State<T>,
+	Delay: (self: BaseState<T>, val: CanBeState<number>) -> State<T>,
+	Connect: (self: BaseState<T>, func: (cur: T, prev: T?) -> nil) -> nil,
+	Destroy: (self: BaseState<T>) -> nil,
+	Index: (self: BaseState<T>, key: CanBeState<any>) -> State<T>,
+	Add: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
 	) -> State<T>,
-	__sub: (
-		self: any, 
+	Subract: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
 	) -> State<T>,
-	__mul: (
-		self: any, 
+	Multiply: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
 	) -> State<T>,
-	__div: (
-		self: any, 
+	Divide: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
 	) -> State<T>,
-	__mod: (
-		self: any, 
+	Modulus: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
 	) -> State<T>,
-	__pow: (
-		self: any, 
+	Power: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
 	) -> State<T>,
-	__eq: (
-		self: any, 
+	Equal: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<boolean> & State<T>,
-	__le: (
-		self: any, 
+	) -> BaseState<boolean>,
+	LessThan: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<boolean> & State<T>,
-	__lt: (
-		self: any, 
+	) -> BaseState<boolean>,
+	LessThanEqualTo: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<boolean> & State<T>,
-	__len: (
-		self: any, 
+	) -> BaseState<boolean>,
+	Length: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<number> & State<T>,
-	__concat: (
-		self: any, 
+	) -> BaseState<number>,
+	Concatenate: (
+		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<number> & State<T>,
-	__tostring: (
-		self: any
-	) -> BaseState<string> & State<T>,
+	) -> BaseState<string>,
 }
 
 export type ValueState<T> = State<T> & {
