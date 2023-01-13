@@ -61,6 +61,13 @@ return function(interface: any)
 	function Util:Destroy()
 		if self["kind"] == "Spring" then _FusionSpringScheduler.remove(self :: any) end
 		if self["kind"] == "Tween" then _FusionTweenScheduler.remove(self :: any) end
+
+		-- remove dependency references
+		if self.dependentSet then
+			for state: any in pairs(self.dependentSet) do
+				state.dependencySet[self] = nil
+			end
+		end
 		for k, v in pairs(self) do
 			self[k] = nil
 		end
@@ -102,6 +109,18 @@ return function(interface: any)
 				end
 			end, self)
 		end
+	end
+
+	function Util:ForPairs(...)
+		return interface.ForPairs(self, ...)
+	end
+
+	function Util:ForKeys(...)
+		return interface.ForKeys(self, ...)
+	end
+
+	function Util:ForValues(...)
+		return interface.ForValues(self, ...)
 	end
 	
 	function Util:Transmit<T>(...:any): RBXScriptConnection

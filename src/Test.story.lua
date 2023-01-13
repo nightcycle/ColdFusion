@@ -63,7 +63,7 @@ return function(coreGui: ScreenGui)
 					PaddingTop = UDim.new(0,4),
 					PaddingLeft = UDim.new(0,4),
 					PaddingRight = UDim.new(0,4),
-				},
+				} :: any,
 				_new "UICorner" {
 					CornerRadius = UDim.new(0, 4)
 				}

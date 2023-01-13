@@ -22,9 +22,9 @@ local FusionFolder = _Package.Fusion
 local FusionStateFolder = FusionFolder.State
 local _FusionValue = require(FusionStateFolder.Value) :: (...any) -> any
 local _FusionComputed = require(FusionStateFolder.Computed) :: (...any) -> any
--- local _FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
--- local _FusionForPairs = require(FusionStateFolder.ForPairs) :: (...any) -> any
--- local _FusionForValues = require(FusionStateFolder.ForValues) :: (...any) -> any
+local _FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
+local _FusionForPairs = require(FusionStateFolder.ForPairs) :: (...any) -> any
+local _FusionForValues = require(FusionStateFolder.ForValues) :: (...any) -> any
 -- local _FusionObserver = require(FusionStateFolder.Observer) :: (...any) -> any
 
 -- Fusion animations
@@ -55,7 +55,7 @@ export type Fuse = {
 	ON_PROPERTY: (propertyName: string) -> FusionSpecialKey,
 
 	-- States
-	Value: <T>(initialValue: T) -> ValueState<T>,
+	Value: <T>(initialValue: T) -> ValueState<T>,	
 	Computed: (<T, A, B, C, D, E, F, G, H, I, J, K, L>(
 		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T, 
 		(BaseState<A>)?,
@@ -88,24 +88,6 @@ export type Fuse = {
 		(BaseState<L>)?,
 		...(BaseState<any>)
 	) -> State<T>),
-	-- ForPairs: <KI, VI, KO, VO, M>(
-	-- 	inputTable: CanBeState<{[KI]: VI}>, 
-	-- 	processor: (KI, VI) -> (KO, VO, M?), 
-	-- 	destructor: (KO, VO, M?) -> ()?
-	-- ) -> ForPairs<KO, VO>,
-	-- ForKeys: <KI, KO, M>(
-	-- 	inputTable: CanBeState<{[KI]: any}>, 
-	-- 	processor: (KI) -> (KO, M?), 
-	-- 	destructor: (KO, M?) -> ()?
-	-- ) -> ForKeys<KO, any>,
-	-- ForValues: <VI, VO, M>(
-	-- 	inputTable: CanBeState<{[any]: VI}>, 
-	-- 	processor: (VI) -> (VO, M?), 
-	-- 	destructor: (VO, M?) -> ()?
-	-- ) -> ForValues<any, VO>,
-	-- Observer: (
-	-- 	watchedState: State<any>
-	-- ) -> Observer,
 }
 
 -- Constants
@@ -160,6 +142,9 @@ function Fuse.fuse(maid: Maid?): Fuse
 	_FusionMetatables[_FusionComputed] = setmetatable(_Util(_interface), getmetatable(_FusionComputed(function() return nil end)))
 	_FusionMetatables[_FusionTween] = setmetatable(_Util(_interface), getmetatable(_FusionTween(_FusionValue(0))))
 	_FusionMetatables[_FusionSpring] = setmetatable(_Util(_interface), getmetatable(_FusionSpring(_FusionValue(0))))
+	_FusionMetatables[_FusionForKeys] = setmetatable(_Util(_interface), getmetatable(_FusionForKeys(_FusionValue({}), function() end)))
+	_FusionMetatables[_FusionForPairs] = setmetatable(_Util(_interface), getmetatable(_FusionForPairs(_FusionValue({}), function() end)))
+	_FusionMetatables[_FusionForValues] = setmetatable(_Util(_interface), getmetatable(_FusionForValues(_FusionValue({}), function() end)))
 
 	local self = {
 		_IsAlive = true,
@@ -171,6 +156,16 @@ function Fuse.fuse(maid: Maid?): Fuse
 	self.Computed = function(...)
 		return _interface.Computed(...)
 	end
+
+	-- self.ForKeys = function(...)
+	-- 	return _interface.ForKeys(...)
+	-- end
+	-- self.ForValues = function(...)
+	-- 	return _interface.ForValues(...)
+	-- end
+	-- self.ForPairs = function(...)
+	-- 	return _interface.ForPairs(...)
+	-- end
 
 	self.Value = function(...)
 		local val = _interface.Value(...)

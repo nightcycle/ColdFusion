@@ -2,29 +2,38 @@
 local _Package = script.Parent
 local _Packages = _Package.Parent
 
+-- Packages
+local _Maid = require(_Packages.Maid)
+local _NetworkUtil = require(_Packages.NetworkUtil)
+
 local FusionFolder = _Package.Fusion
 local FusionPubTypes = require(FusionFolder.PubTypes)
 -- local FusionTypes = require(FusionFolder.Types)
 
+-- Types
+type Maid = _Maid.Maid
 export type BaseState<T> = {
 	Get: (any) -> T,
 }
 export type CanBeState<T> = (BaseState<T> | T)
 export type State<T> = BaseState<T> & {
 	Tween: (
-		self: any, 
+		self: BaseState<T>, 
 		duration: CanBeState<number>?, 
 		easingStyle: CanBeState<Enum.EasingStyle>?, 
 		easingDirection: CanBeState<Enum.EasingDirection>?,
-		repetitions: number?,
-		reverses: boolean?,
-		delayTime: number?
+		repetitions: CanBeState<number>?,
+		reverses: CanBeState<boolean>?,
+		delayTime: CanBeState<number>?
 	) -> State<T>,
 	Spring: (
-		self: any, 
+		self: BaseState<T>, 
 		speed: number?,
 		dampingRatio: number?
 	) -> State<T>,
+	ForKeys: <KI, KO>(self: BaseState<T>, processor: (key: KI, maid: Maid) -> KO) -> BaseState<{[KO]: any}> & State<T>,	
+	ForValues: <VI, VO>(self: BaseState<T>, processor: (val: VI, maid: Maid) -> VO) -> BaseState<{[any]: VO}> & State<T>,	
+	ForPairs: <KI, VI, KO, VO>(self: BaseState<T>, processor: (key: KI, val: VI, maid: Maid) -> VO) -> BaseState<{[KO]: VO}> & State<T>,	
 	Else: (self: BaseState<T?>, alt: CanBeState<T>) -> State<T>,
 	Transmit: (
 		self: any, 
@@ -43,7 +52,7 @@ export type State<T> = BaseState<T> & {
 	Delay: (self: BaseState<T>, val: CanBeState<number>) -> State<T>,
 	Connect: (self: BaseState<T>, func: (cur: T, prev: T?) -> nil) -> nil,
 	Destroy: (self: BaseState<T>) -> nil,
-	Index: (self: BaseState<T>, key: CanBeState<any>) -> State<T>,
+	Index: <K>(self: BaseState<T>, key: CanBeState<any>) -> State<T> & BaseState<K>,
 	Add: (
 		self: BaseState<T>, 
 		other: CanBeState<T>
@@ -71,23 +80,23 @@ export type State<T> = BaseState<T> & {
 	Equal: (
 		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<boolean>,
+	) -> BaseState<boolean> & State<T>,
 	LessThan: (
 		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<boolean>,
+	) -> BaseState<boolean> & State<T>,
 	LessThanEqualTo: (
 		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<boolean>,
+	) -> BaseState<boolean> & State<T>,
 	Length: (
 		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<number>,
+	) -> BaseState<number> & State<T>,
 	Concatenate: (
 		self: BaseState<T>, 
 		other: CanBeState<T>
-	) -> BaseState<string>,
+	) -> BaseState<string> & State<T>,
 }
 
 export type ValueState<T> = State<T> & {

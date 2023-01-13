@@ -26,9 +26,9 @@ local FusionStateFolder = FusionFolder.State
 local _FusionValue = require(FusionStateFolder.Value) :: (...any) -> any
 local _FusionComputed = require(FusionStateFolder.Computed) :: (...any) -> any
 local _FusionObserver = require(FusionStateFolder.Observer) :: (...any) -> any
--- local _FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
--- local _FusionForPairs = require(FusionStateFolder.ForPairs) :: (...any) -> any
--- local _FusionForValues = require(FusionStateFolder.ForValues) :: (...any) -> any
+local _FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
+local _FusionForPairs = require(FusionStateFolder.ForPairs) :: (...any) -> any
+local _FusionForValues = require(FusionStateFolder.ForValues) :: (...any) -> any
 
 -- Fusion animations
 local FusionAnimationFolder = FusionFolder.Animation
@@ -70,7 +70,6 @@ return function(maid: Maid)
 		end
 		return false
 	end
-
 	
 	function Interface.import<T>(state: CanBeState<T>?, alt: CanBeState<T>): State<T>
 		if state == nil then
@@ -88,12 +87,55 @@ return function(maid: Maid)
 		end
 	end
 
+	-- ForKeys: <KI, KO>(input: CanBeState<{[KI]: any}>, processor: (key: KI, maid: Maid) -> KO) -> State<{[KO]: any}>,	
+	-- ForValues: <VI, VO>(input: CanBeState<{[any]: VI}>, processor: (val: VI, maid: Maid) -> VO) -> State<{[any]: VO}>,	
+	-- ForPairs: <KI, VI, KO, VO>(input: CanBeState<{[KI]: VI}>, processor: (key: KI, val: VI, maid: Maid) -> VO) -> State<{[KO]: VO}>,	
+
+	function Interface.ForKeys<KI, KO>(input: CanBeState<{[KI]: any}>, processor: (key: KI, maid: Maid) -> KO): State<{[KO]: any}>
+		return Interface._init(
+			_FusionForKeys(input, function(key: KI): (KO, Maid)
+				local _maid = _Maid.new()
+				return processor(key, _maid), _maid
+			end, function(key: KO, maid: Maid)
+				maid:Destroy()
+			end), 
+			_FusionForKeys
+		)
+	end
+
+	function Interface.ForValues<VI, VO>(input: CanBeState<{[any]: VI}>, processor: (val: VI, maid: Maid) -> VO): State<{[any]: VO}>
+		return Interface._init(
+			_FusionForValues(input, function(val: VI): (VO, Maid)
+				local _maid = _Maid.new()
+				return processor(val, _maid), _maid
+			end, function(val: VO, maid: Maid)
+				maid:Destroy()
+			end), 
+			_FusionForValues
+		)
+	end
+
+	function Interface.ForPairs<KI, VI, KO, VO>(input: CanBeState<{[KI]: VI}>, processor: (key: KI, val: VI, maid: Maid) -> (KO, VO)): State<{[any]: VO}>
+		return Interface._init(
+			_FusionForPairs(input, function(key: KI, val: VI): (KO, VO, Maid)
+				local _maid = _Maid.new()
+				local kOut, vOut = processor(key, val, _maid)
+				return kOut, vOut, _maid
+			end, function(key: KO, val: VO, maid: Maid)
+				maid:Destroy()
+			end), 
+			_FusionForPairs
+		)
+	end
+
 	function Interface.Computed<T>(processor: (...any) -> T, ...:any): State<T>
 
 		local paramStates = {} :: {[number]: any}
 
 		for i, state: State<any> in ipairs({...}) do
-			table.insert(paramStates, state)
+			if Interface._getIfState(state) then
+				table.insert(paramStates, state)
+			end
 		end
 
 		local possibleDestructor = ({...})[1]
@@ -102,10 +144,10 @@ return function(maid: Maid)
 		local compState = _FusionComputed(function()
 			local vals = {}
 			for i, paramState in ipairs(paramStates) do
-				if hasDestructor and i > 1 then
-					vals[i-1] = paramState:Get()
-				else
+				if paramState.Get then
 					vals[i] = paramState:Get()
+				else
+					vals[i] = nil
 				end
 			end
 			local val = processor(table.unpack(vals, 1, #paramStates))
@@ -164,21 +206,6 @@ return function(maid: Maid)
 	): State<T>
 		local springState = _FusionSpring(goal, speed, dampingRatio)
 		return Interface._init(springState, _FusionSpring) :: any
-	end
-		
-	--- @TODO ForPairs
-	function Interface.ForPairs<T>()
-		return nil :: any
-	end
-
-	--- @TODO ForKeys
-	function Interface.ForKeys<T>()
-		return nil :: any
-	end
-
-	--- @TODO ForValues
-	function Interface.ForValues<T>()
-		return nil :: any
 	end
 
 	--- new
