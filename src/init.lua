@@ -157,16 +157,6 @@ function Fuse.fuse(maid: Maid?): Fuse
 		return _interface.Computed(...)
 	end
 
-	-- self.ForKeys = function(...)
-	-- 	return _interface.ForKeys(...)
-	-- end
-	-- self.ForValues = function(...)
-	-- 	return _interface.ForValues(...)
-	-- end
-	-- self.ForPairs = function(...)
-	-- 	return _interface.ForPairs(...)
-	-- end
-
 	self.Value = function(...)
 		local val = _interface.Value(...)
 		val.Set = function(s, v: any)
@@ -177,6 +167,10 @@ function Fuse.fuse(maid: Maid?): Fuse
 
 	self.new = function(...)
 		return _interface.new(...)
+	end
+
+	self.mount = function(...)
+		return _interface.mount(...)
 	end
 
 	self.ON_EVENT = _interface.ON_EVENT
