@@ -17,8 +17,8 @@ local xtypeof = require(Package.Utility.xtypeof)
 
 local class = {}
 
-local CLASS_METATABLE = {__index = class}
-local WEAK_KEYS_METATABLE = {__mode = "k"}
+local CLASS_METATABLE = { __index = class }
+local WEAK_KEYS_METATABLE = { __mode = "k" }
 
 --[[
 	Returns the current value of this Tween object.
@@ -36,7 +36,10 @@ end
 	Returns false as the current value doesn't change right away.
 ]]
 function class:update(): boolean
-	local goalValue = if self._goalState then self._goalState:get(false) else nil; if goalValue == nil then return end;
+	local goalValue = if self._goalState then self._goalState:get(false) else nil
+	if goalValue == nil then
+		return
+	end
 
 	-- if the goal hasn't changed, then this is a TweenInfo change.
 	-- in that case, if we're not currently animating, we can skip everything
@@ -85,7 +88,7 @@ local function Tween<T>(
 		tweenInfo = TweenInfo.new()
 	end
 
-	local dependencySet = {[goalState] = true}
+	local dependencySet = { [goalState] = true }
 	local tweenInfoIsState = xtypeof(tweenInfo) == "State"
 
 	if tweenInfoIsState then
@@ -122,7 +125,7 @@ local function Tween<T>(
 		_currentTweenInfo = tweenInfo,
 		_currentTweenDuration = 0,
 		_currentTweenStartTime = 0,
-		_currentlyAnimating = false
+		_currentlyAnimating = false,
 	}, CLASS_METATABLE)
 
 	initDependency(self)

@@ -8,7 +8,7 @@ local _Maid = require(_Packages.Maid)
 
 return function(coreGui: ScreenGui)
 	local maid = _Maid.new()
-	
+
 	task.spawn(function()
 		local _Fuse = require(script.Parent)
 		maid:GiveTask(_Fuse)
@@ -36,40 +36,40 @@ return function(coreGui: ScreenGui)
 		local Increment = _Value(0)
 
 		local Text = _Computed(function(inc: number): string
-			return "Button"..tostring(inc)
+			return "Button" .. tostring(inc)
 		end, Increment)
 
 		local BackgroundColor3 = _Computed(function(inc: number): Color3
 			return Color3.fromHSV(1, if inc % 2 == 0 then 1 else 0, 1)
 		end, Increment):Spring()
 
-		_Fuse.new "TextButton" {
+		_Fuse.new("TextButton")({
 			Name = "Button",
 			Text = Text,
 			ZIndex = 3,
 			BackgroundTransparency = 0,
 			BackgroundColor3 = BackgroundColor3,
-			Position = UDim2.fromScale(0.5,0.5),
-			Size = UDim2.fromScale(0,0),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromScale(0, 0),
 			AutomaticSize = Enum.AutomaticSize.XY,
 			Parent = coreGui,
-			AnchorPoint = Vector2.new(0.5,0.5),
+			AnchorPoint = Vector2.new(0.5, 0.5),
 			[_ON_EVENT("MouseButton1Down")] = function()
 				print("Click")
 			end,
 			[_CHILDREN] = {
-				_new "UIPadding" {
-					PaddingBottom = UDim.new(0,4),
-					PaddingTop = UDim.new(0,4),
-					PaddingLeft = UDim.new(0,4),
-					PaddingRight = UDim.new(0,4),
-				} :: any,
-				_new "UICorner" {
-					CornerRadius = UDim.new(0, 4)
-				}
-			}
-		}
-		
+				_new("UIPadding")({
+					PaddingBottom = UDim.new(0, 4),
+					PaddingTop = UDim.new(0, 4),
+					PaddingLeft = UDim.new(0, 4),
+					PaddingRight = UDim.new(0, 4),
+				}) :: any,
+				_new("UICorner")({
+					CornerRadius = UDim.new(0, 4),
+				}),
+			},
+		})
+
 		local startTick = tick()
 		local num = 0
 		maid:GiveTask(RunService.RenderStepped:Connect(function()
@@ -81,7 +81,7 @@ return function(coreGui: ScreenGui)
 			end
 		end))
 	end)
-	
+
 	return function()
 		maid:Destroy()
 	end

@@ -17,8 +17,8 @@ local needsDestruction = require(Package.Utility.needsDestruction)
 
 local class = {}
 
-local CLASS_METATABLE = {__index = class}
-local WEAK_KEYS_METATABLE = {__mode = "k"}
+local CLASS_METATABLE = { __index = class }
+local WEAK_KEYS_METATABLE = { __mode = "k" }
 
 --[[
 	Returns the last cached value calculated by this Computed object.

@@ -58,9 +58,10 @@ local DEFAULT_REMOTE_RATE = 60
 local DEFAULT_REMOTE_ID = ""
 
 return function(maid: Maid)
-	local Interface = {
-		_Maid = maid
-	}
+	local Interface = {}
+	Interface.__index = Interface
+
+	Interface._Maid = maid
 
 	function Interface._getIfState(possibleState: any): boolean
 		if typeof(possibleState) == "table" then
@@ -70,7 +71,7 @@ return function(maid: Maid)
 		end
 		return false
 	end
-	
+
 	function Interface.import<T>(state: CanBeState<T>?, alt: CanBeState<T>): State<T>
 		if state == nil then
 			if Interface._getIfState(alt) then
@@ -87,58 +88,65 @@ return function(maid: Maid)
 		end
 	end
 
-	-- ForKeys: <KI, KO>(input: CanBeState<{[KI]: any}>, processor: (key: KI, maid: Maid) -> KO) -> State<{[KO]: any}>,	
-	-- ForValues: <VI, VO>(input: CanBeState<{[any]: VI}>, processor: (val: VI, maid: Maid) -> VO) -> State<{[any]: VO}>,	
-	-- ForPairs: <KI, VI, KO, VO>(input: CanBeState<{[KI]: VI}>, processor: (key: KI, val: VI, maid: Maid) -> VO) -> State<{[KO]: VO}>,	
-
-	function Interface.ForKeys<KI, KO>(input: CanBeState<{[KI]: any}>, processor: (key: KI, maid: Maid) -> KO): State<{[KO]: any}>
+	function Interface.ForKeys<KI, KO>(
+		input: CanBeState<{ [KI]: any }>,
+		processor: (key: KI, maid: Maid) -> KO
+	): State<{ [KO]: any }>
 		return Interface._init(
 			_FusionForKeys(input, function(key: KI): (KO, Maid)
 				local _maid = _Maid.new()
+				maid:GiveTask(_maid)
 				return processor(key, _maid), _maid
-			end, function(key: KO, maid: Maid)
-				maid:Destroy()
-			end), 
+			end, function(key: KO, _maid: Maid)
+				_maid:Destroy()
+			end),
 			_FusionForKeys
 		)
 	end
 
-	function Interface.ForValues<VI, VO>(input: CanBeState<{[any]: VI}>, processor: (val: VI, maid: Maid) -> VO): State<{[any]: VO}>
+	function Interface.ForValues<VI, VO>(
+		input: CanBeState<{ [any]: VI }>,
+		processor: (val: VI, maid: Maid) -> VO
+	): State<{ [any]: VO }>
 		return Interface._init(
 			_FusionForValues(input, function(val: VI): (VO, Maid)
 				local _maid = _Maid.new()
+				maid:GiveTask(_maid)
 				return processor(val, _maid), _maid
-			end, function(val: VO, maid: Maid)
-				maid:Destroy()
-			end), 
+			end, function(val: VO, _maid: Maid)
+				_maid:Destroy()
+			end),
 			_FusionForValues
 		)
 	end
 
-	function Interface.ForPairs<KI, VI, KO, VO>(input: CanBeState<{[KI]: VI}>, processor: (key: KI, val: VI, maid: Maid) -> (KO, VO)): State<{[any]: VO}>
+	function Interface.ForPairs<KI, VI, KO, VO>(
+		input: CanBeState<{ [KI]: VI }>,
+		processor: (key: KI, val: VI, maid: Maid) -> (KO, VO)
+	): State<{ [any]: VO }>
 		return Interface._init(
 			_FusionForPairs(input, function(key: KI, val: VI): (KO, VO, Maid)
 				local _maid = _Maid.new()
+				maid:GiveTask(_maid)
 				local kOut, vOut = processor(key, val, _maid)
 				return kOut, vOut, _maid
-			end, function(key: KO, val: VO, maid: Maid)
-				maid:Destroy()
-			end), 
+			end, function(key: KO, val: VO, _maid: Maid)
+				_maid:Destroy()
+			end),
 			_FusionForPairs
 		)
 	end
 
-	function Interface.Computed<T>(processor: (...any) -> T, ...:any): State<T>
+	function Interface.Computed<T>(processor: (...any) -> T, ...: any): State<T>
+		local paramStates = {} :: { [number]: any }
 
-		local paramStates = {} :: {[number]: any}
-
-		for i, state: State<any> in ipairs({...}) do
+		for i, state: State<any> in ipairs({ ... }) do
 			if Interface._getIfState(state) then
 				table.insert(paramStates, state)
 			end
 		end
 
-		local possibleDestructor = ({...})[1]
+		local possibleDestructor = ({ ... })[1]
 		local hasDestructor: boolean = typeof(possibleDestructor) == "function"
 
 		local compState = _FusionComputed(function()
@@ -153,129 +161,129 @@ return function(maid: Maid)
 			local val = processor(table.unpack(vals, 1, #paramStates))
 			return val
 		end, if hasDestructor then possibleDestructor else function() end)
-	
+
 		return Interface._init(compState, _FusionComputed) :: any
 	end
 
 	function Interface.Value<T>(initalVal: T): ValueState<T>
-
 		local valState = _FusionValue(initalVal)
 
 		return Interface._init(valState, _FusionValue) :: any
 	end
 
-	--- @TODO Tween
 	function Interface.Tween<T>(
-		goal: State<T>, 
-		durationState: CanBeState<number>?, 
-		easingStyleState: CanBeState<Enum.EasingStyle>?, 
+		goal: State<T>,
+		durationState: CanBeState<number>?,
+		easingStyleState: CanBeState<Enum.EasingStyle>?,
 		easingDirectionState: CanBeState<Enum.EasingDirection>?,
 		repetitionsState: CanBeState<number>?,
 		reversesState: CanBeState<boolean>?,
 		delayTimeState: CanBeState<number>?
 	): State<T>
-
 		durationState = Interface.import(durationState, 0.2)
 		easingStyleState = Interface.import(easingStyleState, Enum.EasingStyle.Quad)
 		easingDirectionState = Interface.import(easingDirectionState, Enum.EasingDirection.InOut)
 		repetitionsState = Interface.import(repetitionsState, 0)
 		reversesState = Interface.import(reversesState, false)
-		delayTimeState = Interface.import(delayTimeState, 0)		
+		delayTimeState = Interface.import(delayTimeState, 0)
 
-		local tweenInfoState = Interface.Computed(function(
-			duration: number, 
-			easingStyle: Enum.EasingStyle, 
-			easingDirection: Enum.EasingDirection, 
-			repetitions: number, 
-			reverses: boolean, 
-			delayTime: number
-		): TweenInfo
-			return TweenInfo.new(duration, easingStyle, easingDirection, repetitions, reverses, delayTime)
-		end, durationState, easingStyleState, easingDirectionState, repetitionsState, reversesState, delayTimeState)
+		local tweenInfoState = Interface.Computed(
+			function(
+				duration: number,
+				easingStyle: Enum.EasingStyle,
+				easingDirection: Enum.EasingDirection,
+				repetitions: number,
+				reverses: boolean,
+				delayTime: number
+			): TweenInfo
+				return TweenInfo.new(duration, easingStyle, easingDirection, repetitions, reverses, delayTime)
+			end,
+			durationState,
+			easingStyleState,
+			easingDirectionState,
+			repetitionsState,
+			reversesState,
+			delayTimeState
+		)
 
 		local tweenState = _FusionTween(goal, tweenInfoState)
 
 		return Interface._init(tweenState, _FusionTween) :: any
 	end
 
-	--- @TODO Spring
-	function Interface.Spring<T>(
-		goal: State<T>,
-		speed: number?,
-		dampingRatio: number?
-	): State<T>
+	function Interface.Spring<T>(goal: State<T>, speed: number?, dampingRatio: number?): State<T>
 		local springState = _FusionSpring(goal, speed, dampingRatio)
 		return Interface._init(springState, _FusionSpring) :: any
 	end
 
-	--- new
 	function Interface.new(className: string)
 		local instConstructor = _FusionNew(className)
-		return function(parameters: {[any]: any})
+		return function(parameters: { [any]: any })
 			local inst = instConstructor(parameters)
 			maid:GiveTask(inst)
 			return inst
 		end
 	end
 
-	--- Hydrate
 	function Interface.mount(inst: Instance)
 		local instBinder = _FusionHydrate(inst)
-		return function(parameters: {[any]: any})
+		return function(parameters: { [any]: any })
 			instBinder(parameters)
 			return inst
 		end
 	end
 
-	-- receiver
 	function Interface.receive<T>(remoteName: string, id: string?, rate: number?, player: Player?): State<T>
 		id = id or DEFAULT_REMOTE_ID
 		assert(id ~= nil)
 
 		rate = rate or DEFAULT_REMOTE_RATE
 		assert(rate ~= nil)
-		
-		local valState= Interface.Value(nil) :: any
+
+		local valState = Interface.Value(nil) :: any
 
 		local remoteEvent = _NetworkUtil.getRemoteEvent(remoteName)
 		local promptFunction = _NetworkUtil.getRemoteFunction(remoteName)
 
 		local lastUpdate = 0
 		local function onReceive(rPlayer: Player?, rId: string, val: any)
-			if rId ~= id then return end
-			if tick() - lastUpdate >= 1/rate then
+			if rId ~= id then
+				return
+			end
+			if tick() - lastUpdate >= 1 / rate then
 				lastUpdate = tick()
 				valState:Set(val)
 			end
 		end
 
 		if RunService:IsServer() then
-
-			maid:GiveTask(remoteEvent.OnServerEvent:Connect(function(...:any)
+			maid:GiveTask(remoteEvent.OnServerEvent:Connect(function(...: any)
 				onReceive(...)
 			end))
 
 			if player then
 				valState:Set(promptFunction:InvokeClient(player))
 			end
-
 		else
-
-			maid:GiveTask(remoteEvent.OnClientEvent:Connect(function(...:any)
+			maid:GiveTask(remoteEvent.OnClientEvent:Connect(function(...: any)
 				onReceive(game.Players.LocalPlayer, ...)
 			end))
 
 			if player then
 				valState:Set(promptFunction:InvokeServer(player))
 			end
-
 		end
 
 		return valState
 	end
 
-	-- transmit
-	function Interface.transmit<T>(state: State<T>, remoteName: string, id: string?, rate: number?, player: Player?): RBXScriptConnection
+	function Interface.transmit<T>(
+		state: State<T>,
+		remoteName: string,
+		id: string?,
+		rate: number?,
+		player: Player?
+	): RBXScriptConnection
 		id = id or DEFAULT_REMOTE_ID
 		assert(id ~= nil)
 
@@ -287,8 +295,10 @@ return function(maid: Maid)
 		local lastUpdate = 0
 
 		local function transmit(tPlayer: Player?, val: any?, tId: string, tRate: number)
-			if tId ~= id then return end
-			if tick() - lastUpdate >= 1/rate then
+			if tId ~= id then
+				return
+			end
+			if tick() - lastUpdate >= 1 / rate then
 				lastUpdate = tick()
 				if RunService:IsServer() then
 					if tPlayer then
@@ -304,12 +314,16 @@ return function(maid: Maid)
 
 		if RunService:IsServer() then
 			promptFunction.OnServerInvoke = function(tPlayer: Player, tId: string)
-				if tId ~= id then return end
+				if tId ~= id then
+					return
+				end
 				return state:Get()
 			end
 		else
 			promptFunction.OnClientInvoke = function(tPlayer: Player, tId: string)
-				if tId ~= id then return end
+				if tId ~= id then
+					return
+				end
 				return state:Get()
 			end
 		end
@@ -321,11 +335,7 @@ return function(maid: Maid)
 		return connection
 	end
 
-	-- Overwritten in cold-fusion init
-	function Interface._init<T>(
-		state: State<T>,
-		fusionConstructor: (...any) -> State<T>
-	): State<T>
+	function Interface._init<T>(state: State<T>, fusionConstructor: (...any) -> State<T>): State<T>
 		return nil :: any
 	end
 

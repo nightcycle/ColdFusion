@@ -54,13 +54,16 @@ type FusionKey = _Types.FusionKey
 type FusionPropertyTable = _Types.FusionPropertyTable
 
 return function(interface: any)
-
 	local Util = {}
 	Util.__index = Util
 
 	function Util:Destroy()
-		if self["kind"] == "Spring" then _FusionSpringScheduler.remove(self :: any) end
-		if self["kind"] == "Tween" then _FusionTweenScheduler.remove(self :: any) end
+		if self["kind"] == "Spring" then
+			_FusionSpringScheduler.remove(self :: any)
+		end
+		if self["kind"] == "Tween" then
+			_FusionTweenScheduler.remove(self :: any)
+		end
 
 		-- remove dependency references
 		if self.dependentSet then
@@ -122,16 +125,16 @@ return function(interface: any)
 	function Util:ForValues(...)
 		return interface.ForValues(self, ...)
 	end
-	
-	function Util:Transmit<T>(...:any): RBXScriptConnection
+
+	function Util:Transmit<T>(...: any): RBXScriptConnection
 		return interface.Transmit(...)
 	end
-	
-	function Util:Receive<T>(...:any): State<T>
+
+	function Util:Receive<T>(...: any): State<T>
 		return interface.Receive(...)
 	end
 
-	function Util:Subtract<T>(other:CanBeState<T>): State<T>
+	function Util:Subtract<T>(other: CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a - b
@@ -143,7 +146,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Add<T>(other:CanBeState<T>): State<T>
+	function Util:Add<T>(other: CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a + b
@@ -155,7 +158,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Multiply<T>(other:CanBeState<T>): State<T>
+	function Util:Multiply<T>(other: CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a * b
@@ -167,7 +170,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Divide<T>(other:CanBeState<T>): State<T>
+	function Util:Divide<T>(other: CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a / b
@@ -179,7 +182,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Modulus<T>(other:CanBeState<T>): State<T>
+	function Util:Modulus<T>(other: CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a % b
@@ -191,7 +194,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Power<T>(other:CanBeState<T>): State<T>
+	function Util:Power<T>(other: CanBeState<T>): State<T>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): T
 				return a ^ b
@@ -203,7 +206,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Equal<T>(other:CanBeState<T>): State<boolean>
+	function Util:Equal<T>(other: CanBeState<T>): State<boolean>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a == b
@@ -215,7 +218,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:LessThan<T>(other:CanBeState<T>): State<boolean>
+	function Util:LessThan<T>(other: CanBeState<T>): State<boolean>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a < b
@@ -227,7 +230,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:LessThanEqualTo<T>(other:CanBeState<T>): State<boolean>
+	function Util:LessThanEqualTo<T>(other: CanBeState<T>): State<boolean>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a <= b
@@ -239,7 +242,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Concatenate<T>(other:CanBeState<T>): State<string>
+	function Util:Concatenate<T>(other: CanBeState<T>): State<string>
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): string
 				return tostring(a) .. tostring(b)

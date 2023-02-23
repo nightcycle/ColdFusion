@@ -20,8 +20,8 @@ local unwrap = require(Package.State.unwrap)
 
 local class = {}
 
-local CLASS_METATABLE = {__index = class}
-local WEAK_KEYS_METATABLE = {__mode = "k"}
+local CLASS_METATABLE = { __index = class }
+local WEAK_KEYS_METATABLE = { __mode = "k" }
 
 --[[
 	Returns the current value of this Spring object.
@@ -95,7 +95,10 @@ end
 	changed.
 ]]
 function class:update(): boolean
-	local goalValue = if self._goalState then self._goalState:get(false) else nil; if goalValue == nil then return end;
+	local goalValue = if self._goalState then self._goalState:get(false) else nil
+	if goalValue == nil then
+		return
+	end
 
 	-- figure out if this was a goal change or a speed/damping change
 	if goalValue == self._goalValue then
@@ -153,7 +156,6 @@ function class:update(): boolean
 			-- if the type isn't animatable, snap to the new value
 			self._currentValue = self._goalValue
 			return true
-
 		else
 			-- if it's animatable, let it animate to the goal
 			SpringScheduler.add(self)
@@ -175,7 +177,7 @@ local function Spring<T>(
 		damping = 1
 	end
 
-	local dependencySet = {[goalState] = true}
+	local dependencySet = { [goalState] = true }
 	if xtypeof(speed) == "State" then
 		dependencySet[speed] = true
 	end
@@ -203,7 +205,7 @@ local function Spring<T>(
 
 		_springPositions = nil,
 		_springGoals = nil,
-		_springVelocities = nil
+		_springVelocities = nil,
 	}, CLASS_METATABLE)
 
 	initDependency(self)

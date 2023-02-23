@@ -5,6 +5,9 @@ local _Packages = _Package.Parent
 local _NetworkUtil = require(_Packages.NetworkUtil)
 local _Maid = require(_Packages.Maid)
 
+--- @class ColdFusion
+--- The wally package wrapper for fusion
+
 -- Import types
 local _Types = require(_Package.Types)
 export type State<T> = _Types.State<T>
@@ -55,9 +58,9 @@ export type Fuse = {
 	ON_PROPERTY: (propertyName: string) -> FusionSpecialKey,
 
 	-- States
-	Value: <T>(initialValue: T) -> ValueState<T>,	
+	Value: <T>(initialValue: T) -> ValueState<T>,
 	Computed: (<T, A, B, C, D, E, F, G, H, I, J, K, L>(
-		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T, 
+		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T,
 		(BaseState<A>)?,
 		(BaseState<B>)?,
 		(BaseState<C>)?,
@@ -72,8 +75,8 @@ export type Fuse = {
 		(BaseState<L>)?,
 		...(BaseState<any>)
 	) -> State<T>) & (<T, A, B, C, D, E, F, G, H, I, J, K, L>(
-		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T, 
-		(T) -> nil, 
+		(A, B, C, D, E, F, G, H, I, J, K, L, ...any) -> T,
+		(T) -> nil,
 		(BaseState<A>)?,
 		(BaseState<B>)?,
 		(BaseState<C>)?,
@@ -91,15 +94,15 @@ export type Fuse = {
 }
 
 -- Constants
-local WEAK_KEYS_METATABLE = {__mode = "k"}
+local WEAK_KEYS_METATABLE = { __mode = "k" }
 
--- Fuse class
 local Fuse = {}
 Fuse.__index = Fuse
 
---- Destroys the fuse and all the states it created.
 function Fuse:Destroy()
-	if not self._IsAlive then return end
+	if not self._IsAlive then
+		return
+	end
 	self._IsAlive = false
 	for k, state: any in pairs(self._States) do
 		self._States[k] = nil
@@ -116,39 +119,42 @@ function Fuse:Destroy()
 	setmetatable(self, nil)
 end
 
---- Creates a fuse
 function Fuse.fuse(maid: Maid?): Fuse
-	
 	maid = maid or _Maid.new()
 	assert(maid ~= nil)
 
 	local states = {} :: any
 	setmetatable(states, WEAK_KEYS_METATABLE)
-	
+
 	local _interface = _Interface(maid)
 
-	local _FusionMetatables: {[any]: any} = {}
+	local _FusionMetatables: { [any]: any } = {}
 
-	_interface._init = function<T>(
-		state: State<T>,
-		fusionConstructor: (...any) -> State<T>
-	): State<T>
+	_interface._init = function<T>(state: State<T>, fusionConstructor: (...any) -> State<T>): State<T>
 		table.insert(states, state)
 		setmetatable(state, _FusionMetatables[fusionConstructor])
 		return state
 	end
 
 	_FusionMetatables[_FusionValue] = setmetatable(_Util(_interface), getmetatable(_FusionValue(0)))
-	_FusionMetatables[_FusionComputed] = setmetatable(_Util(_interface), getmetatable(_FusionComputed(function() return nil end)))
+	_FusionMetatables[_FusionComputed] = setmetatable(
+		_Util(_interface),
+		getmetatable(_FusionComputed(function()
+			return nil
+		end))
+	)
 	_FusionMetatables[_FusionTween] = setmetatable(_Util(_interface), getmetatable(_FusionTween(_FusionValue(0))))
 	_FusionMetatables[_FusionSpring] = setmetatable(_Util(_interface), getmetatable(_FusionSpring(_FusionValue(0))))
-	_FusionMetatables[_FusionForKeys] = setmetatable(_Util(_interface), getmetatable(_FusionForKeys(_FusionValue({}), function() end)))
-	_FusionMetatables[_FusionForPairs] = setmetatable(_Util(_interface), getmetatable(_FusionForPairs(_FusionValue({}), function() end)))
-	_FusionMetatables[_FusionForValues] = setmetatable(_Util(_interface), getmetatable(_FusionForValues(_FusionValue({}), function() end)))
+	_FusionMetatables[_FusionForKeys] =
+		setmetatable(_Util(_interface), getmetatable(_FusionForKeys(_FusionValue({}), function() end)))
+	_FusionMetatables[_FusionForPairs] =
+		setmetatable(_Util(_interface), getmetatable(_FusionForPairs(_FusionValue({}), function() end)))
+	_FusionMetatables[_FusionForValues] =
+		setmetatable(_Util(_interface), getmetatable(_FusionForValues(_FusionValue({}), function() end)))
 
 	local self = {
 		_IsAlive = true,
-		_States = states :: {[number]: any},
+		_States = states :: { [number]: any },
 		_Interface = _interface,
 	}
 	setmetatable(self, Fuse)
@@ -185,6 +191,5 @@ function Fuse.fuse(maid: Maid?): Fuse
 
 	return self :: any
 end
-
 
 return Fuse.fuse()
