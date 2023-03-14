@@ -33,6 +33,7 @@ local _FusionTween = require(FusionAnimationFolder.Tween) :: (...any) -> any
 local FusionInstanceFolder = FusionFolder.Instances
 local FusionNew = require(FusionInstanceFolder.New)
 local FusionHydrate = require(FusionInstanceFolder.Hydrate)
+local makeUseCallback = require(FusionStateFolder:WaitForChild("makeUseCallback"))
 
 -- Fusion Utils
 local Fusion = require(FusionFolder)
@@ -131,11 +132,11 @@ return function(maid: Maid)
 		local possibleDestructor = ({ ... })[1]
 		local hasDestructor: boolean = typeof(possibleDestructor) == "function"
 
-		local compState = _FusionComputed(function()
+		local compState = _FusionComputed(function(use: (any) -> any)
 			local vals = {}
 			for i, paramState in ipairs(paramStates) do
 				if paramState.Get then
-					vals[i] = paramState:Get()
+					vals[i] = use(paramState)
 				else
 					vals[i] = nil
 				end
@@ -203,8 +204,8 @@ return function(maid: Maid)
 			[Fusion.Children] = propertyTable.Children or {},
 		}
 
-		for k, v in pairs(propertyTable.Properties :: any) do
-			if k ~= "Events" and k ~= "Attributes" then
+		for k, v in pairs(propertyTable) do
+			if k ~= "Events" and k ~= "Attributes"and k ~= "Children" then
 				fusionTable[k] = v
 			end
 		end
@@ -215,11 +216,11 @@ return function(maid: Maid)
 			end
 		end
 
-
-		for k, v in pairs(propertyTable.Attributes :: any) do
-			fusionTable[Fusion.Attribute(k)] = v
+		if propertyTable.Attributes then
+			for k, v in pairs(propertyTable.Attributes :: any) do
+				fusionTable[Fusion.Attribute(k)] = v
+			end
 		end
-
 
 		return fusionTable
 	end

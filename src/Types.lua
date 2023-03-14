@@ -94,7 +94,7 @@ type ConcatenateFunction<Self, Value> = {
 }
 
 type ConnectFunction<Self, Value> = {
-	Connect: (self: Self, func: (cur: Value, prev: Value?) -> nil) -> RBXScriptConnection,
+	Connect: (self: Self, func: (cur: Value, prev: Value?) -> nil) -> (() -> nil),
 }
 
 type SoloFunction<Self, Value> = (

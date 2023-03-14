@@ -45,7 +45,7 @@ type Maid = Maid.Maid
 type StateUtil<Self> = {
 	__index: StateUtil<Self>,
 	Destroy: (Self) -> nil,
-	Connect:<any>(Self, func: (cur: any, prev: any?) -> nil) -> RBXScriptConnection,
+	Connect:<any>(Self, func: (cur: any, prev: any?) -> nil) -> (() -> nil),
 	Get: <any>(Self) -> any,
 	Tween: (Self, ...any) -> PrivateState,
 	Spring: (Self, ...any) -> PrivateState,
@@ -96,7 +96,7 @@ return function(interface: any)
 	-- end
 
 	function Util:Get<any>(): any --so that inherited states can still access this functionality
-		return self:get()
+		return self:_peek()
 	end
 
 	function Util:Tween(...)
@@ -271,15 +271,20 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Connect<any>(func: (cur: any, prev: any?) -> nil): RBXScriptConnection
+	function Util:Connect<any>(func: (cur: any, prev: any?) -> nil): (() -> nil)
 		local observer = _FusionObserver(self)
 		local prev: any = self:Get()
-		local connection: RBXScriptConnection = observer:onChange(function()
+		local connection = observer:onChange(function()
 			local cur = self:Get()
 			func(cur, prev)
 			prev = cur
 		end)
-		interface.Maid:GiveTask(connection)
+		if interface.Maid then
+			interface.Maid:GiveTask(connection)
+		else
+			connection()
+		end
+
 		return connection
 	end
 
