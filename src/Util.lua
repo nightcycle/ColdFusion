@@ -32,29 +32,42 @@ local _FusionNew = require(FusionInstanceFolder.New)
 local _FusionHydrate = require(FusionInstanceFolder.Hydrate)
 
 -- Fusion Utils
-local FusionUtil = FusionFolder.Utility
-local _FusionCleanUp = require(FusionUtil.cleanup)
 
 -- Fusion types
-local _FusionPubTypes = require(FusionFolder.PubTypes)
-local _FusionTypes = require(FusionFolder.Types)
 
 -- Packages
-local _Maid = require(_Packages.Maid)
-local _NetworkUtil = require(_Packages.NetworkUtil)
+local Maid = require(_Packages.Maid)
 
 -- Import types
-local _Types = require(_Package.Types)
-type State<T> = _Types.State<T>
-type ValueState<T> = _Types.ValueState<T>
-type CanBeState<T> = _Types.CanBeState<T>
-type Maid = _Maid.Maid
-type FusionSpecialKey = _Types.FusionSpecialKey
-type FusionKey = _Types.FusionKey
-type FusionPropertyTable = _Types.FusionPropertyTable
+type PrivateState = any
+type Maid = Maid.Maid
+
+type StateUtil<Self> = {
+	__index: StateUtil<Self>,
+	Destroy: (Self) -> nil,
+	Connect:<any>(Self, func: (cur: any, prev: any?) -> nil) -> RBXScriptConnection,
+	Get: <any>(Self) -> any,
+	Tween: (Self, ...any) -> PrivateState,
+	Spring: (Self, ...any) -> PrivateState,
+	Else: (Self, ...any) -> PrivateState,
+	ForPairs: (Self, ...any) -> nil,
+	ForKeys: (Self, ...any) -> nil,
+	ForValues: (Self) -> nil,
+	Subtract: (Self) -> PrivateState,
+	Add: (Self) -> PrivateState,
+	Multiply: (Self) -> PrivateState,
+	Divide: (Self) -> PrivateState,
+	Modulus: (Self) -> PrivateState,
+	Power: (Self) -> PrivateState,
+	Equal: (Self) -> PrivateState,
+	LessThan: (Self) -> PrivateState,
+	LessThanEqualTo: (Self) -> PrivateState,
+	Concatenate: (Self) -> PrivateState,
+	Index: (Self) -> PrivateState,
+}
 
 return function(interface: any)
-	local Util = {}
+	local Util: StateUtil<any> = {} :: any
 	Util.__index = Util
 
 	function Util:Destroy()
@@ -78,25 +91,25 @@ return function(interface: any)
 		return nil
 	end
 
-	-- function Util:Set<T>(initial: T): nil
+	-- function Util:Set<any>(initial: any): nil
 	-- 	return self:set(initial)
 	-- end
 
-	function Util:Get<T>(): T --so that inherited states can still access this functionality
+	function Util:Get<any>(): any --so that inherited states can still access this functionality
 		return self:get()
 	end
 
-	function Util:Tween<T>(...): State<T>
-		return interface.Tween(self, ...)
+	function Util:Tween(...)
+		return interface.Tween(self, ...) :: any
 	end
 
-	function Util:Spring<T>(...): State<T>
+	function Util:Spring(...)
 		return interface.Spring(self, ...)
 	end
 
-	function Util:Else<T>(altStateOrVal: CanBeState<T>): State<T>
+	function Util:Else(altStateOrVal: any)
 		if interface._getIfState(altStateOrVal) then
-			return interface.Computed(function(val: T?, alt: T): T
+			return interface.Computed(function(val: any, alt: any): any
 				if val == nil then
 					return alt
 				else
@@ -104,7 +117,7 @@ return function(interface: any)
 				end
 			end, self, altStateOrVal)
 		else
-			return interface.Computed(function(val: T?): T
+			return interface.Computed(function(val: any?): any
 				if val == nil then
 					return altStateOrVal :: any
 				else
@@ -126,87 +139,79 @@ return function(interface: any)
 		return interface.ForValues(self, ...)
 	end
 
-	function Util:Transmit<T>(...: any): RBXScriptConnection
-		return interface.Transmit(...)
-	end
-
-	function Util:Receive<T>(...: any): State<T>
-		return interface.Receive(...)
-	end
-
-	function Util:Subtract<T>(other: CanBeState<T>): State<T>
+	function Util:Subtract(other: any): any
 		if interface._getIfState(other) then
-			return interface.Computed(function(a: any, b: any): T
+			return interface.Computed(function(a: any, b: any): any
 				return a - b
 			end, self, other)
 		else
-			return interface.Computed(function(a: any): T
+			return interface.Computed(function(a: any): any
 				return a - other
 			end, self)
 		end
 	end
 
-	function Util:Add<T>(other: CanBeState<T>): State<T>
+	function Util:Add(other: any): any
 		if interface._getIfState(other) then
-			return interface.Computed(function(a: any, b: any): T
+			return interface.Computed(function(a: any, b: any): any
 				return a + b
 			end, self, other)
 		else
-			return interface.Computed(function(a: any): T
+			return interface.Computed(function(a: any): any
 				return a + other
 			end, self)
 		end
 	end
 
-	function Util:Multiply<T>(other: CanBeState<T>): State<T>
+	function Util:Multiply(other: any): any
 		if interface._getIfState(other) then
-			return interface.Computed(function(a: any, b: any): T
+			return interface.Computed(function(a: any, b: any): any
 				return a * b
 			end, self, other)
 		else
-			return interface.Computed(function(a: any): T
+			return interface.Computed(function(a: any): any
 				return a * other
 			end, self)
 		end
 	end
 
-	function Util:Divide<T>(other: CanBeState<T>): State<T>
+	function Util:Divide(other: any): any
 		if interface._getIfState(other) then
-			return interface.Computed(function(a: any, b: any): T
+			return interface.Computed(function(a: any, b: any): any
 				return a / b
 			end, self, other)
 		else
-			return interface.Computed(function(a: any): T
+			return interface.Computed(function(a: any): any
 				return a / other
 			end, self)
 		end
 	end
 
-	function Util:Modulus<T>(other: CanBeState<T>): State<T>
+	function Util:Modulus(other: any): any
 		if interface._getIfState(other) then
-			return interface.Computed(function(a: any, b: any): T
+			return interface.Computed(function(a: any, b: any): any
 				return a % b
 			end, self, other)
 		else
-			return interface.Computed(function(a: any): T
+			return interface.Computed(function(a: any): any
 				return a % other
 			end, self)
 		end
 	end
 
-	function Util:Power<T>(other: CanBeState<T>): State<T>
+	function Util:Power(other: any): any
 		if interface._getIfState(other) then
-			return interface.Computed(function(a: any, b: any): T
+			return interface.Computed(function(a: any, b: any): any
 				return a ^ b
 			end, self, other)
 		else
-			return interface.Computed(function(a: any): T
+			return interface.Computed(function(a: any): any
 				return a ^ other
 			end, self)
 		end
 	end
 
-	function Util:Equal<T>(other: CanBeState<T>): State<boolean>
+	function Util:Equal(other: any): any
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a == b
@@ -218,7 +223,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:LessThan<T>(other: CanBeState<T>): State<boolean>
+	function Util:LessThan(other: any): any
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a < b
@@ -230,7 +235,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:LessThanEqualTo<T>(other: CanBeState<T>): State<boolean>
+	function Util:LessThanEqualTo(other: any): any
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): boolean
 				return a <= b
@@ -242,7 +247,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Concatenate<T>(other: CanBeState<T>): State<string>
+	function Util:Concatenate(other: any): any
 		if interface._getIfState(other) then
 			return interface.Computed(function(a: any, b: any): string
 				return tostring(a) .. tostring(b)
@@ -254,7 +259,7 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Index<T>(key: CanBeState<any>): State<T>
+	function Util:Index(key: any): any
 		if interface._getIfState(key) then
 			return interface.Computed(function(a: any, b: any): string
 				return a[b]
@@ -266,15 +271,15 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Connect<T>(func: (cur: T, prev: T?) -> nil): RBXScriptConnection
+	function Util:Connect<any>(func: (cur: any, prev: any?) -> nil): RBXScriptConnection
 		local observer = _FusionObserver(self)
-		local prev: T = self:Get()
+		local prev: any = self:Get()
 		local connection: RBXScriptConnection = observer:onChange(function()
 			local cur = self:Get()
 			func(cur, prev)
 			prev = cur
 		end)
-		interface._Maid:GiveTask(connection)
+		interface.Maid:GiveTask(connection)
 		return connection
 	end
 

@@ -1,0 +1,506 @@
+{
+    "GuiBase2d": {
+        "SelectionChanged": [
+            {
+                "Name": "amISelected",
+                "Type": "bool"
+            },
+            {
+                "Name": "previousSelection",
+                "Type": "GuiObject"
+            },
+            {
+                "Name": "newSelection",
+                "Type": "GuiObject"
+            }
+        ]
+    },
+    "GuiBase": "Instance",
+    "Instance": {
+        "AncestryChanged": [
+            {
+                "Name": "child",
+                "Type": "Instance"
+            },
+            {
+                "Name": "parent",
+                "Type": "Instance"
+            }
+        ],
+        "AttributeChanged": [
+            {
+                "Name": "attribute",
+                "Type": "string"
+            }
+        ],
+        "Changed": [
+            {
+                "Name": "property",
+                "Type": "string"
+            }
+        ],
+        "ChildAdded": [
+            {
+                "Name": "child",
+                "Type": "Instance"
+            }
+        ],
+        "ChildRemoved": [
+            {
+                "Name": "child",
+                "Type": "Instance"
+            }
+        ],
+        "DescendantAdded": [
+            {
+                "Name": "descendant",
+                "Type": "Instance"
+            }
+        ],
+        "DescendantRemoving": [
+            {
+                "Name": "descendant",
+                "Type": "Instance"
+            }
+        ],
+        "Destroying": []
+    },
+    "GuiBase3d": "GuiBase",
+    "FloorWire": "GuiBase3d",
+    "InstanceAdornment": "GuiBase3d",
+    "SelectionBox": "InstanceAdornment",
+    "PVAdornment": "GuiBase3d",
+    "HandleAdornment": {
+        "MouseButton1Down": [],
+        "MouseButton1Up": [],
+        "MouseEnter": [],
+        "MouseLeave": []
+    },
+    "BoxHandleAdornment": "HandleAdornment",
+    "ConeHandleAdornment": "HandleAdornment",
+    "CylinderHandleAdornment": "HandleAdornment",
+    "ImageHandleAdornment": "HandleAdornment",
+    "LineHandleAdornment": "HandleAdornment",
+    "SphereHandleAdornment": "HandleAdornment",
+    "WireframeHandleAdornment": "HandleAdornment",
+    "ParabolaAdornment": "PVAdornment",
+    "SelectionSphere": "PVAdornment",
+    "PartAdornment": "GuiBase3d",
+    "HandlesBase": "PartAdornment",
+    "ArcHandles": {
+        "MouseButton1Down": [
+            {
+                "Name": "axis",
+                "Type": "Axis"
+            }
+        ],
+        "MouseButton1Up": [
+            {
+                "Name": "axis",
+                "Type": "Axis"
+            }
+        ],
+        "MouseDrag": [
+            {
+                "Name": "axis",
+                "Type": "Axis"
+            },
+            {
+                "Name": "relativeAngle",
+                "Type": "float"
+            },
+            {
+                "Name": "deltaRadius",
+                "Type": "float"
+            }
+        ],
+        "MouseEnter": [
+            {
+                "Name": "axis",
+                "Type": "Axis"
+            }
+        ],
+        "MouseLeave": [
+            {
+                "Name": "axis",
+                "Type": "Axis"
+            }
+        ]
+    },
+    "Handles": {
+        "MouseButton1Down": [
+            {
+                "Name": "face",
+                "Type": "NormalId"
+            }
+        ],
+        "MouseButton1Up": [
+            {
+                "Name": "face",
+                "Type": "NormalId"
+            }
+        ],
+        "MouseDrag": [
+            {
+                "Name": "face",
+                "Type": "NormalId"
+            },
+            {
+                "Name": "distance",
+                "Type": "float"
+            }
+        ],
+        "MouseEnter": [
+            {
+                "Name": "face",
+                "Type": "NormalId"
+            }
+        ],
+        "MouseLeave": [
+            {
+                "Name": "face",
+                "Type": "NormalId"
+            }
+        ]
+    },
+    "SurfaceSelection": "PartAdornment",
+    "SelectionLasso": "GuiBase3d",
+    "SelectionPartLasso": "SelectionLasso",
+    "SelectionPointLasso": "SelectionLasso",
+    "GuiObject": {
+        "InputBegan": [
+            {
+                "Name": "input",
+                "Type": "InputObject"
+            }
+        ],
+        "InputChanged": [
+            {
+                "Name": "input",
+                "Type": "InputObject"
+            }
+        ],
+        "InputEnded": [
+            {
+                "Name": "input",
+                "Type": "InputObject"
+            }
+        ],
+        "MouseEnter": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseLeave": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseMoved": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseWheelBackward": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseWheelForward": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "SelectionGained": [],
+        "SelectionLost": [],
+        "TouchLongPress": [
+            {
+                "Name": "touchPositions",
+                "Type": "Array"
+            },
+            {
+                "Name": "state",
+                "Type": "UserInputState"
+            }
+        ],
+        "TouchPan": [
+            {
+                "Name": "touchPositions",
+                "Type": "Array"
+            },
+            {
+                "Name": "totalTranslation",
+                "Type": "Vector2"
+            },
+            {
+                "Name": "velocity",
+                "Type": "Vector2"
+            },
+            {
+                "Name": "state",
+                "Type": "UserInputState"
+            }
+        ],
+        "TouchPinch": [
+            {
+                "Name": "touchPositions",
+                "Type": "Array"
+            },
+            {
+                "Name": "scale",
+                "Type": "float"
+            },
+            {
+                "Name": "velocity",
+                "Type": "float"
+            },
+            {
+                "Name": "state",
+                "Type": "UserInputState"
+            }
+        ],
+        "TouchRotate": [
+            {
+                "Name": "touchPositions",
+                "Type": "Array"
+            },
+            {
+                "Name": "rotation",
+                "Type": "float"
+            },
+            {
+                "Name": "velocity",
+                "Type": "float"
+            },
+            {
+                "Name": "state",
+                "Type": "UserInputState"
+            }
+        ],
+        "TouchSwipe": [
+            {
+                "Name": "swipeDirection",
+                "Type": "SwipeDirection"
+            },
+            {
+                "Name": "numberOfTouches",
+                "Type": "int"
+            }
+        ],
+        "TouchTap": [
+            {
+                "Name": "touchPositions",
+                "Type": "Array"
+            }
+        ]
+    },
+    "CanvasGroup": "GuiObject",
+    "Frame": "GuiObject",
+    "GuiButton": {
+        "Activated": [
+            {
+                "Name": "inputObject",
+                "Type": "InputObject"
+            },
+            {
+                "Name": "clickCount",
+                "Type": "int"
+            }
+        ],
+        "MouseButton1Click": [],
+        "MouseButton1Down": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseButton1Up": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseButton2Click": [],
+        "MouseButton2Down": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ],
+        "MouseButton2Up": [
+            {
+                "Name": "x",
+                "Type": "int"
+            },
+            {
+                "Name": "y",
+                "Type": "int"
+            }
+        ]
+    },
+    "ImageButton": "GuiButton",
+    "TextButton": "GuiButton",
+    "GuiLabel": "GuiObject",
+    "ImageLabel": "GuiLabel",
+    "TextLabel": "GuiLabel",
+    "ScrollingFrame": "GuiObject",
+    "TextBox": {
+        "FocusLost": [
+            {
+                "Name": "enterPressed",
+                "Type": "bool"
+            },
+            {
+                "Name": "inputThatCausedFocusLoss",
+                "Type": "InputObject"
+            }
+        ],
+        "Focused": [],
+        "ReturnPressedFromOnScreenKeyboard": []
+    },
+    "VideoFrame": {
+        "DidLoop": [
+            {
+                "Name": "video",
+                "Type": "string"
+            }
+        ],
+        "Ended": [
+            {
+                "Name": "video",
+                "Type": "string"
+            }
+        ],
+        "Loaded": [
+            {
+                "Name": "video",
+                "Type": "string"
+            }
+        ],
+        "Paused": [
+            {
+                "Name": "video",
+                "Type": "string"
+            }
+        ],
+        "Played": [
+            {
+                "Name": "video",
+                "Type": "string"
+            }
+        ]
+    },
+    "ViewportFrame": "GuiObject",
+    "LayerCollector": "GuiBase2d",
+    "BillboardGui": "LayerCollector",
+    "PluginGui": {
+        "PluginDragDropped": [
+            {
+                "Name": "dragData",
+                "Type": "Dictionary"
+            }
+        ],
+        "PluginDragEntered": [
+            {
+                "Name": "dragData",
+                "Type": "Dictionary"
+            }
+        ],
+        "PluginDragLeft": [
+            {
+                "Name": "dragData",
+                "Type": "Dictionary"
+            }
+        ],
+        "PluginDragMoved": [
+            {
+                "Name": "dragData",
+                "Type": "Dictionary"
+            }
+        ],
+        "WindowFocusReleased": [],
+        "WindowFocused": []
+    },
+    "DockWidgetPluginGui": "PluginGui",
+    "QWidgetPluginGui": "PluginGui",
+    "ScreenGui": "LayerCollector",
+    "GuiMain": "ScreenGui",
+    "SurfaceGuiBase": "LayerCollector",
+    "AdGui": "SurfaceGuiBase",
+    "SurfaceGui": "SurfaceGuiBase",
+    "TextureGuiExperimental": "LayerCollector",
+    "Highlight": "Instance",
+    "UIBase": "Instance",
+    "UIComponent": "UIBase",
+    "UIConstraint": "UIComponent",
+    "UIAspectRatioConstraint": "UIConstraint",
+    "UISizeConstraint": "UIConstraint",
+    "UITextSizeConstraint": "UIConstraint",
+    "UICorner": "UIComponent",
+    "UIGradient": "UIComponent",
+    "UILayout": "UIComponent",
+    "UIGridStyleLayout": "UILayout",
+    "UIGridLayout": "UIGridStyleLayout",
+    "UIListLayout": "UIGridStyleLayout",
+    "UIPageLayout": {
+        "PageEnter": [
+            {
+                "Name": "page",
+                "Type": "Instance"
+            }
+        ],
+        "PageLeave": [
+            {
+                "Name": "page",
+                "Type": "Instance"
+            }
+        ],
+        "Stopped": [
+            {
+                "Name": "currentPage",
+                "Type": "Instance"
+            }
+        ]
+    },
+    "UITableLayout": "UIGridStyleLayout",
+    "UIPadding": "UIComponent",
+    "UIScale": "UIComponent",
+    "UIStroke": "UIComponent"
+}

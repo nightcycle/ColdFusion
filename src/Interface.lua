@@ -1,29 +1,23 @@
 --!strict
-local RunService = game:GetService("RunService")
-
-local _Package = script.Parent
-local _Packages = _Package.Parent
+local Package = script.Parent
+local Packages = Package.Parent
 
 -- Packages
-local _Maid = require(_Packages.Maid)
-local _NetworkUtil = require(_Packages.NetworkUtil)
+local Maid = require(Packages:WaitForChild("Maid"))
 
 -- Import types
-local _Types = require(_Package.Types)
-type State<T> = _Types.State<T>
-type ValueState<T> = _Types.ValueState<T>
-type CanBeState<T> = _Types.CanBeState<T>
-type Maid = _Maid.Maid
-type FusionSpecialKey = _Types.FusionSpecialKey
-type FusionKey = _Types.FusionKey
-type FusionPropertyTable = _Types.FusionPropertyTable
+local Types = require(Package:WaitForChild("Types"))
+type State<T> = Types.State<T>
+type ValueState<T> = Types.ValueState<T>
+type CanBeState<T> = Types.CanBeState<T>
+type Maid = Maid.Maid
 
 -- Fusion references
-local FusionFolder = _Package.Fusion
+local FusionFolder = Package:WaitForChild("Fusion")
 
 -- Fusion states
 local FusionStateFolder = FusionFolder.State
-local _FusionValue = require(FusionStateFolder.Value) :: (...any) -> any
+local FusionValue = require(FusionStateFolder.Value) :: (...any) -> any
 local _FusionComputed = require(FusionStateFolder.Computed) :: (...any) -> any
 local _FusionObserver = require(FusionStateFolder.Observer) :: (...any) -> any
 local _FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
@@ -37,26 +31,14 @@ local _FusionTween = require(FusionAnimationFolder.Tween) :: (...any) -> any
 
 -- Fusion symbols
 local FusionInstanceFolder = FusionFolder.Instances
-local _FusionChildren = require(FusionInstanceFolder.Children)
-local _FusionOnChange = require(FusionInstanceFolder.OnChange)
-local _FusionOnEvent = require(FusionInstanceFolder.OnEvent)
-local _FusionOut = require(FusionInstanceFolder.Out)
-local _FusionRef = require(FusionInstanceFolder.Ref)
-local _FusionNew = require(FusionInstanceFolder.New)
-local _FusionHydrate = require(FusionInstanceFolder.Hydrate)
+local FusionNew = require(FusionInstanceFolder.New)
+local FusionHydrate = require(FusionInstanceFolder.Hydrate)
 
 -- Fusion Utils
-local FusionUtil = FusionFolder.Utility
-local _FusionCleanUp = require(FusionUtil.cleanup)
+local Fusion = require(FusionFolder)
 
--- Fusion types
-local _FusionPubTypes = require(FusionFolder.PubTypes)
-local _FusionTypes = require(FusionFolder.Types)
 
 -- Constants
-local DEFAULT_REMOTE_RATE = 60
-local DEFAULT_REMOTE_ID = ""
-
 return function(maid: Maid)
 	local Interface = {}
 	Interface.__index = Interface
@@ -94,7 +76,7 @@ return function(maid: Maid)
 	): State<{ [KO]: any }>
 		return Interface._init(
 			_FusionForKeys(input, function(key: KI): (KO, Maid)
-				local _maid = _Maid.new()
+				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				return processor(key, _maid), _maid
 			end, function(key: KO, _maid: Maid)
@@ -110,7 +92,7 @@ return function(maid: Maid)
 	): State<{ [any]: VO }>
 		return Interface._init(
 			_FusionForValues(input, function(val: VI): (VO, Maid)
-				local _maid = _Maid.new()
+				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				return processor(val, _maid), _maid
 			end, function(val: VO, _maid: Maid)
@@ -126,7 +108,7 @@ return function(maid: Maid)
 	): State<{ [any]: VO }>
 		return Interface._init(
 			_FusionForPairs(input, function(key: KI, val: VI): (KO, VO, Maid)
-				local _maid = _Maid.new()
+				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				local kOut, vOut = processor(key, val, _maid)
 				return kOut, vOut, _maid
@@ -166,9 +148,9 @@ return function(maid: Maid)
 	end
 
 	function Interface.Value<T>(initalVal: T): ValueState<T>
-		local valState = _FusionValue(initalVal)
+		local valState = FusionValue(initalVal)
 
-		return Interface._init(valState, _FusionValue) :: any
+		return Interface._init(valState, FusionValue) :: any
 	end
 
 	function Interface.Tween<T>(
@@ -216,134 +198,59 @@ return function(maid: Maid)
 		return Interface._init(springState, _FusionSpring) :: any
 	end
 
-	function Interface.new(className: string)
-		local instConstructor = _FusionNew(className)
-		return function(parameters: { [any]: any })
-			local inst = instConstructor(parameters)
+	local function getFusionTable<Out>(propertyTable: any): {[any]: any}
+		local fusionTable = {
+			[Fusion.Children] = propertyTable.Children or {},
+		}
+
+		for k, v in pairs(propertyTable.Properties :: any) do
+			if k ~= "Events" and k ~= "Attributes" then
+				fusionTable[k] = v
+			end
+		end
+
+		if propertyTable.Events then
+			for k, v in pairs(propertyTable.Events :: any) do
+				fusionTable[Fusion.OnEvent(k)] = v
+			end
+		end
+
+
+		for k, v in pairs(propertyTable.Attributes :: any) do
+			fusionTable[Fusion.Attribute(k)] = v
+		end
+
+
+		return fusionTable
+	end
+
+	function Interface.new<Out>(className: string): (propertyTable: any) -> Out
+		local instConstructor = FusionNew(className)
+		return function(propertyTable: any): Out
+			local inst = instConstructor(getFusionTable(propertyTable))
 			maid:GiveTask(inst)
 			return inst
 		end
 	end
 
-	function Interface.mount(inst: Instance)
-		local instBinder = _FusionHydrate(inst)
-		return function(parameters: { [any]: any })
-			instBinder(parameters)
+	function Interface.mount<Out>(inst: Out & Instance): (propertyTable: any) -> Out & Instance
+		local instBinder = FusionHydrate(inst :: any)
+		return function(propertyTable: any): Out & Instance
+			local inst = instBinder(getFusionTable(propertyTable))
+			maid:GiveTask(inst)
 			return inst
 		end
-	end
-
-	function Interface.receive<T>(remoteName: string, id: string?, rate: number?, player: Player?): State<T>
-		id = id or DEFAULT_REMOTE_ID
-		assert(id ~= nil)
-
-		rate = rate or DEFAULT_REMOTE_RATE
-		assert(rate ~= nil)
-
-		local valState = Interface.Value(nil) :: any
-
-		local remoteEvent = _NetworkUtil.getRemoteEvent(remoteName)
-		local promptFunction = _NetworkUtil.getRemoteFunction(remoteName)
-
-		local lastUpdate = 0
-		local function onReceive(rPlayer: Player?, rId: string, val: any)
-			if rId ~= id then
-				return
-			end
-			if tick() - lastUpdate >= 1 / rate then
-				lastUpdate = tick()
-				valState:Set(val)
-			end
-		end
-
-		if RunService:IsServer() then
-			maid:GiveTask(remoteEvent.OnServerEvent:Connect(function(...: any)
-				onReceive(...)
-			end))
-
-			if player then
-				valState:Set(promptFunction:InvokeClient(player))
-			end
-		else
-			maid:GiveTask(remoteEvent.OnClientEvent:Connect(function(...: any)
-				onReceive(game.Players.LocalPlayer, ...)
-			end))
-
-			if player then
-				valState:Set(promptFunction:InvokeServer(player))
-			end
-		end
-
-		return valState
-	end
-
-	function Interface.transmit<T>(
-		state: State<T>,
-		remoteName: string,
-		id: string?,
-		rate: number?,
-		player: Player?
-	): RBXScriptConnection
-		id = id or DEFAULT_REMOTE_ID
-		assert(id ~= nil)
-
-		rate = rate or DEFAULT_REMOTE_RATE
-		assert(rate ~= nil)
-
-		local remoteEvent = _NetworkUtil.getRemoteEvent(remoteName)
-		local promptFunction = _NetworkUtil.getRemoteFunction(remoteName)
-		local lastUpdate = 0
-
-		local function transmit(tPlayer: Player?, val: any?, tId: string, tRate: number)
-			if tId ~= id then
-				return
-			end
-			if tick() - lastUpdate >= 1 / rate then
-				lastUpdate = tick()
-				if RunService:IsServer() then
-					if tPlayer then
-						remoteEvent:FireClient(tPlayer, tId, val)
-					else
-						remoteEvent:FireAllClients(tId, val)
-					end
-				else
-					remoteEvent:FireServer(tId, val)
-				end
-			end
-		end
-
-		if RunService:IsServer() then
-			promptFunction.OnServerInvoke = function(tPlayer: Player, tId: string)
-				if tId ~= id then
-					return
-				end
-				return state:Get()
-			end
-		else
-			promptFunction.OnClientInvoke = function(tPlayer: Player, tId: string)
-				if tId ~= id then
-					return
-				end
-				return state:Get()
-			end
-		end
-
-		local connection: any = state:Connect(function(cur: T, prev: T?)
-			transmit(player, state:Get(), id, rate)
-		end)
-
-		return connection
 	end
 
 	function Interface._init<T>(state: State<T>, fusionConstructor: (...any) -> State<T>): State<T>
 		return nil :: any
 	end
 
-	Interface.OUT = _FusionOut :: any
-	Interface.REF = _FusionRef :: any
-	Interface.CHILDREN = _FusionChildren :: any
-	Interface.ON_EVENT = _FusionOnEvent :: any
-	Interface.PROPERTY_CHANGED = _FusionOnChange :: any
+	-- Interface.OUT = FusionOut :: any
+	-- Interface.REF = FusionRef :: any
+	-- Interface.CHILDREN = FusionChildren :: any
+	-- Interface.ON_EVENT = FusionOnEvent :: any
+	-- Interface.PROPERTY_CHANGED = FusionOnChange :: any
 
 	return Interface
 end

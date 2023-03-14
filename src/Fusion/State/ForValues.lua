@@ -13,30 +13,23 @@
 local Package = script.Parent.Parent
 local PubTypes = require(Package.PubTypes)
 local Types = require(Package.Types)
-local captureDependencies = require(Package.Dependencies.captureDependencies)
-local initDependency = require(Package.Dependencies.initDependency)
-local useDependency = require(Package.Dependencies.useDependency)
+-- Logging
 local parseError = require(Package.Logging.parseError)
+local logError = require(Package.Logging.logError)
 local logErrorNonFatal = require(Package.Logging.logErrorNonFatal)
 local logWarn = require(Package.Logging.logWarn)
+-- Utility
 local cleanup = require(Package.Utility.cleanup)
 local needsDestruction = require(Package.Utility.needsDestruction)
+-- State
+local peek = require(Package.State.peek)
+local makeUseCallback = require(Package.State.makeUseCallback)
+local isState = require(Package.State.isState)
 
 local class = {}
 
 local CLASS_METATABLE = { __index = class }
 local WEAK_KEYS_METATABLE = { __mode = "k" }
-
---[[
-	Returns the current value of this ForValues object.
-	The object will be registered as a dependency unless `asDependency` is false.
-]]
-function class:get(asDependency: boolean?): any
-	if asDependency ~= false then
-		useDependency(self)
-	end
-	return self._outputTable
-end
 
 --[[
 	Called when the original table is changed.
@@ -58,7 +51,7 @@ end
 ]]
 function class:update(): boolean
 	local inputIsState = self._inputIsState
-	local inputTable = if inputIsState then self._inputTable:get(false) else self._inputTable
+	local inputTable = peek(self._inputTable)
 	local outputValues = {}
 
 	local didChange = false
@@ -81,6 +74,7 @@ function class:update(): boolean
 		self._inputTable.dependentSet[self] = true
 		self.dependencySet[self._inputTable] = true
 	end
+
 
 	-- STEP 1: find values that changed or were not previously present
 	for inKey, inValue in pairs(inputTable) do
@@ -116,7 +110,7 @@ function class:update(): boolean
 		-- check if the value's dependencies have changed
 		if shouldRecalculate == false then
 			for dependency, oldValue in pairs(valueData.dependencyValues) do
-				if oldValue ~= dependency:get(false) then
+				if oldValue ~= peek(dependency) then
 					shouldRecalculate = true
 					break
 				end
@@ -128,8 +122,8 @@ function class:update(): boolean
 			valueData.oldDependencySet, valueData.dependencySet = valueData.dependencySet, valueData.oldDependencySet
 			table.clear(valueData.dependencySet)
 
-			local processOK, newOutValue, newMetaValue =
-				captureDependencies(valueData.dependencySet, self._processor, inValue)
+			local use = makeUseCallback(valueData.dependencySet)
+			local processOK, newOutValue, newMetaValue = xpcall(self._processor, use, inValue)
 
 			if processOK then
 				if self._destructor == nil and (needsDestruction(newOutValue) or needsDestruction(newMetaValue)) then
@@ -150,12 +144,12 @@ function class:update(): boolean
 				didChange = true
 			else
 				-- restore old dependencies, because the new dependencies may be corrupt
-				valueData.oldDependencySet, valueData.dependencySet =
-					valueData.dependencySet, valueData.oldDependencySet
+				valueData.oldDependencySet, valueData.dependencySet = valueData.dependencySet, valueData.oldDependencySet
 
 				logErrorNonFatal("forValuesProcessorError", newOutValue)
 			end
 		end
+
 
 		-- store the value and its dependency/meta data
 		local newCachedValues = newValueCache[inValue]
@@ -172,14 +166,16 @@ function class:update(): boolean
 
 		outputValues[inKey] = value
 
+
 		-- save dependency values and add to main dependency set
 		for dependency in pairs(valueData.dependencySet) do
-			valueData.dependencyValues[dependency] = dependency:get(false)
+			valueData.dependencyValues[dependency] = peek(dependency)
 
 			self.dependencySet[dependency] = true
 			dependency.dependentSet[self] = true
 		end
 	end
+
 
 	-- STEP 2: find values that were removed
 	-- for tables of data, we just need to check if it's still in the cache
@@ -204,12 +200,24 @@ function class:update(): boolean
 	return didChange
 end
 
+--[[
+	Returns the interior value of this state object.
+]]
+function class:_peek(): any
+	return self._outputTable
+end
+
+function class:get()
+	logError("stateGetWasRemoved")
+end
+
 local function ForValues<VI, VO, M>(
 	inputTable: PubTypes.CanBeState<{ [any]: VI }>,
 	processor: (VI) -> (VO, M?),
 	destructor: (VO, M?) -> ()?
 ): Types.ForValues<VI, VO, M>
-	local inputIsState = inputTable.type == "State" and typeof(inputTable.get) == "function"
+
+	local inputIsState = isState(inputTable)
 
 	local self = setmetatable({
 		type = "State",
@@ -230,7 +238,6 @@ local function ForValues<VI, VO, M>(
 		_oldValueCache = {},
 	}, CLASS_METATABLE)
 
-	initDependency(self)
 	self:update()
 
 	return self

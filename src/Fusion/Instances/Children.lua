@@ -9,9 +9,10 @@ local Package = script.Parent.Parent
 local PubTypes = require(Package.PubTypes)
 local logWarn = require(Package.Logging.logWarn)
 local Observer = require(Package.State.Observer)
-local xtypeof = require(Package.Utility.xtypeof)
+local peek = require(Package.State.peek)
+local isState = require(Package.State.isState)
 
-type Set<T> = { [T]: boolean }
+type Set<T> = {[T]: boolean}
 
 -- Experimental flag: name children based on the key used in the [Children] table
 local EXPERIMENTAL_AUTO_NAMING = false
@@ -21,13 +22,13 @@ Children.type = "SpecialKey"
 Children.kind = "Children"
 Children.stage = "descendants"
 
-function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTypes.Task })
+function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: {PubTypes.Task})
 	local newParented: Set<Instance> = {}
 	local oldParented: Set<Instance> = {}
 
 	-- save disconnection functions for state object observers
-	local newDisconnects: { [PubTypes.StateObject<any>]: () -> () } = {}
-	local oldDisconnects: { [PubTypes.StateObject<any>]: () -> () } = {}
+	local newDisconnects: {[PubTypes.StateObject<any>]: () -> ()} = {}
+	local oldDisconnects: {[PubTypes.StateObject<any>]: () -> ()} = {}
 
 	local updateQueued = false
 	local queueUpdate: () -> ()
@@ -36,6 +37,9 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTy
 	-- to observe for changes; then unparents instances no longer found and
 	-- disconnects observers for state objects no longer present.
 	local function updateChildren()
+		if not updateQueued then
+			return -- this update may have been canceled by destruction, etc.
+		end
 		updateQueued = false
 
 		oldParented, newParented = newParented, oldParented
@@ -44,9 +48,9 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTy
 		table.clear(newDisconnects)
 
 		local function processChild(child: any, autoName: string?)
-			local kind = xtypeof(child)
+			local childType = typeof(child)
 
-			if kind == "Instance" then
+			if childType == "Instance" then
 				-- case 1; single instance
 
 				newParented[child] = true
@@ -64,10 +68,11 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTy
 				if EXPERIMENTAL_AUTO_NAMING and autoName ~= nil then
 					child.Name = autoName
 				end
-			elseif kind == "State" then
+
+			elseif isState(child) then
 				-- case 2; state object
 
-				local value = child:get(false)
+				local value = peek(child)
 				-- allow nil to represent the absence of a child
 				if value ~= nil then
 					processChild(value, autoName)
@@ -84,7 +89,8 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTy
 				end
 
 				newDisconnects[child] = disconnect
-			elseif kind == "table" then
+
+			elseif childType == "table" then
 				-- case 3; table of objects
 
 				for key, subChild in pairs(child) do
@@ -99,8 +105,9 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTy
 
 					processChild(subChild, subAutoName)
 				end
+
 			else
-				logWarn("unrecognisedChildType", kind)
+				logWarn("unrecognisedChildType", childType)
 			end
 		end
 
@@ -130,10 +137,12 @@ function Children:apply(propValue: any, applyTo: Instance, cleanupTasks: { PubTy
 
 	table.insert(cleanupTasks, function()
 		propValue = nil
+		updateQueued = true
 		updateChildren()
 	end)
 
 	-- perform initial child parenting
+	updateQueued = true
 	updateChildren()
 end
 

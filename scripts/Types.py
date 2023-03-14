@@ -1,329 +1,315 @@
 import io
 import requests
 import json
+import os
 
 API_DUMP_URL = "https://raw.githubusercontent.com/CloneTrooper1019/Roblox-Client-Tracker/roblox/API-Dump.json"
+API = requests.get(url = API_DUMP_URL, params = {}).json()
+CLASS_API = API["Classes"]
+ENUM_API = API["Enums"]
 
-MAX_CONSTRUCTOR_LENGTH = 5
-MAX_CONSTRUCTOR_LENGTH_GROUP = 2
+ROOTS = [
+	# "Accoutrement",
+	# "Attachment",
+	# "Atmosphere",
+	# "BaseWrap",
+	# "Beam",
+	# "BodyMover",
+	# "Camera",
+	# "CharacterAppearance",
+	# "Clouds",
+	# "Constraint",
+	# "FaceInstance",
+	# "FaceControls",
+	# "Fire",
+	"GuiBase2d",
+	"Highlight",
+	# "Humanoid",
+	# "HumanoidDescription",
+	# "IKControl",
+	# "Light",
+	# "Lighting",
+	# "MaterialVariant",
+	# "PVInstance",
+	# "PathfindingLink",
+	# "PathfindingModifier",
+	# "ParticleEmitter",
+	# "Plugin",
+	# "Player",
+	# "PostEffect",
+	# "ProximityPrompt",
+	# "Sky",
+	# "Smoke",
+	# "Sound",
+	# "SoundEffect",
+	# "SoundGroup",
+	# "Sparkles",
+	# "SurfaceAppearance",
+	# "Team",
+	# "Trail",
+	"UIBase",
+	# "ValueBase",
+	# "WeldConstraint"
+]
 
-# sending get request and saving the response as response object
-api = requests.get(url = API_DUMP_URL, params = {}).json()
-apiStr = '{"k1": "v1", "k2": "v2"}'#"'"+str(api)+"'"
-apiList = json.loads(apiStr)
+DEBUG_PATH = "scripts/api.json"
 
-classes = api["Classes"]
-file = io.open("src/Types.lua", "w")
+enums = []
+for enum_data in ENUM_API:
+	enums.append(enum_data["Name"])
+
+exported_classes = []
+registry = []
+classes = {}
+class_events = {}
+class_properties = {}
+
+for class_data in CLASS_API:
+	classes[class_data["Name"]] = class_data
+	is_ancestor = False
+	for child_data in CLASS_API:
+		if child_data["Superclass"] == class_data["Name"]:
+			is_ancestor = True
+
+	if is_ancestor == False:
+		is_deprecated = False
+		if "Tags" in class_data:
+			tag_data = class_data["Tags"]
+			if "Deprecated" in tag_data and class_data["Superclass"] != "BodyMover":
+				is_deprecated = True
+		if class_data["Name"] == "RocketPropulsion":
+			is_deprecated = True
+			
+		if is_deprecated == False:
+			exported_classes.append(class_data["Name"])
+
+def formatValueType(val: str):
+	if val == "bool":
+		return "boolean"
+	elif val == "Content" or val == "BinaryString":
+		return "string"
+	elif val == "float" or val == "int" or val == "int64" or val == "double":
+		return "number"
+	elif val == "Dictionary":
+		return "{[any]: any}"
+	elif val == "Array":
+		return "{[number]: any}"
+	elif val in enums:
+		return "Enum."+val
+	else:
+		return val
+
+def writeType(class_name: str):
+	if not class_name in registry:
+		registry.append(class_name)
+
+		for class_data in CLASS_API:
+			if class_data["Name"] == class_name:
+				properties = {}
+				events = {}
+				
+				for member_data in class_data["Members"]:
+					is_safe = True
+					if "Tags" in member_data:
+						tag_data = member_data["Tags"]
+						if ("Deprecated" in tag_data and class_data["Superclass"] != "BodyMover") or ("ReadOnly" in tag_data) or ("Hidden" in tag_data) or ("NotScriptable" in tag_data):
+							is_safe = False
+						
+					if " " in member_data["Name"]:
+						is_safe = False
+
+					if is_safe:
+						if member_data["MemberType"] == "Property":
+							properties[member_data["Name"]] = member_data["ValueType"]["Name"]
+						elif member_data["MemberType"] == "Event":								
+							params = []
+							param_index = 0
+							for param_data in member_data["Parameters"]:
+								params.append({
+									"Name": param_data["Name"],
+									"Type": param_data["Type"]["Name"]
+								})
+								# params[param_data["Name"]] = param_data["Type"]["Name"]
+							events[member_data["Name"]] = params
+				
+				if len(properties) > 0:
+					class_properties[class_name] = properties
+				else:
+					class_properties[class_name] = class_data["Superclass"]
+
+				if len(events) > 0:
+					class_events[class_name] = events
+				else:
+					class_events[class_name] = class_data["Superclass"]
+
+				writeType(class_data["Superclass"])
+				if class_name != "Instance":
+					for child_data in CLASS_API:
+						if child_data["Superclass"] == class_name:
+							writeType(child_data["Name"])
 
 
-classList = []
-for classData in classes:
-	classList.append(classData)
+for class_name in ROOTS:
+	writeType(class_name)
 
-file.write("""
-type State<T> = {Value: T, [any]:any}
-type ParameterEntry<T> = (State<T> | T)
-type Attributes = {[string]: ParameterEntry<string | boolean | number |UDim |UDim2 |BrickColor |Color3 |Vector2 |Vector3 |NumberSequence |ColorSequence |NumberRange |Rect | nil>}
-type Children = ParameterEntry<{Instance}>
-type BoundFunction = (...any) -> nil
+if os.path.exists(DEBUG_PATH):
+	os.remove(DEBUG_PATH)
+debugWriter = io.open(DEBUG_PATH, "w")
+debugWriter.write(json.dumps(class_events, indent=4))
+debugWriter.close()
+
+OUT_PATH = "src/InstanceTypes.lua"
+if os.path.exists(OUT_PATH):
+	os.remove(OUT_PATH)
+
+writer = io.open(OUT_PATH, "w")
+
+writer.write("""--!strict
+type State<T> = {
+	_Value: T,
+	Get: (self: any) -> T,
+}
+type CanBeState<T> = State<T> | T""")
+def getFirstAncestor(class_name: str, class_dict: dict):
+	if class_name in class_dict:
+		class_data = class_dict[class_name]
+		if type(class_data) == str:
+			return getFirstAncestor(classes[class_name]["Superclass"], class_dict)
+		else:
+			return class_name
+	return None
+
+switch_class_names = []
+for class_name in class_properties:
+	class_data = class_properties[class_name]
+
+	if type(class_data) != str:
+		if class_name in exported_classes:
+			switch_class_names.append(class_name)
+
+		writer.write("\n\ntype "+class_name+"Properties = {\n\t[string]: nil,")
+		for k in class_data:
+			writer.write("\n\t"+k+": CanBeState<"+formatValueType(class_data[k])+">?,")
+
+		ancestor_name = getFirstAncestor(classes[class_name]["Superclass"], class_properties)
+		if ancestor_name != None:
+			writer.write("\n} & " + ancestor_name + "Properties")
+		else:
+			writer.write("\n}")
+
+for class_name in class_events:
+	class_data = class_events[class_name]
+
+	if type(class_data) != str:
+		if class_name in exported_classes:
+			switch_class_names.append(class_name)
+
+		writer.write("\n\ntype "+class_name+"Events = {\n\t[string]: nil,")
+
+		for event_name in class_data:
+			event_func = "(("
+			param_index = 0
+			for param in class_data[event_name]:
+				param_index += 1
+				if param_index > 1:
+					event_func += ", "
+				event_func += param["Name"]+": "+formatValueType(param["Type"])
+			event_func += ") -> nil)"
+			writer.write("\n\t"+event_name+": "+event_func+"?,")
+		
+		ancestor_name = getFirstAncestor(classes[class_name]["Superclass"], class_events)
+		if ancestor_name != None:
+			writer.write("\n} & " + ancestor_name + "Events")
+		else:
+			writer.write("\n}")
+
+
+writer.write("\n\nexport type InstanceConstructor = (")
+
+prop_count = 0
+for class_name in switch_class_names:
+	if prop_count == 0:
+		writer.write("\n\t")
+	else:
+		writer.write("\n\t& ")
+	writer.write("((className: \""+class_name+"\") -> (properties: {")
+
+	if class_name in class_properties:
+		if type(class_properties[class_name]) == str:
+			writer.write("\n\t\tProperties: "+getFirstAncestor(class_name, class_properties)+"Properties?,")
+		else:
+			writer.write("\n\t\tProperties: "+class_name+"Properties?,")
+	else:
+		writer.write("\n\t\tProperties: {[string]: CanBeState<any>}?,")
+	
+
+	writer.write("\n\t\tChildren: {[number]: Instance}?,")
+	
+	if class_name in class_events:
+		if type(class_events[class_name]) == str:
+			writer.write("\n\t\tEvents: "+getFirstAncestor(class_name, class_events)+"Events?,")
+		else:
+			writer.write("\n\t\tEvents: "+class_name+"Events?,")
+	else:
+		writer.write("\n\t\tEvents: {[string]: () -> nil}?,")
+
+	writer.write("\n\t\tAttributes: {[string]: CanBeState<any>}?,")
+	writer.write("\n\t}) -> "+class_name+")")
+	prop_count += 1
+writer.write("""
+	& ((className: string) -> (properties: {
+		Properties: {[string]: CanBeState<any>}?,
+		Children: {[number]: any}?,
+		Events: {[string]: () -> nil}?,
+		Attributes: {[string]: CanBeState<any>}?,
+	}) -> Instance)""")
+writer.write("\n)")
+
+writer.write("\n\nexport type InstanceMounter = (")
+prop_count = 0
+for class_name in switch_class_names:
+	if prop_count == 0:
+		writer.write("\n\t")
+	else:
+		writer.write("\n\t& ")
+	writer.write("((inst: "+class_name+") -> (properties: {")	
+
+	writer.write("\n\t\tChildren: {[number]: CanBeState<Instance?>}?,")
+	
+	if class_name in class_events:
+		if type(class_events[class_name]) == str:
+			writer.write("\n\t\tEvents: "+getFirstAncestor(class_name, class_events)+"Events?,")
+		else:
+			writer.write("\n\t\tEvents: "+class_name+"Events?,")
+	else:
+		writer.write("\n\t\tEvents: {[string]: () -> nil}?,")
+
+	writer.write("\n\t\tAttributes: {[string]: CanBeState<any>}?,")
+	writer.write("\n\t}")
+	if class_name in class_properties:
+		if type(class_properties[class_name]) == str:
+			writer.write(" & "+getFirstAncestor(class_name, class_properties)+"Properties")
+		else:
+			writer.write(" & "+class_name+"Properties")
+	else:
+		writer.write("\n\t\t[string]: CanBeState<any>?,")
+	writer.write(") -> "+class_name+")")
+	prop_count += 1
+writer.write("""
+	& ((inst: Instance) -> (properties: {
+		Children: {[number]: CanBeState<Instance?>}?,
+		Events: {[string]: () -> nil}?,
+		Attributes: {[string]: CanBeState<any>}?,
+		[string]: CanBeState<any>,
+	}) -> Instance)""")
+writer.write("\n)")
+
+print(json.dumps(switch_class_names, indent=4))
+
+writer.write("""
+return {}
 """)
 
-safe = {
-	"Instance": "true",
-	"Lighting": "true",
-	"Players": "true",
-	"SoundService": "true",
-	"MaterialService": "true",
-	"StarterGui": "true",
-	"StarterPack": "true",
-	"RocketPropulsion": "false",
-	"BlockMesh": "false",
-	"Breakpoint": "false",
-	"HumanoidController": "false",
-	"VehicleController": "false",
-	"SkateboardController": "false",
-	"AirController": "false",
-	"ClimbController": "false",
-	"GroundController": "false",
-	"SwimController": "false",
-	"ControllerManager": "false",
-	"DataStoreIncrementOptions": "false",
-	"DataStoreOptions": "false",
-	"DataStoreSetOptions": "false",
-	"DebuggerWatch": "false",
-	"EulerRotationCurve": "false",
-	"GetTextBoundsParams": "false",
-	"Keyframe": "false",
-	"KeyframeMarker": "false",
-	"LocalizationTable": "false",
-	"Script": "false",
-	"LocalScript": "false",
-	"ModuleScript": "false",
-	"MarkerCurve": "false",
-	"PartOperationAsset": "false",
-	"ReflectionMetadata": "false",
-	"ReflectionMetadataCallbacks": "false",
-	"ReflectionMetadataClasses": "false",
-	"ReflectionMetadataEnums": "false",
-	"ReflectionMetadataEvents": "false",
-	"ReflectionMetadataFunctions": "false",
-	"ReflectionMetadataClass": "false",
-	"ReflectionMetadataEnum": "false",
-	"ReflectionMetadataEnumItem": "false",
-	"ReflectionMetadataMember": "false",
-	"ReflectionMetadataProperties": "false",
-	"ReflectionMetadataYieldFunctions": "false",
-	"TerrainDetail": "false",
-	"TerrainRegion": "false",
-	"StandalonePluginScripts": "false",
-	"BinaryStringValue": "false",
-	"TextChatMessageProperties": "false",
-	"TextChatCommand": "false",
-	"TeleportOptions": "false",
-	"RayValue": "false",
-	"FloatCurve": "false",
-	"CharacterMesh": "false",
-	"RenderingTest": "false",
-	"Pose": "false",
-	"NumberPose": "false",
-	"PluginAction": "false",
-	"Tween": "false",
-	"ServerStorage": "false",
-	"ServerScriptService": "false",
-	"ServerScriptService": "false",
-	"PartOperation": "false",
-	"Motor": "false",
-	"Accoutrement": "false",
-	"Plane": "false", 
-	"Skin": "false", 
-	"RocketPropulsion": "false", 
-	"HopperBin": "false", 
-	"Flag": "false", 
-	"Hat": "false", 
-	"CustomEvent": "false", 
-	"CustomEventReceiver": "false", 
-	"BlockMesh": "false", 
-	"CylinderMesh": "false", 
-	"Hole": "false", 
-	"MotorFeature": "false", 
-	"FunctionalTest": "false", 
-	"GuiMain": "false", 
-	"FloorWire": "false", 
-	"SelectionPartLasso": "false", 
-	"SelectionPointLasso": "false", 
-	"RotateP": "false", 
-	"RotateV": "false", 
-	"Glue": "false", 
-	"ManualGlue": "false", 
-	"Rotate": "false", 
-	"Snap": "false", 
-	"Message": "false", 
-	"Hint": "false", 
-	"FlagStand": "false", 
-	"SkateboardPlatform": "false", 
-	"DoubleConstrainedValue": "false", 
-	"IntConstrainedValue": "false", 
-	"Speaker": "false",
-	"ManualWeld": "false",
-	"Studio": "false"
-}
+writer.close()
 
-finalList = []
-scores = {}
-
-classProperties = {}
-
-def getIfViableProperty(propertyMember):
-	isScriptable = True
-	isDeprecated = False
-	isReadOnly = False
-	if "Tags" in propertyMember:
-		for tag in propertyMember["Tags"]:
-			if tag == "Deprecated":
-				isDeprecated = True
-			elif tag == "NotScriptable":
-				isScriptable = False
-			elif tag == "ReadOnly":
-				isReadOnly = True,
-				
-	if isScriptable and not isDeprecated and not isReadOnly and propertyMember["MemberType"] == "Property" and propertyMember["Security"]["Write"] == "None":
-		return True
-	else:
-		return False
-
-def setClassProperties(classData):
-	className = classData["Name"]
-	if not className == "Studio":
-		superClass = classData["Superclass"]
-		isService = False
-		# if not className in safeServices:
-		propCount = 0
-		isCreatable = True
-		isClassDeprecated = False
-
-		properties = {}
-
-		for member in classData["Members"]:
-			if getIfViableProperty(member) == True:
-				propCount += 1
-
-		if "Tags" in classData:
-			for tag in classData["Tags"]:
-				if tag == 'Service':
-					isService = True	
-				elif tag == 'NotCreatable':
-					isCreatable = False
-				elif tag == 'Deprecated' and not superClass == "BodyMover":
-					isClassDeprecated = True
-
-		if className in safe and safe[className] == "true":
-			isService = False
-			finalList.append(classData)
-
-		if isCreatable == True:
-			if not className in safe or  safe[className] != "false":
-				finalList.append(classData)
-		# if className == "Instance":
-		# 	file.write("\ntype "+className+"Properties = {")
-		# else:
-		# 	file.write("\ntype "+className+"Properties = "+ superClass +"Properties")
-		# file.write("\n\tClassName: \""+classData["Name"]+"\",")
-		if propCount > 0:
-			# if not className == "Instance":
-				# file.write(" & {")
-
-			for member in classData["Members"]:
-				isScriptable = True
-				isDeprecated = False
-				isReadOnly = False
-				if "Tags" in member:
-					for tag in member["Tags"]:
-						if tag == "Deprecated":
-							isDeprecated = True
-						elif tag == "NotScriptable":
-							isScriptable = False
-						elif tag == "ReadOnly":
-							isReadOnly = True,
-
-				if isScriptable and not isDeprecated and not isReadOnly and member["MemberType"] == "Property" and member["Security"]["Write"] == "None":
-					valueType = member["ValueType"]["Name"]
-					if valueType == "bool":
-						valueType = "boolean"
-					elif valueType == "float":
-						valueType = "number"
-					elif valueType == "int" or valueType == "int64" or valueType == "double":
-						valueType = "number"
-					elif valueType == "Content":
-						valueType = "string"
-
-					if member["ValueType"]["Category"] == "Enum":
-						valueType = "Enum."+valueType
-					if not valueType == "Hole":
-						# file.write("\n\t"+member["Name"]+": ParameterEntry<"+valueType+">?,")
-						properties[member["Name"]] = "ParameterEntry<"+valueType+">"
-
-			if className == "Instance":
-				properties["Children"] = "Children"
-				properties["Attributes"] = """Attributes"""
-				properties["Parent"] = "ParameterEntry<Instance?>"
-		classProperties[className] = properties	
-
-hierarchy = {}
-
-for classData in classList:
-	className = classData["Name"]
-	superClass = classData["Superclass"]
-	if not superClass in hierarchy: 
-		hierarchy[superClass] = []
-	hierarchy[superClass].append(className)
-	setClassProperties(classData)
-
-def passProperties(className):
-	if className in hierarchy and className in classProperties:
-		properties = classProperties[className]
-		for childClass in hierarchy[className]:
-			if not childClass in classProperties:
-				classProperties[childClass] = {}
-			childProps = classProperties[childClass]
-			for propName, propType in properties.items():
-				if not propName in childProps:
-					childProps[propName] = propType
-			passProperties(childClass)
-
-passProperties("Instance")
-
-for classData in finalList:
-	className = classData["Name"]
-	if className in classProperties:
-		propList = classProperties[className]
-		file.write("\n\ntype " + className + "Properties = {")
-		for propName, propType in propList.items():
-			file.write("\n\t" + propName + ": " + propType + "?,")
-		file.write("\n\t[any]: BoundFunction")
-		file.write("\n} | {")
-		for propName, propType in propList.items():
-			file.write("\n\t" + propName + ": " + propType + "?,")
-		file.write("\n\t[any]: nil")
-		file.write("\n}")
-
-def createAMonster(baseName, firstParamFormatter):
-	typenameList = []
-	index = 1
-	file.write("\n\ntype "+baseName+"0 = (")
-	typenameList.append(baseName+"0")
-
-	for classData in finalList:
-		# print(index % MAX_CONSTRUCTOR_LENGTH)
-		if index % MAX_CONSTRUCTOR_LENGTH == 0:
-			file.write(")\n\n")
-			file.write("type "+ baseName + str(int(index/5)) + " = (")
-			typenameList.append(baseName + str(int(index/5)))
-		className = classData["Name"]
-		file.write("\n\t")
-		if index != 1 and index % MAX_CONSTRUCTOR_LENGTH != 0:
-			file.write("& ")
-		index += 1
-		
-		file.write("(("+firstParamFormatter(className)+") -> ((params: "+className+"Properties) -> "+className+"))")
-	file.write(")")
-
-	def my_function(list,letters = ""):
-		innerlistA =  []
-		innerlistB =  []
-
-		for i in range(0, len(list)):
-			if i % 2 == 0:
-				innerlistA.append(list[i])
-			else:
-				innerlistB.append(list[i])
-		if len(innerlistA) <= MAX_CONSTRUCTOR_LENGTH_GROUP and len(innerlistA) != 0:
-			file.write("\n\n type "+baseName+"A"+ letters +f" = {' & '.join(innerlistA)}")
-		if len(innerlistB) <= MAX_CONSTRUCTOR_LENGTH_GROUP and len(innerlistB) != 0:
-			file.write("\n\n type "+baseName+"B"+ letters +f" = {' & '.join(innerlistB)}")
-		if len(list) <= MAX_CONSTRUCTOR_LENGTH_GROUP *2:
-			file.write("\n\n type "+baseName+ letters + f" = "+baseName+"A"+ letters + " & "+baseName+"B" + letters) 
-		else:
-			# print(innerlistA)
-			lettersA = letters + "L"
-			my_function(innerlistA,lettersA)
-			# print(innerlistB)
-			lettersB = letters + "R"
-			my_function(innerlistB,lettersB)
-			if letters == "":
-				file.write("\n\n export type "+baseName+ letters + f" = "+baseName+ lettersA + " & "+baseName + lettersB) 
-			else:
-				file.write("\n\n type "+baseName+ letters + f" = "+baseName+ lettersA + " & "+baseName + lettersB) 
-			
-
-	my_function(typenameList)
-
-def classNameFormat(className):
-	return ("className: \""+className + "\"")
-
-def classFormat(className):
-	return className
-
-createAMonster("ClassNameConstructors", classNameFormat)
-# createAMonster("ClassConstructors", classFormat)
-
-file.write("\n\nreturn {}") 
+# os.system("stylua "+OUT_PATH)
