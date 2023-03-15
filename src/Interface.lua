@@ -76,7 +76,7 @@ return function(maid: Maid)
 		processor: (key: KI, maid: Maid) -> KO
 	): State<{ [KO]: any }>
 		return Interface._init(
-			_FusionForKeys(input, function(key: KI): (KO, Maid)
+			_FusionForKeys(input, function(use: () -> any, key: KI): (KO, Maid)
 				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				return processor(key, _maid), _maid
@@ -92,7 +92,7 @@ return function(maid: Maid)
 		processor: (val: VI, maid: Maid) -> VO
 	): State<{ [any]: VO }>
 		return Interface._init(
-			_FusionForValues(input, function(val: VI): (VO, Maid)
+			_FusionForValues(input, function(use: () -> any, val: VI): (VO, Maid)
 				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				return processor(val, _maid), _maid
@@ -108,7 +108,7 @@ return function(maid: Maid)
 		processor: (key: KI, val: VI, maid: Maid) -> (KO, VO)
 	): State<{ [any]: VO }>
 		return Interface._init(
-			_FusionForPairs(input, function(key: KI, val: VI): (KO, VO, Maid)
+			_FusionForPairs(input, function(use: () -> any, key: KI, val: VI): (KO, VO, Maid)
 				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				local kOut, vOut = processor(key, val, _maid)

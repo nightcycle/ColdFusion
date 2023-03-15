@@ -8,6 +8,20 @@ API = requests.get(url = API_DUMP_URL, params = {}).json()
 CLASS_API = API["Classes"]
 ENUM_API = API["Enums"]
 
+FILTERS = [
+	"VideoFrame",
+	"PluginGui",
+	"AdGui",
+	"TextureGuiExperimental",
+	"CanvasGroup",
+	"TextBox",
+	"UITableLayout",
+	"UIPageLayout",
+	"UITextSizeConstraint",
+	"BillboardGui",
+	"LayerCollector"
+]
+
 ROOTS = [
 	# "Accoutrement",
 	# "Attachment",
@@ -99,8 +113,8 @@ def formatValueType(val: str):
 	else:
 		return val
 
-def writeType(class_name: str):
-	if not class_name in registry:
+def writeType(class_name: str, format_children: bool):
+	if not class_name in registry and not class_name in FILTERS:
 		registry.append(class_name)
 
 		for class_data in CLASS_API:
@@ -142,15 +156,15 @@ def writeType(class_name: str):
 				else:
 					class_events[class_name] = class_data["Superclass"]
 
-				writeType(class_data["Superclass"])
-				if class_name != "Instance":
+				writeType(class_data["Superclass"], False)
+				if class_name != "Instance" and format_children:
 					for child_data in CLASS_API:
 						if child_data["Superclass"] == class_name:
-							writeType(child_data["Name"])
+							writeType(child_data["Name"], format_children)
 
 
 for class_name in ROOTS:
-	writeType(class_name)
+	writeType(class_name, True)
 
 if os.path.exists(DEBUG_PATH):
 	os.remove(DEBUG_PATH)

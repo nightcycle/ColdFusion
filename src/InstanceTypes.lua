@@ -23,134 +23,6 @@ type InstanceProperties = {
 	Parent: CanBeState<Instance>?,
 }
 
-type GuiBase3dProperties = {
-	[string]: nil,
-	Color3: CanBeState<Color3>?,
-	Transparency: CanBeState<number>?,
-	Visible: CanBeState<boolean>?,
-} & InstanceProperties
-
-type FloorWireProperties = {
-	[string]: nil,
-	CycleOffset: CanBeState<number>?,
-	From: CanBeState<BasePart>?,
-	StudsBetweenTextures: CanBeState<number>?,
-	Texture: CanBeState<string>?,
-	TextureSize: CanBeState<Vector2>?,
-	To: CanBeState<BasePart>?,
-	Velocity: CanBeState<number>?,
-	WireRadius: CanBeState<number>?,
-} & GuiBase3dProperties
-
-type InstanceAdornmentProperties = {
-	[string]: nil,
-	Adornee: CanBeState<Instance>?,
-} & GuiBase3dProperties
-
-type SelectionBoxProperties = {
-	[string]: nil,
-	LineThickness: CanBeState<number>?,
-	SurfaceColor3: CanBeState<Color3>?,
-	SurfaceTransparency: CanBeState<number>?,
-} & InstanceAdornmentProperties
-
-type PVAdornmentProperties = {
-	[string]: nil,
-	Adornee: CanBeState<PVInstance>?,
-} & GuiBase3dProperties
-
-type HandleAdornmentProperties = {
-	[string]: nil,
-	AdornCullingMode: CanBeState<Enum.AdornCullingMode>?,
-	AlwaysOnTop: CanBeState<boolean>?,
-	CFrame: CanBeState<CFrame>?,
-	SizeRelativeOffset: CanBeState<Vector3>?,
-	ZIndex: CanBeState<number>?,
-} & PVAdornmentProperties
-
-type BoxHandleAdornmentProperties = {
-	[string]: nil,
-	Size: CanBeState<Vector3>?,
-} & HandleAdornmentProperties
-
-type ConeHandleAdornmentProperties = {
-	[string]: nil,
-	Height: CanBeState<number>?,
-	Radius: CanBeState<number>?,
-} & HandleAdornmentProperties
-
-type CylinderHandleAdornmentProperties = {
-	[string]: nil,
-	Angle: CanBeState<number>?,
-	Height: CanBeState<number>?,
-	InnerRadius: CanBeState<number>?,
-	Radius: CanBeState<number>?,
-} & HandleAdornmentProperties
-
-type ImageHandleAdornmentProperties = {
-	[string]: nil,
-	Image: CanBeState<string>?,
-	Size: CanBeState<Vector2>?,
-} & HandleAdornmentProperties
-
-type LineHandleAdornmentProperties = {
-	[string]: nil,
-	Length: CanBeState<number>?,
-	Thickness: CanBeState<number>?,
-} & HandleAdornmentProperties
-
-type SphereHandleAdornmentProperties = {
-	[string]: nil,
-	Radius: CanBeState<number>?,
-} & HandleAdornmentProperties
-
-type WireframeHandleAdornmentProperties = {
-	[string]: nil,
-	Scale: CanBeState<Vector3>?,
-} & HandleAdornmentProperties
-
-type SelectionSphereProperties = {
-	[string]: nil,
-	SurfaceColor3: CanBeState<Color3>?,
-	SurfaceTransparency: CanBeState<number>?,
-} & PVAdornmentProperties
-
-type PartAdornmentProperties = {
-	[string]: nil,
-	Adornee: CanBeState<BasePart>?,
-} & GuiBase3dProperties
-
-type ArcHandlesProperties = {
-	[string]: nil,
-	Axes: CanBeState<Axes>?,
-} & PartAdornmentProperties
-
-type HandlesProperties = {
-	[string]: nil,
-	Faces: CanBeState<Faces>?,
-	Style: CanBeState<Enum.HandlesStyle>?,
-} & PartAdornmentProperties
-
-type SurfaceSelectionProperties = {
-	[string]: nil,
-	TargetSurface: CanBeState<Enum.NormalId>?,
-} & PartAdornmentProperties
-
-type SelectionLassoProperties = {
-	[string]: nil,
-	Humanoid: CanBeState<Humanoid>?,
-} & GuiBase3dProperties
-
-type SelectionPartLassoProperties = {
-	[string]: nil,
-	Part: CanBeState<BasePart>?,
-} & SelectionLassoProperties
-
-type SelectionPointLassoProperties = {
-	[string]: nil,
-	Point: CanBeState<Vector3>?,
-} & SelectionLassoProperties
-
 type GuiObjectProperties = {
 	[string]: nil,
 	Active: CanBeState<boolean>?,
@@ -177,12 +49,6 @@ type GuiObjectProperties = {
 	Visible: CanBeState<boolean>?,
 	ZIndex: CanBeState<number>?,
 } & GuiBase2dProperties
-
-type CanvasGroupProperties = {
-	[string]: nil,
-	GroupColor3: CanBeState<Color3>?,
-	GroupTransparency: CanBeState<number>?,
-} & GuiObjectProperties
 
 type FrameProperties = {
 	[string]: nil,
@@ -284,42 +150,6 @@ type ScrollingFrameProperties = {
 	VerticalScrollBarPosition: CanBeState<Enum.VerticalScrollBarPosition>?,
 } & GuiObjectProperties
 
-type TextBoxProperties = {
-	[string]: nil,
-	ClearTextOnFocus: CanBeState<boolean>?,
-	CursorPosition: CanBeState<number>?,
-	FontFace: CanBeState<Enum.Font>?,
-	LineHeight: CanBeState<number>?,
-	MaxVisibleGraphemes: CanBeState<number>?,
-	MultiLine: CanBeState<boolean>?,
-	PlaceholderColor3: CanBeState<Color3>?,
-	PlaceholderText: CanBeState<string>?,
-	RichText: CanBeState<boolean>?,
-	SelectionStart: CanBeState<number>?,
-	ShowNativeInput: CanBeState<boolean>?,
-	Text: CanBeState<string>?,
-	TextColor3: CanBeState<Color3>?,
-	TextEditable: CanBeState<boolean>?,
-	TextScaled: CanBeState<boolean>?,
-	TextSize: CanBeState<number>?,
-	TextStrokeColor3: CanBeState<Color3>?,
-	TextStrokeTransparency: CanBeState<number>?,
-	TextTransparency: CanBeState<number>?,
-	TextTruncate: CanBeState<Enum.TextTruncate>?,
-	TextWrapped: CanBeState<boolean>?,
-	TextXAlignment: CanBeState<Enum.TextXAlignment>?,
-	TextYAlignment: CanBeState<Enum.TextYAlignment>?,
-} & GuiObjectProperties
-
-type VideoFrameProperties = {
-	[string]: nil,
-	Looped: CanBeState<boolean>?,
-	Playing: CanBeState<boolean>?,
-	TimePosition: CanBeState<number>?,
-	Video: CanBeState<string>?,
-	Volume: CanBeState<number>?,
-} & GuiObjectProperties
-
 type ViewportFrameProperties = {
 	[string]: nil,
 	Ambient: CanBeState<Color3>?,
@@ -329,78 +159,6 @@ type ViewportFrameProperties = {
 	LightColor: CanBeState<Color3>?,
 	LightDirection: CanBeState<Vector3>?,
 } & GuiObjectProperties
-
-type LayerCollectorProperties = {
-	[string]: nil,
-	Enabled: CanBeState<boolean>?,
-	ResetOnSpawn: CanBeState<boolean>?,
-	ZIndexBehavior: CanBeState<Enum.ZIndexBehavior>?,
-} & GuiBase2dProperties
-
-type BillboardGuiProperties = {
-	[string]: nil,
-	Active: CanBeState<boolean>?,
-	Adornee: CanBeState<Instance>?,
-	AlwaysOnTop: CanBeState<boolean>?,
-	Brightness: CanBeState<number>?,
-	ClipsDescendants: CanBeState<boolean>?,
-	DistanceLowerLimit: CanBeState<number>?,
-	DistanceStep: CanBeState<number>?,
-	DistanceUpperLimit: CanBeState<number>?,
-	ExtentsOffset: CanBeState<Vector3>?,
-	ExtentsOffsetWorldSpace: CanBeState<Vector3>?,
-	LightInfluence: CanBeState<number>?,
-	MaxDistance: CanBeState<number>?,
-	PlayerToHideFrom: CanBeState<Instance>?,
-	Size: CanBeState<UDim2>?,
-	SizeOffset: CanBeState<Vector2>?,
-	StudsOffset: CanBeState<Vector3>?,
-	StudsOffsetWorldSpace: CanBeState<Vector3>?,
-} & LayerCollectorProperties
-
-type PluginGuiProperties = {
-	[string]: nil,
-	Title: CanBeState<string>?,
-} & LayerCollectorProperties
-
-type ScreenGuiProperties = {
-	[string]: nil,
-	ClipToDeviceSafeArea: CanBeState<boolean>?,
-	DisplayOrder: CanBeState<number>?,
-	IgnoreGuiInset: CanBeState<boolean>?,
-	SafeAreaCompatibility: CanBeState<Enum.SafeAreaCompatibility>?,
-	ScreenInsets: CanBeState<Enum.ScreenInsets>?,
-} & LayerCollectorProperties
-
-type SurfaceGuiBaseProperties = {
-	[string]: nil,
-	Active: CanBeState<boolean>?,
-	Adornee: CanBeState<Instance>?,
-	Face: CanBeState<Enum.NormalId>?,
-} & LayerCollectorProperties
-
-type AdGuiProperties = {
-	[string]: nil,
-	AdShape: CanBeState<Enum.AdShape>?,
-} & SurfaceGuiBaseProperties
-
-type SurfaceGuiProperties = {
-	[string]: nil,
-	AlwaysOnTop: CanBeState<boolean>?,
-	Brightness: CanBeState<number>?,
-	CanvasSize: CanBeState<Vector2>?,
-	ClipsDescendants: CanBeState<boolean>?,
-	LightInfluence: CanBeState<number>?,
-	PixelsPerStud: CanBeState<number>?,
-	SizingMode: CanBeState<Enum.SurfaceGuiSizingMode>?,
-	ToolPunchThroughDistance: CanBeState<number>?,
-	ZOffset: CanBeState<number>?,
-} & SurfaceGuiBaseProperties
-
-type TextureGuiExperimentalProperties = {
-	[string]: nil,
-	Size: CanBeState<Vector2>?,
-} & LayerCollectorProperties
 
 type HighlightProperties = {
 	[string]: nil,
@@ -424,12 +182,6 @@ type UISizeConstraintProperties = {
 	[string]: nil,
 	MaxSize: CanBeState<Vector2>?,
 	MinSize: CanBeState<Vector2>?,
-} & InstanceProperties
-
-type UITextSizeConstraintProperties = {
-	[string]: nil,
-	MaxTextSize: CanBeState<number>?,
-	MinTextSize: CanBeState<number>?,
 } & InstanceProperties
 
 type UICornerProperties = {
@@ -465,27 +217,6 @@ type UIGridLayoutProperties = {
 type UIListLayoutProperties = {
 	[string]: nil,
 	Padding: CanBeState<UDim>?,
-} & UIGridStyleLayoutProperties
-
-type UIPageLayoutProperties = {
-	[string]: nil,
-	Animated: CanBeState<boolean>?,
-	Circular: CanBeState<boolean>?,
-	EasingDirection: CanBeState<Enum.EasingDirection>?,
-	EasingStyle: CanBeState<Enum.EasingStyle>?,
-	GamepadInputEnabled: CanBeState<boolean>?,
-	Padding: CanBeState<UDim>?,
-	ScrollWheelInputEnabled: CanBeState<boolean>?,
-	TouchInputEnabled: CanBeState<boolean>?,
-	TweenTime: CanBeState<number>?,
-} & UIGridStyleLayoutProperties
-
-type UITableLayoutProperties = {
-	[string]: nil,
-	FillEmptySpaceColumns: CanBeState<boolean>?,
-	FillEmptySpaceRows: CanBeState<boolean>?,
-	MajorAxis: CanBeState<Enum.TableMajorAxis>?,
-	Padding: CanBeState<UDim2>?,
 } & UIGridStyleLayoutProperties
 
 type UIPaddingProperties = {
@@ -528,32 +259,6 @@ type InstanceEvents = {
 	Destroying: (() -> nil)?,
 }
 
-type HandleAdornmentEvents = {
-	[string]: nil,
-	MouseButton1Down: (() -> nil)?,
-	MouseButton1Up: (() -> nil)?,
-	MouseEnter: (() -> nil)?,
-	MouseLeave: (() -> nil)?,
-} & InstanceEvents
-
-type ArcHandlesEvents = {
-	[string]: nil,
-	MouseButton1Down: ((axis: Enum.Axis) -> nil)?,
-	MouseButton1Up: ((axis: Enum.Axis) -> nil)?,
-	MouseDrag: ((axis: Enum.Axis, relativeAngle: number, deltaRadius: number) -> nil)?,
-	MouseEnter: ((axis: Enum.Axis) -> nil)?,
-	MouseLeave: ((axis: Enum.Axis) -> nil)?,
-} & InstanceEvents
-
-type HandlesEvents = {
-	[string]: nil,
-	MouseButton1Down: ((face: Enum.NormalId) -> nil)?,
-	MouseButton1Up: ((face: Enum.NormalId) -> nil)?,
-	MouseDrag: ((face: Enum.NormalId, distance: number) -> nil)?,
-	MouseEnter: ((face: Enum.NormalId) -> nil)?,
-	MouseLeave: ((face: Enum.NormalId) -> nil)?,
-} & InstanceEvents
-
 type GuiObjectEvents = {
 	[string]: nil,
 	InputBegan: ((input: InputObject) -> nil)?,
@@ -585,119 +290,8 @@ type GuiButtonEvents = {
 	MouseButton2Up: ((x: number, y: number) -> nil)?,
 } & GuiObjectEvents
 
-type TextBoxEvents = {
-	[string]: nil,
-	FocusLost: ((enterPressed: boolean, inputThatCausedFocusLoss: InputObject) -> nil)?,
-	Focused: (() -> nil)?,
-	ReturnPressedFromOnScreenKeyboard: (() -> nil)?,
-} & GuiObjectEvents
-
-type VideoFrameEvents = {
-	[string]: nil,
-	DidLoop: ((video: string) -> nil)?,
-	Ended: ((video: string) -> nil)?,
-	Loaded: ((video: string) -> nil)?,
-	Paused: ((video: string) -> nil)?,
-	Played: ((video: string) -> nil)?,
-} & GuiObjectEvents
-
-type PluginGuiEvents = {
-	[string]: nil,
-	PluginDragDropped: ((dragData: {[any]: any}) -> nil)?,
-	PluginDragEntered: ((dragData: {[any]: any}) -> nil)?,
-	PluginDragLeft: ((dragData: {[any]: any}) -> nil)?,
-	PluginDragMoved: ((dragData: {[any]: any}) -> nil)?,
-	WindowFocusReleased: (() -> nil)?,
-	WindowFocused: (() -> nil)?,
-} & GuiBase2dEvents
-
-type UIPageLayoutEvents = {
-	[string]: nil,
-	PageEnter: ((page: Instance) -> nil)?,
-	PageLeave: ((page: Instance) -> nil)?,
-	Stopped: ((currentPage: Instance) -> nil)?,
-} & InstanceEvents
-
 export type InstanceConstructor = (
-	((className: "SelectionBox") -> (properties: {
-		Properties: SelectionBoxProperties?,
-		Children: {[number]: Instance}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> SelectionBox)
-	& ((className: "BoxHandleAdornment") -> (properties: {
-		Properties: BoxHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> BoxHandleAdornment)
-	& ((className: "ConeHandleAdornment") -> (properties: {
-		Properties: ConeHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> ConeHandleAdornment)
-	& ((className: "CylinderHandleAdornment") -> (properties: {
-		Properties: CylinderHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> CylinderHandleAdornment)
-	& ((className: "ImageHandleAdornment") -> (properties: {
-		Properties: ImageHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> ImageHandleAdornment)
-	& ((className: "LineHandleAdornment") -> (properties: {
-		Properties: LineHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> LineHandleAdornment)
-	& ((className: "SphereHandleAdornment") -> (properties: {
-		Properties: SphereHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> SphereHandleAdornment)
-	& ((className: "WireframeHandleAdornment") -> (properties: {
-		Properties: WireframeHandleAdornmentProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> WireframeHandleAdornment)
-	& ((className: "SelectionSphere") -> (properties: {
-		Properties: SelectionSphereProperties?,
-		Children: {[number]: Instance}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> SelectionSphere)
-	& ((className: "ArcHandles") -> (properties: {
-		Properties: ArcHandlesProperties?,
-		Children: {[number]: Instance}?,
-		Events: ArcHandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> ArcHandles)
-	& ((className: "Handles") -> (properties: {
-		Properties: HandlesProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> Handles)
-	& ((className: "SurfaceSelection") -> (properties: {
-		Properties: SurfaceSelectionProperties?,
-		Children: {[number]: Instance}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> SurfaceSelection)
-	& ((className: "CanvasGroup") -> (properties: {
-		Properties: CanvasGroupProperties?,
-		Children: {[number]: Instance}?,
-		Events: GuiObjectEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> CanvasGroup)
-	& ((className: "Frame") -> (properties: {
+	((className: "Frame") -> (properties: {
 		Properties: FrameProperties?,
 		Children: {[number]: Instance}?,
 		Events: GuiObjectEvents?,
@@ -733,48 +327,12 @@ export type InstanceConstructor = (
 		Events: GuiObjectEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	}) -> ScrollingFrame)
-	& ((className: "TextBox") -> (properties: {
-		Properties: TextBoxProperties?,
-		Children: {[number]: Instance}?,
-		Events: TextBoxEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> TextBox)
-	& ((className: "VideoFrame") -> (properties: {
-		Properties: VideoFrameProperties?,
-		Children: {[number]: Instance}?,
-		Events: VideoFrameEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> VideoFrame)
 	& ((className: "ViewportFrame") -> (properties: {
 		Properties: ViewportFrameProperties?,
 		Children: {[number]: Instance}?,
 		Events: GuiObjectEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	}) -> ViewportFrame)
-	& ((className: "BillboardGui") -> (properties: {
-		Properties: BillboardGuiProperties?,
-		Children: {[number]: Instance}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> BillboardGui)
-	& ((className: "AdGui") -> (properties: {
-		Properties: AdGuiProperties?,
-		Children: {[number]: Instance}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> AdGui)
-	& ((className: "SurfaceGui") -> (properties: {
-		Properties: SurfaceGuiProperties?,
-		Children: {[number]: Instance}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> SurfaceGui)
-	& ((className: "TextureGuiExperimental") -> (properties: {
-		Properties: TextureGuiExperimentalProperties?,
-		Children: {[number]: Instance}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> TextureGuiExperimental)
 	& ((className: "Highlight") -> (properties: {
 		Properties: HighlightProperties?,
 		Children: {[number]: Instance}?,
@@ -793,12 +351,6 @@ export type InstanceConstructor = (
 		Events: InstanceEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	}) -> UISizeConstraint)
-	& ((className: "UITextSizeConstraint") -> (properties: {
-		Properties: UITextSizeConstraintProperties?,
-		Children: {[number]: Instance}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> UITextSizeConstraint)
 	& ((className: "UICorner") -> (properties: {
 		Properties: UICornerProperties?,
 		Children: {[number]: Instance}?,
@@ -823,18 +375,6 @@ export type InstanceConstructor = (
 		Events: InstanceEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	}) -> UIListLayout)
-	& ((className: "UIPageLayout") -> (properties: {
-		Properties: UIPageLayoutProperties?,
-		Children: {[number]: Instance}?,
-		Events: UIPageLayoutEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> UIPageLayout)
-	& ((className: "UITableLayout") -> (properties: {
-		Properties: UITableLayoutProperties?,
-		Children: {[number]: Instance}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> UITableLayout)
 	& ((className: "UIPadding") -> (properties: {
 		Properties: UIPaddingProperties?,
 		Children: {[number]: Instance}?,
@@ -853,36 +393,6 @@ export type InstanceConstructor = (
 		Events: InstanceEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	}) -> UIStroke)
-	& ((className: "ArcHandles") -> (properties: {
-		Properties: ArcHandlesProperties?,
-		Children: {[number]: Instance}?,
-		Events: ArcHandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> ArcHandles)
-	& ((className: "Handles") -> (properties: {
-		Properties: HandlesProperties?,
-		Children: {[number]: Instance}?,
-		Events: HandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> Handles)
-	& ((className: "TextBox") -> (properties: {
-		Properties: TextBoxProperties?,
-		Children: {[number]: Instance}?,
-		Events: TextBoxEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> TextBox)
-	& ((className: "VideoFrame") -> (properties: {
-		Properties: VideoFrameProperties?,
-		Children: {[number]: Instance}?,
-		Events: VideoFrameEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> VideoFrame)
-	& ((className: "UIPageLayout") -> (properties: {
-		Properties: UIPageLayoutProperties?,
-		Children: {[number]: Instance}?,
-		Events: UIPageLayoutEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> UIPageLayout)
 	& ((className: string) -> (properties: {
 		Properties: {[string]: CanBeState<any>}?,
 		Children: {[number]: any}?,
@@ -892,72 +402,7 @@ export type InstanceConstructor = (
 )
 
 export type InstanceMounter = (
-	((inst: SelectionBox) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & SelectionBoxProperties) -> SelectionBox)
-	& ((inst: BoxHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & BoxHandleAdornmentProperties) -> BoxHandleAdornment)
-	& ((inst: ConeHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & ConeHandleAdornmentProperties) -> ConeHandleAdornment)
-	& ((inst: CylinderHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & CylinderHandleAdornmentProperties) -> CylinderHandleAdornment)
-	& ((inst: ImageHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & ImageHandleAdornmentProperties) -> ImageHandleAdornment)
-	& ((inst: LineHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & LineHandleAdornmentProperties) -> LineHandleAdornment)
-	& ((inst: SphereHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & SphereHandleAdornmentProperties) -> SphereHandleAdornment)
-	& ((inst: WireframeHandleAdornment) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandleAdornmentEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & WireframeHandleAdornmentProperties) -> WireframeHandleAdornment)
-	& ((inst: SelectionSphere) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & SelectionSphereProperties) -> SelectionSphere)
-	& ((inst: ArcHandles) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: ArcHandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & ArcHandlesProperties) -> ArcHandles)
-	& ((inst: Handles) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & HandlesProperties) -> Handles)
-	& ((inst: SurfaceSelection) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & SurfaceSelectionProperties) -> SurfaceSelection)
-	& ((inst: CanvasGroup) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: GuiObjectEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & CanvasGroupProperties) -> CanvasGroup)
-	& ((inst: Frame) -> (properties: {
+	((inst: Frame) -> (properties: {
 		Children: {[number]: CanBeState<Instance?>}?,
 		Events: GuiObjectEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
@@ -987,41 +432,11 @@ export type InstanceMounter = (
 		Events: GuiObjectEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	} & ScrollingFrameProperties) -> ScrollingFrame)
-	& ((inst: TextBox) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: TextBoxEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & TextBoxProperties) -> TextBox)
-	& ((inst: VideoFrame) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: VideoFrameEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & VideoFrameProperties) -> VideoFrame)
 	& ((inst: ViewportFrame) -> (properties: {
 		Children: {[number]: CanBeState<Instance?>}?,
 		Events: GuiObjectEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	} & ViewportFrameProperties) -> ViewportFrame)
-	& ((inst: BillboardGui) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & BillboardGuiProperties) -> BillboardGui)
-	& ((inst: AdGui) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & AdGuiProperties) -> AdGui)
-	& ((inst: SurfaceGui) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & SurfaceGuiProperties) -> SurfaceGui)
-	& ((inst: TextureGuiExperimental) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: GuiBase2dEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & TextureGuiExperimentalProperties) -> TextureGuiExperimental)
 	& ((inst: Highlight) -> (properties: {
 		Children: {[number]: CanBeState<Instance?>}?,
 		Events: InstanceEvents?,
@@ -1037,11 +452,6 @@ export type InstanceMounter = (
 		Events: InstanceEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	} & UISizeConstraintProperties) -> UISizeConstraint)
-	& ((inst: UITextSizeConstraint) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & UITextSizeConstraintProperties) -> UITextSizeConstraint)
 	& ((inst: UICorner) -> (properties: {
 		Children: {[number]: CanBeState<Instance?>}?,
 		Events: InstanceEvents?,
@@ -1062,16 +472,6 @@ export type InstanceMounter = (
 		Events: InstanceEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	} & UIListLayoutProperties) -> UIListLayout)
-	& ((inst: UIPageLayout) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: UIPageLayoutEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & UIPageLayoutProperties) -> UIPageLayout)
-	& ((inst: UITableLayout) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: InstanceEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & UITableLayoutProperties) -> UITableLayout)
 	& ((inst: UIPadding) -> (properties: {
 		Children: {[number]: CanBeState<Instance?>}?,
 		Events: InstanceEvents?,
@@ -1087,31 +487,6 @@ export type InstanceMounter = (
 		Events: InstanceEvents?,
 		Attributes: {[string]: CanBeState<any>}?,
 	} & UIStrokeProperties) -> UIStroke)
-	& ((inst: ArcHandles) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: ArcHandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & ArcHandlesProperties) -> ArcHandles)
-	& ((inst: Handles) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: HandlesEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & HandlesProperties) -> Handles)
-	& ((inst: TextBox) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: TextBoxEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & TextBoxProperties) -> TextBox)
-	& ((inst: VideoFrame) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: VideoFrameEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & VideoFrameProperties) -> VideoFrame)
-	& ((inst: UIPageLayout) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: UIPageLayoutEvents?,
-		Attributes: {[string]: CanBeState<any>}?,
-	} & UIPageLayoutProperties) -> UIPageLayout)
 	& ((inst: Instance) -> (properties: {
 		Children: {[number]: CanBeState<Instance?>}?,
 		Events: {[string]: () -> nil}?,
