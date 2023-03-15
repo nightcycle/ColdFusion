@@ -238,7 +238,7 @@ return function(maid: Maid)
 		local instBinder = FusionHydrate(inst :: any)
 		return function(propertyTable: any): Out & Instance
 			local inst = instBinder(getFusionTable(propertyTable))
-			maid:GiveTask(inst)
+			-- maid:GiveTask(inst)
 			return inst
 		end
 	end
