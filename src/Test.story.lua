@@ -50,12 +50,10 @@ return function(coreGui: ScreenGui)
 
 		_Fuse.new("TextButton")(
 			{
-				Properties = {
-					Name = "String",
-					Text = "",
-					LayoutOrder = 1,
-					Position = UDim2.new(0,0),
-				},
+				Name = "String",
+				Text = "",
+				LayoutOrder = 1,
+				Position = UDim2.new(0,0),
 				Events = {
 				-- 	MouseButton1Down = function()
 				-- 		print("Click")
@@ -83,6 +81,11 @@ return function(coreGui: ScreenGui)
 
 			local startTick = tick()
 		local num = 0
+
+		maid:GiveTask(Increment:Connect(function(cur: number)
+			print(cur)
+		end))
+
 		maid:GiveTask(RunService.RenderStepped:Connect(function()
 			local curNum = math.round(tick() - startTick)
 			if num ~= curNum then

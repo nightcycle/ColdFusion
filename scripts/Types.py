@@ -36,8 +36,8 @@ ROOTS = [
 	# "FaceInstance",
 	# "FaceControls",
 	# "Fire",
-	"GuiBase2d",
-	"Highlight",
+	# "GuiBase2d",
+	# "Highlight",
 	# "Humanoid",
 	# "HumanoidDescription",
 	# "IKControl",
@@ -61,7 +61,7 @@ ROOTS = [
 	# "SurfaceAppearance",
 	# "Team",
 	# "Trail",
-	"UIBase",
+	# "UIBase",
 	# "ValueBase",
 	# "WeldConstraint"
 ]
@@ -270,13 +270,23 @@ for class_name in switch_class_names:
 	writer.write("\n\t\tAttributes: {[string]: CanBeState<any>}?,")
 	writer.write("\n\t}) -> "+class_name+")")
 	prop_count += 1
-writer.write("""
-	& ((className: string) -> (properties: {
-		Properties: {[string]: CanBeState<any>}?,
-		Children: {[number]: any}?,
-		Events: {[string]: () -> nil}?,
-		Attributes: {[string]: CanBeState<any>}?,
-	}) -> Instance)""")
+if len(switch_class_names) > 0:
+	writer.write("""
+& ((className: string) -> (properties: {
+	[string]: CanBeState<any>,
+	Children: {[number]: any}?,
+	Events: {[string]: () -> nil}?,
+	Attributes: {[string]: CanBeState<any>}?,
+}) -> Instance)""")
+else:
+	writer.write("""
+((className: string) -> (properties: {
+	[string]: CanBeState<any>,
+	Children: {[number]: any}?,
+	Events: {[string]: () -> nil}?,
+	Attributes: {[string]: CanBeState<any>}?,
+}) -> Instance)""")
+
 writer.write("\n)")
 
 writer.write("\n\nexport type InstanceMounter = (")
@@ -309,13 +319,24 @@ for class_name in switch_class_names:
 		writer.write("\n\t\t[string]: CanBeState<any>?,")
 	writer.write(") -> "+class_name+")")
 	prop_count += 1
-writer.write("""
-	& ((inst: Instance) -> (properties: {
-		Children: {[number]: CanBeState<Instance?>}?,
-		Events: {[string]: () -> nil}?,
-		Attributes: {[string]: CanBeState<any>}?,
-		[string]: CanBeState<any>,
-	}) -> Instance)""")
+if len(switch_class_names) > 0:
+	writer.write("""
+& ((inst: Instance) -> (properties: {
+	Children: {[number]: CanBeState<Instance?>}?,
+	Events: {[string]: () -> nil}?,
+	Attributes: {[string]: CanBeState<any>}?,
+	[string]: CanBeState<any>,
+}) -> Instance)""")
+
+else:
+	writer.write("""
+((inst: Instance) -> (properties: {
+	Children: {[number]: CanBeState<Instance?>}?,
+	Events: {[string]: () -> nil}?,
+	Attributes: {[string]: CanBeState<any>}?,
+	[string]: CanBeState<any>,
+}) -> Instance)""")
+
 writer.write("\n)")
 
 print(json.dumps(switch_class_names, indent=4))

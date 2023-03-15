@@ -271,21 +271,41 @@ return function(interface: any)
 		end
 	end
 
-	function Util:Connect<any>(func: (cur: any, prev: any?) -> nil): (() -> nil)
-		local observer = _FusionObserver(self)
-		local prev: any = self:Get()
-		local connection = observer:onChange(function()
-			local cur = self:Get()
-			func(cur, prev)
+	function Util:Connect<any>(processor: (cur: any, prev: any?) -> nil): (() -> nil)
+		-- local observer = _FusionObserver(self)
+		local prev: any?
+		local isFirstRun = true
+		local compState = interface.Computed(function(cur: any): nil
+			if isFirstRun then
+				isFirstRun = false
+			else
+				processor(cur, prev)			
+			end
 			prev = cur
-		end)
-		if interface.Maid then
-			interface.Maid:GiveTask(connection)
-		else
-			connection()
+			return nil
+		end, self)
+
+		-- local connection = observer:onChange(function(out)
+		-- 	print("out", out)
+		-- 	local cur = self:Get()
+		-- 	func(cur, prev)
+		-- 	prev = cur
+		-- end)
+		-- observer:update()
+		-- print("OB", observer, "vs", ({[self] = true}))
+
+		local isDead = false
+		local cleanUp = function()
+			if isDead then return end
+			isDead = true
+			compState:Destroy()
 		end
 
-		return connection
+		if interface.Maid then
+			interface.Maid:GiveTask(cleanUp)
+		end
+
+		return cleanUp
 	end
 
 	return Util
