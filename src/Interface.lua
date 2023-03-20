@@ -92,7 +92,9 @@ return function(maid: Maid)
 		processor: (val: VI, maid: Maid) -> VO
 	): State<{ [any]: VO }>
 		return Interface._init(
-			_FusionForValues(input, function(use: () -> any, val: VI): (VO, Maid)
+			-- there seems to be an error in fusion for this specifically, 
+			-- in the future once it's fixed you need to add use() as the first parameter
+			_FusionForValues(input, function(val: VI): (VO, Maid)
 				local _maid = Maid.new()
 				maid:GiveTask(_maid)
 				return processor(val, _maid), _maid

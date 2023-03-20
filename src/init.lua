@@ -11,9 +11,9 @@ local InstanceTypes = require(Package:WaitForChild("InstanceTypes"))
 export type State<T> = Types.State<T>
 export type ValueState<T> = Types.ValueState<T>
 export type CanBeState<T> = Types.CanBeState<T>
-export type TableState<KI, VI, KO, VO> = Types.TableState<KI, VI, KO, VO>
-export type TableValueState<KI, VI, KO, VO> = Types.TableValueState<KI, VI, KO, VO>
-export type CanBeTableState<KI, VI, KO, VO> = Types.CanBeTableState<KI, VI, KO, VO>
+-- export type TableState<KI, VI, KO, VO> = Types.TableState<KI, VI, KO, VO>
+-- export type TableValueState<KI, VI, KO, VO> = Types.TableValueState<KI, VI, KO, VO>
+-- export type CanBeTableState<KI, VI, KO, VO> = Types.CanBeTableState<KI, VI, KO, VO>
 
 type Maid = Maid.Maid
 type Dict<K, V> = TableUtil.Dict<K, V>
