@@ -11,21 +11,16 @@ return function(coreGui: ScreenGui)
 	local maid = Maid.new()
 
 	task.spawn(function()
-		local _Fuse = require(script.Parent)
-		maid:GiveTask(_Fuse)
-
-		-- Instance functions
-		local _new = _Fuse.new
-		local _mount = _Fuse.mount
-
-		-- Helper functions
-		local _import = _Fuse.import
-
+		local ColdFusion = require(script.Parent)
+		local _fuse = ColdFusion.fuse(maid)
+		
+		local _new = _fuse.new
+		local _bind = _fuse.bind
+		local _import = _fuse.import
+		local _Value = _fuse.Value
+		local _Computed = _fuse.Computed
 
 		-- States
-		local _Value = _Fuse.Value
-		local _Computed = _Fuse.Computed
-
 		local Increment = _Value(0)
 
 		local Text = _Computed(function(inc: number): string
@@ -48,7 +43,7 @@ return function(coreGui: ScreenGui)
 			}),
 		}
 
-		_Fuse.new("TextButton")(
+		_fuse.new("TextButton")(
 			{
 				Name = "String",
 				Text = "",

@@ -42,9 +42,10 @@ local Util = require(Package:WaitForChild("Util"))
 export type Fuse = {
 	-- Instance related
 	new: InstanceTypes.InstanceConstructor,
-	mount: InstanceTypes.InstanceMounter,
+	bind: InstanceTypes.InstanceMounter,
+	clone: InstanceTypes.InstanceMounter,
 	import: <T>(maybeState: CanBeState<T>?, CanBeState<T>) -> State<T>,
-	fuse: (Maid) -> Fuse,
+	fuse: (Maid?) -> Fuse,
 
 	-- States
 	Value: <T>(initialValue: T) -> ValueState<T>,
@@ -166,8 +167,12 @@ function Fuse.fuse(maid: Maid?): Fuse
 		return _interface.new(className) :: any
 	end
 
-	self.mount = function<Out>(inst: Out & Instance): Out & Instance
-		return _interface.mount(inst :: any) :: any
+	self.bind = function<Out>(inst: Out & Instance): Out & Instance
+		return _interface.bind(inst :: any) :: any
+	end
+
+	self.clone = function<Out>(inst: Out & Instance): Out & Instance
+		return _interface.clone(inst :: any) :: any
 	end
 
 	self.import = function<T>(...)

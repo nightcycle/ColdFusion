@@ -196,7 +196,7 @@ return function(maid: Maid)
 		return Interface._init(tweenState, _FusionTween) :: any
 	end
 
-	function Interface.Spring<T>(goal: State<T>, speed: number?, dampingRatio: number?): State<T>
+	function Interface.Spring<T>(goal: State<T>, speed: CanBeState<number>?, dampingRatio: CanBeState<number>?): State<T>
 		local springState = _FusionSpring(goal, speed, dampingRatio)
 		return Interface._init(springState, _FusionSpring) :: any
 	end
@@ -236,13 +236,17 @@ return function(maid: Maid)
 		end
 	end
 
-	function Interface.mount<Out>(inst: Out & Instance): (propertyTable: any) -> Out & Instance
+	function Interface.bind<Out>(inst: Out & Instance): (propertyTable: any) -> Out & Instance
 		local instBinder = FusionHydrate(inst :: any)
 		return function(propertyTable: any): Out & Instance
 			local inst = instBinder(getFusionTable(propertyTable))
-			-- maid:GiveTask(inst)
 			return inst
 		end
+	end
+
+	function Interface.clone<Out>(template: Out & Instance): (propertyTable: any) -> Out & Instance
+		local inst = maid:GiveTask(template:Clone())
+		return Interface.bind(inst)
 	end
 
 	function Interface._init<T>(state: State<T>, fusionConstructor: (...any) -> State<T>): State<T>
