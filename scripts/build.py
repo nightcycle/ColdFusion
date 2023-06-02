@@ -57,6 +57,10 @@ def updateLuaFile(FILE_PATH: str):
 	replaceString(FILE_PATH, 'for spring in pairs(activeSprings) do', 'for spring in pairs(activeSprings) do if not spring._currentSpeed then continue end;')
 	replaceString(FILE_PATH, 'for tween: Tween in pairs(allTweens :: any) do', 'for tween: Tween in pairs(allTweens :: any) do if not tween._currentTweenStartTime then continue end;')
 	replaceString(FILE_PATH, 'local goalValue = self._goalState:get(false)', 'local goalValue = if self._goalState then self._goalState:get(false) else nil; if goalValue == nil then return end;')
+	replaceString(FILE_PATH, 
+	"""
+	"""
+	)
 
 
 def iterateThroughDirectory(DIR_PATH: str):

@@ -189,7 +189,7 @@ This is a useful function for when your value is a more complex datatype. It all
 Important thing to note, this does not update when the underlying property updates - this is just about reading the property at the time the state's value updates.
 
 ### Miscellaneous Operations
-They're all quite similar, and all of them can use either a state or regular data-type as the second parameter. The idea for them is to allow the avoidance of single-line computed processors when possible.
+They're all quite similar, and all of them can use either a state or regular data-type as the second parameter.
 ```lua
 	local A = _Value(5)
 	local B = _Value(3)
@@ -200,63 +200,11 @@ They're all quite similar, and all of them can use either a state or regular dat
 	local Difference = A:Subtract(1) -- value of 4
 	local Product = B:Multiply(Difference) -- value of 12
 	local Quotient = Product:Divide(6) --value of 2
-	local Remainder = Product:Modulus(10) --value of 2
-	local PowerOutput = Remainder:Power(3) --value of 8
-	local Sign = A:Sign() --value of 1
-	local Clamp = B:Clamp(4, PowerOutput) --value of 4
-	local Min = B:Min(0) --value of 0
-	local Max = Min:Max(PowerOutput) --value of 8
-	local Degree = Pi:Degree() -- value of 180
-	local Radian = Degree:Radian() --value of pi
 	local Round = Pi:Round() --value of 3
-	local Floor = Pi:Floor() --value of 3
-	local Ceiling = Pi:Ceil() --value of 4
-	local Log = Sum:Log(Quotient) --value of 3
-	local Log10 = _Value(100):Log10() --value of 2
-	local IfNaN = _Value(1/0):IfNaN(0) --value of 0
 	
 	-- String
 	local AStr = A:ToString() -- value of "5"
-	local Label = _Value("Number "):Concat(AStr) -- value of "Number 5"
 	local Caps = Label:Upper() -- value of "NUMBER 5"
-	local Smalls = Caps:Lower() -- value of "number 5"
-	local Splits = Caps:Split(" ") --value of {"number", "5"}
-	local Sub = Caps:Sub(1, Difference) --value of "NUMB"
-	local Gsub = Caps:GSub(" ", "_") --value of "NUMBER_5"
-	local Reps = Sub:Rep(3) --value of "NUMBNUMBNUMB"
-	local Reverse = Sub:Reverse() --value of "BMUN"
-	local StringLen = Caps:Len() --you can use this on tables or strings, value of 8
-
-	-- List
-	local List = _Computed(function(a: number, b: number, c: number): {[number]: number}
-		return {a,b,c}
-	end, Sum, Difference, Product) -- value of {8, 4, 12}
-	local Dict = _Value({
-		A = 1,
-		B = 2,
-		C = 3,
-	})
-	local Length = List:Len() --value of 3, the same as if you did #{8, 4, 12}
-	local Keys = Dict:Keys() --you can use it to get the keys of the table, value of {"A", "B", "C"}
-	local Values = Dict:Values() -- you can use it to get the values of the table, value of {1,2,3} in any order
-	local SortedValues = Values:Sort(function(a: number, b: number)
-		return a < b
-	end)
-	local RandSortValues = Values:Randomize(123) --randomizes values with an optional seed parameter
-
-	-- Boolean
-	local IsFour = Sum:Equal(4) -- value of false
-	local IsPositive = Difference:GreaterThan(0) -- value of true
-	local IsMoreThan = PowerOutput:GreaterThanEqualTo(Sum) -- value of true
-	local IsNegative = Difference:LessThan(0) -- value of false
-	local IsLessThan = PowerOutput:LessThanEqualTo(Sum) -- value of true
-	local IsPosAndNeg = IsPositive:And(IsNegative) --value of false
-	local IsPosOrNeg = IsPositive:Or(IsNegative) --value of true
-	local IsNotNeg = IsNegative:Not() --value of true
-
-	-- Logic
-	local Then = IsFour:Then(IsPositive) --if true then returns that, otherwise returns nil
-	local Else = Then:Else(5) -- if input value is nil or false, pass a different value
 ```
 
 # Import

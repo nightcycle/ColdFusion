@@ -3,7 +3,7 @@ local _Package = script.Parent
 local _Packages = _Package.Parent
 
 -- Packages
-local TableUtil = require(_Packages:WaitForChild("TableUtil"))
+-- local TableUtil = require(_Packages:WaitForChild("TableUtil"))
 
 -- Fusion references
 local FusionFolder = _Package.Fusion
@@ -91,24 +91,24 @@ return function(interface: any)
 		return interface.Computed(processor, self)
 	end
 
-	local function doubleParamProcess(processor: (a: any, b: any, c: any) -> any, self: any, b: any, c: any)
+	-- local function doubleParamProcess(processor: (a: any, b: any, c: any) -> any, self: any, b: any, c: any)
 		
-		if interface._getIfState(b) and interface._getIfState(c) then
-			return interface.Computed(processor, self, b, c)
-		elseif interface._getIfState(b) and not interface._getIfState(c) then
-			return interface.Computed(function(a: any, bVal: any): any
-				return processor(a, bVal, c)
-			end, self, b)	
-		elseif not interface._getIfState(b) and interface._getIfState(c) then
-			return interface.Computed(function(a: any, cVal: any): any
-				return processor(a, b, cVal)
-			end, self, b)	
-		else
-			return interface.Computed(function(a: any): any
-				return processor(a, b, c)
-			end, self)
-		end
-	end
+	-- 	if interface._getIfState(b) and interface._getIfState(c) then
+	-- 		return interface.Computed(processor, self, b, c)
+	-- 	elseif interface._getIfState(b) and not interface._getIfState(c) then
+	-- 		return interface.Computed(function(a: any, bVal: any): any
+	-- 			return processor(a, bVal, c)
+	-- 		end, self, b)	
+	-- 	elseif not interface._getIfState(b) and interface._getIfState(c) then
+	-- 		return interface.Computed(function(a: any, cVal: any): any
+	-- 			return processor(a, b, cVal)
+	-- 		end, self, b)	
+	-- 	else
+	-- 		return interface.Computed(function(a: any): any
+	-- 			return processor(a, b, c)
+	-- 		end, self)
+	-- 	end
+	-- end
 
 	function Util:Destroy()
 		if self["kind"] == "Spring" then
@@ -185,53 +185,53 @@ return function(interface: any)
 		end, self, other)
 	end
 
-	function Util:Modulus(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a % b
-		end, self, other)
-	end
+	-- function Util:Modulus(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a % b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Power(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a ^ b
-		end, self, other)
-	end
+	-- function Util:Power(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a ^ b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Sign(): any
-		return noParamProcess(function(a: any)
-			return math.sign(a)
-		end, self)
-	end
+	-- function Util:Sign(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return math.sign(a)
+	-- 	end, self)
+	-- end
 
-	function Util:Clamp(min: number, max: number): any
-		return doubleParamProcess(function(a: any, b: any, c: any)
-			return math.clamp(a, b, c)
-		end, self, min, max)
-	end
+	-- function Util:Clamp(min: number, max: number): any
+	-- 	return doubleParamProcess(function(a: any, b: any, c: any)
+	-- 		return math.clamp(a, b, c)
+	-- 	end, self, min, max)
+	-- end
 
-	function Util:Min(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return math.min(a,b)
-		end, self, other)
-	end
+	-- function Util:Min(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return math.min(a,b)
+	-- 	end, self, other)
+	-- end
 
-	function Util:Max(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return math.max(a,b)
-		end, self, other)
-	end
+	-- function Util:Max(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return math.max(a,b)
+	-- 	end, self, other)
+	-- end
 
-	function Util:Degree(): any
-		return noParamProcess(function(a: any)
-			return math.deg(a)
-		end, self)
-	end
+	-- function Util:Degree(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return math.deg(a)
+	-- 	end, self)
+	-- end
 
-	function Util:Radian(): any
-		return noParamProcess(function(a: any)
-			return math.rad(a)
-		end, self)
-	end
+	-- function Util:Radian(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return math.rad(a)
+	-- 	end, self)
+	-- end
 	
 	function Util:Round(): any
 		return noParamProcess(function(a: any)
@@ -239,143 +239,143 @@ return function(interface: any)
 		end, self)
 	end
 
-	function Util:Ceil(): any
-		return noParamProcess(function(a: any)
-			return math.ceil(a)
-		end, self)
-	end
+	-- function Util:Ceil(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return math.ceil(a)
+	-- 	end, self)
+	-- end
 
-	function Util:Log(base: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return math.log(a,b)
-		end, self, base)
-	end
+	-- function Util:Log(base: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return math.log(a,b)
+	-- 	end, self, base)
+	-- end
 
-	function Util:Log10(): any
-		return noParamProcess(function(a: any)
-			return math.log10(a)
-		end, self)
-	end
+	-- function Util:Log10(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return math.log10(a)
+	-- 	end, self)
+	-- end
 
-	function Util:IfNaN(other: any, alt: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return if a == a then a else b
-		end, self, alt)
-	end
+	-- function Util:IfNaN(other: any, alt: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return if a == a then a else b
+	-- 	end, self, alt)
+	-- end
 
-	function Util:Equal(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a == b
-		end, self, other)
-	end
+	-- function Util:Equal(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a == b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Not(): any
-		return noParamProcess(function(a: any)
-			return not a
-		end, self)
-	end
+	-- function Util:Not(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return not a
+	-- 	end, self)
+	-- end
 
-	function Util:And(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a and b
-		end, self, other)
-	end
+	-- function Util:And(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a and b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Or(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a or b
-		end, self, other)
-	end
-
-
-	function Util:XOr(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return not (a == b)
-		end, self, other)
-	end
-
-	function Util:LessThan(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a < b
-		end, self, other)
-	end
-
-	function Util:LessThanEqualTo(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a <= b
-		end, self, other)
-	end
-
-	function Util:GreaterThan(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a > b
-		end, self, other)
-	end
-
-	function Util:GreaterThanEqualTo(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a >= b
-		end, self, other)
-	end
-
-	function Util:Then(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return if a then b else nil
-		end, self, other)
-	end
-
-	function Util:Else(other: any)
-		return singleParamProcess(function(a: any, b: any)
-			if a then
-				return a
-			else
-				return b
-			end
-		end, self, other)
-	end
-
-	function Util:Len(): any
-		return noParamProcess(function(a: any)
-			if type(a) == "table" then
-				return #a
-			else
-				return string.len(a)
-			end
-		end, self)
-	end
-
-	function Util:Keys(): any
-		return noParamProcess(function(a: any)
-			return TableUtil.keys(a)
-		end, self)
-	end
-
-	function Util:Values(): any
-		return noParamProcess(function(a: any)
-			return TableUtil.values(a)
-		end, self)
-	end
+	-- function Util:Or(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a or b
+	-- 	end, self, other)
+	-- end
 
 
-	function Util:Sort(processor: (a: any, b: any) -> boolean): any
-		return noParamProcess(function(a: any)
-			local out = table.clone(a)
-			table.sort(out, processor)
-			return out
-		end, self)
-	end
+	-- function Util:XOr(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return not (a == b)
+	-- 	end, self, other)
+	-- end
 
-	function Util:Randomize(seed: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return TableUtil.randomize(a, b)
-		end, self, seed)
-	end
+	-- function Util:LessThan(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a < b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Concat(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a .. b
-		end, self, other)
-	end
+	-- function Util:LessThanEqualTo(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a <= b
+	-- 	end, self, other)
+	-- end
+
+	-- function Util:GreaterThan(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a > b
+	-- 	end, self, other)
+	-- end
+
+	-- function Util:GreaterThanEqualTo(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a >= b
+	-- 	end, self, other)
+	-- end
+
+	-- function Util:Then(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return if a then b else nil
+	-- 	end, self, other)
+	-- end
+
+	-- function Util:Else(other: any)
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		if a then
+	-- 			return a
+	-- 		else
+	-- 			return b
+	-- 		end
+	-- 	end, self, other)
+	-- end
+
+	-- function Util:Len(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		if type(a) == "table" then
+	-- 			return #a
+	-- 		else
+	-- 			return string.len(a)
+	-- 		end
+	-- 	end, self)
+	-- end
+
+	-- function Util:Keys(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return TableUtil.keys(a)
+	-- 	end, self)
+	-- end
+
+	-- function Util:Values(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return TableUtil.values(a)
+	-- 	end, self)
+	-- end
+
+
+	-- function Util:Sort(processor: (a: any, b: any) -> boolean): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		local out = table.clone(a)
+	-- 		table.sort(out, processor)
+	-- 		return out
+	-- 	end, self)
+	-- end
+
+	-- function Util:Randomize(seed: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return TableUtil.randomize(a, b)
+	-- 	end, self, seed)
+	-- end
+
+	-- function Util:Concat(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a .. b
+	-- 	end, self, other)
+	-- end
 
 	function Util:ToString(): any
 		return noParamProcess(function(a: any)
@@ -389,45 +389,45 @@ return function(interface: any)
 		end, self)
 	end
 
-	function Util:Lower(): any
-		return noParamProcess(function(a: any)
-			return string.lower(a)
-		end, self)
-	end
+	-- function Util:Lower(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return string.lower(a)
+	-- 	end, self)
+	-- end
 
-	function Util:Split(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return string.split(a, b)
-		end, self, other)
-	end
+	-- function Util:Split(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return string.split(a, b)
+	-- 	end, self, other)
+	-- end
 
-	function Util:Sub(start: any, finish: any): any
-		return doubleParamProcess(function(a: any, b: any, c: any)
-			return string.sub(a, b, c)
-		end, self, start, finish)
-	end
+	-- function Util:Sub(start: any, finish: any): any
+	-- 	return doubleParamProcess(function(a: any, b: any, c: any)
+	-- 		return string.sub(a, b, c)
+	-- 	end, self, start, finish)
+	-- end
 
-	function Util:GSub(pattern: any, rep: any): any
-		return doubleParamProcess(function(a: any, b: any, c: any)
-			return string.gsub(a, b, c)
-		end, self, pattern, rep)
-	end
+	-- function Util:GSub(pattern: any, rep: any): any
+	-- 	return doubleParamProcess(function(a: any, b: any, c: any)
+	-- 		return string.gsub(a, b, c)
+	-- 	end, self, pattern, rep)
+	-- end
 
-	function Util:Rep(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return string.rep(a, b)
-		end, self, other)
-	end
+	-- function Util:Rep(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return string.rep(a, b)
+	-- 	end, self, other)
+	-- end
 
-	function Util:Reverse(): any
-		return noParamProcess(function(a: any)
-			if type(a) == "table" then
-				return TableUtil.reverse(a)
-			else
-				return string.reverse(a)
-			end
-		end, self)
-	end
+	-- function Util:Reverse(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		if type(a) == "table" then
+	-- 			return TableUtil.reverse(a)
+	-- 		else
+	-- 			return string.reverse(a)
+	-- 		end
+	-- 	end, self)
+	-- end
 
 	function Util:Read(key: any): any
 		if interface._getIfState(key) then
