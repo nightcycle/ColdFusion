@@ -114,12 +114,10 @@ jobs:
       - name: Update version and labels
         shell: bash
         run: |
+          set -x
           repo_owner="${{needs.get_published_release.outputs.repo_owner_name}}"
-          
           repo_name="${{needs.get_published_release.outputs.repo_name}}"
-                    
-          repo_desc=${{needs.get_published_release.outputs.repo_desc}}
-                    
+          repo_desc=${{needs.get_published_release.outputs.repo_desc}}       
           goal_version_str="${{needs.get_published_release.outputs.tag_name}}"
           
           # remove letters
