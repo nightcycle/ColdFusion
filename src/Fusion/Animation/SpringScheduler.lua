@@ -4,6 +4,8 @@
 	Manages batch updating of spring objects.
 ]]
 
+local RunService = game:GetService("RunService")
+
 local Package = script.Parent.Parent
 local Types = require(Package.Types)
 local packType = require(Package.Animation.packType)
@@ -38,7 +40,8 @@ function SpringScheduler.remove(spring: Spring)
 	activeSprings[spring] = nil
 end
 
-function SpringScheduler.updateAllSprings()
+
+local function updateAllSprings()
 	local springsToSleep: Set<Spring> = {}
 	lastUpdateTime = os.clock()
 
@@ -77,9 +80,13 @@ function SpringScheduler.updateAllSprings()
 
 	for spring in pairs(springsToSleep) do
 		activeSprings[spring] = nil
-		-- Guarantee that springs reach exact goals, since mathematically they only approach it infinitely
-		spring._currentValue = packType(spring._springGoals, spring._currentType)
 	end
 end
+
+RunService:BindToRenderStep(
+	"__FusionSpringScheduler",
+	Enum.RenderPriority.First.Value,
+	updateAllSprings
+)
 
 return SpringScheduler
