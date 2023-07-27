@@ -77,19 +77,19 @@ return function(interface: any)
 	Util.__index = Util
 
 	-- private functions
-	local function singleParamProcess(processor: (a: any, b: any) -> any, self: any, other: any)
-		if interface._getIfState(other) then
-			return interface.Computed(processor, self, other)
-		else
-			return interface.Computed(function(a: any): any
-				return processor(a, other)
-			end, self)
-		end
-	end
+	-- local function singleParamProcess(processor: (a: any, b: any) -> any, self: any, other: any)
+	-- 	if interface._getIfState(other) then
+	-- 		return interface.Computed(processor, self, other)
+	-- 	else
+	-- 		return interface.Computed(function(a: any): any
+	-- 			return processor(a, other)
+	-- 		end, self)
+	-- 	end
+	-- end
 	
-	local function noParamProcess(processor: (a: any) -> any, self: any)
-		return interface.Computed(processor, self)
-	end
+	-- local function noParamProcess(processor: (a: any) -> any, self: any)
+	-- 	return interface.Computed(processor, self)
+	-- end
 
 	-- local function doubleParamProcess(processor: (a: any, b: any, c: any) -> any, self: any, b: any, c: any)
 		
@@ -122,6 +122,11 @@ return function(interface: any)
 		if self.dependentSet then
 			for state: any in pairs(self.dependentSet) do
 				state.dependencySet[self] = nil
+			end
+		end
+		if self.dependencySet then
+			for state: any in pairs(self.dependencySet) do
+				state.dependentSet[self] = nil
 			end
 		end
 		for k, v in pairs(self) do
@@ -161,29 +166,29 @@ return function(interface: any)
 		return interface.ForValues(self, ...)
 	end
 
-	function Util:Subtract(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a - b
-		end, self, other)
-	end
+	-- function Util:Subtract(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a - b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Add(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a + b
-		end, self, other)
-	end
+	-- function Util:Add(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a + b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Multiply(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a * b
-		end, self, other)
-	end
+	-- function Util:Multiply(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a * b
+	-- 	end, self, other)
+	-- end
 
-	function Util:Divide(other: any): any
-		return singleParamProcess(function(a: any, b: any)
-			return a / b
-		end, self, other)
-	end
+	-- function Util:Divide(other: any): any
+	-- 	return singleParamProcess(function(a: any, b: any)
+	-- 		return a / b
+	-- 	end, self, other)
+	-- end
 
 	-- function Util:Modulus(other: any): any
 	-- 	return singleParamProcess(function(a: any, b: any)
@@ -233,11 +238,11 @@ return function(interface: any)
 	-- 	end, self)
 	-- end
 	
-	function Util:Round(): any
-		return noParamProcess(function(a: any)
-			return math.round(a)
-		end, self)
-	end
+	-- function Util:Round(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return math.round(a)
+	-- 	end, self)
+	-- end
 
 	-- function Util:Ceil(): any
 	-- 	return noParamProcess(function(a: any)
@@ -377,17 +382,17 @@ return function(interface: any)
 	-- 	end, self, other)
 	-- end
 
-	function Util:ToString(): any
-		return noParamProcess(function(a: any)
-			return tostring(a)
-		end, self)
-	end
+	-- function Util:ToString(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return tostring(a)
+	-- 	end, self)
+	-- end
 
-	function Util:Upper(): any
-		return noParamProcess(function(a: any)
-			return string.upper(a)
-		end, self)
-	end
+	-- function Util:Upper(): any
+	-- 	return noParamProcess(function(a: any)
+	-- 		return string.upper(a)
+	-- 	end, self)
+	-- end
 
 	-- function Util:Lower(): any
 	-- 	return noParamProcess(function(a: any)
@@ -429,17 +434,17 @@ return function(interface: any)
 	-- 	end, self)
 	-- end
 
-	function Util:Read(key: any): any
-		if interface._getIfState(key) then
-			return interface.Computed(function(a: any, b: any): string
-				return a[b]
-			end, self, key)
-		else
-			return interface.Computed(function(a: any): string
-				return a[key]
-			end, self)
-		end
-	end
+	-- function Util:Read(key: any): any
+	-- 	if interface._getIfState(key) then
+	-- 		return interface.Computed(function(a: any, b: any): string
+	-- 			return a[b]
+	-- 		end, self, key)
+	-- 	else
+	-- 		return interface.Computed(function(a: any): string
+	-- 			return a[key]
+	-- 		end, self)
+	-- 	end
+	-- end
 
 	function Util:Connect<any>(processor: (cur: any, prev: any?) -> nil): (() -> nil)
 		-- local observer = _FusionObserver(self)
@@ -477,6 +482,16 @@ return function(interface: any)
 
 		return cleanUp
 	end
-
+	function Util:Join(targetInst: Instance, processor: (inst: Instance, val: any) -> ()): ()
+		local targetMaid = Maid.new()
+		if interface.Maid then
+			interface.Maid:GiveTask(targetMaid)
+		end
+		targetMaid:GiveTask(self:Connect(function(cur: any)
+			processor(targetInst, cur)
+		end))
+		processor(targetInst, self:Get())
+		targetMaid.bind(targetInst)
+	end
 	return Util
 end

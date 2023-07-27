@@ -1,6 +1,7 @@
 --!strict
 local Package = script
 local Packages = Package.Parent
+assert(Packages and Package)
 
 local Maid = require(Packages:WaitForChild("Maid"))
 local TableUtil = require(Packages:WaitForChild("TableUtil"))
@@ -22,18 +23,18 @@ type Dict<K, V> = TableUtil.Dict<K, V>
 local FusionFolder = Package:WaitForChild("Fusion")
 
 -- Fusion states
-local FusionStateFolder = FusionFolder.State
-local FusionValue = require(FusionStateFolder.Value) :: (...any) -> any
-local FusionComputed = require(FusionStateFolder.Computed) :: (...any) -> any
-local FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
-local FusionForPairs = require(FusionStateFolder.ForPairs) :: (...any) -> any
-local FusionForValues = require(FusionStateFolder.ForValues) :: (...any) -> any
+local FusionStateFolder = FusionFolder:WaitForChild("State")
+local FusionValue = require(FusionStateFolder:WaitForChild("Value")) :: (...any) -> any
+local FusionComputed = require(FusionStateFolder:WaitForChild("Computed")) :: (...any) -> any
+local FusionForKeys = require(FusionStateFolder:WaitForChild("ForKeys")) :: (...any) -> any
+local FusionForPairs = require(FusionStateFolder:WaitForChild("ForPairs")) :: (...any) -> any
+local FusionForValues = require(FusionStateFolder:WaitForChild("ForValues")) :: (...any) -> any
 -- local _FusionObserver = require(FusionStateFolder.Observer) :: (...any) -> any
 
 -- Fusion animations
-local FusionAnimationFolder = FusionFolder.Animation
-local FusionSpring = require(FusionAnimationFolder.Spring) :: (...any) -> any
-local FusionTween = require(FusionAnimationFolder.Tween) :: (...any) -> any
+local FusionAnimationFolder = FusionFolder:WaitForChild("Animation")
+local FusionSpring = require(FusionAnimationFolder:WaitForChild("Spring")) :: (...any) -> any
+local FusionTween = require(FusionAnimationFolder:WaitForChild("Tween")) :: (...any) -> any
 
 -- Modules
 local Interface = require(Package:WaitForChild("Interface"))
@@ -45,7 +46,7 @@ export type Fuse = {
 	bind: InstanceTypes.InstanceMounter,
 	clone: InstanceTypes.InstanceMounter,
 	import: <T>(maybeState: CanBeState<T>?, CanBeState<T>) -> State<T>,
-	fuse: (Maid?) -> Fuse,
+	fuse: (Maid?) -> Fuse, 
 
 	-- States
 	Value: <T>(initialValue: T) -> ValueState<T>,
@@ -174,6 +175,8 @@ function Fuse.fuse(maid: Maid?): Fuse
 	self.clone = function<Out>(inst: Out & Instance): Out & Instance
 		return _interface.clone(inst :: any) :: any
 	end
+
+
 
 	self.import = function<T>(...)
 		return _interface.import(...)

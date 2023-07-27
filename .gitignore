@@ -13,3 +13,10 @@
 /Fusion/**
 /src/Fusion/**
 sourcemap.json
+
+# Ignore directories
+types
+lints
+out/**
+.env
+tests

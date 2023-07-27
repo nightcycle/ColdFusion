@@ -29,16 +29,16 @@ local WEAK_KEYS_METATABLE = {__mode = "k"}
 ]]
 function class:update(): boolean
 	-- remove this object from its dependencies' dependent sets
-	-- for dependency in pairs(self.dependencySet) do
-	-- 	dependency.dependentSet[self] = nil
-	-- end
+	for dependency in pairs(self.dependencySet) do
+		dependency.dependentSet[self] = nil
+	end
 
 	-- we need to create a new, empty dependency set to capture dependencies
 	-- into, but in case there's an error, we want to restore our old set of
 	-- dependencies. by using this table-swapping solution, we can avoid the
 	-- overhead of allocating new tables each update.
 	self._oldDependencySet, self.dependencySet = self.dependencySet, self._oldDependencySet
-	-- table.clear(self.dependencySet)
+	table.clear(self.dependencySet)
 
 	local use = makeUseCallback(self.dependencySet)
 	local ok, newValue, newMetaValue = xpcall(self._processor, parseError, use)
@@ -60,9 +60,9 @@ function class:update(): boolean
 		self._value = newValue
 
 		-- add this object to the dependencies' dependent sets
-		-- for dependency in pairs(self.dependencySet) do
-		-- 	dependency.dependentSet[self] = true
-		-- end
+		for dependency in pairs(self.dependencySet) do
+			dependency.dependentSet[self] = true
+		end
 
 		return not similar
 	else
@@ -74,9 +74,9 @@ function class:update(): boolean
 		self._oldDependencySet, self.dependencySet = self.dependencySet, self._oldDependencySet
 
 		-- restore this object in the dependencies' dependent sets
-		-- for dependency in pairs(self.dependencySet) do
-		-- 	dependency.dependentSet[self] = true
-		-- end
+		for dependency in pairs(self.dependencySet) do
+			dependency.dependentSet[self] = true
+		end
 
 		return false
 	end

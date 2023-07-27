@@ -178,33 +178,16 @@ Sometimes you just want to use a state like a signal, so the :Connect function a
 ```
 It does return a clean-up function which will disconnect the signal, however the fuse constructor is also tracking it so unless you want to clean it up early you can just ignore it.
 
-### Read	
-This is a useful function for when your value is a more complex datatype. It allows you to read a property of an instance.
+# Join
+This allows for binding of types to instances with type safety, though the implementation of it is a bit clunky.
 ```lua
-	local Input = _Value(Vector3.new(1,0,0))
-	local XProperty = Input:Read("X") --the key parameter can be a state if desired
-	Input:Set(Vector3.new(2,0,0))
-	print(XProperty:Get()) --prints 2
-```
-Important thing to note, this does not update when the underlying property updates - this is just about reading the property at the time the state's value updates.
+local State = _Value(5)
 
-### Miscellaneous Operations
-They're all quite similar, and all of them can use either a state or regular data-type as the second parameter.
-```lua
-	local A = _Value(5)
-	local B = _Value(3)
-	local Pi = _Value(math.pi)
+local intValue = Instance.new("IntValue")
+State:Join(intValue, function(inst: IntValue, val: number)
+	inst.Value = val
+end)
 
-	-- Math
-	local Sum = A:Add(B) -- value of 8
-	local Difference = A:Subtract(1) -- value of 4
-	local Product = B:Multiply(Difference) -- value of 12
-	local Quotient = Product:Divide(6) --value of 2
-	local Round = Pi:Round() --value of 3
-	
-	-- String
-	local AStr = A:ToString() -- value of "5"
-	local Caps = Label:Upper() -- value of "NUMBER 5"
 ```
 
 # Import

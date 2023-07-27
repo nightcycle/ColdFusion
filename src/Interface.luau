@@ -16,24 +16,24 @@ type Maid = Maid.Maid
 local FusionFolder = Package:WaitForChild("Fusion")
 
 -- Fusion states
-local FusionStateFolder = FusionFolder.State
-local FusionValue = require(FusionStateFolder.Value) :: (...any) -> any
-local _FusionComputed = require(FusionStateFolder.Computed) :: (...any) -> any
-local _FusionObserver = require(FusionStateFolder.Observer) :: (...any) -> any
-local _FusionForKeys = require(FusionStateFolder.ForKeys) :: (...any) -> any
-local _FusionForPairs = require(FusionStateFolder.ForPairs) :: (...any) -> any
-local _FusionForValues = require(FusionStateFolder.ForValues) :: (...any) -> any
+local FusionStateFolder = FusionFolder:WaitForChild("State")
+local FusionValue = require(FusionStateFolder:WaitForChild("Value")) :: (...any) -> any
+local _FusionComputed = require(FusionStateFolder:WaitForChild("Computed")) :: (...any) -> any
+local _FusionObserver = require(FusionStateFolder:WaitForChild("Observer")) :: (...any) -> any
+local _FusionForKeys = require(FusionStateFolder:WaitForChild("ForKeys")) :: (...any) -> any
+local _FusionForPairs = require(FusionStateFolder:WaitForChild("ForPairs")) :: (...any) -> any
+local _FusionForValues = require(FusionStateFolder:WaitForChild("ForValues")) :: (...any) -> any
 
 -- Fusion animations
-local FusionAnimationFolder = FusionFolder.Animation
-local _FusionSpring = require(FusionAnimationFolder.Spring) :: (...any) -> any
-local _FusionTween = require(FusionAnimationFolder.Tween) :: (...any) -> any
+local FusionAnimationFolder = FusionFolder:WaitForChild("Animation")
+local _FusionSpring = require(FusionAnimationFolder:WaitForChild("Spring")) :: (...any) -> any
+local _FusionTween = require(FusionAnimationFolder:WaitForChild("Tween")) :: (...any) -> any
 
 -- Fusion symbols
-local FusionInstanceFolder = FusionFolder.Instances
-local FusionNew = require(FusionInstanceFolder.New)
-local FusionHydrate = require(FusionInstanceFolder.Hydrate)
-local makeUseCallback = require(FusionStateFolder:WaitForChild("makeUseCallback"))
+local FusionInstanceFolder = FusionFolder:WaitForChild("Instances")
+local FusionNew = require(FusionInstanceFolder:WaitForChild("New"))
+local FusionHydrate = require(FusionInstanceFolder:WaitForChild("Hydrate"))
+local _makeUseCallback = require(FusionStateFolder:WaitForChild("makeUseCallback"))
 
 -- Fusion Utils
 local Fusion = require(FusionFolder)

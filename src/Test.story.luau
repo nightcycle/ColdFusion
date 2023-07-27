@@ -5,7 +5,7 @@ local Package = script.Parent
 local Packages = Package.Parent
 
 local Maid = require(Packages:WaitForChild("Maid"))
-local Types = require(Package:WaitForChild("Types"))
+local _Types = require(Package:WaitForChild("Types"))
 
 return function(coreGui: ScreenGui)
 	local maid = Maid.new()
@@ -23,25 +23,25 @@ return function(coreGui: ScreenGui)
 		-- States
 		local Increment = _Value(0)
 
-		local Text = _Computed(function(inc: number): string
-			return "Button" .. tostring(inc)
-		end, Increment)
+		-- local Text = _Computed(function(inc: number): string
+		-- 	return "Button" .. tostring(inc)
+		-- end, Increment)
 
-		local BackgroundColor3 = _Computed(function(inc: number): Color3
-			return Color3.fromHSV(1, if inc % 2 == 0 then 1 else 0, 1)
-		end, Increment):Spring()
+		-- local BackgroundColor3 = _Computed(function(inc: number): Color3
+		-- 	return Color3.fromHSV(1, if inc % 2 == 0 then 1 else 0, 1)
+		-- end, Increment):Spring()
 
-		local children: {[number]: any} = {
-			_new("UIPadding")({
-				PaddingBottom = UDim.new(0, 4),
-				PaddingTop = UDim.new(0, 4),
-				PaddingLeft = UDim.new(0, 4),
-				PaddingRight = UDim.new(0, 4),
-			}),
-			_new("UICorner")({
-				CornerRadius = UDim.new(0, 4),
-			}),
-		}
+		-- local children: {[number]: any} = {
+		-- 	_new("UIPadding")({
+		-- 		PaddingBottom = UDim.new(0, 4),
+		-- 		PaddingTop = UDim.new(0, 4),
+		-- 		PaddingLeft = UDim.new(0, 4),
+		-- 		PaddingRight = UDim.new(0, 4),
+		-- 	}),
+		-- 	_new("UICorner")({
+		-- 		CornerRadius = UDim.new(0, 4),
+		-- 	}),
+		-- }
 
 		_fuse.new("TextButton")(
 			{
