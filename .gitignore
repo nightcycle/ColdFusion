@@ -10,8 +10,6 @@
 # Ignore site folder
 /site/**
 /Packages/**
-/Fusion/**
-/src/Fusion/**
 sourcemap.json
 
 # Ignore directories
