@@ -120,7 +120,7 @@ jobs:
                     
           repo_desc=${{needs.get_published_release.outputs.repo_desc}}
                     
-          goal_version_str=${{needs.get_published_release.outputs.tag_name}}
+          goal_version_str="${{needs.get_published_release.outputs.tag_name}}"
           
           # remove letters
           goal_version_str=$(echo "$goal_version_str" | sed 's/[a-zA-Z]//g')
