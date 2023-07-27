@@ -243,8 +243,7 @@ return function(maid: Maid)
 	function Interface.bind<Out>(inst: Out & Instance): (propertyTable: any) -> Out & Instance
 		local instBinder = FusionHydrate(inst :: any)
 		return function(propertyTable: any): Out & Instance
-			local inst = instBinder(getFusionTable(propertyTable))
-			return inst
+			return instBinder(getFusionTable(propertyTable))
 		end
 	end
 
