@@ -146,7 +146,7 @@ jobs:
           
           # read json file
           default_json_contents=$(<default.project.json)
-          target_json_name_line=$(echo "$default_json_contents" | grep -F "  \"name\": ")
+          target_json_name_line=$(echo "$default_json_contents" | grep -F "\"name\": ")
           goal_json_name_line="  \"name\": \"${repo_name}\","
           default_json_contents="${default_json_contents/${target_json_name_line}/${goal_json_name_line}}"
           
