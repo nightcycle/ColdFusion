@@ -1,6 +1,7 @@
 # Cold Fusion
 A wrapper for Fusion built up to promote quick, readable, and memory safe implementation of UI components.
 
+
 # Fuse
 In order to prevent memory leaks, a state constructor needs to be made. This is called a fuse and may optionally have a maid passed to it during its construction. When a fuse is destroyed all signals, constructed instances, and tweens are disconnected.
 
